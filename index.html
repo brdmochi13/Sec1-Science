@@ -85,8 +85,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
 .csb.ready{opacity:1}
 .csb:hover{background:#145530}
 
-.paper-tabs{display:flex;overflow-x:auto;gap:.3rem;padding:.5rem 0;scrollbar-width:none;flex-wrap:wrap}
-.ptab{padding:8px 14px;border:1.5px solid var(--border);border-radius:20px;background:white;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .15s;color:var(--muted);min-height:40px}
+.paper-tabs{display:flex;flex-wrap:wrap;gap:.3rem;padding:.3rem 0;margin-bottom:.65rem}
+.ptab{padding:5px 9px;border:1.5px solid var(--border);border-radius:20px;background:white;font-family:inherit;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .15s;color:var(--muted);min-height:40px}
 .ptab:hover{border-color:var(--green);color:var(--green)}
 .ptab.active{background:var(--green);color:white;border-color:var(--green)}
 .ptab.done{border-color:var(--green);color:var(--green);background:var(--greenl)}
@@ -1241,21 +1241,52 @@ function renderSkillBars(d) {
 }
 
 function renderHistory(d) {
-  var c = document.getElementById('histRows'), h = d.history || [];
-  if (!h.length) { c.innerHTML='<div class="empty-state"><div class="es-icon">📄</div><p>No papers completed yet</p></div>'; return; }
+  var el = document.getElementById('histRows');
+  var h  = d.history   || [];
+  var ai = d.aiHistory || [];
+  if (!h.length && !ai.length) {
+    el.innerHTML = '<div class="empty-state"><div class="es-icon">📄</div><p>No papers completed yet. Start with Paper 1!</p></div>';
+    return;
+  }
   var html = '';
-  h.slice().reverse().forEach(function(r) {
-    var pct = Math.round(r.score/40*100);
-    var col = pct>=90?'var(--green)':pct>=70?'var(--amber)':'var(--red)';
-    html += '<div class="history-row"><span class="hist-paper">Paper '+r.paper+'</span>';
-    html += '<div class="hist-bar-wrap"><div class="hist-bar" style="width:'+pct+'%"></div></div>';
-    html += '<span class="hist-score" style="color:'+col+'">'+r.score+'/40</span>';
-    if (r.secBreakdown) html += '<span style="font-size:.7rem;color:var(--muted);margin-left:.3rem">A:'+r.secBreakdown.a+' B:'+r.secBreakdown.b+' C:'+r.secBreakdown.c+'</span>';
-    html += '</div>';
-  });
-  c.innerHTML = html;
-}
 
+  // Practice Papers section
+  if (h.length) {
+    html += '<div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.35rem">✏️ Practice Papers</div>';
+    h.slice().reverse().forEach(function(r) {
+      var pct = Math.round(r.score/40*100);
+      var col = pct>=90?'var(--green)':pct>=70?'var(--amber)':'var(--red)';
+      var wa2 = (typeof r.paper==='number' && r.paper>=11) ? ' ★' : '';
+      var dt  = r.date ? new Date(r.date).toLocaleDateString('en-SG',{day:'numeric',month:'short'}) : '';
+      html += '<div class="history-row">';
+      html += '<span class="hist-paper">Paper '+r.paper+wa2+'</span>';
+      html += '<div class="hist-bar-wrap"><div class="hist-bar" style="width:'+pct+'%;background:'+col+'"></div></div>';
+      html += '<span class="hist-score" style="color:'+col+'">'+r.score+'/40 ('+pct+'%)</span>';
+      if (r.secBreakdown) html += '<span style="font-size:.68rem;color:var(--muted);margin-left:.25rem">A:'+r.secBreakdown.a+' B:'+r.secBreakdown.b+' C:'+r.secBreakdown.c+'</span>';
+      if (dt) html += '<span style="font-size:.67rem;color:#9ca3af;margin-left:auto">'+dt+'</span>';
+      html += '</div>';
+    });
+  }
+
+  // AI Practice section
+  if (ai.length) {
+    html += '<div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin:.75rem 0 .35rem;border-top:1px solid var(--border);padding-top:.6rem">🤖 AI Practice Papers</div>';
+    ai.slice().reverse().forEach(function(r) {
+      var pct = r.total>0 ? Math.round(r.score/r.total*100) : 0;
+      var col = pct>=80?'var(--green)':pct>=60?'var(--amber)':'var(--red)';
+      var dt  = r.date ? new Date(r.date).toLocaleDateString('en-SG',{day:'numeric',month:'short'}) : '';
+      var ref = r.key ? r.key.split('_ai_')[1] : '';
+      html += '<div class="history-row">';
+      html += '<span class="hist-paper" style="color:var(--blue)">🤖 '+r.topic+'</span>';
+      html += '<div class="hist-bar-wrap"><div class="hist-bar" style="width:'+pct+'%;background:'+col+'"></div></div>';
+      html += '<span class="hist-score" style="color:'+col+'">'+r.score+'/'+r.total+' Qs</span>';
+      if (ref) html += '<span style="font-size:.64rem;color:#9ca3af;font-family:monospace;margin-left:.25rem" title="Unique key">#'+ref+'</span>';
+      if (dt) html += '<span style="font-size:.67rem;color:#9ca3af;margin-left:auto">'+dt+'</span>';
+      html += '</div>';
+    });
+  }
+  el.innerHTML = html;
+}
 function renderHeatmap(d) {
   var g=document.getElementById('hmGrid'), lb=document.getElementById('hmMonthLabels');
   if (!g) return;
@@ -1557,7 +1588,8 @@ function generateAllPapers(){
         {type:'calc',q:'Metal block: mass 540g, dimensions 6cm × 5cm × 3cm. Steel = 8.05 g/cm³, Iron = 7.87 g/cm³, Gold = 19.3 g/cm³.\n(a) Calculate volume.\n(b) Calculate density.\n(c) Identify the likely metal.',marks:4,scheme:'(a) V = 6 × 5 × 3 = 90 cm³ [1]\n(b) ρ = 540/90 = 6.0 g/cm³ [2]\n(c) The density (6.0 g/cm³) is less than steel (8.05) and iron (7.87). It could be a lighter metal such as aluminium (~2.7) or zinc (~7.1). Accept: not iron, steel, or gold. [1]'},
         {type:'exp',q:'Physical properties influence sustainable living choices.\n(a) Compare cloth bags and plastic bags using TWO physical properties.\n(b) State why cloth bags are more environmentally sustainable.',marks:4,scheme:'(a) Any two comparisons with specific properties: Flexibility: both flexible. Strength: cloth may be less strong but adequate for shopping. Durability: cloth bags last longer. Biodegradability is a physical property — cloth biodegrades; plastic does not. [2]\n(b) Cloth bags are biodegradable (break down naturally), reusable many times (reducing waste), and made from natural sustainable materials [2]'}
 
-    ,
+      ]
+    },
     {
       num:11, title:'Paper 11 — Physical Properties & Classification',
       secA:[
@@ -1839,8 +1871,6 @@ function generateAllPapers(){
       ]
     }
 
-      ]
-    }
   ];
 }
 
@@ -1853,7 +1883,7 @@ function buildPaperTabs() {
     var done = d.history.some(function(h){return h.paper===p.num;});
     var btn=document.createElement('button');
     btn.className='ptab'+(done?' done':'')+(i===0?' active':'');
-    btn.textContent='Paper '+p.num;
+    btn.textContent='Paper '+p.num+(p.num>=11?' ★':'');
     btn.onclick=(function(pi){return function(){switchPaper(pi);};})(i);
     btn.id='ptab_'+i;
     btns.appendChild(btn);
@@ -2442,12 +2472,14 @@ function renderAIPaper(text, topic) {
 
 function aiPickMC(btn){
   if(document.getElementById('aiSubmitBtn') && document.getElementById('aiSubmitBtn').disabled) return;
-  btn.parentElement.querySelectorAll('.wb-pill').forEach(function(b){b.classList.remove('sel');});
+  var fbid = btn.getAttribute('data-fbid');
+  document.querySelectorAll('.wb-pill[data-fbid="'+fbid+'"]').forEach(function(b){b.classList.remove('sel');});
   btn.classList.add('sel');
 }
 function aiPickTF(btn){
   if(document.getElementById('aiSubmitBtn') && document.getElementById('aiSubmitBtn').disabled) return;
-  btn.parentElement.querySelectorAll('.mcopt').forEach(function(b){b.classList.remove('sel');});
+  var fbid = btn.getAttribute('data-fbid');
+  document.querySelectorAll('.mcopt[data-fbid="'+fbid+'"]').forEach(function(b){b.classList.remove('sel');});
   btn.classList.add('sel');
 }
 function submitAIPaper(isParentBypass){
@@ -2497,19 +2529,45 @@ function submitAIPaper(isParentBypass){
     if(b.nextElementSibling) b.nextElementSibling.style.display = 'block';
   });
 
-  // Save detailed attempt to Firestore if not a parent bypass
-  if (!isParentBypass && typeof USE_FIREBASE !== 'undefined' && USE_FIREBASE && typeof db !== 'undefined' && db) {
-    var titleEl = out.querySelector('.ai-paper-title');
-    var topicName = titleEl ? titleEl.textContent.replace('AI Practice — ', '') : 'Unknown Topic';
-    db.collection('attempts').add({
-      uid: typeof getUID !== 'undefined' ? getUID() : 'unknown',
-      paper: 'AI Practice',
-      isAI: true,
-      topic: topicName,
-      score: aiScore,
-      date: firebase.firestore.FieldValue.serverTimestamp()
-    }).catch(function(e){console.warn('AI Attempt save error:',e);});
+  if (isParentBypass) return;
+
+  // Build answers map
+  var aiAnswers = {}, aiTotal = 0;
+  out.querySelectorAll('.ai-q').forEach(function(qEl, qi) {
+    var sel = qEl.querySelector('.wb-pill.sel, .mcopt.sel');
+    aiAnswers['q'+qi] = sel ? (sel.textContent.trim() || sel.getAttribute('data-val') || '?') : 'unanswered';
+    aiTotal++;
+  });
+
+  var uid  = (typeof getUID !== 'undefined') ? getUID() : 'anon';
+  var ts   = Date.now();
+  var key  = uid + '_ai_' + ts;
+
+  var titleEl   = out.querySelector('.ai-paper-title');
+  var topicName = titleEl ? titleEl.textContent.replace('AI Practice — ','').replace('AI Practice - ','') : 'Mixed';
+
+  // Save to localStorage
+  var d = loadData();
+  if (!d.aiHistory) d.aiHistory = [];
+  d.aiHistory.push({ key:key, topic:topicName, score:aiScore, total:aiTotal, answers:aiAnswers, date:new Date().toISOString(), uid:uid });
+  saveData(d);
+
+  // Save to Firestore collection 'ai_attempts'
+  if (typeof USE_FIREBASE !== 'undefined' && USE_FIREBASE && typeof db !== 'undefined' && db) {
+    db.collection('ai_attempts').doc(key).set({
+      uid:uid, studentEmail:currentUser?currentUser.email:'unknown', key:key,
+      topic:topicName, score:aiScore, totalQs:aiTotal, answers:aiAnswers,
+      date:firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(){
+      console.log('AI attempt saved:', key);
+      var msg = document.createElement('div');
+      msg.style.cssText = 'margin-top:.5rem;padding:.4rem .75rem;background:var(--greenl);border-radius:6px;font-size:.78rem;color:var(--green);font-weight:600';
+      msg.textContent = '✅ AI Paper saved  (ref: '+ts+')';
+      out.appendChild(msg);
+    }).catch(function(e){ console.warn('AI save error:',e); });
   }
+
+  renderDashboard();
 }
 
 function getWeakAreas(d){
