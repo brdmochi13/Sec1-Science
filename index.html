@@ -322,6 +322,26 @@ p.body{font-size:.84rem;margin-bottom:.35rem}
 @keyframes modalIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
 
 button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk,.acc-head{pointer-events:auto!important;position:relative}
+
+.hist-sort-btn{padding:5px 11px;background:white;border:1.5px solid var(--border);border-radius:20px;font-family:inherit;font-size:.73rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s}
+.hist-sort-btn:hover{border-color:var(--green);color:var(--green)}
+.hist-sort-btn.active{background:var(--green);color:white;border-color:var(--green)}
+.hist-card{background:white;border:1.5px solid var(--border);border-radius:12px;padding:1rem 1.1rem .9rem;cursor:pointer;transition:all .2s}
+.hist-card:hover{border-color:var(--green);box-shadow:0 4px 18px rgba(0,0,0,.09);transform:translateY(-1px)}
+.hist-bar-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+.hist-bar-label{font-size:.7rem;color:var(--muted);width:46px;flex-shrink:0}
+.hist-bar-track{flex:1;height:7px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+.hist-bar-fill{height:100%;border-radius:4px}
+.hist-bar-val{font-size:.7rem;font-weight:700;color:var(--ink);width:32px;text-align:right}
+.hist-tag{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.7rem;font-weight:700}
+.hist-summary-stat{background:white;border:1.5px solid;border-radius:10px;padding:.75rem;text-align:center}
+.hist-summary-val{font-family:'Libre Baskerville',serif;font-size:1.4rem;font-weight:700;line-height:1;margin-bottom:.25rem}
+.hist-summary-lbl{font-size:.67rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.hm-sec-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:.9rem 0 .45rem;padding-top:.6rem;border-top:1px solid var(--border)}
+.hm-row{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem .5rem;border-radius:6px;margin-bottom:.22rem;font-size:.81rem;line-height:1.4}
+.hm-row.correct{background:#f0fdf4}.hm-row.wrong{background:#fef2f2}.hm-row.partial{background:#fffbeb}
+.hm-icon{font-size:.9rem;flex-shrink:0;margin-top:2px}
+
 </style>
 
 <!-- Firebase SDKs -->
@@ -404,6 +424,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
   <button class="mtab" onclick="showTab('papersTab',this)">✏️ Practice Papers <span class="tab-badge" id="papersBadge">20</span></button>
   <button class="mtab" onclick="showTab('aiTab',this)">🤖 AI Practice</button>
   <button class="mtab" onclick="showTab('tipsTab',this)">💡 Exam Tips</button>
+  <button class="mtab" onclick="showTab('histTab',this);loadHistoryTab()">📋 History</button>
 </div>
 
 <!-- RESULT OVERLAY -->
@@ -1641,7 +1662,7 @@ function generateAllPapers(){
       ],
       secC:[
         {type:'structured',q:'The diagram represents particles in three substances P, Q and R.\nP: All same-type particles, spread far apart\nQ: Two different types of particles, bonded in pairs, regular pattern\nR: Three types of particles mixed together, random arrangement\n\n(a) Identify each substance as an element, compound or mixture. Give a reason for EACH answer. [3]\n(b) State ONE difference in properties between a compound and a mixture made of the same substances. [1]\n(c) Give one example of a real compound made of only hydrogen and oxygen. [1]',marks:5,
-         scheme:'(a) P = Element [0.5] — only one type of particle present [0.5]\n    Q = Compound [0.5] — two different types of particles chemically combined in fixed ratio [0.5]\n    R = Mixture [0.5] — three types of particles physically combined, random arrangement [0.5]\n(b) A compound has fixed proportions by mass / has a specific melting and boiling point / components cannot be separated by physical means / has different properties from its elements. A mixture does not have fixed proportions / shows range of melting points / can be separated by physical means. [1 for clear difference]\n(c) Water (H₂O) or hydrogen peroxide (H₂O₂) [1]'},
+         scheme:'(a) P = Element [0.5] — only one type of particle present [0.5]\n    Q = Compound [0.5] — two different types of particles chemically combined in fixed ratio [0.5]\n    R = Mixture [0.5] — three types of particles physically combined, random arrangement [0.5]\n(b) Any TWO of: compound has fixed proportions / specific melting and boiling point / cannot be separated by physical means / different properties from elements. [1 each, max 2]\n(c) Water (H₂O) or hydrogen peroxide (H₂O₂) [1]'},
         {type:'structured',q:'A student has a mixture of iron filings and sulfur powder.\n(a) Suggest ONE physical method to separate iron filings from sulfur. Explain how it works. [2]\n(b) When iron and sulfur are heated together, a grey-black solid (iron sulfide) is formed. State TWO ways in which iron sulfide is DIFFERENT from the original mixture. [2]\n(c) Can iron sulfide be separated back into iron and sulfur using a magnet? Explain. [1]',marks:5,
          scheme:'(a) Use a magnet [1] — iron is magnetic and is attracted to the magnet while sulfur is not, so iron is pulled away from the sulfur [1]\n(b) Any TWO: Iron sulfide cannot be separated by a magnet (iron no longer magnetic) / iron sulfide is grey-black while the mixture shows yellow (sulfur) and silver (iron) / iron sulfide has a fixed composition while the mixture can be any ratio / iron sulfide has a different melting point from either element [2]\n(c) No [0.5] — because in iron sulfide, iron is chemically combined with sulfur. It is no longer in its elemental form and cannot be attracted to a magnet [0.5]'}
       ]
@@ -1783,7 +1804,7 @@ function generateAllPapers(){
         {type:'structured',q:'A student has a mixture of salt, sand and chalk. She knows:\n- Salt dissolves in water\n- Sand is insoluble in water\n- Chalk is insoluble in water but can be dissolved in hydrochloric acid\n\n(a) She first adds water and stirs. What happens to the salt? [1]\n(b) She then filters the mixture. What is in the residue? What is in the filtrate? [2]\n(c) How can she obtain dry salt from the filtrate? [1]\n(d) She wants to distinguish between sand and chalk. Suggest ONE test and expected results for EACH substance. [2]',marks:6,
          scheme:'(a) Salt dissolves in water (forms a solution) [1]\n(b) Residue = sand + chalk [1] | Filtrate = salt solution (salt dissolved in water) [1]\n(c) Heat/evaporate the filtrate to remove water — salt crystals remain [1]\n(d) Add dilute hydrochloric acid:\n    Sand: no reaction / no change [1]\n    Chalk: fizzes/bubbles produced (CO₂ gas released) [1]'},
         {type:'structured',q:'A dye company wants to find out how many colours make up a green food colouring.\n(a) Which separation technique should they use? [1]\n(b) Describe how they would carry out this technique. [3]\n(c) The results show three spots at heights 3 cm, 5 cm and 8 cm from the start line. The solvent front is at 10 cm. Calculate the Rf value for EACH spot and state which colour is most soluble in the solvent. [3]',marks:7,
-         scheme:'(a) Paper/thin-layer chromatography [1]\n(b) Place a concentrated spot of green dye on pencil baseline / Stand paper in small amount of solvent (not touching spot) / Allow solvent to move up paper / Remove when solvent nearly at top / Mark solvent front [3, 1 each for 3 correct steps]\n(c) Rf₁ = 3/10 = 0.30 | Rf₂ = 5/10 = 0.50 | Rf₃ = 8/10 = 0.80 [1 for all correct]\n    Most soluble = spot at 8 cm (Rf = 0.80) — travelled furthest with solvent [1]'}
+         scheme:'(a) Paper chromatography / thin-layer chromatography [1]\n(b) Place concentrated spot on pencil baseline [1] / Stand in solvent NOT touching spot [1] / Allow solvent to rise by capillary action [1] / Remove and mark solvent front [1]\n(c) Rf₁=3/10=0.30, Rf₂=5/10=0.50, Rf₃=8/10=0.80 [1 for all correct]\n    Most soluble = spot at 8 cm (Rf=0.80) — travelled furthest with solvent [1]'}
       ]
     },
     {
@@ -2846,6 +2867,429 @@ function saveApiConfig() {
     <button onclick="saveApiConfig()" style="width:100%;padding:12px;background:var(--ink);color:white;border:none;border-radius:8px;font-family:inherit;font-weight:700;cursor:pointer">Save Settings</button>
   </div>
 </div>
+
+
+<div class="tab-content" id="histTab">
+  <div style="margin-bottom:1.2rem">
+    <h2 style="font-family:'Libre Baskerville',serif;font-size:1.2rem;margin:0 0 .3rem">📋 Attempt History</h2>
+    <p style="font-size:.82rem;color:var(--muted);margin:0">All submitted papers from Firebase — filter and tap any card to review.</p>
+  </div>
+  <div style="background:#f9fafb;border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:1.2rem">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:.7rem;align-items:end">
+      <div>
+        <label style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.3rem">Paper</label>
+        <select id="histFilterPaper" onchange="applyHistFilters()" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none;background:white">
+          <option value="">All Papers</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.3rem">From Date</label>
+        <input type="date" id="histDateFrom" onchange="applyHistFilters()" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.3rem">To Date</label>
+        <input type="date" id="histDateTo" onchange="applyHistFilters()" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none;box-sizing:border-box">
+      </div>
+      <div>
+        <button onclick="clearHistFilters()" style="padding:8px 14px;background:white;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.8rem;cursor:pointer;color:var(--muted)">Clear</button>
+      </div>
+    </div>
+    <div style="margin-top:.7rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+      <span style="font-size:.72rem;color:var(--muted);font-weight:600;text-transform:uppercase">Sort:</span>
+      <button class="hist-sort-btn active" id="histSortNewest" onclick="setHistSort('date','desc',this)">Newest</button>
+      <button class="hist-sort-btn" onclick="setHistSort('date','asc',this)">Oldest</button>
+      <button class="hist-sort-btn" onclick="setHistSort('score','desc',this)">Highest Score</button>
+      <button class="hist-sort-btn" onclick="setHistSort('score','asc',this)">Lowest Score</button>
+      <span id="histCount" style="margin-left:auto;font-size:.78rem;color:var(--muted);font-weight:600"></span>
+    </div>
+  </div>
+  <div id="histSummaryStrip" style="display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1.2rem"></div>
+  <div id="histLoading" style="text-align:center;padding:3rem;color:var(--muted);font-size:.88rem"><div style="font-size:2.5rem;margin-bottom:.7rem">⏳</div>Loading from Firebase...</div>
+  <div id="histEmpty" style="display:none;text-align:center;padding:3rem;color:var(--muted);font-size:.88rem"><div style="font-size:2.5rem;margin-bottom:.5rem">📭</div><div id="histEmptyMsg">No attempts yet. Submit a paper to see it here!</div></div>
+  <div id="histCards" style="display:none;flex-direction:column;gap:.75rem"></div>
+</div>
+<div id="histModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9000;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)closeHistModal()">
+  <div style="background:white;border-radius:16px;max-width:720px;width:100%;max-height:92vh;overflow-y:auto;padding:1.6rem 1.8rem;position:relative">
+    <button onclick="closeHistModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted)">✕</button>
+    <div id="histModalContent"></div>
+  </div>
+</div>
+
+
+<script>
+var _hAll=[],_hFil=[],_hSortK='date',_hSortD='desc',_hDone=false;
+
+function loadHistoryTab(){
+  if(_hDone){applyHistFilters();return;}
+  var lo=document.getElementById('histLoading');
+  var em=document.getElementById('histEmpty');
+  var ca=document.getElementById('histCards');
+  if(lo)lo.style.display='block';
+  if(em)em.style.display='none';
+  if(ca)ca.style.display='none';
+  if(!USE_FIREBASE||!db||!currentUser){_hLoadLocal();return;}
+  db.collection('attempts').where('uid','==',getUID()).orderBy('date','desc').limit(200).get()
+    .then(function(s){_hProcess(s);})
+    .catch(function(){
+      db.collection('attempts').where('uid','==',getUID()).limit(200).get()
+        .then(function(s){_hProcess(s,true);})
+        .catch(function(e){
+          if(lo)lo.style.display='none';
+          if(em){em.style.display='block';document.getElementById('histEmptyMsg').textContent='Firebase error: '+e.message;}
+        });
+    });
+}
+
+function _hProcess(snap,sort){
+  _hAll=[];
+  snap.forEach(function(doc){
+    var d=doc.data();d._id=doc.id;
+    d._ts=d.date?(d.date.toDate?d.date.toDate().getTime():d.date.seconds*1000):Date.now();
+    _hAll.push(d);
+  });
+  if(sort)_hAll.sort(function(a,b){return b._ts-a._ts;});
+  _hDone=true;_hPopFilter();applyHistFilters();
+}
+
+function _hLoadLocal(){
+  var raw=localStorage.getItem(STORAGE_KEY+'_'+getUID());
+  _hAll=[];
+  if(raw){try{
+    var d=JSON.parse(raw);
+    (d.history||[]).forEach(function(h,i){
+      _hAll.push({_id:'l'+i,paper:h.p||h.paper,paperLabel:'Paper '+(h.p||h.paper),
+        score:h.score,secA:h.secA||0,secB:h.secB||0,secC:h.secC||0,
+        pct:h.pct||Math.round((h.score||0)/40*100),_ts:h.ts||(Date.now()-i*86400000)});
+    });
+    _hAll.sort(function(a,b){return b._ts-a._ts;});
+  }catch(e){}}
+  _hDone=true;_hPopFilter();applyHistFilters();
+}
+
+function _hPopFilter(){
+  var sel=document.getElementById('histFilterPaper');if(!sel)return;
+  var pp=[];_hAll.forEach(function(a){if(a.paper&&pp.indexOf(a.paper)===-1)pp.push(a.paper);});
+  pp.sort(function(a,b){return a-b;});
+  sel.innerHTML='<option value="">All Papers</option>';
+  pp.forEach(function(p){sel.innerHTML+='<option value="'+p+'">Paper '+p+(p>=11?' (WA2)':'')+'</option>';});
+}
+
+function setHistSort(k,d,btn){
+  _hSortK=k;_hSortD=d;
+  document.querySelectorAll('.hist-sort-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  applyHistFilters();
+}
+
+function clearHistFilters(){
+  document.getElementById('histFilterPaper').value='';
+  document.getElementById('histDateFrom').value='';
+  document.getElementById('histDateTo').value='';
+  applyHistFilters();
+}
+
+function applyHistFilters(){
+  var pv=document.getElementById('histFilterPaper').value;
+  var fv=document.getElementById('histDateFrom').value;
+  var tv=document.getElementById('histDateTo').value;
+  var fTs=fv?new Date(fv).getTime():0;
+  var tTs=tv?new Date(tv).getTime()+86399999:Infinity;
+  _hFil=_hAll.filter(function(a){
+    if(pv&&String(a.paper)!==String(pv))return false;
+    if(a._ts<fTs||a._ts>tTs)return false;
+    return true;
+  });
+  _hFil.sort(function(a,b){
+    return _hSortK==='date'?(_hSortD==='desc'?b._ts-a._ts:a._ts-b._ts):
+      (_hSortD==='desc'?(b.score||0)-(a.score||0):(a.score||0)-(b.score||0));
+  });
+  _hRenderSummary();_hRenderCards();
+}
+
+function _hSc(p){return p>=90?'#16a34a':p>=75?'#ca8a04':p>=60?'#ea580c':'#dc2626';}
+function _hTag(p){
+  if(p>=90)return{l:'Excellent',e:'🌟',bg:'#d1fae5',c:'#065f46'};
+  if(p>=75)return{l:'Good',e:'👍',bg:'#fef3c7',c:'#92400e'};
+  if(p>=60)return{l:'OK',e:'📚',bg:'#ffedd5',c:'#9a3412'};
+  return{l:'Needs Work',e:'💪',bg:'#fee2e2',c:'#991b1b'};
+}
+
+function _hRenderSummary(){
+  var el=document.getElementById('histSummaryStrip');if(!el)return;
+  if(!_hFil.length){el.innerHTML='';return;}
+  var t=_hFil.length,avg=_hFil.reduce(function(s,a){return s+(a.score||0);},0)/t;
+  var best=Math.max.apply(null,_hFil.map(function(a){return a.score||0;}));
+  var ab=_hFil.filter(function(a){return(a.pct||Math.round((a.score||0)/40*100))>=90;}).length;
+  el.innerHTML=[
+    {v:t,l:'Papers Done',c:'#1e4d8c',bg:'#dbeafe'},
+    {v:Math.round(avg*10)/10+'/40',l:'Avg Score',c:'#065f46',bg:'#d1fae5'},
+    {v:best+'/40',l:'Best Score',c:'#92400e',bg:'#fef3c7'},
+    {v:ab,l:'90%+ Papers',c:'#7e22ce',bg:'#f3e8ff'},
+  ].map(function(s){return '<div class="hist-summary-stat" style="border-color:'+s.bg+';background:'+s.bg+'">'
+    +'<div class="hist-summary-val" style="color:'+s.c+'">'+s.v+'</div>'
+    +'<div class="hist-summary-lbl" style="color:'+s.c+'">'+s.l+'</div></div>';}).join('');
+}
+
+function _hBar(lbl,v,mx){
+  var p=Math.round(v/mx*100);
+  return '<div class="hist-bar-row"><div class="hist-bar-label">'+lbl+'</div>'
+    +'<div class="hist-bar-track"><div class="hist-bar-fill" style="width:'+p+'%;background:'+_hSc(p)+'"></div></div>'
+    +'<div class="hist-bar-val">'+v+'/'+mx+'</div></div>';
+}
+
+function _hRenderCards(){
+  var lo=document.getElementById('histLoading');
+  var em=document.getElementById('histEmpty');
+  var ca=document.getElementById('histCards');
+  var cnt=document.getElementById('histCount');
+  if(lo)lo.style.display='none';
+  if(!_hFil.length){
+    if(em){em.style.display='block';
+      document.getElementById('histEmptyMsg').textContent=_hAll.length?'No results match filters.':'No attempts yet — submit a paper!';}
+    if(ca)ca.style.display='none';if(cnt)cnt.textContent='';return;
+  }
+  if(em)em.style.display='none';if(ca)ca.style.display='flex';
+  if(cnt)cnt.textContent=_hFil.length+' result'+(_hFil.length!==1?'s':'');
+  ca.innerHTML=_hFil.map(function(a,i){
+    var pct=a.pct||Math.round((a.score||0)/40*100);
+    var sc=_hSc(pct),tag=_hTag(pct);
+    var dt=a._ts?new Date(a._ts).toLocaleDateString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+    var isW=(a.paper>=11);
+    return '<div class="hist-card" onclick="openHistDetail('+i+')">'
+      +'<div style="display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.65rem">'
+        +'<div style="flex:1">'
+          +'<div style="font-weight:700;font-size:.9rem">'+(a.paperLabel||'Paper '+a.paper)+(isW?' <span style="font-size:.66rem;background:#fef3c7;color:#92400e;padding:2px 7px;border-radius:8px;font-weight:700">WA2</span>':'')+'</div>'
+          +'<span class="hist-tag" style="background:'+tag.bg+';color:'+tag.c+';margin-top:.25rem;display:inline-block">'+tag.e+' '+tag.l+'</span>'
+        +'</div>'
+        +'<div style="text-align:right;flex-shrink:0">'
+          +'<div style="font-size:.72rem;color:var(--muted)">'+dt+'</div>'
+          +'<div style="font-size:1.55rem;font-weight:700;color:'+sc+';line-height:1.1;margin-top:.1rem">'+(a.score||0)+'/40</div>'
+          +'<div style="font-size:.72rem;font-weight:700;color:'+sc+'">'+pct+'%</div>'
+        +'</div>'
+      +'</div>'
+      +_hBar('Sec A',a.secA||0,10)+_hBar('Sec B',a.secB||0,10)+_hBar('Sec C',a.secC||0,20)
+      +'<div style="font-size:.68rem;color:var(--muted);text-align:right;margin-top:.35rem">Tap to review ></div>'
+    +'</div>';
+  }).join('');
+}
+
+function openHistDetail(i){
+  var a=_hFil[i]; if(!a) return;
+  var pct=a.pct||Math.round((a.score||0)/40*100);
+  var sc=_hSc(pct), tag=_hTag(pct);
+  var dt=a._ts?new Date(a._ts).toLocaleDateString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+  var pidx=(typeof PAPERS!=='undefined')?PAPERS.findIndex(function(p){return p.num==a.paper;}):-1;
+  var paper=pidx!==-1?PAPERS[pidx]:null;
+
+  /* ── tip engine: returns coaching tip based on context ── */
+  function getTip(type, ctx){
+    var t=ctx||{};
+    if(type==='mcq_wrong'){
+      var q=(t.q||'').toLowerCase();
+      if(q.indexOf('density')!==-1||q.indexOf('float')!==-1||q.indexOf('sink')!==-1)
+        return 'Density tip: always compare object density to liquid density. Object sinks if denser than liquid, floats if less dense. Write the formula first: ρ = m/V.';
+      if(q.indexOf('residue')!==-1||q.indexOf('filtrate')!==-1)
+        return 'Filtration tip: RESIDUE = solid left ON the filter paper. FILTRATE = liquid that passes THROUGH. Draw it out if unsure.';
+      if(q.indexOf('compound')!==-1||q.indexOf('element')!==-1||q.indexOf('mixture')!==-1)
+        return 'Classification tip: Element = one type of atom. Compound = two or more elements CHEMICALLY combined in fixed ratio. Mixture = physically combined, variable ratio, can be separated physically.';
+      if(q.indexOf('solub')!==-1||q.indexOf('dissolv')!==-1)
+        return 'Solubility tip: Solubility = MAX amount that dissolves at a specific temperature. Rate of dissolving = HOW FAST it dissolves. These are different concepts!';
+      if(q.indexOf('rf')!==-1||q.indexOf('chromatograph')!==-1)
+        return 'Chromatography tip: Rf = distance moved by spot ÷ distance moved by solvent. Always <1. Higher Rf = more soluble in solvent = travels further.';
+      if(q.indexOf('si unit')!==-1||q.indexOf('unit')!==-1)
+        return 'SI units tip: mass=kg, length=m, time=s, temperature=K, volume=m³ (but cm³ also accepted in calculations). Always include units in your answer.';
+      return 'Read carefully: eliminate obviously wrong options first. Re-read the question stem after choosing to confirm your answer makes sense.';
+    }
+    if(type==='tf_wrong'){
+      return 'True/False tip: look for absolute words like "always", "never", "only" — these are often FALSE. Re-read the statement substituting the opposite to check logic.';
+    }
+    if(type==='reason_zero'){
+      var r=(t.reason||'').toLowerCase();
+      if(r.length<10) return 'Your reason was too short. Always write: [True/False] BECAUSE [scientific principle] — minimum 1 complete sentence with a key science word.';
+      if(r.indexOf('because')===-1&&r.indexOf('since')===-1&&r.indexOf('as ')===-1)
+        return 'Missing linking word. Start with the T/F answer then use "because" + the scientific reason. E.g. "True, because compounds have fixed proportions by mass."';
+      return 'Reason needs a specific science keyword. Check the mark scheme — look for words like: chemically combined, fixed proportions, insoluble, residue, filtrate, parallax error.';
+    }
+    if(type==='reason_partial'){
+      return 'Partially correct! You had the right idea but missed a key term or explanation. Compare your reason to the model answer — find the missing scientific keyword.';
+    }
+    if(type==='secC_zero'){
+      var q=(t.q||'').toLowerCase();
+      if(q.indexOf('calculat')!==-1||q.indexOf('density')!==-1)
+        return 'Calculation tip: always write FORMULA first (ρ = m/V), then SUBSTITUTION, then ANSWER with UNITS. Each step can earn marks even if final answer is wrong.';
+      if(q.indexOf('explain')!==-1||q.indexOf('why')!==-1)
+        return 'Explain questions need TWO parts: (1) state what happens, (2) give the scientific reason WHY using a key term from the topic.';
+      if(q.indexOf('describe')!==-1||q.indexOf('method')!==-1||q.indexOf('how')!==-1)
+        return 'Method questions: write steps in ORDER. Include: what you do, what you observe, and the name of the technique. Each distinct step = 1 mark.';
+      if(q.indexOf('variable')!==-1||q.indexOf('hypothesis')!==-1)
+        return 'Variables: Independent = what you change. Dependent = what you measure. Controlled = what you keep the same. State them precisely.';
+      return 'For zero marks: re-read the question and identify the key command word (State, Explain, Describe, Calculate). Your answer must directly address that command.';
+    }
+    if(type==='secC_partial'){
+      return 'Partially correct — you are on the right track! Look at what marks you lost: each [1] in the mark scheme is a separate point. Check if you missed units, a comparison, or a key scientific term.';
+    }
+    return '';
+  }
+
+  /* ── Section A: full question + all options shown ── */
+  var saH='<div class="hm-sec-title">Section A — MCQ ('+( a.secA||0)+'/10)</div>';
+  if(paper&&paper.secA&&a.secAAnswers){
+    paper.secA.forEach(function(q,qi){
+      var given=a.secAAnswers[qi], ok=(given===q.ans);
+      var tip=ok?'':getTip('mcq_wrong',{q:q.q});
+      saH+='<div style="margin-bottom:.75rem;border:1.5px solid '+(ok?'#bbf7d0':'#fecaca')+';border-radius:10px;padding:.75rem;background:'+(ok?'#f0fdf4':'#fff5f5')+'">'
+        /* question number + result badge */
+        +'<div style="display:flex;align-items:flex-start;gap:.5rem;margin-bottom:.55rem">'
+          +'<span style="font-size:.85rem;margin-top:1px">'+(ok?'✅':'❌')+'</span>'
+          +'<div style="flex:1"><b style="font-size:.85rem">Q'+(qi+1)+'.</b> '
+            +'<span style="font-size:.85rem;line-height:1.5">'+q.q+'</span>'
+          +'</div>'
+        +'</div>'
+        /* all 4 options */
+        +'<div style="display:flex;flex-direction:column;gap:.3rem;margin-left:1.4rem;margin-bottom:.4rem">'
+        +(q.opts||[]).map(function(opt,oi){
+          var isGiven=(oi===given);
+          var isCorrect=(oi===q.ans);
+          var bg='transparent', border='1.5px solid #e5e7eb', weight='normal', badge='';
+          if(isCorrect){bg='#dcfce7';border='1.5px solid #16a34a';weight='700';badge='<span style="font-size:.68rem;background:#16a34a;color:white;padding:1px 6px;border-radius:8px;margin-left:.4rem">✓ Correct</span>';}
+          if(isGiven&&!isCorrect){bg='#fee2e2';border='1.5px solid #dc2626';weight='600';badge='<span style="font-size:.68rem;background:#dc2626;color:white;padding:1px 6px;border-radius:8px;margin-left:.4rem">✗ Your answer</span>';}
+          if(isGiven&&isCorrect){badge='<span style="font-size:.68rem;background:#16a34a;color:white;padding:1px 6px;border-radius:8px;margin-left:.4rem">✓ Correct</span>';}
+          return '<div style="padding:5px 10px;border-radius:6px;border:'+border+';background:'+bg+';font-size:.8rem;font-weight:'+weight+'">'
+            +'<b>'+'ABCD'[oi]+'.</b> '+opt+badge+'</div>';
+        }).join('')
+        +'</div>'
+        /* tip if wrong */
+        +(tip?'<div style="margin-left:1.4rem;margin-top:.35rem;padding:.5rem .7rem;background:#fff7ed;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;font-size:.76rem;color:#92400e"><b>💡 Tip:</b> '+tip+'</div>':'')
+      +'</div>';
+    });
+  } else {
+    saH+='<div style="color:var(--muted);font-size:.8rem;padding:.4rem">Answer data not stored — submit a paper with the new app version to see details.</div>';
+  }
+
+  /* ── Section B: full statement + model reason + coaching ── */
+  var sbH='<div class="hm-sec-title">Section B — True/False ('+(a.secB||0)+'/10)</div>';
+  if(a.secBTF&&paper&&paper.secB){
+    paper.secB.forEach(function(q,ki){
+      var k=String(ki);
+      var given=a.secBTF[k]||a.secBTF[ki];
+      var correct=(given!==undefined)?q.ans:undefined;
+      // ans stored as true/false boolean, given as 'T'/'F' string
+      var givenBool=(given==='T'||given===true||given==='true');
+      var ok=(correct!==undefined)?(givenBool===q.ans):null;
+      var reason=(a.secBReasonTexts&&(a.secBReasonTexts[k]||a.secBReasonTexts[ki]))||'';
+      var rScore=(a.secBReasonScores&&(a.secBReasonScores[k]!==undefined?a.secBReasonScores[k]:a.secBReasonScores[ki]));
+      rScore=(rScore!==undefined&&rScore!==null)?Number(rScore):null;
+      var tfCorrect=ok===true, tfWrong=ok===false;
+      var reasonCorrect=(rScore===1||rScore>=1), reasonPartial=(rScore>0&&rScore<1), reasonWrong=(rScore===0);
+      var tip='';
+      if(tfWrong) tip=getTip('tf_wrong',{stmt:q.stmt});
+      else if(reasonWrong) tip=getTip('reason_zero',{reason:reason,stmt:q.stmt});
+      else if(reasonPartial) tip=getTip('reason_partial',{reason:reason});
+
+      sbH+='<div style="margin-bottom:.85rem;border:1.5px solid '+(tfCorrect&&reasonCorrect?'#bbf7d0':tfWrong?'#fecaca':'#fde68a')+';border-radius:10px;padding:.8rem;background:'+(tfCorrect&&reasonCorrect?'#f0fdf4':tfWrong?'#fff5f5':'#fffbeb')+'">'
+        /* statement */
+        +'<div style="font-size:.84rem;font-weight:600;margin-bottom:.5rem;line-height:1.5">'
+          +'<span style="font-size:.85rem;margin-right:.4rem">'+(tfCorrect?'✅':tfWrong?'❌':'⬜')+'</span>'
+          +'<b>Q'+(ki+1)+'.</b> '+q.stmt
+        +'</div>'
+        /* T/F result row */
+        +'<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-left:1.4rem;margin-bottom:.45rem">'
+          +'<span style="font-size:.78rem;padding:3px 10px;border-radius:10px;font-weight:700;background:'+(tfCorrect?'#dcfce7':'#fee2e2')+';color:'+(tfCorrect?'#15803d':'#b91c1c')+'">'
+            +'Your answer: '+(given==='T'||given===true?'TRUE':'FALSE')
+          +'</span>'
+          +(ok===false?'<span style="font-size:.78rem;padding:3px 10px;border-radius:10px;font-weight:700;background:#dcfce7;color:#15803d">Correct: '+(q.ans?'TRUE':'FALSE')+'</span>':'')
+        +'</div>'
+        /* student's reason */
+        +'<div style="margin-left:1.4rem;margin-bottom:.4rem">'
+          +'<div style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem">Mokshith\'s Reason '+(rScore!==null?'<span style="background:'+(reasonCorrect?'#dcfce7':reasonWrong?'#fee2e2':'#fef3c7')+';color:'+(reasonCorrect?'#15803d':reasonWrong?'#b91c1c':'#92400e')+';padding:1px 8px;border-radius:8px;font-weight:700">'+rScore+'/1</span>':'')+'</div>'
+          +'<div style="font-size:.82rem;background:#f9fafb;border:1px solid var(--border);border-radius:6px;padding:.5rem .65rem;font-style:italic;min-height:28px;line-height:1.5">'+(reason||'<span style="color:var(--muted)">No reason written</span>')+'</div>'
+        +'</div>'
+        /* model reason */
+        +(!reasonCorrect?'<div style="margin-left:1.4rem;margin-bottom:.4rem">'
+          +'<div style="font-size:.72rem;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem">Model Answer</div>'
+          +'<div style="font-size:.82rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:.5rem .65rem;line-height:1.5">'+q.reason+'</div>'
+        +'</div>':'')
+        /* tip */
+        +(tip?'<div style="margin-left:1.4rem;margin-top:.35rem;padding:.5rem .7rem;background:#fff7ed;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;font-size:.76rem;color:#92400e"><b>💡 Tip for Mokshith:</b> '+tip+'</div>':'')
+      +'</div>';
+    });
+  } else {
+    sbH+='<div style="color:var(--muted);font-size:.8rem;padding:.4rem">No answer data stored.</div>';
+  }
+
+  /* ── Section C: full question + student answer + mark scheme + tip ── */
+  var scH='<div class="hm-sec-title">Section C — Structured ('+(a.secC||0)+'/20)</div>';
+  if(a.secCScores&&paper&&paper.secC){
+    paper.secC.forEach(function(q,ki){
+      var k=String(ki);
+      var score=(a.secCScores[k]!==undefined)?a.secCScores[k]:(a.secCScores[ki]||0);
+      var text=(a.secCTexts&&(a.secCTexts[k]||a.secCTexts[ki]))||'';
+      var maxM=q.marks||0;
+      var perfect=(maxM>0&&Number(score)>=maxM), zero=(Number(score)===0);
+      var partial=!perfect&&!zero;
+      var tip='';
+      if(zero) tip=getTip('secC_zero',{q:q.q,score:score,maxM:maxM});
+      else if(partial) tip=getTip('secC_partial',{q:q.q,score:score,maxM:maxM});
+
+      scH+='<div style="margin-bottom:.9rem;border:1.5px solid '+(perfect?'#bbf7d0':zero?'#fecaca':'#fde68a')+';border-radius:10px;padding:.8rem;background:'+(perfect?'#f0fdf4':zero?'#fff5f5':'#fffbeb')+'">'
+        /* question text — FULL, with whitespace preserved */
+        +'<div style="margin-bottom:.55rem">'
+          +'<div style="display:flex;align-items:flex-start;gap:.4rem;margin-bottom:.4rem">'
+            +'<span style="font-size:.85rem;margin-top:1px">'+(perfect?'✅':zero?'❌':'🔶')+'</span>'
+            +'<b style="font-size:.84rem">Q'+(ki+1)+'</b>'
+            +'<span style="font-size:.78rem;font-weight:700;padding:2px 8px;border-radius:8px;background:'+(perfect?'#dcfce7':zero?'#fee2e2':'#fef3c7')+';color:'+(perfect?'#15803d':zero?'#b91c1c':'#92400e')+'">'+score+'/'+maxM+' marks</span>'
+          +'</div>'
+          +'<div style="font-size:.83rem;line-height:1.6;margin-left:1.5rem;white-space:pre-wrap;background:#f9fafb;border-radius:6px;padding:.6rem .75rem;border:1px solid var(--border)">'+q.q+'</div>'
+        +'</div>'
+        /* student's written answer */
+        +'<div style="margin-left:1.5rem;margin-bottom:.45rem">'
+          +'<div style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem">Mokshith\'s Answer</div>'
+          +'<div style="font-size:.82rem;background:white;border:1.5px solid '+(perfect?'#86efac':zero?'#fca5a5':'#fcd34d')+';border-radius:6px;padding:.55rem .7rem;line-height:1.6;white-space:pre-wrap;min-height:36px">'+(text||'<span style="color:var(--muted);font-style:italic">No answer written</span>')+'</div>'
+        +'</div>'
+        /* mark scheme — always shown */
+        +((!perfect||true)?'<div style="margin-left:1.5rem;margin-bottom:'+(tip?'.4rem':'0')+'">'
+          +'<div style="font-size:.72rem;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem">Mark Scheme</div>'
+          +'<div style="font-size:.8rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:.55rem .7rem;line-height:1.7;white-space:pre-wrap">'+(q.scheme||'Not available')+'</div>'
+        +'</div>':'')
+        /* tip */
+        +(tip?'<div style="margin-left:1.5rem;margin-top:.4rem;padding:.55rem .75rem;background:#fff7ed;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;font-size:.76rem;color:#92400e;line-height:1.55"><b>💡 Tip for Mokshith:</b> '+tip+'</div>':'')
+      +'</div>';
+    });
+  } else {
+    scH+='<div style="color:var(--muted);font-size:.8rem;padding:.4rem">No answer data stored.</div>';
+  }
+
+  /* ── Modal header ── */
+  document.getElementById('histModalContent').innerHTML=
+    '<div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)">'
+      +'<div style="text-align:center;min-width:66px"><div style="font-size:2.5rem;font-weight:700;color:'+sc+';line-height:1">'+(a.score||0)+'</div><div style="font-size:.78rem;color:'+sc+';font-weight:700">/40</div></div>'
+      +'<div style="flex:1">'
+        +'<div style="font-weight:700;font-size:1rem">'+(a.paperLabel||'Paper '+a.paper)+'</div>'
+        +'<div style="font-size:.77rem;color:var(--muted);margin:.15rem 0">'+dt+'</div>'
+        +'<span class="hist-tag" style="background:'+tag.bg+';color:'+tag.c+'">'+tag.e+' '+tag.l+' · '+pct+'%</span>'
+      +'</div>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)">'
+      +['Sec A','Sec B','Sec C'].map(function(l,li){
+        var vals=[a.secA||0,a.secB||0,a.secC||0],mx=[10,10,20];
+        var p2=Math.round(vals[li]/mx[li]*100);
+        return '<div style="text-align:center;background:#f9fafb;border-radius:8px;padding:.55rem">'
+          +'<div style="font-weight:700;font-size:1.05rem;color:'+_hSc(p2)+'">'+vals[li]+'/'+mx[li]+'</div>'
+          +'<div style="font-size:.7rem;color:var(--muted)">'+l+'</div>'
+          +'<div style="font-size:.7rem;font-weight:700;color:'+_hSc(p2)+'">'+p2+'%</div>'
+        +'</div>';
+      }).join('')
+    +'</div>'
+    +saH+sbH+scH
+    +'<div style="text-align:center;margin-top:1.2rem">'
+      +'<button onclick="closeHistModal()" style="padding:9px 30px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer">Close</button>'
+    +'</div>';
+  document.getElementById('histModal').style.display='flex';
+}
+
+
+function closeHistModal(){document.getElementById('histModal').style.display='none';}
+</script>
 
 </body>
 </html>
