@@ -342,6 +342,37 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 .hm-row.correct{background:#f0fdf4}.hm-row.wrong{background:#fef2f2}.hm-row.partial{background:#fffbeb}
 .hm-icon{font-size:.9rem;flex-shrink:0;margin-top:2px}
 
+
+/* ── QUICK FIRE ── */
+.qf-tf-btn{flex:1;max-width:160px;padding:14px 20px;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.95rem;font-weight:700;cursor:pointer;background:white;transition:all .15s}
+.qf-tf-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.qf-tf-btn.sel-true{background:#dcfce7;border-color:#16a34a;color:#15803d}
+.qf-tf-btn.sel-false{background:#fee2e2;border-color:#dc2626;color:#b91c1c}
+.qf-tf-btn:disabled{cursor:default;transform:none}
+.qf-mcq-opt{padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-family:inherit;font-size:.85rem;cursor:pointer;background:white;text-align:left;transition:all .15s;display:flex;align-items:flex-start;gap:.5rem}
+.qf-mcq-opt:hover:not(:disabled){border-color:var(--green);background:#f0fdf4}
+.qf-mcq-opt.opt-correct{background:#dcfce7;border-color:#16a34a;color:#15803d;font-weight:700}
+.qf-mcq-opt.opt-wrong{background:#fee2e2;border-color:#dc2626;color:#b91c1c}
+.qf-mcq-opt:disabled{cursor:default}
+.qf-feedback-correct{background:#f0fdf4;border:2px solid #bbf7d0}
+.qf-feedback-wrong{background:#fef2f2;border:2px solid #fecaca}
+.qf-feedback-partial{background:#fffbeb;border:2px solid #fde68a}
+/* Teacher Brief */
+.brief-entry{border-left:3px solid var(--green);padding-left:.9rem;margin-bottom:1.4rem}
+.brief-entry-date{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.05em;margin-bottom:.35rem}
+.brief-entry-new{border-color:#f59e0b;background:#fffbeb;padding:.75rem .9rem;border-radius:0 8px 8px 0}
+.brief-section{margin-bottom:.7rem}
+.brief-section h4{font-size:.82rem;font-weight:700;color:var(--ink);margin:.5rem 0 .25rem}
+.brief-skill-bar{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;font-size:.79rem}
+.brief-skill-name{width:140px;flex-shrink:0;color:var(--ink)}
+.brief-skill-track{flex:1;height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+.brief-skill-fill{height:100%;border-radius:4px}
+.brief-skill-pct{width:34px;text-align:right;font-weight:700;color:var(--ink);flex-shrink:0}
+/* Dynamic notes */
+.dynamic-note-card{background:white;border:1.5px solid var(--border);border-radius:10px;padding:.85rem 1rem;margin-bottom:.75rem}
+.dynamic-note-card.note-new{border-color:#f59e0b;background:#fffdf5}
+.dynamic-note-tag{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:8px;margin-bottom:.4rem}
+
 </style>
 
 <!-- Firebase SDKs -->
@@ -411,7 +442,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
   <div class="top-btns" id="topBtns">
     <span id="userDisplayName" style="color:rgba(255,255,255,.5);font-size:.75rem;display:none"></span>
     <button class="tbtn tbtn-outline" id="btnAnswerKey" onclick="openAnswerKeyModal()" style="display:none">🔐 Answer Key</button>
-    <button class="tbtn tbtn-outline" id="btnBrief" onclick="showAIBrief()" style="display:none">📋 Teacher Brief</button>
+    <button class="tbtn tbtn-outline" id="btnBrief" onclick="openTeacherBriefModal()" style="display:none">📋 Teacher Brief</button>
     <button class="tbtn tbtn-outline" onclick="document.getElementById('pwdModal').classList.add('show')">🔑 Change Pwd</button>
     <button class="tbtn tbtn-gold" onclick="signOutUser()">Sign Out</button>
   </div>
@@ -424,6 +455,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
   <button class="mtab" onclick="showTab('papersTab',this)">✏️ Practice Papers <span class="tab-badge" id="papersBadge">20</span></button>
   <button class="mtab" onclick="showTab('aiTab',this)">🤖 AI Practice</button>
   <button class="mtab" onclick="showTab('tipsTab',this)">💡 Exam Tips</button>
+  <button class="mtab" onclick="showTab('qfTab',this);initQuickFire()">⚡ Quick Fire</button>
   <button class="mtab" onclick="showTab('histTab',this);loadHistoryTab()">📋 History</button>
 </div>
 
@@ -526,7 +558,11 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 
 <!-- ═══ STUDY NOTES TAB ═══ -->
 <div id="notesTab" class="tab-content">
-  <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem">Click any topic to expand notes. <strong>G2 Science covers all 12 chapters</strong> from the syllabus — focus on Tier 1 first.</p>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">
+  <p style="font-size:.82rem;color:var(--muted);margin:0">Click any topic to expand notes. <strong>G2 Science covers all 12 chapters</strong> from the syllabus — focus on Tier 1 first.</p>
+  <button onclick="refreshStudyNotes()" id="refreshNotesBtn" style="padding:7px 14px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;flex-shrink:0">🔄 Refresh Notes</button>
+</div>
+<div id="dynamicNotesArea"></div>
 
   <!-- TIER 1 -->
   <div class="sec-label">🔵 TIER 1 — Must Master (Every Paper)</div>
@@ -2596,27 +2632,7 @@ function getWeakAreas(d){
   return result.slice(0,3);
 }
 
-function showAIBrief() {
-  var d=loadData(), weak=getWeakAreas(d);
-  var msg='MOKSHITH\'S SCIENCE TUTORING BRIEF\n\nPapers completed: '+d.history.length+'\n';
-  if(d.history.length){
-    var scores=d.history.map(function(h){return h.score;});
-    msg+='Average score: '+Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length)+'/40\n\n';
-    msg+='Skill mastery:\n';
-    var sk=d.skills||{};
-    Object.keys(sk).forEach(function(name){
-      var v=sk[name]; if(!v[0])return;
-      var pct=Math.round(v[1]/v[0]*100);
-      msg+='  • '+name+': '+pct+'% '+(pct>=80?'✓':pct>=60?'~':'✗')+'\n';
-    });
-    msg+='\nWeak areas needing attention:\n';
-    weak.forEach(function(w){msg+='  ⚠️ '+w.name+': '+w.pct+'%\n';});
-    msg+='\nRecommended next action: AI Practice on '+( weak.length?weak[0].name:'Mixed review');
-  } else {
-    msg+='No papers completed yet. Ask Mokshith to complete Paper 1 first.';
-  }
-  alert(msg);
-}
+function showAIBrief() { openTeacherBriefModal(); } // legacy alias
 
 function resetAll() {
   if(confirm('Reset ALL progress for this account? This cannot be undone.')){
@@ -3548,6 +3564,831 @@ function openHistDetail(i){
 
 
 function closeHistModal(){document.getElementById('histModal').style.display='none';}
+</script>
+
+
+<!-- ══ QUICK FIRE TAB ══ -->
+<div class="tab-content" id="qfTab">
+  <!-- Header + controls -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.7rem;margin-bottom:1.1rem">
+    <div>
+      <h2 style="font-family:'Libre Baskerville',serif;font-size:1.2rem;margin:0 0 .2rem">⚡ Quick Fire Practice</h2>
+      <p style="font-size:.8rem;color:var(--muted);margin:0">One question at a time — answer instantly, learn from every mistake.</p>
+    </div>
+    <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+      <select id="qfTopicSel" style="padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.8rem;outline:none;background:white">
+        <option value="weak">🎯 Focus Weak Areas</option>
+        <option value="all">🔀 All Topics</option>
+        <option value="Measurement">Measurement</option>
+        <option value="Physical Properties">Physical Properties</option>
+        <option value="Density">Density</option>
+        <option value="Elements/Mixtures">Elements/Mixtures</option>
+        <option value="Separation">Separation</option>
+        <option value="Scientific Method">Scientific Method</option>
+        <option value="Cells">Cells</option>
+        <option value="Particulate Matter">Particulate Matter</option>
+        <option value="Light">Light</option>
+        <option value="Energy/Forces">Energy/Forces</option>
+      </select>
+      <select id="qfTypeSel" style="padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.8rem;outline:none;background:white">
+        <option value="mixed">🎲 Mixed (MCQ + T/F)</option>
+        <option value="mcq">📝 MCQ only</option>
+        <option value="tf">✅ True/False only</option>
+      </select>
+      <button onclick="startQFSession()" id="qfStartBtn" style="padding:8px 18px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer">▶ Start</button>
+      <button onclick="endQFSession()" id="qfEndBtn" style="display:none;padding:8px 14px;background:#f3f4f6;color:var(--ink);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer">⏹ End</button>
+    </div>
+  </div>
+
+  <!-- Session scoreboard -->
+  <div id="qfScoreboard" style="display:none;background:#f9fafb;border:1px solid var(--border);border-radius:12px;padding:.75rem 1rem;margin-bottom:1rem;display:none">
+    <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap">
+      <div style="text-align:center"><div id="qfQNum" style="font-size:1.4rem;font-weight:700;color:var(--ink)">0</div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;font-weight:600">Question</div></div>
+      <div style="text-align:center"><div id="qfCorrect" style="font-size:1.4rem;font-weight:700;color:#16a34a">0</div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;font-weight:600">Correct</div></div>
+      <div style="text-align:center"><div id="qfWrong" style="font-size:1.4rem;font-weight:700;color:#dc2626">0</div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;font-weight:600">Wrong</div></div>
+      <div style="text-align:center"><div id="qfStreak" style="font-size:1.4rem;font-weight:700;color:#f59e0b">0</div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;font-weight:600">🔥 Streak</div></div>
+      <div id="qfPctBadge" style="margin-left:auto;font-size:1.5rem;font-weight:700;padding:6px 14px;border-radius:10px;background:#f1f5f9;color:var(--ink)">—%</div>
+    </div>
+  </div>
+
+  <!-- Idle screen -->
+  <div id="qfIdle" style="text-align:center;padding:3.5rem 1rem;background:white;border:2px dashed var(--border);border-radius:16px">
+    <div style="font-size:3rem;margin-bottom:.75rem">⚡</div>
+    <div style="font-size:1rem;font-weight:700;margin-bottom:.4rem">Ready to drill?</div>
+    <div style="font-size:.83rem;color:var(--muted);margin-bottom:1.2rem;max-width:360px;margin-left:auto;margin-right:auto">Select a topic and question type, then hit <strong>Start</strong>. Questions are pulled from your papers and AI-generated to target your weak areas.</div>
+    <div id="qfWeakPreview" style="display:inline-block;background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:.5rem 1rem;font-size:.78rem;color:#92400e;font-weight:600"></div>
+  </div>
+
+  <!-- Loading screen -->
+  <div id="qfLoading" style="display:none;text-align:center;padding:3rem">
+    <div style="font-size:2rem;margin-bottom:.6rem;animation:spin 1s linear infinite;display:inline-block">⚡</div>
+    <div style="font-size:.88rem;color:var(--muted)" id="qfLoadMsg">Generating question…</div>
+  </div>
+
+  <!-- Question card -->
+  <div id="qfCard" style="display:none">
+    <!-- Topic + type badge -->
+    <div style="display:flex;gap:.5rem;margin-bottom:.75rem;align-items:center">
+      <span id="qfTypeBadge" style="font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:10px;background:#dbeafe;color:#1e40af"></span>
+      <span id="qfTopicBadge" style="font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:10px;background:#f3e8ff;color:#6b21a8"></span>
+      <span id="qfSrcBadge" style="font-size:.7rem;padding:3px 9px;border-radius:10px;background:#f1f5f9;color:var(--muted)"></span>
+    </div>
+
+    <!-- Question text + visual -->
+    <div style="background:white;border:2px solid var(--border);border-radius:14px;padding:1.1rem 1.2rem;margin-bottom:.9rem">
+      <div id="qfVisual" style="margin-bottom:.6rem"></div>
+      <div id="qfQText" style="font-size:.95rem;line-height:1.6;font-weight:600;white-space:pre-wrap"></div>
+    </div>
+
+    <!-- MCQ options -->
+    <div id="qfMCQOpts" style="display:none;flex-direction:column;gap:.45rem;margin-bottom:.8rem"></div>
+
+    <!-- T/F buttons -->
+    <div id="qfTFBtns" style="display:none;gap:.7rem;margin-bottom:.8rem;justify-content:center">
+      <button onclick="submitQFAnswer('T')" class="qf-tf-btn" id="qfTrueBtn">✅ TRUE</button>
+      <button onclick="submitQFAnswer('F')" class="qf-tf-btn" id="qfFalseBtn">❌ FALSE</button>
+    </div>
+
+    <!-- Reason input (T/F only, shown before answer) -->
+    <div id="qfReasonWrap" style="display:none;margin-bottom:.8rem">
+      <div style="font-size:.78rem;font-weight:700;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.04em">Your reason (optional — earns bonus point!):</div>
+      <textarea id="qfReasonInp" rows="2" placeholder="Write the scientific reason why..." style="width:100%;padding:.6rem .8rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.83rem;outline:none;resize:vertical;box-sizing:border-box"></textarea>
+    </div>
+
+    <!-- Feedback panel (shown after answer) -->
+    <div id="qfFeedback" style="display:none;border-radius:12px;padding:1rem 1.1rem;margin-bottom:.9rem">
+      <div id="qfFeedbackIcon" style="font-size:1.6rem;margin-bottom:.4rem"></div>
+      <div id="qfFeedbackText" style="font-size:.85rem;line-height:1.55;margin-bottom:.5rem"></div>
+      <div id="qfModelAnswer" style="display:none;margin-top:.5rem;padding:.6rem .8rem;border-radius:8px;background:rgba(0,0,0,.04);font-size:.82rem;line-height:1.55"></div>
+      <div id="qfTip" style="display:none;margin-top:.5rem;padding:.5rem .75rem;background:#fff7ed;border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;font-size:.78rem;color:#92400e"></div>
+    </div>
+
+    <!-- Next button -->
+    <div style="display:flex;gap:.6rem;justify-content:flex-end">
+      <button id="qfNextBtn" onclick="nextQFQuestion()" style="display:none;padding:10px 28px;background:var(--green);color:white;border:none;border-radius:9px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer">Next Question →</button>
+    </div>
+  </div>
+
+  <!-- Session summary (shown on End) -->
+  <div id="qfSummary" style="display:none;text-align:center;padding:2rem 1rem;background:white;border:2px solid var(--border);border-radius:16px">
+    <div style="font-size:2.5rem;margin-bottom:.5rem" id="qfSummaryEmoji">🎯</div>
+    <div style="font-size:1.3rem;font-weight:700;margin-bottom:.3rem" id="qfSummaryScore"></div>
+    <div style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem" id="qfSummaryMsg"></div>
+    <div id="qfSummaryBreakdown" style="margin-bottom:1.2rem"></div>
+    <button onclick="startQFSession()" style="padding:10px 28px;background:var(--green);color:white;border:none;border-radius:9px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;margin-right:.5rem">▶ Play Again</button>
+    <button onclick="endQFSession()" style="padding:10px 20px;background:#f3f4f6;color:var(--ink);border:1.5px solid var(--border);border-radius:9px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer">Done</button>
+  </div>
+</div>
+
+<!-- ══ TEACHER BRIEF MODAL ══ -->
+<div id="teacherBriefModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9500;align-items:flex-start;justify-content:center;padding:1.5rem;overflow-y:auto" onclick="if(event.target===this)closeTeacherBrief()">
+  <div style="background:white;border-radius:16px;max-width:680px;width:100%;padding:1.6rem;position:relative;margin:auto">
+    <button onclick="closeTeacherBrief()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted)">✕</button>
+    <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.1rem">
+      <div style="font-size:1.5rem">📋</div>
+      <div>
+        <div style="font-size:1rem;font-weight:700">Teacher's Briefing</div>
+        <div style="font-size:.77rem;color:var(--muted)">Live analysis · updated on every refresh · saved to Firebase</div>
+      </div>
+      <button onclick="refreshTeacherBrief()" id="refreshBriefBtn" style="margin-left:auto;padding:8px 16px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;flex-shrink:0">🔄 Refresh</button>
+    </div>
+    <div id="teacherBriefContent" style="font-size:.84rem;line-height:1.7;max-height:72vh;overflow-y:auto"></div>
+  </div>
+</div>
+
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// QUICK FIRE ENGINE
+// ══════════════════════════════════════════════════════════════════
+var QF = {
+  active: false,
+  qNum: 0, correct: 0, wrong: 0, streak: 0, bestStreak: 0,
+  topic: 'weak', type: 'mixed',
+  currentQ: null,        // {type,q,opts,ans,reason,skill,source}
+  queue: [],             // prefetched questions
+  aiBuffer: [],          // AI-generated questions ready to use
+  aiPending: false,
+  paperPool: [],         // questions extracted from PAPERS
+  sessionLog: []         // [{skill,correct}] for post-session
+};
+
+// ── Init: called when Quick Fire tab opened ──────────────────────
+function initQuickFire() {
+  buildPaperPool();
+  showWeakPreview();
+}
+
+function buildPaperPool() {
+  QF.paperPool = { mcq: [], tf: [] };
+  if (typeof PAPERS === 'undefined') return;
+  PAPERS.forEach(function(paper) {
+    (paper.secA || []).forEach(function(q) {
+      QF.paperPool.mcq.push({
+        type: 'mcq', q: q.q, opts: q.opts, ans: q.ans,
+        skill: q.skill || 'General', source: 'Paper ' + paper.num,
+        fb: q.fb || ''
+      });
+    });
+    (paper.secB || []).forEach(function(q) {
+      QF.paperPool.tf.push({
+        type: 'tf', q: q.stmt,
+        ans: (q.ans === true || q.ans === 'true') ? 'T' : 'F',
+        reason: q.reason || '', skill: q.skill || 'General',
+        source: 'Paper ' + paper.num
+      });
+    });
+  });
+}
+
+function showWeakPreview() {
+  var el = document.getElementById('qfWeakPreview');
+  if (!el) return;
+  var d = loadData(), weak = getWeakAreas(d);
+  if (weak.length) {
+    el.style.display = 'inline-block';
+    el.textContent = '⚠️ Weak areas: ' + weak.slice(0,3).map(function(w){ return w.name + ' (' + w.pct + '%)'; }).join(' · ');
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+// ── Session start ─────────────────────────────────────────────────
+function startQFSession() {
+  QF.active = true;
+  QF.qNum = 0; QF.correct = 0; QF.wrong = 0;
+  QF.streak = 0; QF.bestStreak = 0;
+  QF.sessionLog = [];
+  QF.aiBuffer = [];
+  QF.queue = [];
+  QF.topic = document.getElementById('qfTopicSel').value;
+  QF.type  = document.getElementById('qfTypeSel').value;
+
+  _qfShow('qfScoreboard', true);
+  _qfShow('qfIdle', false);
+  _qfShow('qfSummary', false);
+  _qfShow('qfEndBtn', true);
+  _qfShow('qfStartBtn', false);
+  updateQFScoreboard();
+  nextQFQuestion();
+  // Prefetch AI questions in background
+  prefetchAIQuestions();
+}
+
+function endQFSession() {
+  QF.active = false;
+  _qfShow('qfCard', false);
+  _qfShow('qfLoading', false);
+  _qfShow('qfScoreboard', false);
+  _qfShow('qfEndBtn', false);
+  _qfShow('qfStartBtn', true);
+
+  if (QF.qNum === 0) {
+    _qfShow('qfIdle', true);
+    return;
+  }
+  // Show summary
+  var pct = Math.round(QF.correct / QF.qNum * 100);
+  var emoji = pct >= 90 ? '🌟' : pct >= 75 ? '👍' : pct >= 60 ? '📚' : '💪';
+  document.getElementById('qfSummaryEmoji').textContent = emoji;
+  document.getElementById('qfSummaryScore').textContent = QF.correct + '/' + QF.qNum + ' correct (' + pct + '%)';
+  document.getElementById('qfSummaryMsg').textContent = '🔥 Best streak: ' + QF.bestStreak + '  |  Session: ' + QF.qNum + ' questions';
+
+  // Breakdown by skill
+  var skillTally = {};
+  QF.sessionLog.forEach(function(e) {
+    if (!skillTally[e.skill]) skillTally[e.skill] = [0,0];
+    skillTally[e.skill][0]++;
+    if (e.correct) skillTally[e.skill][1]++;
+  });
+  var bHTML = '<div style="display:flex;flex-direction:column;gap:.35rem;text-align:left;max-width:340px;margin:0 auto">';
+  Object.keys(skillTally).forEach(function(sk) {
+    var t=skillTally[sk][0], r=skillTally[sk][1];
+    var p2=Math.round(r/t*100);
+    var col=p2>=80?'#16a34a':p2>=60?'#ca8a04':'#dc2626';
+    bHTML += '<div style="display:flex;align-items:center;gap:.5rem;font-size:.8rem">'
+      +'<span style="flex:1;color:var(--ink)">'+sk+'</span>'
+      +'<div style="width:80px;height:7px;background:#f1f5f9;border-radius:4px;overflow:hidden"><div style="height:100%;width:'+p2+'%;background:'+col+';border-radius:4px"></div></div>'
+      +'<span style="font-weight:700;color:'+col+';width:36px;text-align:right">'+r+'/'+t+'</span></div>';
+  });
+  bHTML += '</div>';
+  document.getElementById('qfSummaryBreakdown').innerHTML = bHTML;
+  _qfShow('qfSummary', true);
+  saveQFSession(pct, skillTally);
+}
+
+// ── Question flow ─────────────────────────────────────────────────
+function nextQFQuestion() {
+  _qfShow('qfFeedback', false);
+  _qfShow('qfCard', false);
+  _qfShow('qfNextBtn', false);
+  _qfShow('qfLoading', true);
+  document.getElementById('qfLoadMsg').textContent = 'Loading next question…';
+  document.getElementById('qfReasonInp') && (document.getElementById('qfReasonInp').value = '');
+
+  // Pick next question
+  var q = pickQuestion();
+  if (q) {
+    setTimeout(function(){ displayQFQuestion(q); }, 150);
+  } else {
+    // Try AI buffer
+    if (QF.aiBuffer.length > 0) {
+      var aq = QF.aiBuffer.shift();
+      setTimeout(function(){ displayQFQuestion(aq); }, 150);
+    } else {
+      // Generate AI question now
+      document.getElementById('qfLoadMsg').textContent = 'Generating AI question…';
+      generateOneAIQuestion(function(q2) {
+        if (q2) displayQFQuestion(q2);
+        else {
+          // Fallback to paper pool regardless
+          var fb = pickFromPaperPool(QF.topic, QF.type, true);
+          displayQFQuestion(fb || {type:'mcq',q:'What is the SI unit of mass?',opts:['Gram','Kilogram','Milligram','Tonne'],ans:1,skill:'Measurement',source:'Fallback',fb:'SI unit of mass is kilogram (kg).'});
+        }
+      });
+    }
+  }
+  // Keep buffer topped up
+  if (QF.aiBuffer.length < 3 && !QF.aiPending) prefetchAIQuestions();
+}
+
+function pickQuestion() {
+  // 40% chance AI question if buffer available, 60% paper pool
+  if (QF.aiBuffer.length > 0 && Math.random() < 0.4) {
+    return QF.aiBuffer.shift();
+  }
+  return pickFromPaperPool(QF.topic, QF.type, false);
+}
+
+function pickFromPaperPool(topic, type, forceAny) {
+  var mcq = QF.paperPool.mcq || [];
+  var tf  = QF.paperPool.tf  || [];
+
+  // Get skill weights (lower score = higher weight)
+  var d = loadData();
+  var weakSkills = {};
+  if (topic === 'weak') {
+    getWeakAreas(d).forEach(function(w){ weakSkills[w.name] = (100 - w.pct) / 100; });
+  }
+
+  function scoreQ(q) {
+    if (topic !== 'weak' && topic !== 'all' && q.skill !== topic) return 0;
+    if (topic === 'weak' && !forceAny) {
+      var w = weakSkills[q.skill];
+      return w !== undefined ? w + Math.random() * 0.3 : Math.random() * 0.2;
+    }
+    return Math.random();
+  }
+
+  var pool = [];
+  if (type === 'mcq' || type === 'mixed') pool = pool.concat(mcq.map(function(q){ return {q:q,s:scoreQ(q)}; }));
+  if (type === 'tf'  || type === 'mixed') pool = pool.concat(tf.map(function(q){ return {q:q,s:scoreQ(q)}; }));
+
+  pool = pool.filter(function(x){ return x.s > 0; });
+  if (!pool.length) return null;
+  pool.sort(function(a,b){ return b.s - a.s; });
+  // Pick from top 5 randomly to avoid repetition
+  var top = pool.slice(0, Math.min(5, pool.length));
+  return top[Math.floor(Math.random() * top.length)].q;
+}
+
+function displayQFQuestion(q) {
+  _qfShow('qfLoading', false);
+  _qfShow('qfCard', true);
+  QF.currentQ = q;
+  QF.qNum++;
+  updateQFScoreboard();
+
+  // Badges
+  document.getElementById('qfTypeBadge').textContent = q.type === 'mcq' ? '📝 MCQ' : '✅ True/False';
+  document.getElementById('qfTopicBadge').textContent = q.skill || 'General';
+  document.getElementById('qfSrcBadge').textContent = q.source || 'AI Generated';
+
+  // Visual
+  var vis = getQuestionVisual ? getQuestionVisual(q.q, q.type) : null;
+  document.getElementById('qfVisual').innerHTML = vis || '';
+
+  // Question text
+  document.getElementById('qfQText').textContent = q.q;
+
+  // Reset feedback
+  document.getElementById('qfFeedback').style.display = 'none';
+  document.getElementById('qfFeedback').className = '';
+
+  if (q.type === 'mcq') {
+    _qfShow('qfMCQOpts', true);
+    _qfShow('qfTFBtns', false);
+    _qfShow('qfReasonWrap', false);
+    var opts = document.getElementById('qfMCQOpts');
+    opts.style.display = 'flex';
+    opts.innerHTML = (q.opts || []).map(function(opt, i) {
+      return '<button class="qf-mcq-opt" onclick="submitQFAnswer(' + i + ')" id="qfOpt' + i + '">'
+        + '<span style="font-weight:700;min-width:18px">' + 'ABCD'[i] + '.</span>'
+        + '<span>' + opt + '</span></button>';
+    }).join('');
+  } else {
+    _qfShow('qfMCQOpts', false);
+    var tfDiv = document.getElementById('qfTFBtns');
+    tfDiv.style.display = 'flex';
+    document.getElementById('qfTrueBtn').disabled = false;
+    document.getElementById('qfFalseBtn').disabled = false;
+    document.getElementById('qfTrueBtn').className = 'qf-tf-btn';
+    document.getElementById('qfFalseBtn').className = 'qf-tf-btn';
+    _qfShow('qfReasonWrap', true);
+  }
+}
+
+function submitQFAnswer(answer) {
+  var q = QF.currentQ;
+  if (!q) return;
+  var correct = false;
+
+  if (q.type === 'mcq') {
+    correct = (answer === q.ans);
+    // Colour all options
+    (q.opts || []).forEach(function(_, i) {
+      var btn = document.getElementById('qfOpt' + i);
+      if (!btn) return;
+      btn.disabled = true;
+      if (i === q.ans) btn.classList.add('opt-correct');
+      else if (i === answer && !correct) btn.classList.add('opt-wrong');
+    });
+  } else {
+    // T/F
+    correct = (answer === q.ans);
+    document.getElementById('qfTrueBtn').disabled = true;
+    document.getElementById('qfFalseBtn').disabled = true;
+    if (answer === 'T') document.getElementById('qfTrueBtn').className = 'qf-tf-btn sel-true';
+    else document.getElementById('qfFalseBtn').className = 'qf-tf-btn sel-false';
+  }
+
+  if (correct) { QF.correct++; QF.streak++; if (QF.streak > QF.bestStreak) QF.bestStreak = QF.streak; }
+  else { QF.wrong++; QF.streak = 0; }
+  QF.sessionLog.push({skill: q.skill || 'General', correct: correct});
+  updateQFScoreboard();
+  showQFFeedback(q, answer, correct);
+}
+
+function showQFFeedback(q, answer, correct) {
+  var fb = document.getElementById('qfFeedback');
+  fb.style.display = 'block';
+  fb.className = correct ? 'qf-feedback-correct' : 'qf-feedback-wrong';
+  fb.style.borderRadius = '12px'; fb.style.padding = '1rem 1.1rem';
+
+  var icon = correct ? (QF.streak >= 3 ? '🔥 ' + QF.streak + ' in a row!' : '✅ Correct!') : '❌ Not quite';
+  document.getElementById('qfFeedbackIcon').textContent = icon;
+
+  var mainText = '';
+  if (q.type === 'mcq') {
+    if (!correct) mainText = 'Correct answer: <strong>' + 'ABCD'[q.ans] + '. ' + (q.opts ? q.opts[q.ans] : '') + '</strong>';
+    if (q.fb) mainText += (mainText?'<br>':'') + '<span style="color:var(--muted)">' + q.fb + '</span>';
+  } else {
+    var correctWord = (q.ans === 'T') ? 'TRUE' : 'FALSE';
+    var ansWord = (answer === 'T') ? 'TRUE' : 'FALSE';
+    if (!correct) mainText = 'You said <strong>' + ansWord + '</strong> — correct answer is <strong>' + correctWord + '</strong>';
+  }
+  document.getElementById('qfFeedbackText').innerHTML = mainText || '&nbsp;';
+
+  // Model answer for T/F
+  var ma = document.getElementById('qfModelAnswer');
+  if (q.type === 'tf' && q.reason) {
+    ma.style.display = 'block';
+    ma.innerHTML = '<span style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.05em">Model Reason:</span><br>' + q.reason;
+    // Check student's reason
+    var reasonEl = document.getElementById('qfReasonInp');
+    var studentReason = reasonEl ? reasonEl.value.trim() : '';
+    if (studentReason.length > 5) {
+      var critKws = ['chemically combined','fixed proportion','insoluble','soluble','residue','filtrate',
+        'density','boiling point','melting point','electrical','thermal','conductivity','rf','chromatograph',
+        'element','compound','mixture','fixed ratio','parallax','zero error'];
+      var hit = critKws.some(function(kw){ return studentReason.toLowerCase().indexOf(kw) !== -1; });
+      ma.innerHTML += '<br><br><span style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--muted)">Your Reason:</span><br>'
+        + studentReason
+        + '<br><span style="font-size:.78rem;font-weight:700;color:' + (hit?'#16a34a':'#ca8a04') + '">'
+        + (hit ? '✅ Good use of science keyword!' : '⚠️ Try to include a specific science keyword') + '</span>';
+    }
+  } else {
+    ma.style.display = 'none';
+  }
+
+  // Tip
+  var tipEl = document.getElementById('qfTip');
+  var tip = typeof getTip === 'function' ? getTip(q.type === 'mcq' ? 'mcq_wrong' : (!correct ? 'tf_wrong' : ''), {q:q.q}) : '';
+  if (!correct && tip) {
+    tipEl.style.display = 'block';
+    tipEl.innerHTML = '<b>💡 Tip:</b> ' + tip;
+  } else {
+    tipEl.style.display = 'none';
+  }
+
+  document.getElementById('qfNextBtn').style.display = 'inline-block';
+}
+
+function updateQFScoreboard() {
+  document.getElementById('qfQNum').textContent = QF.qNum;
+  document.getElementById('qfCorrect').textContent = QF.correct;
+  document.getElementById('qfWrong').textContent = QF.wrong;
+  document.getElementById('qfStreak').textContent = QF.streak;
+  if (QF.qNum > 0) {
+    var pct = Math.round(QF.correct / QF.qNum * 100);
+    var badge = document.getElementById('qfPctBadge');
+    badge.textContent = pct + '%';
+    badge.style.color = pct>=80?'#16a34a':pct>=60?'#ca8a04':'#dc2626';
+    badge.style.background = pct>=80?'#dcfce7':pct>=60?'#fef3c7':'#fee2e2';
+  }
+}
+
+// ── AI Question Generation ────────────────────────────────────────
+function prefetchAIQuestions() {
+  if (QF.aiPending || QF.aiBuffer.length >= 5) return;
+  var conf = getApiConfig();
+  if (!conf.keys[conf.provider] && conf.provider !== 'local') return;
+  QF.aiPending = true;
+  var topic = QF.topic === 'weak' ? _getWeakTopicName() : (QF.topic === 'all' ? 'Mixed topics' : QF.topic);
+  var qType = QF.type === 'mcq' ? 'MCQ' : QF.type === 'tf' ? 'True/False' : (Math.random()>0.5?'MCQ':'True/False');
+  generateOneAIQuestion(function(q) {
+    QF.aiPending = false;
+    if (q) QF.aiBuffer.push(q);
+  }, topic, qType);
+}
+
+function _getWeakTopicName() {
+  var weak = getWeakAreas(loadData());
+  if (weak.length) return weak[0].name;
+  return 'Elements/Mixtures';
+}
+
+function generateOneAIQuestion(cb, topicOverride, typeOverride) {
+  var conf = getApiConfig();
+  var p = conf.provider;
+  var apiKey = conf.keys[p];
+  if (!apiKey && p !== 'local') { cb(null); return; }
+
+  var topic = topicOverride || (QF.topic === 'weak' ? _getWeakTopicName() : QF.topic === 'all' ? 'Mixed S1 science' : QF.topic);
+  var qType = typeOverride || (QF.type === 'mcq' ? 'MCQ' : QF.type === 'tf' ? 'TF' : (Math.random()>0.5?'MCQ':'TF'));
+
+  // Build a prompt that includes context from Mokshith's weak areas
+  var d = loadData();
+  var weakStr = getWeakAreas(d).map(function(w){ return w.name+'('+w.pct+'%)'; }).join(', ') || 'none identified yet';
+
+  var prompt = 'You are a Singapore Secondary 1 G2 Science teacher. Generate ONE ' + qType + ' question on the topic: ' + topic + '.\n'
+    + 'Mokshith\'s current weak areas: ' + weakStr + '\n'
+    + 'Rules:\n'
+    + '- G2/NA stream level, Singapore O-level style\n'
+    + '- If MCQ: exactly 4 options, one correct\n'
+    + '- If TF: a True/False statement with scientific reason\n\n'
+    + 'Respond in EXACTLY this JSON format (no markdown, no extra text):\n'
+    + (qType === 'MCQ' ?
+      '{"type":"mcq","q":"[question text]","opts":["A text","B text","C text","D text"],"ans":[0-3],"reason":"[explanation of correct answer]","skill":"[topic name]"}' :
+      '{"type":"tf","q":"[statement]","ans":"[T or F]","reason":"[full scientific reason]","skill":"[topic name]"}');
+
+  var url, headers, body, extract;
+  if (p === 'anthropic') {
+    url = 'https://api.anthropic.com/v1/messages';
+    headers = {'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+    body = JSON.stringify({model:'claude-3-5-sonnet-20241022',max_tokens:600,messages:[{role:'user',content:prompt}]});
+    extract = function(d){ return d.content&&d.content[0]?d.content[0].text:null; };
+  } else if (p === 'openai') {
+    url = 'https://api.openai.com/v1/chat/completions';
+    headers = {'Content-Type':'application/json','Authorization':'Bearer '+apiKey};
+    body = JSON.stringify({model:'gpt-4o-mini',max_tokens:600,messages:[{role:'user',content:prompt}]});
+    extract = function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
+  } else if (p === 'gemini') {
+    url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+apiKey;
+    headers = {'Content-Type':'application/json'};
+    body = JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:600,temperature:0.7}});
+    extract = function(d){ return d.candidates&&d.candidates[0]?d.candidates[0].content.parts[0].text:null; };
+  } else {
+    cb(null); return;
+  }
+
+  fetch(url, {method:'POST', headers:headers, body:body})
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      var raw = extract(data);
+      if (!raw) { cb(null); return; }
+      try {
+        var clean = raw.replace(/```json|```/g,'').trim();
+        var q = JSON.parse(clean);
+        q.source = 'AI Generated';
+        if (q.type === 'tf') { q.ans = String(q.ans).toUpperCase() === 'TRUE' ? 'T' : q.ans === 'T' ? 'T' : 'F'; }
+        cb(q);
+      } catch(e) { cb(null); }
+    })
+    .catch(function(){ cb(null); });
+}
+
+// ── Save QF session to Firebase ──────────────────────────────────
+function saveQFSession(pct, skillTally) {
+  // Update local skill data
+  var d = loadData();
+  Object.keys(skillTally).forEach(function(sk) {
+    if (!d.skills[sk]) d.skills[sk] = [0,0];
+    d.skills[sk][0] += skillTally[sk][0];
+    d.skills[sk][1] += skillTally[sk][1];
+  });
+  saveData(d);
+
+  if (USE_FIREBASE && db && currentUser) {
+    db.collection('qf_sessions').add({
+      uid: getUID(),
+      date: firebase.firestore.FieldValue.serverTimestamp(),
+      questions: QF.qNum, correct: QF.correct, wrong: QF.wrong,
+      pct: pct, bestStreak: QF.bestStreak,
+      topic: QF.topic, type: QF.type,
+      skillTally: skillTally
+    }).catch(function(e){ console.warn('QF save error:', e); });
+  }
+}
+
+// ── Helper ────────────────────────────────────────────────────────
+function _qfShow(id, show) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  if (show) { el.style.display = (id === 'qfMCQOpts') ? 'flex' : id === 'qfTFBtns' ? 'flex' : 'block'; }
+  else el.style.display = 'none';
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// TEACHER BRIEF MODAL
+// ══════════════════════════════════════════════════════════════════
+function openTeacherBriefModal() {
+  document.getElementById('teacherBriefModal').style.display = 'flex';
+  loadTeacherBrief();
+}
+
+function closeTeacherBrief() {
+  document.getElementById('teacherBriefModal').style.display = 'none';
+}
+
+function loadTeacherBrief() {
+  var el = document.getElementById('teacherBriefContent');
+  el.innerHTML = '<div style="color:var(--muted);padding:1rem;text-align:center">⏳ Loading briefing history…</div>';
+
+  if (USE_FIREBASE && db && currentUser) {
+    db.collection('teacher_briefs').where('uid','==',getUID())
+      .orderBy('date','desc').limit(10).get()
+      .then(function(snap) {
+        var entries = [];
+        snap.forEach(function(doc) { entries.push(doc.data()); });
+        renderTeacherBriefEntries(entries);
+      })
+      .catch(function() {
+        // Fallback: render from local data only
+        renderTeacherBriefEntries([]);
+      });
+  } else {
+    renderTeacherBriefEntries([]);
+  }
+}
+
+function renderTeacherBriefEntries(firestoreEntries) {
+  var el = document.getElementById('teacherBriefContent');
+  // Always show a live generated brief at top
+  var liveHTML = generateBriefHTML(true);
+  var histHTML = '';
+  firestoreEntries.forEach(function(e) {
+    if (e.html) {
+      var dt = e.date ? new Date(e.date.seconds * 1000).toLocaleDateString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : 'Earlier';
+      histHTML += '<div class="brief-entry" style="opacity:.75;margin-top:1rem">'
+        + '<div class="brief-entry-date">' + dt + ' (archived)</div>'
+        + e.html + '</div>';
+    }
+  });
+  el.innerHTML = liveHTML + (histHTML ? '<hr style="margin:1.2rem 0;border:none;border-top:1px solid var(--border)">' + histHTML : '');
+}
+
+function refreshTeacherBrief() {
+  var btn = document.getElementById('refreshBriefBtn');
+  btn.textContent = '⏳ Refreshing…'; btn.disabled = true;
+  var el = document.getElementById('teacherBriefContent');
+  var liveHTML = generateBriefHTML(true);
+  el.innerHTML = liveHTML;
+
+  // Save to Firebase as new entry (incremental)
+  if (USE_FIREBASE && db && currentUser) {
+    db.collection('teacher_briefs').add({
+      uid: getUID(),
+      date: firebase.firestore.FieldValue.serverTimestamp(),
+      html: liveHTML
+    }).then(function() {
+      btn.textContent = '✅ Refreshed'; btn.disabled = false;
+      setTimeout(function(){ btn.textContent = '🔄 Refresh'; }, 2000);
+    }).catch(function() {
+      btn.textContent = '🔄 Refresh'; btn.disabled = false;
+    });
+  } else {
+    btn.textContent = '🔄 Refresh'; btn.disabled = false;
+  }
+}
+
+function generateBriefHTML(isNew) {
+  var d = loadData();
+  var now = new Date().toLocaleDateString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  var weak = getWeakAreas(d);
+  var strong = getStrongAreas(d);
+  var hist = d.history || [];
+  var totalPapers = hist.length;
+  var avgScore = totalPapers ? Math.round(hist.reduce(function(s,h){ return s+(h.score||0); },0) / totalPapers) : 0;
+  var recent3 = hist.slice(-3);
+  var trend = recent3.length >= 2 ? (recent3[recent3.length-1].score > recent3[0].score ? '📈 Improving' : '📉 Declining') : '—';
+
+  var skillRows = '';
+  var sk = d.skills || {};
+  var allSkills = Object.keys(sk).filter(function(k){ return sk[k][0] > 0; });
+  allSkills.sort(function(a,b){ return (sk[a][1]/sk[a][0]) - (sk[b][1]/sk[b][0]); }); // weakest first
+  allSkills.forEach(function(name) {
+    var v = sk[name], pct = Math.round(v[1]/v[0]*100);
+    var col = pct>=80?'#16a34a':pct>=60?'#ca8a04':'#dc2626';
+    skillRows += '<div class="brief-skill-bar">'
+      + '<span class="brief-skill-name">' + name + '</span>'
+      + '<div class="brief-skill-track"><div class="brief-skill-fill" style="width:'+pct+'%;background:'+col+'"></div></div>'
+      + '<span class="brief-skill-pct" style="color:'+col+'">'+pct+'%</span></div>';
+  });
+
+  var weakList = weak.map(function(w){ return '<li style="margin-bottom:.2rem"><b>'+w.name+'</b> — '+w.pct+'% (needs targeted practice)</li>'; }).join('') || '<li>All skills performing well!</li>';
+  var strongList = strong.map(function(s){ return '<li style="margin-bottom:.2rem"><b>'+s.name+'</b> — '+s.pct+'% ✓</li>'; }).join('') || '<li>Keep building — keep practicing</li>';
+
+  // Recommended actions
+  var actions = '';
+  if (weak.length > 0) actions += '<li>Assign Quick Fire practice session focused on <b>' + weak[0].name + '</b></li>';
+  if (weak.length > 1) actions += '<li>Review Study Notes for <b>' + weak[1].name + '</b> — especially definitions and keywords</li>';
+  actions += '<li>Attempt ' + (totalPapers < 5 ? 'Paper ' + (totalPapers+1) : 'a mixed review paper') + ' next for comprehensive practice</li>';
+  if (trend.indexOf('Declining') !== -1) actions += '<li>⚠️ Recent scores declining — check if Mokshith understands mark scheme requirements</li>';
+
+  return '<div class="brief-entry '+(isNew?'brief-entry-new':'')+'">'
+    + '<div class="brief-entry-date">📅 ' + now + (isNew ? ' — Latest' : '') + '</div>'
+    + '<div class="brief-section"><h4>📊 Overall Progress</h4>'
+      + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.5rem">'
+      + '<div style="background:#f9fafb;border-radius:8px;padding:.5rem;text-align:center"><div style="font-weight:700;font-size:1.1rem">'+totalPapers+'</div><div style="font-size:.68rem;color:var(--muted)">Papers Done</div></div>'
+      + '<div style="background:#f9fafb;border-radius:8px;padding:.5rem;text-align:center"><div style="font-weight:700;font-size:1.1rem">'+avgScore+'/40</div><div style="font-size:.68rem;color:var(--muted)">Avg Score</div></div>'
+      + '<div style="background:#f9fafb;border-radius:8px;padding:.5rem;text-align:center"><div style="font-weight:700;font-size:.85rem">'+trend+'</div><div style="font-size:.68rem;color:var(--muted)">Recent Trend</div></div>'
+      + '</div></div>'
+    + '<div class="brief-section"><h4>📉 Areas Needing Attention</h4><ul style="margin:.25rem 0;padding-left:1.2rem;font-size:.82rem;line-height:1.7">'+weakList+'</ul></div>'
+    + '<div class="brief-section"><h4>💪 Strengths</h4><ul style="margin:.25rem 0;padding-left:1.2rem;font-size:.82rem;line-height:1.7">'+strongList+'</ul></div>'
+    + (skillRows ? '<div class="brief-section"><h4>📈 Skill Breakdown</h4>' + skillRows + '</div>' : '')
+    + '<div class="brief-section"><h4>✅ Recommended Actions</h4><ul style="margin:.25rem 0;padding-left:1.2rem;font-size:.82rem;line-height:1.7">'+actions+'</ul></div>'
+  + '</div>';
+}
+
+function getStrongAreas(d) {
+  var sk = d.skills || {}, result = [];
+  Object.keys(sk).forEach(function(name) {
+    var v = sk[name]; if (!v[0]) return;
+    var pct = Math.round(v[1]/v[0]*100);
+    if (pct >= 75) result.push({name:name, pct:pct});
+  });
+  result.sort(function(a,b){ return b.pct - a.pct; });
+  return result.slice(0,4);
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// STUDY NOTES REFRESH
+// ══════════════════════════════════════════════════════════════════
+function refreshStudyNotes() {
+  var btn = document.getElementById('refreshNotesBtn');
+  btn.textContent = '⏳ Analysing…'; btn.disabled = true;
+
+  var d = loadData();
+  var weak = getWeakAreas(d);
+  var el = document.getElementById('dynamicNotesArea');
+
+  if (!weak.length) {
+    el.innerHTML = '<div style="padding:.75rem;background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:10px;font-size:.83rem;color:#15803d;margin-bottom:.75rem">✅ No weak areas detected. All skills performing well — keep practising!</div>';
+    btn.textContent = '🔄 Refresh Notes'; btn.disabled = false;
+    return;
+  }
+
+  var now = new Date().toLocaleDateString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  var TOPIC_NOTES = {
+    'Density': {
+      key: 'ρ = m ÷ V (g/cm³ or kg/m³). Object floats if ρ < liquid; sinks if ρ > liquid.',
+      mistakes: 'Common errors: forgetting units, wrong formula rearrangement, comparing wrong densities.',
+      keywords: 'density, mass, volume, float, sink, g/cm³, less dense, more dense'
+    },
+    'Elements/Mixtures': {
+      key: 'Element: 1 type of atom, cannot be broken down. Compound: 2+ elements chemically combined in fixed ratio, different properties. Mixture: physically combined, variable ratio, separable.',
+      mistakes: 'Common errors: confusing compound with mixture, saying alloy is a compound (it\'s a mixture).',
+      keywords: 'chemically combined, fixed proportion, variable ratio, element, compound, mixture, alloy'
+    },
+    'Separation': {
+      key: 'Filtration: separate insoluble solid from liquid. Evaporation: obtain soluble solid. Distillation: separate liquids with different b.p. Chromatography: separate dissolved substances.',
+      mistakes: 'Common errors: residue vs filtrate confusion, using wrong technique for the mixture.',
+      keywords: 'residue, filtrate, solubility, boiling point, Rf value, solvent front, chromatogram'
+    },
+    'Measurement': {
+      key: 'Read from bottom of meniscus, at eye level. Zero error: subtract from all readings. SI units: mass=kg, length=m, time=s.',
+      mistakes: 'Common errors: parallax error, reading top of meniscus, forgetting to account for zero error.',
+      keywords: 'meniscus, parallax, zero error, SI unit, significant figures, precision'
+    },
+    'Physical Properties': {
+      key: 'Hardness, elasticity, ductility, malleability, thermal/electrical conductivity, solubility, density, melting/boiling point.',
+      mistakes: 'Common errors: confusing solubility with rate of dissolving, not naming the specific property tested.',
+      keywords: 'hardness, conductivity, solubility, malleability, ductility, elasticity, boiling point, melting point'
+    },
+    'Scientific Method': {
+      key: 'IV: what you change. DV: what you measure. CV: what you keep same. Hypothesis: testable prediction. Fair test: change only 1 variable.',
+      mistakes: 'Common errors: not naming variables precisely, hypothesis without testable prediction.',
+      keywords: 'independent variable, dependent variable, controlled variable, hypothesis, fair test, reliability'
+    },
+    'Light': {
+      key: 'Law of reflection: angle of incidence = angle of reflection (both from normal). Refraction: light bends when entering different medium — towards normal when slowing down.',
+      mistakes: 'Common errors: measuring angles from surface not normal, confusing incident and reflected rays.',
+      keywords: 'normal, angle of incidence, angle of reflection, refraction, medium, ray diagram'
+    },
+    'Cells': {
+      key: 'Animal cell: cell membrane, nucleus, cytoplasm, mitochondria. Plant cell: adds cell wall, chloroplasts, vacuole. Nucleus controls cell, mitochondria = energy.',
+      mistakes: 'Common errors: saying animal cells have cell walls, forgetting vacuole in plant cells.',
+      keywords: 'cell membrane, cell wall, nucleus, cytoplasm, mitochondria, chloroplast, vacuole'
+    },
+    'Particulate Matter': {
+      key: 'All matter made of tiny particles. Solid: close, fixed; liquid: close, moving; gas: far, fast. Diffusion = mixing of particles.',
+      mistakes: 'Common errors: saying particles are destroyed, not explaining movement increases with temperature.',
+      keywords: 'particles, diffusion, kinetic theory, solid liquid gas, vibrate, freely moving'
+    },
+    'Energy/Forces': {
+      key: 'Energy forms: kinetic, potential (gravitational, elastic), thermal, light, sound, chemical, electrical, nuclear. Energy conserved, not destroyed.',
+      mistakes: 'Common errors: saying energy is "used up", confusing force with energy.',
+      keywords: 'kinetic, potential, conservation of energy, work done, force, joule, newton'
+    }
+  };
+
+  // Save to Firebase
+  var notesHTML = '';
+  var timestamp = '<div style="font-size:.7rem;color:var(--muted);margin-bottom:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em">🔄 Updated: ' + now + '</div>';
+
+  // Show weak topics first with "NEW" tag
+  weak.forEach(function(w, i) {
+    var info = TOPIC_NOTES[w.name];
+    if (!info) return;
+    var urgency = w.pct < 50 ? {col:'#dc2626',bg:'#fee2e2',label:'🚨 Critical'} : w.pct < 65 ? {col:'#d97706',bg:'#fef3c7',label:'⚠️ Needs Work'} : {col:'#ca8a04',bg:'#fffbeb',label:'📚 Review'};
+    notesHTML += '<div class="dynamic-note-card note-new">'
+      + '<span class="dynamic-note-tag" style="background:'+urgency.bg+';color:'+urgency.col+'">'+urgency.label+'</span>'
+      + '<span class="dynamic-note-tag" style="background:#f3e8ff;color:#6b21a8;margin-left:.3rem">'+w.name+'</span>'
+      + '<span class="dynamic-note-tag" style="background:#f1f5f9;color:var(--muted);float:right">'+w.pct+'% mastery</span>'
+      + '<div style="clear:both;margin-bottom:.4rem"></div>'
+      + '<div style="font-size:.83rem;font-weight:700;color:var(--ink);margin-bottom:.3rem">Key concept:</div>'
+      + '<div style="font-size:.82rem;line-height:1.6;background:#f9fafb;border-radius:6px;padding:.5rem .7rem;margin-bottom:.4rem">'+info.key+'</div>'
+      + '<div style="font-size:.78rem;color:#dc2626;margin-bottom:.3rem"><b>Watch out:</b> '+info.mistakes+'</div>'
+      + '<div style="font-size:.76rem;color:#6b21a8"><b>Keywords to use in answers:</b> '+info.keywords+'</div>'
+      + '</div>';
+  });
+
+  el.innerHTML = timestamp + notesHTML;
+  btn.textContent = '🔄 Refresh Notes'; btn.disabled = false;
+
+  // Save to Firebase
+  if (USE_FIREBASE && db && currentUser) {
+    db.collection('study_notes_refresh').add({
+      uid: getUID(),
+      date: firebase.firestore.FieldValue.serverTimestamp(),
+      weakTopics: weak.map(function(w){ return w.name; }),
+      html: notesHTML
+    }).catch(function(e){ console.warn('Notes save error:', e); });
+  }
+}
 </script>
 
 </body>
