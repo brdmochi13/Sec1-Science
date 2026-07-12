@@ -2398,7 +2398,7 @@ function generateAIPaper() {
       'Content-Type':'application/json',
       'Authorization': 'Bearer ' + apiKey
     };
-    body = JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:4000,messages:[{role:'user',content:prompt}]});
+    body = JSON.stringify({model:'llama-3.1-8b-instant',max_tokens:4000,messages:[{role:'user',content:prompt}]});
     extractContent = function(d) { return d.choices && d.choices[0] ? d.choices[0].message.content : null; };
   }
   else if (p === 'local') {
@@ -2407,7 +2407,7 @@ function generateAIPaper() {
       'Content-Type':'application/json'
     };
     if (apiKey) headers['Authorization'] = 'Bearer ' + apiKey;
-    body = JSON.stringify({model: conf.localModel || 'llama3', max_tokens:4000, messages:[{role:'user',content:prompt}]});
+    body = JSON.stringify({model: conf.localModel || 'llama-3.1-8b-instant', max_tokens:4000, messages:[{role:'user',content:prompt}]});
     extractContent = function(d) { return d.choices && d.choices[0] ? d.choices[0].message.content : null; };
   }
 
@@ -2872,7 +2872,7 @@ function initAITopicPills(){
 
 // ══ API CONFIG ══
 function getApiConfig() {
-  var def = { provider: 'anthropic', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama3' };
+  var def = { provider: 'anthropic', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant' };
   try {
     var stored = localStorage.getItem('aiConfig');
     if (stored) return Object.assign(def, JSON.parse(stored));
@@ -2955,7 +2955,7 @@ function saveApiConfig() {
     </div>
     <div style="margin-bottom:1rem;display:none" id="localModelContainer">
       <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">Model Name</label>
-      <input type="text" id="localModelInp" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem" placeholder="llama3">
+      <input type="text" id="localModelInp" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem" placeholder="llama-3.1-8b-instant">
     </div>
     <button onclick="saveApiConfig()" style="width:100%;padding:12px;background:var(--ink);color:white;border:none;border-radius:8px;font-family:inherit;font-weight:700;cursor:pointer">Save Settings</button>
   </div>
