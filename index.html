@@ -452,7 +452,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 <div class="main-tabs">
   <button class="mtab active" onclick="showTab('dashTab',this)">📊 Dashboard</button>
   <button class="mtab" onclick="showTab('notesTab',this)">📚 Study Notes</button>
-  <button class="mtab" onclick="showTab('papersTab',this)">✏️ Practice Papers <span class="tab-badge" id="papersBadge">20</span></button>
+  <button class="mtab" onclick="showTab('papersTab',this)">✏️ Practice Papers <span class="tab-badge" id="papersBadge">23</span></button>
   <button class="mtab" onclick="showTab('aiTab',this)">🤖 AI Practice</button>
   <button class="mtab" onclick="showTab('tipsTab',this)">💡 Exam Tips</button>
   <button class="mtab" onclick="showTab('qfTab',this);initQuickFire()">⚡ Quick Fire</button>
@@ -738,36 +738,106 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 
   <!-- Cells -->
   <div class="accordion" onclick="toggleAcc(this)">
-    <div class="acc-head"><span class="acc-badge t2">Tier 2</span><span class="acc-title">🧬 Model of Cells</span><span class="chev">▼</span></div>
+    <div class="acc-head"><span class="acc-badge t2">Tier 2</span><span class="acc-title">🧬 Model of Cells — Chapter 6 (WA3)</span><span class="chev">▼</span></div>
     <div class="acc-body">
+      <div class="callout" style="background:#fff8e1;border-color:#f9a825"><strong>⭐ WA3 Topic — High Priority!</strong> Chapter 6 is worth half the WA3 marks. Know every organelle, every function, and ALL differences between plant and animal cells.</div>
       <h4>Cell Organelles — Both Cell Types</h4>
       <table class="rt"><tr><th>Organelle</th><th>Function</th><th>Animal?</th><th>Plant?</th></tr>
-        <tr><td>Cell membrane</td><td>Controls substances in/out; partially permeable</td><td>✓</td><td>✓</td></tr>
-        <tr><td>Nucleus</td><td>Controls cell; contains DNA (genetic material)</td><td>✓</td><td>✓</td></tr>
-        <tr><td>Cytoplasm</td><td>Jelly-like fluid; site of chemical reactions</td><td>✓</td><td>✓</td></tr>
-        <tr><td>Mitochondria</td><td>Site of respiration; releases energy</td><td>✓</td><td>✓</td></tr>
-        <tr><td>Vacuole</td><td>Stores water/food/waste; large in plants</td><td>Small/absent</td><td>Large ✓</td></tr>
-        <tr><td>Cell wall</td><td>Made of cellulose; rigid support, fixed shape</td><td>✗</td><td>✓</td></tr>
-        <tr><td>Chloroplast</td><td>Contains chlorophyll; site of photosynthesis</td><td>✗</td><td>✓</td></tr>
+        <tr><td>Cell membrane</td><td>Controls substances in/out; thin, partially permeable layer</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Nucleus</td><td>Controls ALL cell activities; contains DNA (genetic/hereditary material)</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Cytoplasm</td><td>Jelly-like fluid; site where most chemical reactions take place</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Vacuole</td><td>Stores liquids, food and waste materials</td><td>Small &amp; numerous (or absent)</td><td>Large &amp; few (central)</td></tr>
+        <tr><td>Cell wall</td><td>Tough outer covering; rigid structural support; fixed shape; allows substances in/out (fully permeable)</td><td>✗</td><td>✓</td></tr>
+        <tr><td>Chloroplast</td><td>"Food factory" — contains chlorophyll; allows photosynthesis</td><td>✗</td><td>✓</td></tr>
       </table>
-      <div class="callout red"><strong>⛔ Reject: "Cell wall is partially permeable"</strong>Cell MEMBRANE is partially permeable. Cell wall is fully permeable (just structural support).</div>
-      <div class="callout"><strong>✅ Organisation Hierarchy</strong>Cell → Tissue → Organ → Organ System → Organism<br><em>Division of labour</em> = specialised cells for different functions = more efficient organism</div>
+      <div class="callout red"><strong>⛔ Top Exam Trap: Cell WALL vs Cell MEMBRANE</strong><br>Cell MEMBRANE = partially permeable (controls what gets in/out)<br>Cell WALL = fully permeable (only provides rigid structural support &amp; shape)<br><em>Never say "cell wall is partially permeable" — it is the membrane!</em></div>
+      <h4>Plant Cell vs Animal Cell — Key Differences</h4>
+      <table class="rt"><tr><th>Feature</th><th>Plant Cell</th><th>Animal Cell</th></tr>
+        <tr><td>Cell wall</td><td>✓ Has cell wall (cellulose)</td><td>✗ No cell wall</td></tr>
+        <tr><td>Chloroplasts</td><td>✓ Has chloroplasts</td><td>✗ No chloroplasts</td></tr>
+        <tr><td>Vacuole</td><td>One or two LARGE vacuoles in centre</td><td>Many SMALL vacuoles (or none)</td></tr>
+        <tr><td>Shape</td><td>Regular, fixed shape (due to cell wall)</td><td>Irregular, can change shape</td></tr>
+        <tr><td>Size</td><td>Usually LARGER</td><td>Usually smaller</td></tr>
+      </table>
+      <div class="callout"><strong>✅ Organisation Hierarchy (must know order!)</strong><br>
+        <span style="font-size:1.05rem">Cell → Tissue → Organ → (Organ) System → Organism</span><br><br>
+        <strong>Cell:</strong> basic structural and functional unit of life<br>
+        <strong>Tissue:</strong> cells of the same type performing the same function<br>
+        <strong>Organ:</strong> different tissues working together for a specific function<br>
+        <strong>System:</strong> organs working together (e.g. digestive system)<br>
+        <strong>Organism:</strong> all systems working together (e.g. human)
+      </div>
+      <h4>Division of Labour</h4>
+      <p class="body">In multicellular organisms, different cells are specialised for different functions. This <strong>division of labour</strong> means each cell/tissue/organ does its specific job efficiently — the organism functions better than if all cells were the same.</p>
+      <div class="callout warn"><strong>Example — Small Intestine:</strong><br>
+        Absorbing cells (absorb nutrients) → form absorbing tissue → combine with muscle tissue → form the small intestine (organ) → part of digestive system → part of organism
+      </div>
+      <h4>Advances in Technology &amp; Cells</h4>
+      <table class="rt"><tr><th>Technology</th><th>How it helps</th></tr>
+        <tr><td>Light microscope</td><td>Shows basic cell structure; can see nucleus, chloroplasts (some)</td></tr>
+        <tr><td>Electron microscope</td><td>Much higher magnification; shows fine details of organelles</td></tr>
+        <tr><td>AI systems</td><td>Can identify cancer cells from thousands of images with high accuracy</td></tr>
+        <tr><td>3D printing</td><td>Bioengineers can print artificial organs (hearts, livers) for transplant</td></tr>
+      </table>
+      <h4>Unicellular vs Multicellular</h4>
+      <div class="pills">
+        <span class="pill"><strong>Unicellular</strong> = one cell does everything (bacteria, paramecium, amoeba, diatom)</span>
+        <span class="pill am"><strong>Multicellular</strong> = many cells specialised for different jobs (humans, plants, cats)</span>
+      </div>
+      <div class="callout warn"><strong>⚠️ Exceptions to typical cell models:</strong><br>
+        Root hair cells = plant cells WITHOUT chloroplasts (no light underground!)<br>
+        Red blood cells = animal cells WITHOUT a nucleus (more space for haemoglobin)<br>
+        Euglena = has BOTH chloroplasts (plant-like) AND can swim/absorb food (animal-like)
+      </div>
     </div>
   </div>
 
   <!-- Particulate Nature -->
   <div class="accordion" onclick="toggleAcc(this)">
-    <div class="acc-head"><span class="acc-badge t2">Tier 2</span><span class="acc-title">⚛️ Particulate Nature of Matter & States</span><span class="chev">▼</span></div>
+    <div class="acc-head"><span class="acc-badge t2">Tier 2</span><span class="acc-title">⚛️ Particulate Nature of Matter — Chapter 7 (WA3)</span><span class="chev">▼</span></div>
     <div class="acc-body">
-      <h4>States of Matter</h4>
+      <div class="callout" style="background:#fff8e1;border-color:#f9a825"><strong>⭐ WA3 Topic — High Priority!</strong> Chapter 7 is the other half of WA3 marks. Know all 3 states, state changes, diffusion explanation and expansion/contraction.</div>
+      <h4>States of Matter — Full Comparison</h4>
       <table class="rt"><tr><th>Property</th><th>Solid</th><th>Liquid</th><th>Gas</th></tr>
-        <tr><td>Arrangement</td><td>Regular, closely packed, fixed positions</td><td>Irregular, close, no fixed positions</td><td>Random, very far apart</td></tr>
-        <tr><td>Movement</td><td>Vibrate about fixed positions</td><td>Slide past each other</td><td>Move rapidly in all directions</td></tr>
-        <tr><td>Shape</td><td>Fixed shape</td><td>No fixed shape (takes bottom of container)</td><td>Fills entire container</td></tr>
-        <tr><td>Compressible?</td><td>No</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Arrangement</td><td>Very closely packed, orderly/regular, fixed positions</td><td>Closely packed, disorderly, no fixed positions</td><td>Far apart, disorderly</td></tr>
+        <tr><td>Movement</td><td>Vibrate about fixed positions</td><td>Move randomly, slide past one another</td><td>Move rapidly and randomly in all directions</td></tr>
+        <tr><td>Shape</td><td>Fixed/definite shape</td><td>No fixed shape (takes shape of container)</td><td>No fixed shape (fills entire container)</td></tr>
+        <tr><td>Volume</td><td>Definite volume</td><td>Definite volume</td><td>No definite volume</td></tr>
+        <tr><td>Compressible?</td><td>No — particles already very close</td><td>No — particles already close</td><td>Yes — large spaces between particles</td></tr>
+        <tr><td>Forces of attraction</td><td>Very strong</td><td>Strong</td><td>Weak</td></tr>
       </table>
-      <div class="callout warn"><strong>Diffusion — definition</strong>Net movement of particles from region of <strong>higher concentration</strong> to region of <strong>lower concentration</strong>. Occurs in gases and liquids. Example: smell of perfume spreading across a room.</div>
-      <div class="callout"><strong>Expansion & Contraction</strong>When heated → particles vibrate faster → take up more space → material EXPANDS<br>When cooled → particles vibrate slower → take up less space → material CONTRACTS<br>Mass is CONSERVED during expansion/contraction (particles are not created or destroyed)</div>
+      <h4>Changes of State</h4>
+      <table class="rt"><tr><th>Change</th><th>Process</th><th>What happens to particles</th></tr>
+        <tr><td>Solid → Liquid</td><td><strong>Melting</strong> (upon heating)</td><td>Particles gain energy, vibrate faster, overcome strong forces → free to slide</td></tr>
+        <tr><td>Liquid → Solid</td><td><strong>Freezing</strong> (upon cooling)</td><td>Particles lose energy, slow down, pulled into fixed positions by forces of attraction</td></tr>
+        <tr><td>Liquid → Gas</td><td><strong>Boiling/Evaporation</strong> (upon heating)</td><td>Particles gain energy, move faster, overcome forces → escape as gas</td></tr>
+        <tr><td>Gas → Liquid</td><td><strong>Condensation</strong> (upon cooling)</td><td>Particles lose energy, slow down, pulled closer together</td></tr>
+        <tr><td>Solid → Gas</td><td><strong>Sublimation</strong> (no liquid stage)</td><td>Dry ice (solid CO₂) → gas directly; particles gain enough energy to skip liquid state</td></tr>
+      </table>
+      <div class="callout red"><strong>⛔ Conservation of Mass</strong><br>During ANY state change, expansion, or contraction — the NUMBER of particles and their SIZE do NOT change. Mass is always conserved. NEVER say "new particles are formed" or "particles get bigger."</div>
+      <h4>Expansion and Contraction</h4>
+      <div class="callout">
+        <strong>Heating → Expansion:</strong> Particles gain energy, vibrate more vigorously → distances between particles INCREASE → volume increases<br><br>
+        <strong>Cooling → Contraction:</strong> Particles lose energy, vibrate less → distances between particles DECREASE → volume decreases<br><br>
+        ✅ Number &amp; size of particles = UNCHANGED (conservation of mass)
+      </div>
+      <h4>Diffusion</h4>
+      <p class="body"><strong>Diffusion</strong> = the NET movement of particles from a region of <strong>higher concentration</strong> to a region of <strong>lower concentration</strong>.</p>
+      <table class="rt"><tr><th>Example</th><th>How diffusion explains it</th></tr>
+        <tr><td>Smell of cooking food spreads across room</td><td>Food particles move from high conc. (near pan) to low conc. (rest of room)</td></tr>
+        <tr><td>Perfume fragrance spreads</td><td>Perfume particles diffuse from bottle outwards</td></tr>
+        <tr><td>Tea bag colours water</td><td>Tea particles spread from bag (high conc.) into water (low conc.) until uniform</td></tr>
+        <tr><td>Helium balloon deflates slowly</td><td>Small He particles diffuse through porous rubber from inside (high) to outside (low)</td></tr>
+        <tr><td>Virus spread by coughing</td><td>Virus particles suspended in air → diffuse to other people by Brownian motion</td></tr>
+        <tr><td>Durian smell detectable from far away</td><td>Durian particles diffuse through air by diffusion</td></tr>
+      </table>
+      <div class="callout warn"><strong>Brownian Motion</strong><br>
+        The random, zigzag movement of tiny particles (like pollen grains or smoke particles) in a fluid, caused by being bombarded from all directions by the smaller, invisible particles of the fluid.<br>
+        Proved by: Robert Brown (1827) observing pollen in water → Albert Einstein explained it → Jean Perrin verified it experimentally.
+      </div>
+      <div class="callout warn"><strong>DW-MRI — Real-world application of diffusion</strong><br>
+        Diffusion-weighted MRI (DW-MRI) detects changes in water diffusion patterns in body tissues — used to detect stroke and cancer at early stages. Shows the particulate nature of matter has real medical applications.
+      </div>
     </div>
   </div>
 
@@ -1925,6 +1995,60 @@ function generateAllPapers(){
          scheme:'(a) Mass of oil = 67.4 – 45.0 = 22.4 g [1]\n(b) Volume = 25 cm³. Density = 22.4 ÷ 25 = 0.90 g/cm³ (to 2 d.p.) [1 for working, 1 for correct answer with units]\n(c) Cooking oil floats on water [1]. Its density (0.90 g/cm³) is less than water (1.0 g/cm³) — less dense objects float on denser liquids [1]\n(d) When left to stand, the oil and water separate into two layers [1]. Oil floats on top (less dense) and water sinks to the bottom (more dense). They do not mix because they have different densities and oil is immiscible with water [1]'},
         {type:'structured',q:'(a) The diagram shows three test tubes, each containing a different substance:\nTest tube X: Contains a colourless gas at room temperature, burns in air\nTest tube Y: Contains a silvery liquid that conducts electricity, density 13.6 g/cm³\nTest tube Z: Contains a white solid that dissolves in water to give a clear conducting solution\n\nFor EACH substance X, Y and Z:\n    (i) State whether it is an element, compound or mixture [3]\n    (ii) Identify the substance [3]\n\n(b) Explain why substance Z is classified as a compound and not a mixture. [2]',marks:10,
          scheme:'(a) X: Element [1] — hydrogen gas (H₂) [1] (colourless gas, burns in air)\n    Y: Element [1] — mercury (Hg) [1] (liquid metal, density 13.6 g/cm³, conducts electricity)\n    Z: Compound [1] — sodium chloride (NaCl) [1] (white solid, dissolves to give conducting solution, specific composition)\n(b) Sodium chloride is a compound because: sodium and chlorine are chemically combined [1] in a fixed ratio (1:1 by atoms / fixed proportion by mass). It cannot be separated by physical means / has different properties from sodium and chlorine / has a specific sharp melting point [1]'}
+      ]
+    },
+    {
+      num:21, title:'WA3 Paper 1 — Cells (Ch.6)',
+      secA:[
+        {q:'Which cell structure controls the movement of substances into and out of the cell?',opts:['Cell wall','Nucleus','Cell membrane','Vacuole'],ans:2,skill:'Cells',fb:'The cell membrane is thin and partially permeable — it controls what enters and exits. Cell wall is fully permeable and only provides structural support.'},
+        {q:'Which structure is found in a plant cell but NOT in an animal cell?',opts:['Nucleus','Cytoplasm','Chloroplast','Cell membrane'],ans:2,skill:'Cells',fb:'Chloroplasts (for photosynthesis) are found only in plant cells. Nucleus, cytoplasm, and cell membrane are in both.'},
+        {q:'What is the function of the nucleus?',opts:['Carries out photosynthesis','Stores water and food','Controls all cell activities and contains DNA','Provides rigid support to the cell'],ans:2,skill:'Cells',fb:'The nucleus is the control centre of the cell. It contains DNA (the genetic/hereditary material) and directs all cell activities.'},
+        {q:'A student observes a cell with a large central vacuole and a cell wall. What type of cell is it?',opts:['Animal cell','Plant cell','Bacterium','Red blood cell'],ans:1,skill:'Cells',fb:'A large central vacuole AND cell wall together are features found ONLY in plant cells. Animal cells do not have cell walls.'},
+        {q:'What is the correct order of organisation from smallest to largest?',opts:['Organ to Tissue to Cell to System','Cell to Tissue to Organ to System to Organism','Tissue to Cell to Organ to System','Cell to Organ to Tissue to System'],ans:1,skill:'Cells',fb:'Cell to Tissue to Organ to System to Organism — this is the division of labour hierarchy in multicellular organisms.'},
+        {q:'Which instrument allows scientists to see organelles in much greater detail?',opts:['X-ray machine','Electron microscope','MRI scanner','Magnifying glass'],ans:1,skill:'Cells',fb:'The electron microscope has much higher magnification and resolution than a light microscope, showing fine details of organelles.'},
+        {q:'What type of organism consists of only one cell?',opts:['Multicellular','Unicellular','Tissue','Organ'],ans:1,skill:'Cells',fb:'Unicellular organisms (bacteria, paramecium, amoeba) consist of only one cell that performs all life functions.'},
+        {q:'Root hair cells do not contain chloroplasts. What does this tell you?',opts:['Root hair cells cannot survive','Cells can be specialised exceptions to typical cell models','All plant cells must have chloroplasts','Root hair cells are animal cells'],ans:1,skill:'Cells',fb:'Root hair cells are underground (no light), so chloroplasts are unnecessary. Cells can be modified versions of typical models when specialised for a function.'}
+      ],
+      secB:[
+        {q:'State TWO differences between a typical plant cell and a typical animal cell.',type:'short',marks:2,ans:'Any two: Plant cell has cell wall / animal does not [1]. Plant cell has chloroplasts / animal does not [1]. Plant cell has one or two large central vacuoles / animal cell has many small or no vacuoles [1]. Plant cell is usually larger [1].',skill:'Cells'},
+        {q:'Explain how the organisation of cells into tissues and organs helps a multicellular organism function efficiently.',type:'short',marks:3,ans:'Cells of the same type performing the same function group together to form tissues [1]. Different tissues work together to form organs [1]. This division of labour allows each specialised cell or tissue to perform its job efficiently, allowing the organism to survive [1].',skill:'Cells'},
+        {q:'Euglena has chloroplasts and can actively swim and absorb food. Explain why it cannot be classified as a typical plant or animal cell.',type:'short',marks:2,ans:'Euglena cannot be classified as purely plant or animal [1] because it has characteristics of BOTH: chloroplasts like a plant cell, AND ability to actively swim and absorb food like an animal cell [1].',skill:'Cells'}
+      ]
+    },
+    {
+      num:22, title:'WA3 Paper 2 — Particulate Nature (Ch.7)',
+      secA:[
+        {q:'What does the particulate nature of matter state?',opts:['Matter is made of large visible particles','Matter is made of tiny discrete particles in constant random motion','Matter only exists as solids and liquids','Particles do not move'],ans:1,skill:'Particulate',fb:'The particulate nature of matter: all matter is made of tiny discrete particles, too small to see, in constant random motion.'},
+        {q:'When a gas is heated, what happens to its particles?',opts:['They gain energy and move slower','They lose energy and move faster','They gain energy, move faster and spread further apart','They gain energy but stay in fixed positions'],ans:2,skill:'Particulate',fb:'On heating, gas particles gain energy and move faster. Distances increase — the gas expands.'},
+        {q:'Which correctly describes particles in a liquid?',opts:['Far apart, moving randomly and quickly','Vibrate about fixed positions in an orderly arrangement','Closely packed in disorderly manner, sliding past each other','Closely packed in an orderly arrangement'],ans:2,skill:'Particulate',fb:'Liquid: closely packed in disorderly manner, moving randomly, sliding past one another. This is why liquids take the shape of their container but have a definite volume.'},
+        {q:'A helium balloon slowly deflates without a hole. What explains this?',opts:['Helium dissolves into rubber','Helium particles escape through the porous balloon surface by diffusion','Rubber contracts when cold','Pressure equalises'],ans:1,skill:'Particulate',fb:'Helium particles (small) diffuse from high concentration inside the balloon to lower concentration outside, through tiny pores in the rubber.'},
+        {q:'What is diffusion?',opts:['Movement from low to high concentration','Net movement of particles from high to low concentration','Movement in a straight line','Random motion with no net direction'],ans:1,skill:'Particulate',fb:'Diffusion = NET movement of particles from HIGHER concentration to LOWER concentration, until concentration is uniform throughout.'},
+        {q:'Which correctly explains why ice melts when heated?',opts:['New particles are created','Particles gain energy, vibrate faster, and overcome forces of attraction to become liquid','Particles lose energy and become liquid','Particles are destroyed'],ans:1,skill:'Particulate',fb:'During melting, particles gain heat energy, vibrate more vigorously, eventually overcome strong forces of attraction and become free to slide — a liquid. Mass is conserved.'},
+        {q:'When a substance expands on heating, what happens to the NUMBER of particles?',opts:['Number increases','Number decreases','Number stays the same','Number doubles'],ans:2,skill:'Particulate',fb:'Conservation of mass: the NUMBER and SIZE of particles never change during expansion, contraction, or state changes. Only the distances between particles change.'},
+        {q:'Which is an example of diffusion in a liquid?',opts:['Air rushing from a punctured tyre','A tea bag releasing colour into water','Steam rising from boiling water','Ice melting in a drink'],ans:1,skill:'Particulate',fb:'Tea bag in water: tea particles diffuse from high concentration (bag) to low concentration (water) until evenly distributed.'}
+      ],
+      secB:[
+        {q:'Using the particulate model, explain why a gas can be compressed but a solid cannot.',type:'short',marks:3,ans:'In a gas, particles are far apart with large spaces between them [1]. When compressed, particles can be pushed closer together into those spaces [1]. In a solid, particles are already very closely packed with very little space between them, so they cannot be compressed [1].',skill:'Particulate'},
+        {q:'Perfume is released at one end of a room. After a while it is smelled at the other end. Explain this using diffusion.',type:'short',marks:3,ans:'Perfume particles are in constant random motion [1]. They move from high concentration (near the bottle) to lower concentration (rest of room) [1]. This net movement from high to low concentration is diffusion [1], continuing until the perfume is evenly distributed.',skill:'Particulate'},
+        {q:'A metal rod is heated. State what happens to (a) the particles and (b) the length of the rod. Explain using the particulate model.',type:'short',marks:4,ans:'(a) Particles gain energy and vibrate more vigorously about fixed positions [1]. Distances between particles increase [1]. (b) The length (and volume) increases — the rod expands [1]. The number and size of particles do not change — mass is conserved [1].',skill:'Particulate'}
+      ]
+    },
+    {
+      num:23, title:'WA3 Paper 3 — Mixed Cells and Particulate',
+      secA:[
+        {q:'Which cell organelle is the site of photosynthesis?',opts:['Mitochondria','Nucleus','Chloroplast','Vacuole'],ans:2,skill:'Cells',fb:'Chloroplasts contain chlorophyll and are the site of photosynthesis. Mitochondria release energy through respiration — a different process.'},
+        {q:'What does the cytoplasm do in a cell?',opts:['Controls substances moving in and out','Contains genetic material (DNA)','Is a jelly-like fluid where chemical reactions take place','Provides rigid structural support'],ans:2,skill:'Cells',fb:'Cytoplasm: jelly-like substance filling the cell, and the site where most chemical reactions occur.'},
+        {q:'Which process is the REVERSE of melting?',opts:['Boiling','Condensation','Freezing','Sublimation'],ans:2,skill:'Particulate',fb:'Freezing is the reverse of melting. A liquid loses energy, particles slow down and are pulled into fixed positions — becomes a solid.'},
+        {q:'Sublimation is when a substance changes from ___.',opts:['Solid to liquid','Liquid to gas','Solid directly to gas without becoming liquid','Gas directly to solid'],ans:2,skill:'Particulate',fb:'Sublimation: solid changes DIRECTLY to gas (skips liquid state). Dry ice (solid CO2) is the classic example.'},
+        {q:'Why does a mask reduce virus spread when an infected person coughs?',opts:['It filters all air','It prevents most virus particles from dispersing into the air where they diffuse to others','It increases virus concentration','It neutralises virus particles'],ans:1,skill:'Particulate',fb:'Virus particles remain suspended in air and spread by Brownian motion and diffusion. A mask prevents most particles from being released, reducing chance of infecting others.'},
+        {q:'Red blood cells have no nucleus. What does this best tell you?',opts:['They are plant cells','They are specialised: removing the nucleus leaves more space making them more efficient at carrying oxygen','They perform photosynthesis','They are unicellular organisms'],ans:1,skill:'Cells',fb:'Red blood cells lack a nucleus (exception to typical animal cell). The space is used for haemoglobin, maximising oxygen-carrying capacity — division of labour at the cellular level.'},
+        {q:'During boiling, what happens to water particles?',opts:['They gain energy, move faster and further apart, overcoming forces of attraction to become gas','They lose energy and become solid','They vibrate faster about fixed positions','They become liquid from solid'],ans:0,skill:'Particulate',fb:'During boiling, liquid particles gain energy, move faster and further apart, eventually overcoming forces of attraction and escaping as gas (steam).'},
+        {q:'Different tissues working together form a(n) ___.',opts:['Cell','Tissue','Organ','System'],ans:2,skill:'Cells',fb:'An organ is made of DIFFERENT tissues working together for a specific function. The stomach (organ) has muscle tissue and lining tissue working together for digestion.'}
+      ],
+      secB:[
+        {q:'A student says: When a solid expands on heating, new particles are formed. Is the student correct? Explain using the particulate model.',type:'short',marks:3,ans:'The student is INCORRECT [1]. When heated, particles gain energy and vibrate more vigorously, causing distances between particles to increase [1]. The NUMBER and SIZE of particles do NOT change — conservation of mass [1].',skill:'Particulate'},
+        {q:'Compare the arrangement and movement of particles in a solid and in a gas.',type:'short',marks:4,ans:'Solid: particles very closely packed in orderly/regular arrangement [1] and vibrate about fixed positions [1]. Gas: particles very far apart in disorderly/random arrangement [1] and move rapidly and randomly in all directions [1].',skill:'Particulate'},
+        {q:'State ONE function each of: (a) cell membrane, (b) nucleus, (c) cell wall in plant cells.',type:'short',marks:3,ans:'(a) Cell membrane: controls movement of substances into and out of the cell [1]. (b) Nucleus: controls all cell activities and contains genetic material (DNA) [1]. (c) Cell wall: provides rigid structural support, gives cell a regular fixed shape, and protects the cell [1].',skill:'Cells'}
       ]
     }
 
