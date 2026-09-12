@@ -1,9 +1,18 @@
-name: Deploy to GitHub Pages and Cloudflare Workers
+name: Deploy — Sec1 Science
 
 on:
   push:
-    branches: [main]
+    branches: [main, test]
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'test'
+        type: choice
+        options:
+          - test
+          - production
 
 permissions:
   contents: read
@@ -11,12 +20,38 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "deploy"
+  group: "deploy-${{ github.ref_name }}"
   cancel-in-progress: true
 
 jobs:
+  deploy-test:
+    if: github.ref == 'refs/heads/test' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'test')
+    name: 🧪 Deploy to Staging (sec1-science-test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Cloudflare Workers — Test
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          environment: test
+
+  deploy-production:
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+    name: 🚀 Deploy to Production (sec1-science)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Cloudflare Workers — Production
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
   deploy-pages:
-    name: Deploy to GitHub Pages
+    if: github.ref == 'refs/heads/main'
+    name: 📄 Deploy to GitHub Pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -29,14 +64,3 @@ jobs:
           path: '.'
       - uses: actions/deploy-pages@v4
         id: deployment
-
-  deploy-cloudflare:
-    name: Deploy to Cloudflare Workers
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Deploy to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

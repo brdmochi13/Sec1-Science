@@ -1,3 +1,6 @@
 name = "sec1-science"
 main = "worker.js"
 compatibility_date = "2024-01-01"
+
+[env.test]
+name = "sec1-science-test"

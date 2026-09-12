@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>S1 Science Mastery · G2</title>
+<title>S1 Science Mastery · G3 EOY</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
 :root{
@@ -387,7 +387,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 <!-- ══ AUTH OVERLAY ══ -->
 <div class="auth-overlay" id="authOverlay">
   <div class="auth-box">
-    <div class="auth-logo">S1 Science <span>Mastery</span> · G2</div>
+    <div class="auth-logo">S1 Science <span>Mastery</span> · G3</div>
     <div class="auth-sub">Sign in to track progress across devices</div>
     <div id="authForm">
       <div class="auth-tabs">
@@ -438,7 +438,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 </div>
 
 <div class="topbar">
-  <div class="logo">S1 Science <span>Mastery</span> · G2 <span id="roleBadge" class="role-badge role-student" style="display:none">Student</span></div>
+  <div class="logo">S1 Science <span>Mastery</span> · G3 EOY <span id="roleBadge" class="role-badge role-student" style="display:none">Student</span></div>
   <div class="top-btns" id="topBtns">
     <span id="userDisplayName" style="color:rgba(255,255,255,.5);font-size:.75rem;display:none"></span>
     <button class="tbtn tbtn-outline" id="btnAnswerKey" onclick="openAnswerKeyModal()" style="display:none">🔐 Answer Key</button>
@@ -457,6 +457,8 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
   <button class="mtab" onclick="showTab('tipsTab',this)">💡 Exam Tips</button>
   <button class="mtab" onclick="showTab('qfTab',this);initQuickFire()">⚡ Quick Fire</button>
   <button class="mtab" onclick="showTab('histTab',this);loadHistoryTab()">📋 History</button>
+  <button class="mtab" onclick="showTab('drillTab',this);initDrill()">🏋 Daily Drill</button>
+  <button class="mtab" onclick="showTab('formulaTab',this)">📐 Formula Sheet</button>
 </div>
 
 <!-- RESULT OVERLAY -->
@@ -469,32 +471,32 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 
   <!-- Teacher Assessment -->
   <div class="card" style="margin-bottom:1rem">
-    <div class="card-head"><div class="card-letter">🏫</div><div class="card-title">Teacher's Assessment — Mokshith (G2 Science)</div></div>
+    <div class="card-head"><div class="card-letter">🏫</div><div class="card-title">Teacher's Assessment — Mokshith (G3 Science)</div></div>
     <div class="card-body">
       <div class="assess-grid">
         <div class="assess-card assess-str">
           <h4>✅ Strengths Identified</h4>
           <ul>
-            <li>SI units & basic measurement MCQs</li>
-            <li>Floating/sinking rule (density comparison)</li>
-            <li>Lab safety rules identification</li>
-            <li>Element vs compound classification</li>
-            <li>Simple density calculations (formula recall)</li>
+            <li>SI units, measurement & error types (Ch 1)</li>
+            <li>Floating/sinking rule (density comparisons)</li>
+            <li>Element vs compound classification (Ch 3)</li>
+            <li>Basic MCQ recall for separation techniques</li>
+            <li>Cell organelle identification</li>
           </ul>
         </div>
         <div class="assess-card assess-wk">
           <h4>⚠️ Weakness Areas (Priority Focus)</h4>
           <ul>
-            <li><strong>True/False reasoning</strong> — knows T/F but cannot justify with precise scientific language</li>
-            <li><strong>Multi-step separation</strong> — confuses sequence (e.g. when to filter vs evaporate)</li>
-            <li><strong>Chromatography</strong> — Rf value interpretation, reading chromatograms</li>
-            <li><strong>Hypothesis writing</strong> — incomplete IF-THEN format</li>
-            <li><strong>Structured question explanations</strong> — stops at observation, misses mechanism</li>
-            <li><strong>NEWater / Singapore contexts</strong> — factual gaps</li>
+            <li><strong>Section C Free Response</strong> — 30 marks: needs full explanation with scientific reasoning, not just one-word answers</li>
+            <li><strong>Ray Model of Light (Ch 5)</strong> — reflection/refraction ray diagrams, must use ruler & label angles</li>
+            <li><strong>Particulate Nature of Matter (Ch 7)</strong> — heating curve interpretation, state changes at particle level</li>
+            <li><strong>Atoms & Molecules (Ch 8)</strong> — proton number, nucleon number, electron configuration</li>
+            <li><strong>Chemical Properties (Ch 3)</strong> — acid/alkali reactions, pH scale, indicators</li>
+            <li><strong>Hypothesis writing</strong> — incomplete IF-THEN format; needs quantitative IV/DV statements</li>
           </ul>
         </div>
       </div>
-      <div class="callout warn"><strong>📌 Teacher Priority Note</strong>The G2 paper is 40 marks total (not 100). True/False Section B carries 10 marks — 25% of the whole paper. Every reason mark is critical. Drill the reason structure: <em>"This is [True/False] because [scientific principle]."</em></div>
+      <div class="callout warn"><strong>📌 Teacher Priority Note</strong>📌 G3 EOY is 100 marks (Sec A: 30 MCQ | Sec B: 40 Structured | Sec C: 30 Free Response). Ray Model of Light and Particulate Nature of Matter appear every year as Section C questions — prioritise these for the final 2 weeks.</div>
     </div>
   </div>
 
@@ -503,17 +505,17 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
     <div class="stat-card">
       <div class="stat-label">Papers Done</div>
       <div class="stat-big" id="dPapers">0</div>
-      <div class="stat-sub">of 10 practice papers</div>
+      <div class="stat-sub">of 23 practice papers</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Best Score</div>
       <div class="stat-big" id="dBest">—</div>
-      <div class="stat-sub">out of 40 marks</div>
+      <div class="stat-sub">out of 100 marks</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Avg Score</div>
       <div class="stat-big" id="dAvg">—</div>
-      <div class="stat-sub">target: 36/40 (90%)</div>
+      <div class="stat-sub">target: 90/100 (90%)</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Study Streak</div>
@@ -554,12 +556,24 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
       </div>
     </div>
   </div>
+
+  <!-- Today's Stats -->
+  <div class="card" id="todayStatsBox">
+    <div class="card-head"><div class="card-letter">📅</div><div class="card-title">Today's Activity</div></div>
+    <div class="card-body" id="todayStatsBody">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+        <div style="text-align:center"><div style="font-size:1.6rem;font-weight:700;font-family:'Libre Baskerville',serif" id="todayQs">0</div><div style="font-size:.7rem;color:var(--muted)">Questions Today</div></div>
+        <div style="text-align:center"><div style="font-size:1.6rem;font-weight:700;font-family:'Libre Baskerville',serif" id="todayPapers">0</div><div style="font-size:.7rem;color:var(--muted)">Papers Today</div></div>
+      </div>
+      <div style="margin-top:.6rem;font-size:.78rem;color:var(--muted);text-align:center" id="todayDate"></div>
+    </div>
+  </div>
 </div>
 
 <!-- ═══ STUDY NOTES TAB add Dummy═══ -->
 <div id="notesTab" class="tab-content">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">
-  <p style="font-size:.82rem;color:var(--muted);margin:0">Click any topic to expand notes. <strong>G2 Science covers all 12 chapters</strong> from the syllabus — focus on Tier 1 first.</p>
+  <p style="font-size:.82rem;color:var(--muted);margin:0">Click any topic to expand notes. <strong>G3 Science EOY — 8 chapters (Sec A 30M + Sec B 40M + Sec C 30M = 100 marks)</strong> — focus on Tier 1 first.</p>
   <button onclick="refreshStudyNotes()" id="refreshNotesBtn" style="padding:7px 14px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;flex-shrink:0">🔄 Refresh Notes</button>
 </div>
 <div id="dynamicNotesArea"></div>
@@ -789,6 +803,36 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
         Red blood cells = animal cells WITHOUT a nucleus (more space for haemoglobin)<br>
         Euglena = has BOTH chloroplasts (plant-like) AND can swim/absorb food (animal-like)
       </div>
+      <h4>📊 Plant vs Animal Cell Diagram</h4>
+      <svg viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;border:1px solid var(--border);border-radius:8px;background:#fff;display:block;margin:.5rem 0">
+        <!-- Plant cell (left) -->
+        <rect x="10" y="15" width="150" height="130" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+        <rect x="18" y="23" width="134" height="114" rx="3" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+        <ellipse cx="85" cy="80" rx="22" ry="16" fill="#bfdbfe" stroke="#1e4d8c" stroke-width="1.5"/>
+        <rect x="55" y="30" width="12" height="8" rx="2" fill="#4ade80" stroke="#16a34a" stroke-width="1"/>
+        <rect x="110" y="30" width="12" height="8" rx="2" fill="#4ade80" stroke="#16a34a" stroke-width="1"/>
+        <ellipse cx="55" cy="100" rx="7" ry="5" fill="#fcd34d" stroke="#f59e0b" stroke-width="1"/>
+        <ellipse cx="120" cy="95" rx="7" ry="5" fill="#fcd34d" stroke="#f59e0b" stroke-width="1"/>
+        <text x="85" y="84" font-size="7" text-anchor="middle" fill="#1e4d8c" font-weight="700">Nucleus</text>
+        <text x="70" y="31" font-size="6" fill="#16a34a">Chloroplast</text>
+        <text x="85" y="152" font-size="9" text-anchor="middle" fill="#16a34a" font-weight="700">🌿 Plant Cell</text>
+        <!-- Labels -->
+        <text x="12" y="13" font-size="6.5" fill="#555">Cell wall</text>
+        <!-- Animal cell (right) -->
+        <ellipse cx="275" cy="80" rx="70" ry="60" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+        <ellipse cx="275" cy="80" rx="55" ry="46" fill="#fefce8" stroke="#fde68a" stroke-width="1"/>
+        <ellipse cx="275" cy="80" rx="18" ry="14" fill="#bfdbfe" stroke="#1e4d8c" stroke-width="1.5"/>
+        <ellipse cx="245" cy="60" rx="7" ry="5" fill="#fcd34d" stroke="#f59e0b" stroke-width="1"/>
+        <ellipse cx="305" cy="100" rx="7" ry="5" fill="#fcd34d" stroke="#f59e0b" stroke-width="1"/>
+        <text x="275" y="84" font-size="7" text-anchor="middle" fill="#1e4d8c" font-weight="700">Nucleus</text>
+        <text x="275" y="152" font-size="9" text-anchor="middle" fill="#ca8a04" font-weight="700">🐾 Animal Cell</text>
+        <text x="232" y="55" font-size="6" fill="#d97706">Mito.</text>
+        <text x="300" y="99" font-size="6" fill="#d97706">Mito.</text>
+        <!-- No cell wall, no chloroplast -->
+        <text x="180" y="60" font-size="7" fill="#dc2626">✗ Cell wall</text>
+        <text x="180" y="72" font-size="7" fill="#dc2626">✗ Chloroplast</text>
+        <text x="180" y="84" font-size="7" fill="#dc2626">✗ Large vacuole</text>
+      </svg>
     </div>
   </div>
 
@@ -838,6 +882,38 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
       <div class="callout warn"><strong>DW-MRI — Real-world application of diffusion</strong><br>
         Diffusion-weighted MRI (DW-MRI) detects changes in water diffusion patterns in body tissues — used to detect stroke and cancer at early stages. Shows the particulate nature of matter has real medical applications.
       </div>
+      <h4>📊 Heating Curve — Pure Substance</h4>
+      <svg viewBox="0 0 280 170" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;border:1px solid var(--border);border-radius:8px;background:#fff;display:block;margin:.5rem 0">
+        <!-- Axes -->
+        <line x1="30" y1="150" x2="265" y2="150" stroke="#555" stroke-width="1.5"/>
+        <line x1="30" y1="10" x2="30" y2="150" stroke="#555" stroke-width="1.5"/>
+        <text x="140" y="165" font-size="9" text-anchor="middle" fill="#555">Time →</text>
+        <text x="12" y="85" font-size="9" text-anchor="middle" fill="#555" transform="rotate(-90,12,85)">Temp °C →</text>
+        <!-- Heating curve -->
+        <!-- Solid warming -->
+        <line x1="30" y1="140" x2="70" y2="100" stroke="#1e4d8c" stroke-width="2.5"/>
+        <!-- Melting plateau -->
+        <line x1="70" y1="100" x2="110" y2="100" stroke="#1e4d8c" stroke-width="2.5"/>
+        <!-- Liquid warming -->
+        <line x1="110" y1="100" x2="160" y2="50" stroke="#1e4d8c" stroke-width="2.5"/>
+        <!-- Boiling plateau -->
+        <line x1="160" y1="50" x2="220" y2="50" stroke="#1e4d8c" stroke-width="2.5"/>
+        <!-- Gas warming -->
+        <line x1="220" y1="50" x2="258" y2="20" stroke="#1e4d8c" stroke-width="2.5"/>
+        <!-- Labels -->
+        <text x="44" y="128" font-size="7.5" fill="#555">Solid</text>
+        <text x="72" y="92" font-size="7.5" fill="#dc2626">Melting (m.p.)</text>
+        <text x="118" y="80" font-size="7.5" fill="#555">Liquid</text>
+        <text x="162" y="44" font-size="7.5" fill="#dc2626">Boiling (b.p.)</text>
+        <text x="230" y="28" font-size="7.5" fill="#555">Gas</text>
+        <!-- m.p. line -->
+        <line x1="30" y1="100" x2="70" y2="100" stroke="#dc2626" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="2" y="103" font-size="6.5" fill="#dc2626">m.p.</text>
+        <!-- b.p. line -->
+        <line x1="30" y1="50" x2="160" y2="50" stroke="#dc2626" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="2" y="53" font-size="6.5" fill="#dc2626">b.p.</text>
+        <text x="80" y="115" font-size="7" fill="#dc2626">Temp stays constant during state changes!</text>
+      </svg>
     </div>
   </div>
 
@@ -873,6 +949,53 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
       </table>
       <div class="callout warn"><strong>Refraction (optional for G2 but may appear)</strong>Light bends when entering a different medium. Into denser medium (air→glass) = bends TOWARD normal. Into less dense (glass→air) = bends AWAY from normal. No angle calculations required for G2.</div>
       <div class="callout red"><strong>EM Radiation — beneficial and harmful</strong>Infrared: remote controls (beneficial); excessive heat (harmful)<br>Ultraviolet: vitamin D production (beneficial); skin cancer (harmful)<br>Light: vision (beneficial); light pollution (harmful)</div>
+      <h4>📊 Reflection Diagram</h4>
+      <svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;border:1px solid var(--border);border-radius:8px;background:#fff;padding:4px;display:block;margin:.5rem 0">
+        <!-- Mirror surface -->
+        <line x1="140" y1="20" x2="140" y2="140" stroke="#555" stroke-width="2"/>
+        <text x="148" y="155" font-size="10" fill="#555">Mirror</text>
+        <!-- Normal -->
+        <line x1="60" y1="80" x2="220" y2="80" stroke="#999" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="222" y="83" font-size="9" fill="#999">Normal</text>
+        <!-- Incident ray -->
+        <line x1="60" y1="20" x2="140" y2="80" stroke="#1e4d8c" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="62" y="18" font-size="9" fill="#1e4d8c">Incident ray</text>
+        <!-- Reflected ray -->
+        <line x1="140" y1="80" x2="220" y2="20" stroke="#1a6b3c" stroke-width="2" marker-end="url(#arr2)"/>
+        <text x="196" y="18" font-size="9" fill="#1a6b3c">Reflected ray</text>
+        <!-- Angle labels -->
+        <text x="100" y="73" font-size="9" fill="#1e4d8c">i</text>
+        <text x="162" y="73" font-size="9" fill="#1a6b3c">r</text>
+        <text x="108" y="105" font-size="9" fill="#555">i = r</text>
+        <defs>
+          <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1e4d8c"/></marker>
+          <marker id="arr2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1a6b3c"/></marker>
+        </defs>
+      </svg>
+      <h4>📊 Refraction Diagram</h4>
+      <svg viewBox="0 0 280 170" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;border:1px solid var(--border);border-radius:8px;background:#fff;padding:4px;display:block;margin:.5rem 0">
+        <!-- Air/glass boundary -->
+        <rect x="0" y="85" width="280" height="85" fill="#dbeafe" opacity=".5"/>
+        <line x1="0" y1="85" x2="280" y2="85" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="4" y="80" font-size="9" fill="#555">Air (less dense)</text>
+        <text x="4" y="165" font-size="9" fill="#1e4d8c">Glass (denser)</text>
+        <!-- Normal -->
+        <line x1="140" y1="0" x2="140" y2="170" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="142" y="10" font-size="9" fill="#999">Normal</text>
+        <!-- Incident ray -->
+        <line x1="60" y1="20" x2="140" y2="85" stroke="#1e4d8c" stroke-width="2" marker-end="url(#arr3)"/>
+        <!-- Refracted ray (bends toward normal) -->
+        <line x1="140" y1="85" x2="170" y2="160" stroke="#1a6b3c" stroke-width="2" stroke-dasharray="0" marker-end="url(#arr4)"/>
+        <text x="65" y="18" font-size="9" fill="#1e4d8c">Incident</text>
+        <text x="174" y="158" font-size="9" fill="#1a6b3c">Refracted</text>
+        <text x="148" y="72" font-size="9" fill="#1e4d8c">θ₁</text>
+        <text x="148" y="108" font-size="9" fill="#1a6b3c">θ₂</text>
+        <text x="4" y="130" font-size="9" fill="#555">θ₂ &lt; θ₁ (bends toward normal)</text>
+        <defs>
+          <marker id="arr3" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1e4d8c"/></marker>
+          <marker id="arr4" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1a6b3c"/></marker>
+        </defs>
+      </svg>
     </div>
   </div>
 
@@ -1273,6 +1396,20 @@ function doChangePwd() {
 // ══════════════════════════════════════════════════════════════════
 var STORAGE_KEY = 'sci_wa2_g2_v1';
 var SKILL_NAMES = ['Measurement','Physical Properties','Density','Elements/Mixtures','Separation','Scientific Method','Cells','Particulate Matter','Light','Energy/Forces'];
+var SKILL_KEYS = ['Scientific Endeavour','Physical Properties','Chemical Properties','Separation Techniques','Ray Model of Light','Cells','Particulate Matter','Atoms & Molecules'];
+// EMA adaptive skill tracking (same engine as Maths app)
+function emaUpdate(d, skill, correct) {
+  if (!d.ema) d.ema = {};
+  var s = d.ema[skill] || 50;
+  s = correct ? s + (100-s)*0.12 : s + (0-s)*0.18;
+  s = Math.max(0, Math.min(100, s));
+  d.ema[skill] = Math.round(s*10)/10;
+  return d;
+}
+function getEmaSkill(d, skill) { return (d.ema && d.ema[skill]) || 50; }
+function getWeakSkillsEma(d) {
+  return SKILL_KEYS.slice().sort(function(a,b){ return getEmaSkill(d,a)-getEmaSkill(d,b); });
+}
 
 function getUID() { return currentUser ? (currentUser.uid || currentUser.email) : 'anon'; }
 
@@ -1343,8 +1480,8 @@ function renderDashboard() {
     var scores = h.map(function(x){return x.score;});
     var best = Math.max.apply(null, scores);
     var avg = Math.round(scores.reduce(function(a,b){return a+b;},0) / scores.length);
-    document.getElementById('dBest').textContent = best + '/40';
-    document.getElementById('dAvg').textContent = avg + '/40';
+    document.getElementById('dBest').textContent = best + '/100';
+    document.getElementById('dAvg').textContent = avg + '/100';
   } else {
     document.getElementById('dBest').textContent = '—';
     document.getElementById('dAvg').textContent = '—';
@@ -1353,6 +1490,7 @@ function renderDashboard() {
   renderHistory(d);
   renderHeatmap(d);
   renderStreak(d);
+  renderTodayStats(d);
 }
 
 function renderSkillBars(d) {
@@ -1425,8 +1563,9 @@ function renderHeatmap(d) {
   g.innerHTML=''; lb.innerHTML='';
   var lm=-1;
   for(var w=0;w<W;w++){var wd=new Date(sd);wd.setDate(wd.getDate()+w*7);var m=wd.getMonth();var sp=document.createElement('span');sp.style.cssText='width:12px;flex-shrink:0;text-align:center;font-size:9px;';sp.textContent=m!==lm?wd.toLocaleString('default',{month:'short'}):'';lb.appendChild(sp);lm=m;}
-  for(var w2=0;w2<W;w2++){for(var dy=0;dy<7;dy++){var dt=new Date(sd);dt.setDate(dt.getDate()+w2*7+dy);if(dt>today){var bl=document.createElement('div');bl.style.cssText='width:12px;height:12px;';g.appendChild(bl);continue;}var dk=dt.toISOString().slice(0,10);var cnt=dm[dk]||0;var lv=cnt===0?0:cnt===1?1:cnt<=3?2:3;var cell=document.createElement('div');cell.className='hm-cell';if(lv)cell.dataset.l=lv;cell.dataset.tip=cnt?dt.getDate()+' '+dt.toLocaleString('default',{month:'short'})+': '+cnt+' attempt'+(cnt>1?'s':''):dt.getDate()+' '+dt.toLocaleString('default',{month:'short'});g.appendChild(cell);}}
-}
+  for(var w2=0;w2<W;w2++){for(var dy=0;dy<7;dy++){var dt=new Date(sd);dt.setDate(dt.getDate()+w2*7+dy);if(dt>today){var bl=document.createElement('div');bl.style.cssText='width:12px;height:12px;';g.appendChild(bl);continue;}var dk=dt.toISOString().slice(0,10);var cnt=dm[dk]||0;var lv=cnt===0?0:cnt===1?1:cnt<=3?2:3;var cell=document.createElement('div');cell.className='hm-cell';if(lv)cell.dataset.l=lv;cell.dataset.tip=cnt?dt.getDate()+' '+dt.toLocaleString('default',{month:'short'})+': '+cnt+' attempt'+(cnt>1?'s':''):dt.getDate()+' '+dt.toLocaleString('default',{month:'short'});cell.addEventListener('mouseenter',function(e){var tt=document.getElementById('hmTooltip');if(tt){tt.textContent=this.dataset.tip;tt.style.cssText='display:block;position:fixed;background:#1c1c1e;color:#f5f0e8;font-size:.72rem;padding:4px 9px;border-radius:5px;pointer-events:none;z-index:999;left:'+(e.clientX+10)+'px;top:'+(e.clientY-28)+'px';}});
+cell.addEventListener('mouseleave',function(){var tt=document.getElementById('hmTooltip');if(tt)tt.style.display='none';});
+g.appendChild(cell);}}}
 
 function renderStreak(d) {
   var dm={};(d.history||[]).forEach(function(h){if(h.date){var k=h.date.slice(0,10);dm[k]=1;}});
@@ -1434,6 +1573,17 @@ function renderStreak(d) {
   for(var i=0;i<366;i++){var k=chk.toISOString().slice(0,10);if(dm[k]){streak++;chk.setDate(chk.getDate()-1);}else break;}
   document.getElementById('dStreak').textContent = streak;
   var b=document.getElementById('streakBadge'); if(b) b.textContent=streak+'-day streak';
+}
+
+function renderTodayStats(d) {
+  var today = new Date().toISOString().slice(0,10);
+  var qs = 0, papers = 0;
+  (d.history||[]).forEach(function(h){if(h.date&&h.date.slice(0,10)===today){papers++;}});
+  (d.qfHistory||[]).forEach(function(h){if(h.date&&h.date.slice(0,10)===today){qs+=h.total||0;}});
+  var qsEl=document.getElementById('todayQs'), ppEl=document.getElementById('todayPapers'), dtEl=document.getElementById('todayDate');
+  if(qsEl)qsEl.textContent=qs;
+  if(ppEl)ppEl.textContent=papers;
+  if(dtEl)dtEl.textContent=new Date().toLocaleDateString('en-SG',{weekday:'long',day:'numeric',month:'long'});
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -3147,6 +3297,137 @@ function saveApiConfig() {
   <div id="histEmpty" style="display:none;text-align:center;padding:3rem;color:var(--muted);font-size:.88rem"><div style="font-size:2.5rem;margin-bottom:.5rem">📭</div><div id="histEmptyMsg">No attempts yet. Submit a paper to see it here!</div></div>
   <div id="histCards" style="display:none;flex-direction:column;gap:.75rem"></div>
 </div>
+
+<!-- ═══ DAILY DRILL TAB ═══ -->
+<div id="drillTab" class="tab-content">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">
+    <div>
+      <h2 style="font-size:1.05rem;font-weight:700;margin-bottom:.2rem">🏋 Daily Drill</h2>
+      <p style="font-size:.82rem;color:var(--muted)">10 adaptive questions weighted to your weakest G3 topics. Updates after each session.</p>
+    </div>
+    <button onclick="startDrill()" id="drillStartBtn" style="padding:9px 20px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer">▶ Start Drill</button>
+  </div>
+
+  <!-- EMA Skill Radar (simple bar version) -->
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-head"><div class="card-letter">📊</div><div class="card-title">Topic Mastery (EMA)</div></div>
+    <div class="card-body" id="drillSkillBars">
+      <div class="empty-state"><div class="es-icon">📊</div><p>Complete a drill to see your mastery levels</p></div>
+    </div>
+  </div>
+
+  <!-- Drill Session Area -->
+  <div id="drillSession" style="display:none">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-letter" id="drillQNum">1</div>
+        <div class="card-title" id="drillTopic">Topic</div>
+        <span id="drillProgress" style="font-size:.75rem;color:rgba(255,255,255,.6)">1/10</span>
+      </div>
+      <div class="card-body">
+        <p id="drillQuestion" style="font-size:.95rem;font-weight:500;margin-bottom:1rem;line-height:1.7"></p>
+        <div id="drillOptions" style="display:flex;flex-direction:column;gap:.5rem"></div>
+        <div id="drillFeedback" style="display:none;margin-top:.8rem;padding:.65rem .9rem;border-radius:8px;font-size:.85rem;line-height:1.5"></div>
+        <button id="drillNextBtn" onclick="drillNext()" style="display:none;margin-top:.75rem;padding:8px 20px;background:var(--green);color:white;border:none;border-radius:7px;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drill Results -->
+  <div id="drillResults" style="display:none">
+    <div class="card">
+      <div class="card-head"><div class="card-letter">🏆</div><div class="card-title">Drill Complete!</div></div>
+      <div class="card-body">
+        <div style="text-align:center;padding:1rem 0">
+          <div style="font-size:2.5rem;font-weight:800;font-family:'Libre Baskerville',serif;color:var(--green)" id="drillScore">0/10</div>
+          <div style="font-size:.85rem;color:var(--muted);margin-top:.3rem">Keep drilling weak topics to push them above 70%!</div>
+        </div>
+        <div id="drillResultSkills" style="margin-top:.8rem"></div>
+        <button onclick="startDrill()" style="display:block;width:100%;padding:10px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;margin-top:.9rem">🔄 Drill Again</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FORMULA SHEET TAB ═══ -->
+<div id="formulaTab" class="tab-content">
+  <div style="margin-bottom:1rem">
+    <h2 style="font-size:1.05rem;font-weight:700;margin-bottom:.2rem">📐 G3 Science Formula Sheet</h2>
+    <p style="font-size:.82rem;color:var(--muted)">All formulas and key relationships for the G3 EOY exam. Print or screenshot for quick revision.</p>
+  </div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">⚖️</div><div class="card-title">Chapter 2 — Physical Properties & Density</div></div>
+  <div class="card-body">
+    <div class="callout" style="text-align:center;font-size:1rem;letter-spacing:.05em;margin-bottom:.65rem"><strong>Density = Mass ÷ Volume</strong> &nbsp;|&nbsp; ρ = m/V &nbsp;|&nbsp; Unit: g/cm³ or kg/m³</div>
+    <table class="rt"><tr><th>Symbol</th><th>Quantity</th><th>SI Unit</th></tr>
+      <tr><td>ρ (rho)</td><td>Density</td><td>kg/m³ (g/cm³ for solids/liquids)</td></tr>
+      <tr><td>m</td><td>Mass</td><td>kg (or g)</td></tr>
+      <tr><td>V</td><td>Volume</td><td>m³ (or cm³)</td></tr>
+    </table>
+    <div class="pills" style="margin-top:.5rem">
+      <span class="pill">Floating: object density &lt; liquid density</span>
+      <span class="pill am">Sinking: object density &gt; liquid density</span>
+    </div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">💡</div><div class="card-title">Chapter 5 — Ray Model of Light</div></div>
+  <div class="card-body">
+    <table class="rt"><tr><th>Law / Formula</th><th>Statement</th></tr>
+      <tr><td><strong>Law of Reflection</strong></td><td>Angle of incidence (i) = Angle of reflection (r)<br><em>Both angles measured from the NORMAL</em></td></tr>
+      <tr><td><strong>Refraction</strong></td><td>Light bends towards normal when entering denser medium (lower speed); bends away when leaving denser medium</td></tr>
+      <tr><td><strong>Critical angle</strong></td><td>Angle of incidence at which refracted ray is 90° (travels along boundary). Beyond = Total Internal Reflection (TIR)</td></tr>
+      <tr><td><strong>Speed of light</strong></td><td>3 × 10⁸ m/s in vacuum/air</td></tr>
+    </table>
+    <div class="callout warn" style="margin-top:.5rem"><strong>⚠️ Normal line</strong> Normal is perpendicular (90°) to the mirror/boundary surface at the point of incidence. ALWAYS draw the normal first when drawing ray diagrams!</div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">🧬</div><div class="card-title">Chapter 6 — Cells</div></div>
+  <div class="card-body">
+    <table class="rt"><tr><th>Organelle</th><th>Function</th><th>Plant?</th><th>Animal?</th></tr>
+      <tr><td>Cell membrane</td><td>Controls what enters/leaves the cell</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Cytoplasm</td><td>Jelly-like fluid; site of chemical reactions</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Nucleus</td><td>Controls cell activities; contains DNA</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Mitochondria</td><td>Releases energy (respiration)</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Cell wall</td><td>Rigid support; made of cellulose</td><td>✓</td><td>✗</td></tr>
+      <tr><td>Chloroplast</td><td>Photosynthesis; contains chlorophyll</td><td>✓</td><td>✗</td></tr>
+      <tr><td>Large vacuole</td><td>Stores cell sap; maintains turgor</td><td>✓</td><td>✗ (tiny)</td></tr>
+    </table>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">⚛️</div><div class="card-title">Chapter 7 — Particulate Nature of Matter</div></div>
+  <div class="card-body">
+    <table class="rt"><tr><th>State</th><th>Particle Arrangement</th><th>Movement</th><th>Energy</th></tr>
+      <tr><td>Solid</td><td>Regular, tightly packed, fixed positions</td><td>Vibrate only</td><td>Lowest</td></tr>
+      <tr><td>Liquid</td><td>Random, close together, no fixed positions</td><td>Move around each other</td><td>Medium</td></tr>
+      <tr><td>Gas</td><td>Random, far apart</td><td>Move rapidly in all directions</td><td>Highest</td></tr>
+    </table>
+    <div class="callout" style="margin-top:.5rem"><strong>Key terms:</strong> Melting point = solid→liquid. Boiling point = liquid→gas. Sublimation = solid→gas directly. During a change of state, temperature stays CONSTANT (energy used to break/form bonds, not heat).</div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">🔬</div><div class="card-title">Chapter 8 — Atoms & Molecules</div></div>
+  <div class="card-body">
+    <table class="rt"><tr><th>Term</th><th>Symbol</th><th>Definition</th></tr>
+      <tr><td>Proton number (Z)</td><td>Z</td><td>Number of protons in nucleus = number of electrons (neutral atom)</td></tr>
+      <tr><td>Nucleon number (A)</td><td>A</td><td>Total number of protons + neutrons in nucleus</td></tr>
+      <tr><td>Number of neutrons</td><td>A − Z</td><td>Nucleon number minus proton number</td></tr>
+    </table>
+    <div class="callout warn" style="margin-top:.5rem"><strong>Electron configuration rules:</strong> Shell 1 max 2e⁻; Shell 2 max 8e⁻; Shell 3 max 8e⁻ (for Sec 1). Write as 2.8.x for elements beyond Ne.</div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">🧪</div><div class="card-title">Chapter 4 — Separation Techniques</div></div>
+  <div class="card-body">
+    <table class="rt"><tr><th>Technique</th><th>Separates</th><th>Basis</th></tr>
+      <tr><td>Filtration</td><td>Insoluble solid from liquid</td><td>Particle size (solid too big to pass through filter)</td></tr>
+      <tr><td>Evaporation</td><td>Soluble solid from solution</td><td>Differences in boiling points</td></tr>
+      <tr><td>Distillation</td><td>Liquids with different boiling points / solvent from solution</td><td>Differences in boiling points</td></tr>
+      <tr><td>Fractional distillation</td><td>Miscible liquids with close boiling points</td><td>Differences in boiling points (fractionating column)</td></tr>
+      <tr><td>Chromatography</td><td>Mixtures of solutes in solution</td><td>Different affinities for stationary/mobile phase</td></tr>
+      <tr><td>Magnetic attraction</td><td>Magnetic from non-magnetic</td><td>Magnetism (iron, nickel, cobalt)</td></tr>
+    </table>
+    <div class="callout"><strong>Rf value (chromatography):</strong> Rf = distance travelled by spot ÷ distance travelled by solvent. Range: 0 to 1. Same Rf = same substance.</div>
+  </div></div>
+</div>
+
 <div id="histModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9000;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)closeHistModal()">
   <div style="background:white;border-radius:16px;max-width:720px;width:100%;max-height:92vh;overflow-y:auto;padding:1.6rem 1.8rem;position:relative">
     <button onclick="closeHistModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted)">✕</button>
@@ -3741,6 +4022,13 @@ function closeHistModal(){document.getElementById('histModal').style.display='no
         <option value="mcq">📝 MCQ only</option>
         <option value="tf">✅ True/False only</option>
       </select>
+      <select id="qfTimerSel" class="csel" style="font-size:.82rem">
+  <option value="0">⏱ No Timer</option>
+  <option value="30">30 sec</option>
+  <option value="60">60 sec</option>
+  <option value="90">90 sec</option>
+  <option value="120">2 min</option>
+</select>
       <button onclick="startQFSession()" id="qfStartBtn" style="padding:8px 18px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer">▶ Start</button>
       <button onclick="endQFSession()" id="qfEndBtn" style="display:none;padding:8px 14px;background:#f3f4f6;color:var(--ink);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer">⏹ End</button>
     </div>
@@ -3779,6 +4067,9 @@ function closeHistModal(){document.getElementById('histModal').style.display='no
       <span id="qfTopicBadge" style="font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:10px;background:#f3e8ff;color:#6b21a8"></span>
       <span id="qfSrcBadge" style="font-size:.7rem;padding:3px 9px;border-radius:10px;background:#f1f5f9;color:var(--muted)"></span>
     </div>
+
+    <!-- Timer display -->
+    <div id="qfTimerDisplay" style="display:none;font-size:1.1rem;font-weight:700;color:var(--red);font-family:'Libre Baskerville',serif;text-align:right;margin-bottom:.3rem"></div>
 
     <!-- Question text + visual -->
     <div style="background:white;border:2px solid var(--border);border-radius:14px;padding:1.1rem 1.2rem;margin-bottom:.9rem">
@@ -3859,11 +4150,200 @@ var QF = {
   sessionLog: []         // [{skill,correct}] for post-session
 };
 
+// ══════════════════════════════════════════════════════════════════
+// DAILY DRILL — EMA adaptive 10-question drill
+// ══════════════════════════════════════════════════════════════════
+var DRILL_BANK = {
+  'Scientific Endeavour':[
+    {q:'Which type of error is caused by an instrument reading non-zero when the true value is zero?',opts:['Parallax error','Zero error','Random error','Human error'],ans:1,fb:'Zero error is a systematic error — the instrument is miscalibrated. Subtract the zero reading from all measurements.'},
+    {q:'A student measures the volume of a liquid in a measuring cylinder. Where should the eye be positioned?',opts:['Above the meniscus','Below the meniscus','Level with the bottom of the meniscus','Level with the top of the meniscus'],ans:2,fb:'Read at eye level with the BOTTOM of the meniscus to avoid parallax error.'},
+    {q:'Which statement about qualitative data is correct?',opts:['It always includes a unit','It is always expressed as a number','It describes properties such as colour, smell or texture','It is more accurate than quantitative data'],ans:2,fb:'Qualitative data = descriptive (colour, smell, texture). Quantitative data = numerical with units.'},
+    {q:'A student repeats an experiment 5 times and averages the results. This reduces which type of error?',opts:['Zero error','Systematic error','Random/unpredictable error','Parallax error'],ans:2,fb:'Repeating and averaging reduces RANDOM (unpredictable) errors. Zero error is systematic — averaging does NOT fix it.'},
+    {q:'Which of the following is quantitative data?',opts:['The solution turns blue','The liquid smells sweet','The temperature is 37.5°C','The reaction produces gas bubbles'],ans:2,fb:'Quantitative data has a numerical value with a unit: 37.5°C is a number with a unit (°C).'}
+  ],
+  'Physical Properties':[
+    {q:'Which property allows a material to be drawn into thin wires without breaking?',opts:['Hardness','Malleability','Ductility','Brittleness'],ans:2,fb:'Ductility = ability to be drawn into wires. Malleability = ability to be flattened into sheets.'},
+    {q:'A material is shiny, conducts electricity, and has a high melting point. It is most likely a:',opts:['Plastic','Ceramic','Metal','Glass'],ans:2,fb:'Metals are shiny (lustrous), good conductors of heat and electricity, and have high melting points.'},
+    {q:'Which of the following properties is a PHYSICAL property?',opts:['Reacts with acid to produce gas','Burns in oxygen','Density of 2.7 g/cm³','Turns litmus red'],ans:2,fb:'Density is a physical property — it can be observed without changing the substance chemically.'},
+    {q:'Iron and copper are both metals. What property makes copper better for electrical wiring?',opts:['Copper has a higher melting point','Copper has a lower density','Copper is a better conductor of electricity','Copper is harder than iron'],ans:2,fb:'Copper has very high electrical conductivity — it allows electrons to flow easily, making it ideal for wiring.'},
+    {q:'A ceramic tile is brittle. This means it:',opts:['Conducts heat well','Bends easily without breaking','Breaks when a force is applied without deforming first','Has a low melting point'],ans:2,fb:'Brittle = breaks suddenly when force applied, without significant deformation first. Ceramics are hard but brittle.'}
+  ],
+  'Chemical Properties':[
+    {q:'Which indicator turns RED in acidic solution?',opts:['Litmus — turns blue','Litmus — turns red','Universal indicator — turns purple','Phenolphthalein — turns pink'],ans:1,fb:'Litmus turns RED in acid and BLUE in alkali. Universal indicator shows a range of colours for different pH values.'},
+    {q:'The pH of a solution is 2. This solution is:',opts:['Strongly alkaline','Weakly alkaline','Neutral','Strongly acidic'],ans:3,fb:'pH scale: 1-6 = acidic (lower = more acidic), 7 = neutral, 8-14 = alkaline. pH 2 is strongly acidic.'},
+    {q:'Calcium carbonate reacts with hydrochloric acid. Which gas is produced?',opts:['Oxygen','Hydrogen','Carbon dioxide','Nitrogen'],ans:2,fb:'Carbonate + acid → salt + water + carbon dioxide. CO₂ turns limewater milky — key test for CO₂.'},
+    {q:'Which pair of substances would produce a SALT and WATER when mixed?',opts:['Acid + acid','Acid + alkali','Alkali + alkali','Salt + water'],ans:1,fb:'Neutralisation: acid + alkali → salt + water. The H⁺ from acid reacts with OH⁻ from alkali.'},
+    {q:'A student adds universal indicator to an unknown solution and it turns green. The solution is:',opts:['Strongly acidic (pH 2)','Weakly acidic (pH 5)','Neutral (pH 7)','Weakly alkaline (pH 9)'],ans:2,fb:'Universal indicator: green = pH 7 = neutral. Yellow/orange = mildly acidic. Blue/purple = alkaline.'}
+  ],
+  'Separation Techniques':[
+    {q:'Which technique is used to separate ink into its component dyes?',opts:['Filtration','Distillation','Chromatography','Magnetic attraction'],ans:2,fb:'Chromatography separates mixtures of solutes based on their different affinities for the stationary and mobile phases.'},
+    {q:'Salt is dissolved in water. Which technique recovers the salt as a solid?',opts:['Filtration','Evaporation to dryness','Distillation','Chromatography'],ans:1,fb:'Evaporation removes the water (solvent), leaving behind the dissolved solid (salt). Filtration only removes insoluble solids.'},
+    {q:'What is the Rf value of a spot that travels 3 cm when the solvent travels 12 cm?',opts:['0.25','0.33','4','36'],ans:0,fb:'Rf = distance by spot ÷ distance by solvent = 3/12 = 0.25. Rf values are always between 0 and 1.'},
+    {q:'A mixture of iron filings and sand can be separated by:',opts:['Filtration then evaporation','Magnetic attraction then filtration','Distillation','Chromatography'],ans:1,fb:'Iron is magnetic; sand is not. Pass a magnet through to remove iron filings. Sand can be separated from any remaining liquid by filtration.'},
+    {q:'Fractional distillation differs from simple distillation because it:',opts:['Uses a filter to separate particles','Separates two liquids with very different boiling points','Uses a fractionating column to separate liquids with close boiling points','Does not require heat'],ans:2,fb:'Fractional distillation uses a fractionating column — the column creates a temperature gradient, separating liquids with close boiling points more efficiently.'}
+  ],
+  'Ray Model of Light':[
+    {q:'The angle of incidence is 35°. What is the angle of reflection?',opts:['35°','55°','70°','90°'],ans:0,fb:'Law of Reflection: angle of incidence = angle of reflection. Both angles measured from the NORMAL to the surface. So reflection angle = 35°.'},
+    {q:'Light travels from air into glass. What happens?',opts:['Light speeds up and bends away from the normal','Light slows down and bends towards the normal','Light speeds up and bends towards the normal','Light maintains the same speed and direction'],ans:1,fb:'When light enters a denser medium (glass has higher refractive index than air), it slows down and bends TOWARDS the normal.'},
+    {q:'What is Total Internal Reflection?',opts:['When light passes through a boundary without bending','When all light is reflected back into the original medium at angles above the critical angle','When light refracts completely as it leaves glass','When a mirror reflects 100% of light'],ans:1,fb:'TIR occurs when the angle of incidence EXCEEDS the critical angle in a denser medium — all light reflects back inside, no refraction occurs.'},
+    {q:'An incident ray hits a plane mirror. The normal is drawn at the point of incidence. The incident ray makes 40° with the mirror surface. What is the angle of incidence?',opts:['40°','50°','80°','90°'],ans:1,fb:'Angle with mirror = 40°. Angle of incidence (with NORMAL) = 90° − 40° = 50°. Always measure angles from the NORMAL, not the surface.'},
+    {q:'Which phenomenon explains why an optical fibre can carry light signals around bends?',opts:['Reflection','Diffraction','Total Internal Reflection','Refraction'],ans:2,fb:'Optical fibres use TIR — light hits the glass-air boundary at angles above the critical angle, so it stays trapped inside the fibre and travels around bends.'}
+  ],
+  'Cells':[
+    {q:'Which structure is found in plant cells but NOT animal cells?',opts:['Nucleus','Mitochondria','Cell membrane','Chloroplast'],ans:3,fb:'Chloroplasts contain chlorophyll for photosynthesis — only in plant cells. Nucleus, mitochondria, and cell membrane are found in both.'},
+    {q:'What is the function of the mitochondria?',opts:['Controls all cell activities and contains DNA','Carries out photosynthesis','Releases energy through respiration','Stores water and food'],ans:2,fb:'Mitochondria = powerhouse of the cell. Releases energy from glucose through cellular respiration (not photosynthesis — that\'s chloroplasts).'},
+    {q:'The cell wall of a plant cell is made of:',opts:['Protein','Starch','Cellulose','Chitin'],ans:2,fb:'Plant cell walls are made of CELLULOSE fibres — these provide rigidity and structural support. Chitin is found in fungal cell walls and insect exoskeletons.'},
+    {q:'Which cell organelle controls what enters and exits the cell?',opts:['Cell wall','Cell membrane','Vacuole','Nucleus'],ans:1,fb:'The cell membrane is selectively permeable — it controls which substances move in and out of the cell. The cell wall is present in plants but it is fully permeable.'},
+    {q:'Red blood cells have no nucleus. What advantage does this give them?',opts:['They can reproduce faster','They have more space for haemoglobin to carry oxygen','They are more rigid','They can carry out photosynthesis'],ans:1,fb:'Without a nucleus, more cytoplasm space is available for haemoglobin, maximising oxygen-carrying capacity. This is a specialisation for their transport function.'}
+  ],
+  'Particulate Matter':[
+    {q:'During melting, the temperature of a pure substance:',opts:['Increases steadily','Decreases steadily','Stays constant','Increases then decreases'],ans:2,fb:'During a change of state (melting/boiling), temperature remains CONSTANT — all energy absorbed is used to overcome intermolecular forces, not to increase kinetic energy.'},
+    {q:'Which state of matter has particles that are closely packed but can move past each other?',opts:['Solid','Liquid','Gas','Plasma'],ans:1,fb:'Liquid: particles close together (no fixed positions), can flow and move past each other. Solid: fixed positions, only vibrate. Gas: far apart, rapid random movement.'},
+    {q:'What happens to the density of water when it is heated from 25°C to 80°C?',opts:['Density increases','Density decreases','Density remains the same','Density first increases then decreases'],ans:1,fb:'When heated, particles gain more energy and move faster/further apart → volume increases → density (m/V) decreases. Less dense = same mass in larger volume.'},
+    {q:'Which process describes a solid turning directly into a gas without passing through the liquid state?',opts:['Evaporation','Condensation','Sublimation','Melting'],ans:2,fb:'Sublimation = solid → gas directly. Examples: dry ice (solid CO₂), iodine, and naphthalene (mothballs) at room temperature.'},
+    {q:'In a sealed container, liquid water and water vapour coexist at 100°C. The rate of evaporation equals the rate of condensation. This is called:',opts:['Boiling','Dynamic equilibrium','Sublimation','Diffusion'],ans:1,fb:'Dynamic equilibrium = when forward and reverse processes occur at the same rate. At the boiling point in a closed system, evaporation rate = condensation rate.'}
+  ],
+  'Atoms & Molecules':[
+    {q:'An atom of carbon-12 has a proton number of 6. How many neutrons does it have?',opts:['6','12','18','2'],ans:0,fb:'Neutrons = Nucleon number (A) − Proton number (Z) = 12 − 6 = 6 neutrons.'},
+    {q:'Which statement about isotopes is correct?',opts:['They have the same nucleon number but different proton numbers','They have the same proton number but different neutron numbers','They are atoms of different elements','They have different numbers of electrons in neutral form'],ans:1,fb:'Isotopes: same element (same proton number = same number of electrons), but different numbers of neutrons → different nucleon numbers.'},
+    {q:'An element has proton number 11 and nucleon number 23. Its electron configuration is:',opts:['2.8.1','2.9.2','2.8.3','2.11'],ans:0,fb:'Sodium (Na): Z=11, so 11 electrons. Shells fill: 2, 8, 1. Configuration: 2.8.1. (Shell 1 max 2, Shell 2 max 8, Shell 3 gets the remaining 1.)'},
+    {q:'An atom of oxygen has the electron configuration 2.6. How many electrons does it need to achieve a stable (full outer shell) configuration?',opts:['2','6','8','14'],ans:0,fb:'Oxygen has 6 electrons in its outer shell. Shell 2 can hold maximum 8. So oxygen needs 8 − 6 = 2 more electrons to fill its outer shell.'},
+    {q:'Which of the following represents a molecule (not a mixture or single atom)?',opts:['Fe','NaCl (ionic compound)','O₂','Ar'],ans:2,fb:'O₂ is a diatomic molecule — two oxygen atoms covalently bonded. Fe is a single metal atom. Ar is a noble gas (single atom). NaCl is an ionic compound (not a covalent molecule).'}
+  ]
+};
+
+var drillState = {};
+
+function initDrill() {
+  var d = loadData();
+  renderDrillSkillBars(d);
+}
+
+function renderDrillSkillBars(d) {
+  var c = document.getElementById('drillSkillBars');
+  if (!c) return;
+  var html = '';
+  SKILL_KEYS.forEach(function(sk) {
+    var v = getEmaSkill(d, sk);
+    var cls = v>=70?'fill-green':v>=45?'fill-amber':'fill-red';
+    html += '<div class="skill-bar-wrap"><div class="skill-label"><span class="skill-name">'+sk+'</span><span class="skill-pct">'+Math.round(v)+'%</span></div><div class="skill-track"><div class="skill-fill '+cls+'" style="width:'+v+'%"></div></div></div>';
+  });
+  c.innerHTML = html || '<div class="empty-state"><p>No drill data yet. Start your first drill!</p></div>';
+}
+
+function startDrill() {
+  var d = loadData();
+  // Pick 10 questions weighted to weak areas
+  var weakOrder = getWeakSkillsEma(d);
+  var pool = [];
+  // 4 from weakest 2, 2 from next 2, 1 each from remaining
+  var allqs = [];
+  weakOrder.forEach(function(sk, i) {
+    var bank = DRILL_BANK[sk] || [];
+    var weight = i < 2 ? 4 : i < 4 ? 2 : 1;
+    for (var j = 0; j < weight; j++) {
+      bank.forEach(function(q) { allqs.push({sk:sk, q:q}); });
+    }
+  });
+  // Shuffle and take 10
+  allqs.sort(function(){ return Math.random()-.5; });
+  drillState = {
+    qs: allqs.slice(0, 10),
+    idx: 0,
+    score: 0,
+    answered: false
+  };
+  document.getElementById('drillSession').style.display = 'block';
+  document.getElementById('drillResults').style.display = 'none';
+  showDrillQ();
+}
+
+function showDrillQ() {
+  if (drillState.idx >= drillState.qs.length) { endDrill(); return; }
+  var item = drillState.qs[drillState.idx];
+  document.getElementById('drillQNum').textContent = drillState.idx + 1;
+  document.getElementById('drillTopic').textContent = item.sk;
+  document.getElementById('drillProgress').textContent = (drillState.idx+1) + '/10';
+  document.getElementById('drillQuestion').textContent = item.q.q;
+  document.getElementById('drillFeedback').style.display = 'none';
+  document.getElementById('drillNextBtn').style.display = 'none';
+  drillState.answered = false;
+  var opts = document.getElementById('drillOptions');
+  opts.innerHTML = '';
+  item.q.opts.forEach(function(opt, i) {
+    var btn = document.createElement('button');
+    btn.className = 'qf-mcq-opt';
+    btn.innerHTML = '<span style="font-weight:700;min-width:18px">'+'ABCD'[i]+'.</span><span>'+opt+'</span>';
+    btn.onclick = function() { drillAnswer(i); };
+    opts.appendChild(btn);
+  });
+}
+
+function drillAnswer(chosen) {
+  if (drillState.answered) return;
+  drillState.answered = true;
+  var item = drillState.qs[drillState.idx];
+  var correct = chosen === item.q.ans;
+  if (correct) drillState.score++;
+  // Update EMA
+  var d = loadData();
+  d = emaUpdate(d, item.sk, correct);
+  saveData(d);
+  // Highlight buttons
+  var btns = document.getElementById('drillOptions').querySelectorAll('button');
+  btns.forEach(function(b, i) {
+    b.disabled = true;
+    if (i === item.q.ans) b.classList.add('opt-correct');
+    else if (i === chosen && !correct) b.classList.add('opt-wrong');
+  });
+  var fb = document.getElementById('drillFeedback');
+  fb.style.display = 'block';
+  fb.className = correct ? 'qf-feedback-correct' : 'qf-feedback-wrong';
+  fb.innerHTML = (correct ? '<strong>✅ Correct!</strong> ' : '<strong>❌ Wrong.</strong> ') + item.q.fb;
+  document.getElementById('drillNextBtn').style.display = 'block';
+}
+
+function drillNext() {
+  drillState.idx++;
+  if (drillState.idx >= drillState.qs.length) { endDrill(); } else { showDrillQ(); }
+}
+
+function endDrill() {
+  document.getElementById('drillSession').style.display = 'none';
+  document.getElementById('drillResults').style.display = 'block';
+  document.getElementById('drillScore').textContent = drillState.score + '/10';
+  var d = loadData();
+  renderDrillSkillBars(d);
+  var rsEl = document.getElementById('drillResultSkills');
+  var html = '<div style="font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem">Updated Mastery:</div>';
+  drillState.qs.forEach(function(item) {
+    var v = getEmaSkill(d, item.sk);
+    var cls = v>=70?'var(--green)':v>=45?'var(--amber)':'var(--red)';
+    html += '<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;font-size:.8rem"><span style="flex:1">'+item.sk+'</span><span style="font-weight:700;color:'+cls+'">'+Math.round(v)+'%</span></div>';
+  });
+  rsEl.innerHTML = html;
+}
+
 // ── Init: called when Quick Fire tab opened ──────────────────────
 function initQuickFire() {
   buildPaperPool();
   showWeakPreview();
 }
+
+var _qfTimer = null, _qfTimeLeft = 0;
+function startQfTimer(secs) {
+  clearInterval(_qfTimer);
+  if (!secs) { document.getElementById('qfTimerDisplay').style.display='none'; return; }
+  _qfTimeLeft = secs;
+  var el = document.getElementById('qfTimerDisplay');
+  if (el) { el.style.display='block'; el.textContent='⏱ '+secs+'s'; }
+  _qfTimer = setInterval(function(){
+    _qfTimeLeft--;
+    if (el) el.textContent = '⏱ '+_qfTimeLeft+'s';
+    if (_qfTimeLeft <= 0) { clearInterval(_qfTimer); el.textContent='⏱ Time!'; }
+  }, 1000);
+}
+function stopQfTimer() { clearInterval(_qfTimer); var el=document.getElementById('qfTimerDisplay'); if(el) el.style.display='none'; }
 
 function buildPaperPool() {
   QF.paperPool = { mcq: [], tf: [] };
@@ -4537,5 +5017,6 @@ function refreshStudyNotes() {
 }
 </script>
 
+<div id="hmTooltip" style="display:none"></div>
 </body>
 </html>
