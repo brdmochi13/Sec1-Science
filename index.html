@@ -452,7 +452,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 <div class="main-tabs">
   <button class="mtab active" onclick="showTab('dashTab',this)">📊 Dashboard</button>
   <button class="mtab" onclick="showTab('notesTab',this)">📚 Study Notes</button>
-  <button class="mtab" onclick="showTab('papersTab',this)">✏️ Practice Papers <span class="tab-badge" id="papersBadge">23</span></button>
+  <button class="mtab" onclick="showTab('papersTab',this)">✏️ Practice Papers <span class="tab-badge" id="papersBadge">33</span></button>
   <button class="mtab" onclick="showTab('aiTab',this)">🤖 AI Practice</button>
   <button class="mtab" onclick="showTab('tipsTab',this)">💡 Exam Tips</button>
   <button class="mtab" onclick="showTab('qfTab',this);initQuickFire()">⚡ Quick Fire</button>
@@ -505,7 +505,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
     <div class="stat-card">
       <div class="stat-label">Papers Done</div>
       <div class="stat-big" id="dPapers">0</div>
-      <div class="stat-sub">of 23 practice papers</div>
+      <div class="stat-sub">of 33 practice papers</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Best Score</div>
@@ -591,7 +591,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 <!-- ═══ STUDY NOTES TAB add Dummy═══ -->
 <div id="notesTab" class="tab-content">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">
-  <p style="font-size:.82rem;color:var(--muted);margin:0">Click any topic to expand notes. <strong>G3 Science EOY — 8 chapters (Sec A 30M + Sec B 40M + Sec C 30M = 100 marks)</strong> — focus on Tier 1 first.</p>
+  <p style="font-size:.82rem;color:var(--muted);margin:0">Click any topic to expand notes. <strong>G3 Science EOY — 13 chapters (Sec A 30M + Sec B 40M + Sec C 30M = 100 marks)</strong> — focus on Tier 1 first.</p>
   <button onclick="refreshStudyNotes()" id="refreshNotesBtn" style="padding:7px 14px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;flex-shrink:0">🔄 Refresh Notes</button>
 </div>
 <div id="dynamicNotesArea"></div>
@@ -1080,6 +1080,160 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
   </div>
 </div>
 
+
+  <!-- NEW TOPICS: Ch9-Ch13 -->
+  <div class="sec-label" style="margin-top:1.5rem">&#x1F7E2; TIER 2 — Extended Topics (Ch9-Ch13)</div>
+
+  <!-- Ch9: Human Body Systems -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge" style="background:#0ea5e9;color:#fff">Ch9</span><span class="acc-title">&#x1FAC0; Human Body Systems</span><span class="chev">&#x25BC;</span></div>
+    <div class="acc-body">
+      <h4>The Major Body Systems</h4>
+      <table class="rt"><tr><th>System</th><th>Main Organs</th><th>Function</th></tr>
+        <tr><td>Digestive</td><td>Mouth, stomach, small intestine, large intestine, liver</td><td>Break down food into nutrients for absorption</td></tr>
+        <tr><td>Circulatory</td><td>Heart, arteries, veins, capillaries, blood</td><td>Transport nutrients, oxygen, hormones, remove waste</td></tr>
+        <tr><td>Respiratory</td><td>Nose, trachea, bronchi, lungs, alveoli</td><td>Exchange oxygen and carbon dioxide</td></tr>
+        <tr><td>Excretory</td><td>Kidneys, lungs, skin</td><td>Remove metabolic waste (urea, CO2, excess water)</td></tr>
+      </table>
+      <h4>Circulatory System</h4>
+      <div class="pills">
+        <span class="pill">Artery = blood AWAY from heart</span>
+        <span class="pill am">Vein = blood TO heart</span>
+        <span class="pill" style="background:#eff6ff;border-color:#bfdbfe;color:var(--blue)">Capillary = exchange with cells</span>
+      </div>
+      <div class="callout red"><strong>Exception!</strong> Pulmonary ARTERY = deoxygenated (heart to lungs). Pulmonary VEIN = oxygenated (lungs to heart).</div>
+      <h4>Alveoli Adaptations for Gas Exchange</h4>
+      <div class="callout">1. Thin walls (1 cell thick) — short diffusion distance<br>2. Large surface area (millions of alveoli)<br>3. Rich blood supply — maintains concentration gradient<br>4. Moist surface — gases dissolve to cross membrane</div>
+      <h4>Digestive System Journey</h4>
+      <table class="rt"><tr><th>Location</th><th>What happens</th></tr>
+        <tr><td>Mouth</td><td>Chewing + amylase digests starch → maltose</td></tr>
+        <tr><td>Stomach</td><td>HCl + pepsin digest proteins, churning</td></tr>
+        <tr><td>Small intestine</td><td>Enzymes complete digestion; villi absorb nutrients</td></tr>
+        <tr><td>Large intestine</td><td>Water absorbed; faeces formed</td></tr>
+        <tr><td>Liver</td><td>Produces bile; produces urea; stores glycogen</td></tr>
+        <tr><td>Kidneys</td><td>Filter urea, excess water, salts → urine</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Ch10: Diversity of Living Things -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge" style="background:#10b981;color:#fff">Ch10</span><span class="acc-title">&#x1F33F; Diversity of Living Things</span><span class="chev">&#x25BC;</span></div>
+    <div class="acc-body">
+      <h4>The 7 Life Processes (MRS NERG)</h4>
+      <div class="pills">
+        <span class="pill">M-Movement</span><span class="pill am">R-Reproduction</span>
+        <span class="pill">S-Sensitivity</span><span class="pill am">N-Nutrition</span>
+        <span class="pill">E-Excretion</span><span class="pill am">R-Respiration</span>
+        <span class="pill">G-Growth</span>
+      </div>
+      <h4>Classification Hierarchy</h4>
+      <div class="callout"><strong>King Philip Came Over For Good Soup</strong><br>Kingdom &rarr; Phylum &rarr; Class &rarr; Order &rarr; Family &rarr; Genus &rarr; Species</div>
+      <h4>The Five Kingdoms</h4>
+      <table class="rt"><tr><th>Kingdom</th><th>Cell type</th><th>Features</th><th>Examples</th></tr>
+        <tr><td>Monera</td><td>Prokaryote</td><td>Unicellular, no nucleus</td><td>Bacteria</td></tr>
+        <tr><td>Protista</td><td>Eukaryote</td><td>Mostly unicellular</td><td>Amoeba, algae</td></tr>
+        <tr><td>Fungi</td><td>Eukaryote</td><td>Multicellular, decomposers, absorb food</td><td>Mushrooms, yeast</td></tr>
+        <tr><td>Plantae</td><td>Eukaryote</td><td>Multicellular, autotrophs (photosynthesis)</td><td>Mosses, ferns, flowering plants</td></tr>
+        <tr><td>Animalia</td><td>Eukaryote</td><td>Multicellular, heterotrophs, move</td><td>Insects, fish, mammals</td></tr>
+      </table>
+      <h4>Vertebrate Groups Comparison</h4>
+      <table class="rt"><tr><th>Group</th><th>Skin</th><th>Breathing</th><th>Temperature</th><th>Reproduction</th></tr>
+        <tr><td>Fish</td><td>Scales</td><td>Gills</td><td>Cold-blooded</td><td>Eggs in water</td></tr>
+        <tr><td>Amphibians</td><td>Moist, smooth</td><td>Gills then lungs</td><td>Cold-blooded</td><td>Eggs in water</td></tr>
+        <tr><td>Reptiles</td><td>Dry, scaly</td><td>Lungs</td><td>Cold-blooded</td><td>Eggs on land</td></tr>
+        <tr><td>Birds</td><td>Feathers</td><td>Lungs</td><td>Warm-blooded</td><td>Eggs on land</td></tr>
+        <tr><td>Mammals</td><td>Hair/fur</td><td>Lungs</td><td>Warm-blooded</td><td>Live young, fed milk</td></tr>
+      </table>
+      <div class="callout warn"><strong>Arthropod Comparison</strong><br>
+        Insects: 6 legs, 3 body segments<br>Arachnids: 8 legs, 2 body segments<br>Both: exoskeleton + jointed legs</div>
+    </div>
+  </div>
+
+  <!-- Ch11: Thermal Energy -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge" style="background:#f97316;color:#fff">Ch11</span><span class="acc-title">&#x1F321;&#xFE0F; Thermal Energy &amp; Heat Transfer</span><span class="chev">&#x25BC;</span></div>
+    <div class="acc-body">
+      <h4>Three Methods of Heat Transfer</h4>
+      <table class="rt"><tr><th>Method</th><th>Medium needed?</th><th>How it works</th><th>Best in</th></tr>
+        <tr><td><strong>Conduction</strong></td><td>Yes (contact)</td><td>Particle vibration transfer along material</td><td>Solids (metals)</td></tr>
+        <tr><td><strong>Convection</strong></td><td>Yes (fluid)</td><td>Hot fluid rises (less dense); cool fluid sinks</td><td>Liquids and gases</td></tr>
+        <tr><td><strong>Radiation</strong></td><td>No</td><td>Infrared electromagnetic waves</td><td>Vacuum, space</td></tr>
+      </table>
+      <div class="callout"><strong>Heat always flows from HOT to COLD until thermal equilibrium</strong></div>
+      <h4>Radiation: Colour Rules</h4>
+      <table class="rt"><tr><th>Surface</th><th>Absorber</th><th>Emitter</th></tr>
+        <tr><td>Dull black</td><td>BEST</td><td>BEST</td></tr>
+        <tr><td>Shiny silver / white</td><td>Worst</td><td>Worst</td></tr>
+      </table>
+      <div class="callout warn"><strong>Applications</strong><br>
+        Solar panels: black to absorb radiation<br>
+        Thermos flask: silver walls (reflect radiation) + vacuum (no conduction/convection)<br>
+        White walls in hot countries: reflect radiation, stay cooler<br>
+        Sea breeze: land heats faster than sea = convection current</div>
+    </div>
+  </div>
+
+  <!-- Ch12: Electricity & Circuits -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge" style="background:#8b5cf6;color:#fff">Ch12</span><span class="acc-title">&#x26A1; Electricity &amp; Circuits</span><span class="chev">&#x25BC;</span></div>
+    <div class="acc-body">
+      <h4>Key Quantities</h4>
+      <table class="rt"><tr><th>Quantity</th><th>Symbol</th><th>Unit</th><th>Instrument</th><th>Connection</th></tr>
+        <tr><td>Current</td><td>I</td><td>Ampere (A)</td><td>Ammeter</td><td>SERIES</td></tr>
+        <tr><td>Voltage (p.d.)</td><td>V</td><td>Volt (V)</td><td>Voltmeter</td><td>PARALLEL</td></tr>
+        <tr><td>Resistance</td><td>R</td><td>Ohm (&#x03A9;)</td><td>Ohmmeter</td><td>&#x2014;</td></tr>
+      </table>
+      <div class="callout" style="text-align:center;font-size:1.1rem"><strong>Ohm's Law: V = I &times; R</strong><br>I = V &divide; R &nbsp;&nbsp; R = V &divide; I</div>
+      <h4>Series vs Parallel</h4>
+      <table class="rt"><tr><th></th><th>Series</th><th>Parallel</th></tr>
+        <tr><td>Current</td><td>SAME throughout</td><td>Splits at branches</td></tr>
+        <tr><td>Voltage</td><td>Shared between components</td><td>SAME across each branch</td></tr>
+        <tr><td>If one fails</td><td>All go out</td><td>Others stay on</td></tr>
+        <tr><td>Used for</td><td>Simple torches</td><td>Household wiring</td></tr>
+      </table>
+      <div class="callout warn"><strong>Remember</strong><br>
+        Ammeter: low resistance, in SERIES<br>
+        Voltmeter: high resistance, in PARALLEL<br>
+        More series components = more resistance = less current<br>
+        More parallel branches = less total resistance</div>
+    </div>
+  </div>
+
+  <!-- Ch13: Forces & Motion -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge" style="background:#ef4444;color:#fff">Ch13</span><span class="acc-title">&#x1F3C3; Forces &amp; Motion</span><span class="chev">&#x25BC;</span></div>
+    <div class="acc-body">
+      <h4>Key Definitions</h4>
+      <table class="rt"><tr><th>Term</th><th>Definition</th><th>Unit</th></tr>
+        <tr><td>Mass</td><td>Amount of matter in an object</td><td>kg</td></tr>
+        <tr><td>Weight</td><td>Gravitational force on mass (W = mg)</td><td>Newton (N)</td></tr>
+        <tr><td>Speed</td><td>Distance &divide; Time (no direction)</td><td>m/s or km/h</td></tr>
+        <tr><td>Velocity</td><td>Speed WITH direction</td><td>m/s (+ direction)</td></tr>
+        <tr><td>Friction</td><td>Force opposing motion between surfaces</td><td>Newton (N)</td></tr>
+      </table>
+      <div class="callout" style="text-align:center"><strong>W = m &times; g</strong> (Earth: g = 10 N/kg; Moon: g &asymp; 1.6 N/kg)<br>
+        <strong>Speed = Distance &divide; Time</strong></div>
+      <h4>Newton's 1st Law</h4>
+      <div class="callout"><strong>Net force = 0 &rarr; object stays at rest OR moves at constant speed in straight line</strong><br>
+        Book on table: weight = normal force (balanced)<br>
+        Skydiver at terminal velocity: weight = air resistance (balanced)</div>
+      <h4>Distance-Time Graphs</h4>
+      <table class="rt"><tr><th>Shape</th><th>Meaning</th></tr>
+        <tr><td>Horizontal line</td><td>STATIONARY (not moving)</td></tr>
+        <tr><td>Straight line, positive gradient</td><td>Constant speed</td></tr>
+        <tr><td>Steeper straight line</td><td>Greater constant speed</td></tr>
+        <tr><td>Curved line (gradient increasing)</td><td>Accelerating</td></tr>
+      </table>
+      <div class="callout warn"><strong>Terminal Velocity</strong><br>
+        As falling object speeds up &rarr; air resistance increases &rarr; net force falls &rarr; acceleration falls<br>
+        When air resistance = weight &rarr; net force = 0 &rarr; constant (terminal) speed</div>
+    </div>
+  </div>
+
+
+</div>
+
 <!-- ═══ PRACTICE PAPERS TAB ═══ -->
 <div id="papersTab" class="tab-content">
   <p style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem">10 practice papers (G2 format: Sec A MCQ 10 + Sec B True/False 10 + Sec C Structured 20 = 40 marks). Submit each paper to track your progress.</p>
@@ -1424,7 +1578,12 @@ var CH_META=[
   {id:'ch5', num:5, title:'Ray Model of Light',   skill:'Ray Model of Light'},
   {id:'ch6', num:6, title:'Cells',                skill:'Cells'},
   {id:'ch7', num:7, title:'Particulate Matter',   skill:'Particulate Matter'},
-  {id:'ch8', num:8, title:'Atoms & Molecules',    skill:'Atoms & Molecules'}
+  {id:'ch8', num:8, title:'Atoms & Molecules',    skill:'Atoms & Molecules'},
+  {id:'ch9', num:9, title:'Human Body Systems',   skill:'Human Body Systems'},
+  {id:'ch10',num:10,title:'Diversity of Life',    skill:'Diversity of Life'},
+  {id:'ch11',num:11,title:'Thermal Energy',        skill:'Thermal Energy'},
+  {id:'ch12',num:12,title:'Electricity & Circuits',skill:'Electricity & Circuits'},
+  {id:'ch13',num:13,title:'Forces & Motion',       skill:'Forces & Motion'}
 ];
 function chapterAvg(d, chapId){
   var m=CH_META.find(function(c){return c.id===chapId;});
@@ -2374,6 +2533,270 @@ function generateAllPapers(){
       ]
     }
 
+
+
+    ,{
+      num:24,title:'Ch9 Practice — Human Body Systems (I)',
+      secA:[
+        {q:'Which system transports blood, nutrients, and oxygen to all cells?',opts:['Respiratory system','Digestive system','Circulatory system','Nervous system'],ans:2,skill:'Human Body Systems',fb:'The circulatory system (heart, blood vessels, blood) transports oxygen and nutrients to cells and removes waste products like CO2.'},
+        {q:'Which organ pumps blood around the body?',opts:['Lungs','Liver','Kidneys','Heart'],ans:3,skill:'Human Body Systems',fb:'The heart is the muscular pump that drives blood through the circulatory system. It has four chambers: left/right atria and left/right ventricles.'},
+        {q:'Which blood vessel carries oxygenated blood AWAY from the heart?',opts:['Vein','Artery','Capillary','Lymph vessel'],ans:1,skill:'Human Body Systems',fb:'Arteries carry blood AWAY from the heart (usually oxygenated, except the pulmonary artery). Veins carry blood TO the heart. Capillaries exchange substances with tissues.'},
+        {q:'Where does gas exchange (O2 in, CO2 out) occur?',opts:['Heart','Stomach','Alveoli in the lungs','Small intestine'],ans:2,skill:'Human Body Systems',fb:'Gas exchange occurs in alveoli — tiny air sacs with thin walls, large surface area, and rich blood supply. O2 diffuses in; CO2 diffuses out.'},
+        {q:'Which organ mainly digests proteins?',opts:['Mouth','Stomach','Large intestine','Liver'],ans:1,skill:'Human Body Systems',fb:'The stomach produces HCl and pepsin (protein-digesting enzyme). The mouth begins starch digestion with amylase.'},
+        {q:'Where are most nutrients absorbed into the blood?',opts:['Stomach','Large intestine','Small intestine','Oesophagus'],ans:2,skill:'Human Body Systems',fb:'The small intestine is lined with villi and microvilli that greatly increase surface area for absorption of digested nutrients.'},
+        {q:'What is the role of the large intestine?',opts:['Digest proteins','Absorb nutrients','Absorb water and form faeces','Produce enzymes'],ans:2,skill:'Human Body Systems',fb:'The large intestine absorbs water from undigested material and compacts it into faeces for excretion.'},
+        {q:'Which part filters, warms and moistens incoming air?',opts:['Trachea','Alveoli','Nasal cavity','Bronchi'],ans:2,skill:'Human Body Systems',fb:'The nasal cavity filters dust and microbes, warms air, and moistens it before it reaches the lungs.'},
+        {q:'What is the function of the respiratory system?',opts:['Break down food','Exchange O2 and CO2 between blood and air','Pump blood to organs','Remove waste from blood'],ans:1,skill:'Human Body Systems',fb:'The respiratory system brings O2 into the body and removes CO2. Gas exchange happens at the alveoli.'},
+        {q:'What does the diaphragm do during inhalation?',opts:['Relaxes, moves up, decreases chest volume','Contracts, flattens, increases chest volume','Stays still','Pumps blood'],ans:1,skill:'Human Body Systems',fb:'During inhalation the diaphragm contracts and flattens, increasing chest volume, lowering pressure inside, so air rushes in.'}
+      ],
+      secB:[
+        {stmt:'Arteries always carry oxygenated blood and veins always carry deoxygenated blood.',ans:false,reason:'The pulmonary ARTERY carries deoxygenated blood to the lungs; the pulmonary VEIN carries oxygenated blood back. Arteries = away from heart; veins = toward heart.',skill:'Human Body Systems'},
+        {stmt:'Villi in the small intestine increase surface area for nutrient absorption.',ans:true,reason:'Villi are finger-like projections lining the small intestine, greatly increasing surface area for absorption of amino acids, glucose, and fatty acids.',skill:'Human Body Systems'},
+        {stmt:'Alveoli have thick walls to protect the gas exchange surface.',ans:false,reason:'Alveoli have very THIN walls (one cell thick) to minimise diffusion distance. They also have a rich blood supply and large surface area.',skill:'Human Body Systems'},
+        {stmt:'The digestive and circulatory systems work together to supply nutrients to cells.',ans:true,reason:'The digestive system absorbs nutrients into blood; the circulatory system transports them via blood to every cell — an example of organ systems working together.',skill:'Human Body Systems'},
+        {stmt:'CO2 is a waste product of cellular respiration and is removed via the lungs.',ans:true,reason:'Cells produce CO2 during respiration. CO2 diffuses into blood, is carried to the lungs, and diffuses into alveoli where it is breathed out.',skill:'Human Body Systems'}
+      ],
+      secC:[
+        {type:'str',q:'(a) Name the organ system that transports O2 and nutrients to body cells. [1]\n(b) State TWO features of alveoli that make them well-suited for gas exchange. [2]\n(c) Explain how the circulatory and respiratory systems work together to supply oxygen to body cells. [3]',marks:6,scheme:'(a) Circulatory system [1]\n(b) Any TWO: thin walls / large surface area / rich blood supply / moist surface [1 each]\n(c) Air enters lungs; O2 diffuses from alveoli into blood [1]. Heart pumps oxygenated blood via arteries to body cells [1]. O2 released to cells; CO2 diffuses into blood, returned to lungs to be breathed out [1].'},
+        {type:'str',q:'Describe the journey of a glucose molecule from bread to a leg muscle cell. Include digestion, absorption, and transport. [4]',marks:4,scheme:'Starch digested to glucose in the small intestine [1]. Glucose absorbed through villi into blood [1]. Circulatory system carries glucose via blood/arteries to the leg [1]. Glucose passes from capillaries into the muscle cell [1].'}
+      ]
+    },
+    {
+      num:25,title:'Ch9 Practice — Human Body Systems (II)',
+      secA:[
+        {q:'Which organ removes urea and excess water from the blood?',opts:['Liver','Kidneys','Lungs','Stomach'],ans:1,skill:'Human Body Systems',fb:'The kidneys filter blood, removing urea (from protein breakdown), excess water and salts, excreted as urine.'},
+        {q:'What produces urea?',opts:['Breaking down glucose','Breaking down excess amino acids in the liver','O2 reacting with CO2','Digesting starch'],ans:1,skill:'Human Body Systems',fb:'The liver breaks down excess amino acids (deamination), producing urea transported to the kidneys for excretion.'},
+        {q:'Which system removes metabolic waste from the blood?',opts:['Digestive','Respiratory','Excretory (kidneys)','Circulatory'],ans:2,skill:'Human Body Systems',fb:'The excretory system (kidneys) filters urea, excess water, and salts. Lungs also excrete CO2.'},
+        {q:'Correct pathway of air during inhalation?',opts:['Mouth → Alveoli → Trachea → Bronchi','Mouth → Trachea → Bronchi → Alveoli','Alveoli → Bronchi → Trachea → Mouth','Mouth → Bronchi → Trachea → Alveoli'],ans:1,skill:'Human Body Systems',fb:'Mouth/Nose → Trachea → Bronchi → Bronchioles → Alveoli. Air travels from large to small passages deep into lungs.'},
+        {q:'Capillaries main role is:',opts:['Pump blood at high pressure','Carry blood long distances','Exchange substances between blood and cells','Store blood'],ans:2,skill:'Human Body Systems',fb:'Capillaries have very thin walls (one cell thick). Nutrients, O2, and waste exchange between blood and tissues across these walls.'},
+        {q:'Function of red blood cells?',opts:['Fight infection','Carry O2 using haemoglobin','Clot blood','Carry nutrients to liver'],ans:1,skill:'Human Body Systems',fb:'Red blood cells contain haemoglobin, which binds O2 in lungs and releases it to body cells. They have no nucleus, maximising space for haemoglobin.'},
+        {q:'Which cells fight infections?',opts:['Red blood cells','Platelets','White blood cells','Plasma cells'],ans:2,skill:'Human Body Systems',fb:'White blood cells destroy pathogens by engulfing them (phagocytosis) or producing antibodies.'},
+        {q:'ONE function of the liver?',opts:['Absorb water from faeces','Produce urea from excess amino acids','Pump blood','Produce enzymes for small intestine'],ans:1,skill:'Human Body Systems',fb:'The liver: produces urea (deamination), produces bile for fat digestion, stores glycogen, detoxifies harmful substances.'},
+        {q:'Where does carbohydrate digestion BEGIN?',opts:['Stomach','Small intestine','Large intestine','Mouth'],ans:3,skill:'Human Body Systems',fb:'Carbohydrate digestion begins in the mouth. Salivary amylase breaks starch into maltose. Continues in the small intestine.'},
+        {q:'Function of bile produced by the liver?',opts:['Digest proteins','Neutralise stomach acid and emulsify fats','Kill bacteria','Absorb water'],ans:1,skill:'Human Body Systems',fb:'Bile emulsifies fats (breaks large droplets into smaller ones, increasing surface area for lipase). Bile also neutralises acid from the stomach.'}
+      ],
+      secB:[
+        {stmt:'The kidneys filter all waste including CO2.',ans:false,reason:'Kidneys filter urea, excess water, and salts. CO2 is removed by the LUNGS. Different organs handle different waste products.',skill:'Human Body Systems'},
+        {stmt:'Red blood cells have no nucleus to maximise space for haemoglobin.',ans:true,reason:'Red blood cells lack a nucleus — more space for haemoglobin molecules to carry oxygen. An example of specialisation for function.',skill:'Human Body Systems'},
+        {stmt:'Digestion is only a physical process.',ans:false,reason:'Digestion includes BOTH physical (chewing, churning) AND chemical processes (enzymes breaking bonds). Both are essential to produce molecules small enough to absorb.',skill:'Human Body Systems'},
+        {stmt:'The circulatory system connects the digestive and respiratory systems by transporting their products.',ans:true,reason:'The circulatory system picks up nutrients from digestion and O2 from respiration, then delivers both to all body cells — the transport network connecting organ systems.',skill:'Human Body Systems'},
+        {stmt:'Bile is an enzyme that digests fats.',ans:false,reason:'Bile is NOT an enzyme. It emulsifies fats (breaks into smaller droplets) to increase surface area for lipase. Lipase is the actual fat-digesting enzyme.',skill:'Human Body Systems'}
+      ],
+      secC:[
+        {type:'str',q:'(a) State the function of the stomach in digestion. [2]\n(b) Explain why the small intestine is well-adapted for nutrient absorption. [3]\n(c) State ONE difference between the roles of the small intestine and large intestine. [1]',marks:6,scheme:'(a) Digests proteins using pepsin [1] and HCl [1]; churns food into paste [accept 2 of 3]\n(b) Villi increase surface area [1]; thin walls for short diffusion distance [1]; rich blood supply to carry nutrients away [1]\n(c) Small intestine absorbs nutrients; large intestine absorbs water and forms faeces [1]'},
+        {type:'str',q:'Explain how the body maintains constant internal temperature. What happens when (a) temperature rises [3] (b) temperature drops [3]?',marks:6,scheme:'(a) Too high: vasodilation — blood vessels widen, more blood near surface [1]; sweat evaporates removing heat [1]; hair lies flat [1]\n(b) Too low: vasoconstriction — less blood near surface, less heat lost [1]; muscles shiver producing heat [1]; hairs stand up trapping air as insulation [1]'}
+      ]
+    },
+    {
+      num:26,title:'Ch10 Practice — Diversity of Living Things (I)',
+      secA:[
+        {q:'Which organisms produce food through photosynthesis?',opts:['Animals','Fungi','Plants','Bacteria'],ans:2,skill:'Diversity of Life',fb:'Plants (and algae) are autotrophs — they make food using sunlight: CO2 + water → glucose + oxygen.'},
+        {q:'Which is a key characteristic of ALL living organisms?',opts:['All have a nucleus','All photosynthesise','All carry out the 7 life processes (MRS NERG)','All have a cell wall'],ans:2,skill:'Diversity of Life',fb:'All living organisms carry out 7 life processes: Movement, Reproduction, Sensitivity, Nutrition, Excretion, Respiration, Growth.'},
+        {q:'Main purpose of classification?',opts:['Make biology harder','Organise organisms based on shared features and predict characteristics','Count organisms','Make animals easier to catch'],ans:1,skill:'Diversity of Life',fb:'Classification organises biodiversity, helps identify organisms, and allows scientists to predict characteristics of related organisms.'},
+        {q:'Correct hierarchy from LARGEST to SMALLEST?',opts:['Species→Genus→Family→Order→Class→Phylum→Kingdom','Kingdom→Phylum→Class→Order→Family→Genus→Species','Species→Family→Kingdom→Class→Order→Genus→Phylum','Kingdom→Class→Phylum→Order→Family→Genus→Species'],ans:1,skill:'Diversity of Life',fb:'Kingdom → Phylum → Class → Order → Family → Genus → Species (King Philip Came Over For Good Soup). Species is most specific.'},
+        {q:'Which feature distinguishes mammals from other vertebrates?',opts:['They breathe air','They are warm-blooded','They have hair and feed young with milk','They can move'],ans:2,skill:'Diversity of Life',fb:'Mammals: hair/fur, mammary glands (milk), most give birth to live young. Birds also breathe air and are warm-blooded.'},
+        {q:'What makes viruses different from bacteria?',opts:['Viruses are larger','Viruses have a nucleus','Viruses are not cells and cannot reproduce alone','Viruses photosynthesise'],ans:2,skill:'Diversity of Life',fb:'Viruses are NOT cells — no membrane, cytoplasm or organelles. They reproduce only inside a host cell. Bacteria ARE cells (prokaryotic) that reproduce independently.'},
+        {q:'Which kingdom includes multicellular organisms that absorb nutrients from dead matter?',opts:['Plant','Animal','Fungi','Protist'],ans:2,skill:'Diversity of Life',fb:'Fungi (mushrooms, moulds, yeasts) secrete enzymes to break down dead matter externally and absorb nutrients — they are decomposers.'},
+        {q:'A dichotomous key is used to:',opts:['Draw organisms to scale','Identify organisms by yes/no questions based on features','Count organisms in an area','Measure organism size'],ans:1,skill:'Diversity of Life',fb:'A dichotomous key identifies organisms step-by-step using yes/no questions about features, narrowing down until identified.'},
+        {q:'Insects differ from arachnids in having:',opts:['Six legs','Eight legs','Exoskeleton','Jointed legs'],ans:0,skill:'Diversity of Life',fb:'Insects: 6 legs, 3 body segments. Arachnids (spiders, scorpions): 8 legs, 2 body segments. Both have exoskeletons and jointed legs.'},
+        {q:'A species is:',opts:['Any similar-looking organisms','Organisms that interbreed and produce fertile offspring','All animals in one country','The largest classification group'],ans:1,skill:'Diversity of Life',fb:'A species: organisms that can interbreed naturally to produce fertile offspring. Different species produce sterile offspring or cannot interbreed.'}
+      ],
+      secB:[
+        {stmt:'A virus is living because it can reproduce.',ans:false,reason:'Viruses cannot reproduce alone — they use a host cell. They lack cells, do not respire, grow, or carry out most life processes. Most scientists consider them non-living.',skill:'Diversity of Life'},
+        {stmt:'All plants have leaves, roots and stems.',ans:false,reason:'Not all plants have all three structures. Mosses have no roots or stems. Classification includes mosses, ferns, conifers, and flowering plants — each with different structures.',skill:'Diversity of Life'},
+        {stmt:'Bacteria are prokaryotes because their cells have no membrane-bound nucleus.',ans:true,reason:'Prokaryotes (bacteria) have no nuclear membrane — DNA is free in the cytoplasm. Eukaryotes (plants, animals, fungi) have a membrane-bound nucleus.',skill:'Diversity of Life'},
+        {stmt:'A shark and dolphin belong to the same class because both live in the sea.',ans:false,reason:'Sharks are fish; dolphins are mammals. Classification is based on biology (breathing, reproduction, body temperature), not habitat or appearance.',skill:'Diversity of Life'},
+        {stmt:'Biodiversity refers to the variety of living organisms in an ecosystem.',ans:true,reason:'Biodiversity = variety of life: number of species, genetic diversity within species, and variety of ecosystems. High biodiversity indicates a healthy ecosystem.',skill:'Diversity of Life'}
+      ],
+      secC:[
+        {type:'str',q:'A student finds a single-celled organism with a nucleus, chloroplasts, and a flagellum.\n(a) Prokaryote or eukaryote? Give a reason. [2]\n(b) Which kingdom? [1]\n(c) One similarity to plants and one to animals. [2]',marks:5,scheme:'(a) Eukaryote [1]; has a nucleus (membrane-bound) [1]\n(b) Protist [1]\n(c) Plant: has chloroplasts and can photosynthesise [1]; Animal: can move (flagellum) [1]'},
+        {type:'str',q:'Use the key: 1a Wings→2; 1b No wings→Spider. 2a 6 legs→3; 2b 4 legs→Bird. 3a Scales→Butterfly; 3b No scales→Fly.\nOrg A: wings, 6 legs, no scales. Org B: no wings. Org C: wings, 4 legs.\n(a) Identify A, B, C. [3] (b) State TWO features to distinguish bee from fly. [2]',marks:5,scheme:'(a) A=Fly [1]; B=Spider [1]; C=Bird [1]\n(b) Any TWO: number of wings (bee 4, fly 2) [1]; presence of stripes [1]; pollen baskets [1]'}
+      ]
+    }
+
+    ,{
+      num:27,title:'Ch10 Practice — Diversity of Living Things (II)',
+      secA:[
+        {q:'Which vertebrate has moist smooth skin and lays eggs in water?',opts:['Reptiles','Amphibians','Fish','Mammals'],ans:1,skill:'Diversity of Life',fb:'Amphibians (frogs, toads) have moist smooth skin, live in water and on land, and must lay eggs in water. Reptiles have dry scaly skin.'},
+        {q:'Flowering plants differ from non-flowering because they:',opts:['Have leaves','Photosynthesise','Produce seeds enclosed in fruit','Have roots'],ans:2,skill:'Diversity of Life',fb:'Angiosperms (flowering plants) produce seeds enclosed within fruit. Conifers produce seeds in cones (non-enclosed).'},
+        {q:'Which organism is a producer in a food chain?',opts:['Grasshopper','Frog','Grass','Snake'],ans:2,skill:'Diversity of Life',fb:'Producers (plants/algae) make their own food via photosynthesis. They are the base of all food chains.'},
+        {q:'Which is a decomposer?',opts:['Oak tree','Fox','Mushroom (fungus)','Rabbit'],ans:2,skill:'Diversity of Life',fb:'Decomposers (bacteria and fungi) break down dead organisms and recycle nutrients back into the ecosystem.'},
+        {q:'Vertebrate evolution order (simplest to most complex)?',opts:['Fish → Amphibians → Reptiles → Birds → Mammals','Mammals → Birds → Reptiles → Amphibians → Fish','Fish → Mammals → Reptiles → Amphibians → Birds','Amphibians → Fish → Birds → Reptiles → Mammals'],ans:0,skill:'Diversity of Life',fb:'Fish (fully aquatic) → Amphibians (partially terrestrial) → Reptiles (fully terrestrial) → Birds/Mammals.'},
+        {q:'Ferns differ from mosses because ferns:',opts:['Cannot photosynthesise','Have no roots','Have vascular tissue (xylem and phloem)','Cannot reproduce'],ans:2,skill:'Diversity of Life',fb:'Ferns have vascular tissue to transport water, enabling larger growth. Mosses lack vascular tissue and must stay small and moist.'},
+        {q:'An adaptation is:',opts:['Changing species in one generation','A feature helping an organism survive in its environment','Ability to learn new skills','Choosing a new habitat'],ans:1,skill:'Diversity of Life',fb:'An adaptation is a structural, physiological, or behavioural feature helping an organism survive and reproduce in its environment.'},
+        {q:'Which statement about food webs is correct?',opts:['Energy flows from consumer to producer','All energy is recycled perfectly','Energy flows from producer to consumer, lost as heat at each level','All organisms get equal energy'],ans:2,skill:'Diversity of Life',fb:'Energy flows FROM producers TO consumers. At each trophic level, energy is lost as heat during respiration. Food chains rarely exceed 4-5 levels.'},
+        {q:'Which helps a cactus survive in desert?',opts:['Large leaves for photosynthesis','Shallow roots to absorb rain; thick stem stores water','No roots to avoid water loss','Dropping leaves in summer'],ans:1,skill:'Diversity of Life',fb:'Cactus adaptations: shallow widespread roots quickly absorb rain; thick stems store water; reduced leaves (spines) minimise water loss; waxy coating reduces evaporation.'},
+        {q:'What do all arthropods have in common?',opts:['Six legs','Eight legs','Exoskeleton and jointed legs','Wings and antennae'],ans:2,skill:'Diversity of Life',fb:'Arthropods (insects, arachnids, crustaceans) all have: exoskeleton and jointed legs. Number of legs differs by group.'}
+      ],
+      secB:[
+        {stmt:'Warm-blooded birds have the same body temperature as mammals.',ans:false,reason:'Both birds and mammals are warm-blooded (endothermic) but may have different body temperatures. Birds typically have higher temperatures (~40-42°C) than humans (37°C).',skill:'Diversity of Life'},
+        {stmt:'Decomposers play an important role in recycling nutrients in ecosystems.',ans:true,reason:'Decomposers break down dead organisms, releasing nutrients back into the soil for plants to use — completing the nutrient cycle.',skill:'Diversity of Life'},
+        {stmt:'A virus, a bacterium, and a fern are all in the same kingdom.',ans:false,reason:'Viruses are not in any kingdom. Bacteria: Kingdom Bacteria. Ferns: Kingdom Plantae. Fundamentally different types of organism.',skill:'Diversity of Life'},
+        {stmt:'All fungi are harmful to humans.',ans:false,reason:'Many fungi are beneficial: yeast in bread/brewing, Penicillium producing antibiotics, edible mushrooms. Fungi are also vital decomposers.',skill:'Diversity of Life'},
+        {stmt:'A food chain always begins with a producer.',ans:true,reason:'All food chains begin with a PRODUCER (plant or alga) converting light to chemical energy via photosynthesis. All other organisms depend on this.',skill:'Diversity of Life'}
+      ],
+      secC:[
+        {type:'str',q:'Food chain: Grass → Grasshopper → Frog → Snake → Eagle\n(a) Name the producer. [1] (b) Role of eagle? [1]\n(c) If frogs decrease: (i) grasshopper population? [1] (ii) snake population? [1]\n(d) Why does little energy reach the eagle? [2]',marks:6,scheme:'(a) Grass [1]\n(b) Tertiary consumer / apex predator [1]\n(c)(i) Increase [1] — fewer frogs eating them\n(c)(ii) Decrease [1] — less food available\n(d) Energy lost as heat during respiration at each level [1]; only ~10% passed to next level, very little remains by eagle [1]'},
+        {type:'str',q:'(a) State THREE differences between a plant cell and a bacterial cell. [3]\n(b) Why are bacteria called prokaryotes? [1]\n(c) Give ONE beneficial use of bacteria. [1]',marks:5,scheme:'(a) Any THREE: plant cell has nuclear membrane / bacteria have no nucleus [1]; plant cell has mitochondria and chloroplasts [1]; plant cell is larger [1]; plant cell has membrane-bound organelles [1]\n(b) No membrane-bound nucleus — DNA free in cytoplasm [1]\n(c) Any ONE: nitrogen fixation / making yoghurt or cheese / decomposing dead matter / probiotics [1]'}
+      ]
+    },
+    {
+      num:28,title:'Ch11 Practice — Thermal Energy (I)',
+      secA:[
+        {q:'Which heat transfer requires NO medium?',opts:['Conduction','Convection','Radiation','All require matter'],ans:2,skill:'Thermal Energy',fb:'Radiation (infrared waves) can travel through vacuum — how Sun\'s heat reaches Earth. Conduction requires contact; convection requires fluid.'},
+        {q:'Heat flows from 80°C to 20°C object. Direction?',opts:['20°C to 80°C','80°C to 20°C','Both directions equally','No transfer'],ans:1,skill:'Thermal Energy',fb:'Heat always flows from HIGHER to LOWER temperature until thermal equilibrium. The 80°C object loses heat; the 20°C object gains heat.'},
+        {q:'Metals conduct heat well because:',opts:['Metal atoms are very hot','Metals have free electrons that transfer energy quickly','Metals are shiny','Metal atoms do not vibrate'],ans:1,skill:'Thermal Energy',fb:'Metals contain free electrons that move rapidly and collide with atoms, transferring kinetic energy quickly — excellent conductors of heat and electricity.'},
+        {q:'In convection, heat is transferred by:',opts:['Direct contact between particles','Waves through vacuum','Bulk movement of fluid carrying energy','Radiation from hot atoms'],ans:2,skill:'Thermal Energy',fb:'Convection: hot fluid becomes less dense and rises; cool fluid sinks to replace it. Creates convection currents transferring heat. Cannot occur in solids.'},
+        {q:'Best absorber AND emitter of radiation?',opts:['White','Silver','Black','Yellow'],ans:2,skill:'Thermal Energy',fb:'Dull black surfaces best absorb AND emit radiation. Shiny silver/white surfaces are worst absorbers/emitters. Solar panels are black.'},
+        {q:'Metal spoon in hot soup transfers heat to your hand by:',opts:['Convection','Radiation','Conduction','All three equally'],ans:2,skill:'Thermal Energy',fb:'Conduction: heat travels through metal spoon by particle-to-particle energy transfer from hot end to cooler hand.'},
+        {q:'A refrigerator removes heat from inside. This tells us:',opts:['Heat flows cold to hot (artificially forced)','Heat naturally flows warm to cold','Fridge creates cold','No heat flow inside fridge'],ans:0,skill:'Thermal Energy',fb:'Normally heat flows warm to cold. A fridge uses a compressor to artificially move heat from cold inside to warm outside — against natural direction, requiring electricity.'},
+        {q:'Sea breezes during daytime are caused by:',opts:['Conduction in air','Convection — land heats faster, hot air rises, cool sea air moves in','Radiation from sea','Conduction from sea to land'],ans:1,skill:'Thermal Energy',fb:'Land heats faster than sea. Hot air over land rises. Cooler sea air moves in — creating sea breeze. A large-scale convection current.'},
+        {q:'Thermal equilibrium means:',opts:['One object much hotter','Two objects reach same temperature and transfer stops','Substance cannot absorb more heat','Water boils'],ans:1,skill:'Thermal Energy',fb:'Thermal equilibrium: two objects reach the same temperature, no net heat transfer. Heat still flows both ways but rates are equal.'},
+        {q:'Thermos flask silver walls prevent heat loss by:',opts:['Preventing conduction','Preventing convection','Reflecting radiation back in','Stopping evaporation'],ans:2,skill:'Thermal Energy',fb:'Silver walls reflect radiation back in, reducing heat loss by radiation. Vacuum prevents conduction and convection. Stopper prevents convection from top.'}
+      ],
+      secB:[
+        {stmt:'Conduction occurs only in solids.',ans:false,reason:'Conduction occurs in ALL states but is most effective in solids (particles closest together). Liquids and gases are poor conductors.',skill:'Thermal Energy'},
+        {stmt:'A shiny silver surface loses heat by radiation more slowly than dull black at same temperature.',ans:true,reason:'Dull black surfaces are the best emitters of radiation. Shiny silver surfaces are poor emitters — they reflect most radiation and lose heat by radiation more slowly.',skill:'Thermal Energy'},
+        {stmt:'Convection can occur in solid metals.',ans:false,reason:'Convection requires a fluid that can flow. In solids, particles vibrate at fixed positions — no bulk movement possible. Solids transfer heat by conduction only.',skill:'Thermal Energy'},
+        {stmt:'Vacuum in a thermos flask prevents heat loss by both conduction and convection.',ans:true,reason:'Vacuum has no particles — heat cannot be conducted or convected. The vacuum layer prevents both conduction and convection.',skill:'Thermal Energy'},
+        {stmt:'Land and sea warm up at the same rate in sunlight.',ans:false,reason:'Land heats faster than sea (lower specific heat capacity). This temperature difference drives sea breezes (daytime) and land breezes (night).',skill:'Thermal Energy'}
+      ],
+      secC:[
+        {type:'str',q:'(a) Name the THREE methods of heat transfer. [1]\n(b) A student holds a metal rod heated at the other end. After 2 min they feel warmth.\n(i) Name the method. [1] (ii) Explain how heat reaches the hand. [2]\n(c) Why would glass rod NOT work? [2]',marks:6,scheme:'(a) Conduction, convection, radiation [1]\n(b)(i) Conduction [1]\n(ii) Hot particles vibrate with more energy [1]; collide with adjacent particles, transferring energy along rod to hand [1]\n(c) Glass is a poor conductor/insulator [1]; particles less closely packed and no free electrons to transfer energy efficiently [1]'},
+        {type:'str',q:'Explain how a convection current forms when water in a kettle is heated from the bottom. Use ideas about density, temperature, and movement. [4]',marks:4,scheme:'Water at bottom is heated and gains energy [1]; expands and becomes less dense [1]; less dense hot water rises [1]; cooler denser water sinks to take its place, cycle repeats — convection current forms [1]'}
+      ]
+    }
+
+    ,{
+      num:29,title:'Ch11 Practice — Thermal Energy (II)',
+      secA:[
+        {q:'Best application of a good thermal insulator?',opts:['Cooking pan base','Computer heat sink','Handle of a cooking pot','Radiator fins'],ans:2,skill:'Thermal Energy',fb:'Pot handles should be insulators (wood/plastic) to protect users. Pan base and radiator fins need good conductors.'},
+        {q:'What happens to temperature of water as it boils at 100°C?',opts:['Rises above 100°C','Stays constant at 100°C while evaporating','Drops during evaporation','Oscillates'],ans:1,skill:'Thermal Energy',fb:'During a state change, temperature remains CONSTANT. Energy goes into breaking forces of attraction, not raising temperature.'},
+        {q:'Why do houses in hot countries have white outer walls?',opts:['White paint is cheapest','White reflects more radiation, keeping building cooler','White conducts heat better','White allows convection currents'],ans:1,skill:'Thermal Energy',fb:'White surfaces are poor absorbers of radiation — they reflect most. This reduces heat entering the building.'},
+        {q:'Correct direction of heat when a hot cup is placed on a cold table?',opts:['Table to cup','Cup to table','Both ways then stops','No transfer'],ans:1,skill:'Thermal Energy',fb:'Heat flows from HOT (cup) to COLD (table). Cup cools; table warms slightly. Continues until thermal equilibrium.'},
+        {q:'Why is expanded polystyrene a good insulator?',opts:['It is white','It contains many tiny air pockets which are poor conductors','It is rigid','It reflects radiation like a mirror'],ans:1,skill:'Thermal Energy',fb:'Polystyrene traps millions of tiny air pockets. Air is a very poor conductor, so heat cannot easily transfer through the foam.'},
+        {q:'Infrared thermometer uses which method to detect temperature?',opts:['Conduction','Convection','Radiation','Diffusion'],ans:2,skill:'Thermal Energy',fb:'All objects emit infrared radiation. An infrared thermometer detects emitted radiation and calculates temperature. No contact required.'},
+        {q:'Which change INCREASES heat loss from a building?',opts:['Adding thick curtains','Installing double-glazed windows','Removing loft insulation','Painting walls white'],ans:2,skill:'Thermal Energy',fb:'Loft insulation traps air, reducing heat loss. Removing it allows more heat to escape from the house.'},
+        {q:'Land breezes occur at night when:',opts:['Sea is cooler than land','Land is cooler — hot sea air rises, cool land air blows out to sea','Wind always blows from sea to land','Radiation from land heats sea'],ans:1,skill:'Thermal Energy',fb:'At night, land cools faster. Sea is warmer — air above sea rises. Cooler land air blows out to sea — land breeze. Opposite of daytime sea breeze.'},
+        {q:'Which factor does NOT affect conduction rate through a rod?',opts:['Temperature difference between ends','Material (metal vs wood)','Thickness of rod','Colour of rod'],ans:3,skill:'Thermal Energy',fb:'Conduction rate depends on: temperature difference, material, thickness, length. COLOUR does not affect conduction — colour affects radiation.'},
+        {q:'Why does tile feel colder than carpet when both are at room temperature?',opts:['Tiles are always colder','Tile conducts heat away from your feet faster — carpet is an insulator','Carpet radiates heat to feet','Tiles are dirty'],ans:1,skill:'Thermal Energy',fb:'Both are at room temperature (below body temperature). Tiles conduct heat away from warm feet fast — you lose heat quickly, feel cold. Carpet insulates — conducts slowly — feels warmer.'}
+      ],
+      secB:[
+        {stmt:'Heat and temperature mean the same thing.',ans:false,reason:'Heat is total thermal energy transferred (Joules). Temperature is average kinetic energy of particles (°C or K). A large bucket of warm water has more heat than a small cup of boiling water, even though the cup is hotter.',skill:'Thermal Energy'},
+        {stmt:'In conduction, particles move from hot end to cold end.',ans:false,reason:'Particles do NOT move in conduction — they vibrate at fixed positions. Energy is passed particle-to-particle by collisions. Energy moves, not the particles.',skill:'Thermal Energy'},
+        {stmt:'Placing a lid on a hot drink reduces heat loss mainly by reducing convection.',ans:true,reason:'Hot liquid surfaces lose heat by evaporation and convection (hot air rising). A lid prevents vapour and air from escaping, significantly reducing convection and evaporation.',skill:'Thermal Energy'},
+        {stmt:'Rate of radiation emitted by an object increases with temperature.',ans:true,reason:'Hotter objects emit radiation at a much faster rate. A red-hot metal emits far more than the same metal at room temperature — why infrared cameras detect body heat.',skill:'Thermal Energy'},
+        {stmt:'Vacuum flasks keep things hot AND cold effectively.',ans:true,reason:'A vacuum flask prevents heat transfer in BOTH directions — prevents heat entering (keeping cold) AND prevents heat escaping (keeping hot). The vacuum, silver walls, and stopper work regardless of temperature direction.',skill:'Thermal Energy'}
+      ],
+      secC:[
+        {type:'str',q:'(a) Explain why a saucepan has a metal base but a wooden handle. [3]\n(b) Explain using ideas about thermal conduction why the base gets hot but the handle stays cool. [3]',marks:6,scheme:'(a) Metal base conducts heat from source to food [1]; wooden handle is a poor conductor (insulator) [1]; prevents heat being conducted to user\'s hand, preventing burns [1]\n(b) Metal has free electrons and closely-packed atoms that transfer energy efficiently [1]; wood has no free electrons and its particles are poor at transferring vibrational energy [1]; very little heat conducted through wood — handle stays cool [1]'},
+        {type:'str',q:'Solar panels have a black surface and are tilted toward the sun.\n(a) Why is the surface black? [2] (b) Why does tilting increase absorption? [2] (c) Why are panels more effective in Singapore? [1]',marks:5,scheme:'(a) Black surfaces are best absorbers of radiation [1]; they absorb most incident infrared and light from the sun [1]\n(b) When panel faces sun directly, radiation strikes at 90° — maximum energy per unit area [1]; tilting maximises incident energy intercepted [1]\n(c) Singapore near equator with more sunlight hours / higher solar intensity / more direct sunlight angle [1]'}
+      ]
+    },
+    {
+      num:30,title:'Ch12 Practice — Electricity & Circuits (I)',
+      secA:[
+        {q:'What is electric current?',opts:['Energy used by a circuit','Rate of flow of electric charge (coulombs per second)','Resistance of a component','Voltage across a battery'],ans:1,skill:'Electricity & Circuits',fb:'Current (I) = rate of flow of charge. Unit: ampere (A). Measured with ammeter in SERIES. 1A = 1 coulomb of charge per second.'},
+        {q:'Which component measures voltage across a component?',opts:['Ammeter','Voltmeter','Ohmmeter','Galvanometer'],ans:1,skill:'Electricity & Circuits',fb:'Voltmeter measures potential difference (voltage), connected in PARALLEL. Unit: volt (V). Ammeter measures current, connected in series.'},
+        {q:'In a series circuit, if one bulb is removed, what happens to the other?',opts:['Burns brighter','Stays the same','Goes out (circuit broken)','Flickers'],ans:2,skill:'Electricity & Circuits',fb:'Series circuit has ONE path. If one component is removed, circuit breaks, no current flows — all other components go out.'},
+        {q:'In a parallel circuit, if one branch disconnects, what happens to the other?',opts:['Goes out too','Stays lit (current still flows in other branches)','Burns twice as bright','Flickers'],ans:1,skill:'Electricity & Circuits',fb:'Parallel circuits: each branch has an independent path. If one fails, current still flows through other branches. Used in household wiring.'},
+        {q:'Which formula correctly relates V, I and R?',opts:['V = I / R','I = V x R','V = I x R','R = V x I'],ans:2,skill:'Electricity & Circuits',fb:'Ohm\'s Law: V = I x R. Rearranged: I = V/R and R = V/I.'},
+        {q:'Resistance 5 ohm, current 2A. Voltage?',opts:['2.5 V','7 V','10 V','0.4 V'],ans:2,skill:'Electricity & Circuits',fb:'V = I x R = 2 x 5 = 10 V'},
+        {q:'Which symbol represents a battery in a circuit diagram?',opts:['Circle with X inside','Long and short parallel lines (long = positive)','Arrow through a circle','Zigzag line'],ans:1,skill:'Electricity & Circuits',fb:'Battery: long and short parallel lines. Long = positive terminal, short = negative terminal. Single cell = one long and one short line.'},
+        {q:'What does an ammeter measure and how is it connected?',opts:['Voltage; parallel','Current; series','Resistance; parallel','Power; series'],ans:1,skill:'Electricity & Circuits',fb:'Ammeter: measures current (A), connected in SERIES. Very low resistance so it does not affect the circuit.'},
+        {q:'Which material is a good electrical conductor?',opts:['Glass','Rubber','Copper','Wood'],ans:2,skill:'Electricity & Circuits',fb:'Copper is an excellent conductor (used in wires) due to free electrons. Glass, rubber, and wood are insulators.'},
+        {q:'Unit of electrical resistance?',opts:['Ampere (A)','Volt (V)','Watt (W)','Ohm (omega)'],ans:3,skill:'Electricity & Circuits',fb:'Resistance: Ohms (omega). Current: Amperes (A). Voltage: Volts (V). Power: Watts (W). Energy: Joules (J).'}
+      ],
+      secB:[
+        {stmt:'In a series circuit, adding more bulbs makes each bulb dimmer.',ans:true,reason:'More bulbs in series = more resistance = less current (I=V/R). Each bulb gets less current and less voltage, so each is dimmer.',skill:'Electricity & Circuits'},
+        {stmt:'Voltage is the same at every point in a series circuit.',ans:false,reason:'In SERIES, CURRENT is the same at every point. VOLTAGE is shared between components. Two equal bulbs in 6V series each get 3V.',skill:'Electricity & Circuits'},
+        {stmt:'Household appliances are in parallel so each operates independently.',ans:true,reason:'Parallel: each appliance gets full voltage (240V in Singapore) and can be switched on/off independently. Series would mean all on at once and sharing voltage.',skill:'Electricity & Circuits'},
+        {stmt:'A voltmeter has very low resistance so it does not affect the circuit.',ans:false,reason:'A VOLTMETER must have VERY HIGH resistance so it draws virtually no current in parallel. An AMMETER has very low resistance.',skill:'Electricity & Circuits'},
+        {stmt:'A longer wire has more resistance than a shorter wire of same material and thickness.',ans:true,reason:'Resistance increases with length (R proportional to L). More obstacles for electrons. Doubling length doubles resistance.',skill:'Electricity & Circuits'}
+      ],
+      secC:[
+        {type:'str',q:'12V battery, bulb 4 ohm, resistor 2 ohm in SERIES.\n(a) Total resistance. [1] (b) Current. [2] (c) Voltage across bulb. [2] (d) Why would bulb be brighter without the resistor? [2]',marks:7,scheme:'(a) Total R = 4+2 = 6 ohm [1]\n(b) I = V/R = 12/6 = 2A [2]\n(c) V = I x R = 2 x 4 = 8V [2]\n(d) Without resistor R=4 ohm; I=12/4=3A (more current) [1]; more current = more power to bulb = brighter [1]'},
+        {type:'str',q:'(a) Draw a circuit: battery, switch, two bulbs in PARALLEL, ammeter measuring total current. [3]\n(b) If one parallel bulb removed, what happens to the other\'s brightness? Explain. [2]',marks:5,scheme:'(a) Battery [1], switch in main line [1], two parallel branches each with a bulb [1], ammeter in main line\n(b) Other bulb stays same brightness [1]; parallel = each bulb has independent path with same voltage — removing one branch does not affect the other [1]'}
+      ]
+    },
+    {
+      num:31,title:'Ch12 Practice — Electricity & Circuits (II)',
+      secA:[
+        {q:'6V battery, bulb 2 ohm. Current?',opts:['3 A','12 A','0.33 A','4 A'],ans:0,skill:'Electricity & Circuits',fb:'I = V/R = 6/2 = 3 A'},
+        {q:'Parallel circuit: two 6 ohm bulbs, 12V battery. Current through EACH bulb?',opts:['1 A','2 A','4 A','0.5 A'],ans:1,skill:'Electricity & Circuits',fb:'Each bulb gets full 12V in parallel. I = V/R = 12/6 = 2A per bulb. Total from battery = 4A.'},
+        {q:'Which converts electrical energy to light?',opts:['Resistor','Switch','Bulb (lamp)','Wire'],ans:2,skill:'Electricity & Circuits',fb:'Lamp converts electrical energy to light (and some heat). Resistor converts to heat. Motor converts to kinetic energy.'},
+        {q:'What does a switch do?',opts:['Increases voltage','Measures current','Opens or closes circuit to control current flow','Stores electrical energy'],ans:2,skill:'Electricity & Circuits',fb:'Switch: open = no current; closed = current flows. Open circuit = circuit broken.'},
+        {q:'Voltage 6V, current 0.5A. Resistance?',opts:['3 ohm','12 ohm','0.083 ohm','6.5 ohm'],ans:1,skill:'Electricity & Circuits',fb:'R = V/I = 6/0.5 = 12 ohm'},
+        {q:'Why should electrical wires be covered with plastic insulation?',opts:['Appearance','Conduct better','Prevent electric shock and short circuits','Make them flexible'],ans:2,skill:'Electricity & Circuits',fb:'Plastic is an insulator — prevents accidental contact with live wire (electric shock) and prevents wires touching each other (short circuits).'},
+        {q:'Conventional current flows from:',opts:['Negative to positive','Positive to negative terminal; electrons flow negative to positive','Only electrons, not charge','When battery is full'],ans:1,skill:'Electricity & Circuits',fb:'Conventional current: + to - terminal. Electrons actually flow - to + (opposite direction). Both conventions are valid in their context.'},
+        {q:'An LDR has HIGH resistance in dim light. In bright light, resistance:',opts:['Increases further','Stays the same','Decreases','Becomes zero'],ans:2,skill:'Electricity & Circuits',fb:'LDR: dim light = high resistance; bright light = low resistance. Used in automatic street lighting.'},
+        {q:'In which circuit is current the same through all components?',opts:['Parallel','Series','Short circuit','Open circuit'],ans:1,skill:'Electricity & Circuits',fb:'SERIES circuit: one path, same current through every component. Parallel: current splits between branches.'},
+        {q:'Why is a fuse important?',opts:['Makes appliances faster','Prevents overheating and fires from excessive current','Increases resistance','Acts as on/off switch'],ans:1,skill:'Electricity & Circuits',fb:'Fuse: thin wire that melts if current exceeds safe level, breaking circuit before it can overheat wires or cause fire.'}
+      ],
+      secB:[
+        {stmt:'Greater resistance means greater current for a fixed voltage.',ans:false,reason:'Ohm\'s Law: I = V/R. Greater resistance = LESS current. Resistance and current are inversely proportional (at constant voltage).',skill:'Electricity & Circuits'},
+        {stmt:'Adding more parallel branches decreases total resistance.',ans:true,reason:'Each additional parallel branch gives current another path. 1/R_total = 1/R1 + 1/R2 + ... Total resistance decreases with more branches.',skill:'Electricity & Circuits'},
+        {stmt:'A battery stores chemical energy and converts it to electrical energy when circuit is complete.',ans:true,reason:'Battery stores chemical energy. When circuit connects, chemical reaction drives electrons, converting chemical to electrical energy. Flat when chemicals are used up.',skill:'Electricity & Circuits'},
+        {stmt:'An open circuit allows current to flow.',ans:false,reason:'OPEN circuit has a break — no complete path, no current. CLOSED circuit has complete path — current flows. This is how switches work.',skill:'Electricity & Circuits'},
+        {stmt:'Connecting a voltmeter in series gives correct readings.',ans:false,reason:'Voltmeter must be in PARALLEL. If in series, its very high resistance drastically reduces circuit current, giving meaningless readings. Always: voltmeter = parallel; ammeter = series.',skill:'Electricity & Circuits'}
+      ],
+      secC:[
+        {type:'str',q:'Series circuit: 9V battery, bulb 2 ohm, fan 1 ohm.\n(a) Total resistance. [1] (b) Current. [2] (c) Voltage across fan. [2] (d) How to make fan spin faster? [2]',marks:7,scheme:'(a) R = 2+1 = 3 ohm [1]\n(b) I = 9/3 = 3A [2]\n(c) V = 3x1 = 3V [2]\n(d) Use higher voltage battery [1]; more voltage increases current which increases power to fan motor [1]'},
+        {type:'str',q:'(a) ONE advantage of parallel over series for household wiring. [1]\n(b) Current and voltage in each circuit type. [4]\n(c) In which type would a fuse be most useful? Explain. [2]',marks:7,scheme:'(a) Components operate independently / each gets full voltage / if one fails others continue [1]\n(b) Series: same current throughout [1]; voltage shared between components [1]. Parallel: same voltage across all branches [1]; current splits between branches [1]\n(c) Fuse in series in main line [1]; if total current too high (many parallel appliances on), fuse melts and breaks circuit, protecting from overheating/fire [1]'}
+      ]
+    },
+    {
+      num:32,title:'Ch13 Practice — Forces & Motion (I)',
+      secA:[
+        {q:'SI unit of force?',opts:['Kilogram (kg)','Joule (J)','Newton (N)','Metre per second (m/s)'],ans:2,skill:'Forces & Motion',fb:'Force is measured in Newtons (N). Named after Isaac Newton. Weight is also measured in Newtons.'},
+        {q:'What is weight?',opts:['Same as mass','Amount of matter','Gravitational force on its mass','Force it exerts on surface'],ans:2,skill:'Forces & Motion',fb:'Weight = mass x gravitational field strength (W = mg). Weight is a force (N). Mass (kg) is constant; weight changes with gravity.'},
+        {q:'Gravitational field strength on Earth?',opts:['10 m/s (speed)','10 N/kg','10 kg/N','1 N/kg'],ans:1,skill:'Forces & Motion',fb:'Earth g = 10 N/kg. Every 1 kg of mass experiences 10 N gravitational force. Moon g = 1.6 N/kg.'},
+        {q:'5 kg object on Earth (g=10 N/kg). Weight?',opts:['5 N','0.5 N','50 N','500 N'],ans:2,skill:'Forces & Motion',fb:'W = mg = 5 x 10 = 50 N'},
+        {q:'Which force always opposes motion?',opts:['Gravity','Normal force','Friction','Applied force'],ans:2,skill:'Forces & Motion',fb:'Friction always acts OPPOSITE to direction of motion. Opposes sliding between surfaces. Essential for walking and grip.'},
+        {q:'When net force is ZERO, object will:',opts:['Always remain stationary','Move in a circle','Stay at rest OR continue at constant speed in straight line','Accelerate'],ans:2,skill:'Forces & Motion',fb:'Newton\'s 1st Law: net force=0 means object at rest stays at rest OR object moving continues at CONSTANT speed in a STRAIGHT LINE.'},
+        {q:'Speed formula?',opts:['Speed = distance x time','Speed = distance / time','Speed = time / distance','Speed = mass x velocity'],ans:1,skill:'Forces & Motion',fb:'Speed = distance / time. Units: m/s or km/h. Average speed = total distance / total time.'},
+        {q:'Car travels 150 km in 3 hours. Average speed?',opts:['450 km/h','50 km/h','75 km/h','53 km/h'],ans:1,skill:'Forces & Motion',fb:'Average speed = 150/3 = 50 km/h'},
+        {q:'Difference between speed and velocity?',opts:['They are the same','Velocity includes direction; speed does not','Speed includes direction; velocity does not','Velocity is always greater'],ans:1,skill:'Forces & Motion',fb:'Speed is scalar (magnitude only). Velocity is vector (magnitude AND direction). 60 km/h north has speed 60 km/h and velocity 60 km/h north.'},
+        {q:'Which force keeps planets in orbit around the Sun?',opts:['Friction','Magnetic force','Gravity','Normal force'],ans:2,skill:'Forces & Motion',fb:'Gravity (attractive force between masses) provides the centripetal force keeping planets in orbit. Same force gives us weight on Earth.'}
+      ],
+      secB:[
+        {stmt:'Mass and weight are the same quantity.',ans:false,reason:'Mass = amount of matter (kg), constant everywhere. Weight = gravitational force on mass (N), changes with location. 60 kg person: 600 N on Earth, 100 N on Moon.',skill:'Forces & Motion'},
+        {stmt:'A moving object on frictionless surface eventually stops due to inertia.',ans:false,reason:'Without friction, a moving object continues at constant speed forever (Newton\'s 1st Law). Inertia RESISTS change in motion — it does not stop objects. Objects stop because of friction or other forces.',skill:'Forces & Motion'},
+        {stmt:'Friction is always harmful and should be reduced.',ans:false,reason:'Friction is essential: walking (friction between feet and ground), brakes (friction stops cars), writing (pen on paper), grip. Reducing friction is beneficial only in certain contexts (engine parts).',skill:'Forces & Motion'},
+        {stmt:'When two equal and opposite forces act on an object, it is in equilibrium.',ans:true,reason:'Equal and opposite forces: net force = 0. Object in equilibrium — at rest or constant velocity. Example: book on table (weight down = normal force up).',skill:'Forces & Motion'},
+        {stmt:'A car accelerates when driving force equals friction.',ans:false,reason:'Acceleration requires a NET force. If driving force = friction, net force = 0 and car moves at constant speed. For acceleration, driving force must be GREATER than friction.',skill:'Forces & Motion'}
+      ],
+      secC:[
+        {type:'str',q:'(a) Difference between mass and weight. [2]\n(b) Student mass 40 kg. Weight on Earth (g=10 N/kg)? [2]\n(c) On Moon (g=1.6 N/kg): (i) mass? [1] (ii) weight? [2]',marks:7,scheme:'(a) Mass: amount of matter, kg, constant [1]; Weight: gravitational force, N, changes with g [1]\n(b) W = 40 x 10 = 400 N [2]\n(c)(i) Mass = 40 kg (unchanged) [1]\n(c)(ii) W = 40 x 1.6 = 64 N [2]'},
+        {type:'str',q:'Cyclist travels 5 km in 20 minutes.\n(a) Average speed in km/h. [3]\n(b) Is this speed or velocity? Explain. [2]',marks:5,scheme:'(a) Time = 20/60 = 1/3 h [1]; speed = 5 / (1/3) = 15 km/h [2]\n(b) Speed [1]; direction not specified. Velocity requires direction (e.g. 15 km/h northward) [1]'}
+      ]
+    },
+    {
+      num:33,title:'Ch13 Practice — Forces & Motion (II)',
+      secA:[
+        {q:'Horizontal line at zero on force-time graph means:',opts:['Object accelerating','No net force; object at rest or constant velocity','Object decelerating rapidly','Force increasing'],ans:1,skill:'Forces & Motion',fb:'Horizontal at zero = no net force = constant speed or stationary. Newton\'s 1st Law.'},
+        {q:'Which increases friction between two surfaces?',opts:['Lubricating with oil','Using smoother surfaces','Increasing weight pushing surfaces together','Reducing surface area'],ans:2,skill:'Forces & Motion',fb:'Friction depends on: roughness (rougher = more) and normal force (heavier = more). Lubricating and smoothing reduce friction.'},
+        {q:'Distance-time graph: straight line with steeper gradient means:',opts:['Slower speed','Object stopped','Faster (constant) speed','Decreasing speed'],ans:2,skill:'Forces & Motion',fb:'On distance-time graph: gradient = speed. Steeper = greater speed. Straight line = constant speed. Curved = changing speed.'},
+        {q:'2 kg ball dropped from rest. Weight? (g=10)',opts:['2 N','20 N','0.2 N','10 N'],ans:1,skill:'Forces & Motion',fb:'W = mg = 2 x 10 = 20 N'},
+        {q:'In free fall (ignoring air resistance), acceleration of all objects?',opts:['Depends on mass','Depends on size','Same for all (g = 10 m/s2)','Zero'],ans:2,skill:'Forces & Motion',fb:'Ignoring air resistance, all objects fall with same acceleration g = 10 m/s2, regardless of mass. Galileo demonstrated this.'},
+        {q:'Why does a feather fall slower than a brick in air but same rate in vacuum?',opts:['Feather is less heavy','In air, air resistance affects feather more (larger surface:weight ratio)','Brick is magnetic','Vacuum has more gravity'],ans:1,skill:'Forces & Motion',fb:'In air: feather experiences significant air resistance relative to its tiny weight. In vacuum (no air), both accelerate at g = 10 m/s2.'},
+        {q:'Which is a CONTACT force?',opts:['Gravity','Magnetic attraction','Electrostatic attraction','Friction'],ans:3,skill:'Forces & Motion',fb:'Contact forces need physical contact: friction, normal force, tension, air resistance. Non-contact: gravity, magnetic, electrostatic.'},
+        {q:'60 kg person on scales in lift reads 600 N. What is happening?',opts:['Lift accelerating upward','Lift stationary or constant speed','Lift decelerating downward','Person losing weight'],ans:1,skill:'Forces & Motion',fb:'Weight = 60 x 10 = 600 N. Scale reads = Weight. Net force = 0, so lift is stationary or at constant speed.'},
+        {q:'Which statement about gravity is correct?',opts:['Gravity only acts on heavy objects','Gravity acts between any two objects with mass','Gravity only exists on Earth','Gravity pushes objects apart'],ans:1,skill:'Forces & Motion',fb:'Gravity is universal attraction between ANY two objects with mass. Larger mass = greater gravitational force.'},
+        {q:'Skydiver at terminal velocity. At this point:',opts:['Still accelerating','Net force zero; air resistance = weight','They speed up rapidly','Gravity stops'],ans:1,skill:'Forces & Motion',fb:'Terminal velocity: air resistance = weight. Net force = 0. No acceleration — constant (maximum) speed.'}
+      ],
+      secB:[
+        {stmt:'On a distance-time graph, a horizontal line means constant speed.',ans:false,reason:'A HORIZONTAL line means distance NOT changing — object is STATIONARY. Constant speed = straight line with positive gradient.',skill:'Forces & Motion'},
+        {stmt:'Weight of an object on Moon is less than on Earth.',ans:true,reason:'Weight = mg. Moon g = 1.6 N/kg vs Earth g = 10 N/kg. Weight is about 6 times less on Moon. Mass stays the same.',skill:'Forces & Motion'},
+        {stmt:'When a car brakes, friction is the acting force.',ans:true,reason:'Car brakes apply friction between brake pads and wheel discs. This friction opposes wheel rotation, slowing the car.',skill:'Forces & Motion'},
+        {stmt:'A heavy object always falls faster than a lighter one from same height.',ans:false,reason:'Ignoring air resistance, ALL objects fall with same acceleration g = 10 m/s2, regardless of mass. Air resistance causes different fall rates in practice.',skill:'Forces & Motion'},
+        {stmt:'Increasing force applied to an object always increases its speed.',ans:false,reason:'More force increases ACCELERATION (rate of change of speed). If friction also increases equally (e.g. terminal velocity), speed stays constant. More force = more acceleration, not necessarily more speed.',skill:'Forces & Motion'}
+      ],
+      secC:[
+        {type:'str',q:'Parachutist jumps from aeroplane.\n(a) Forces before opening parachute (ignore air resistance). [1]\n(b) Draw force diagram at terminal velocity. [2]\n(c) When parachute opens: what happens to air resistance? How does this affect speed? [3]',marks:6,scheme:'(a) Weight/gravity downward [1]\n(b) Weight (down) and air resistance (up) of EQUAL length/magnitude [2]\n(c) Air resistance increases greatly [1]; air resistance > weight so net force acts upward, slowing parachutist [1]; reaches new lower terminal velocity [1]'},
+        {type:'str',q:'Student measures toy car speed over 4 m. Times: Trial 1: 8s, Trial 2: 7.5s, Trial 3: 8.5s.\n(a) Average time. [1] (b) Average speed with units. [2] (c) ONE way to improve accuracy. [1] (d) ONE source of error and how it affects result. [2]',marks:6,scheme:'(a) (8+7.5+8.5)/3 = 8 s [1]\n(b) Speed = 4/8 = 0.5 m/s [2]\n(c) Use light gates for automated timing / more trials / longer distance / electronic sensors [1]\n(d) Human reaction time: starts/stops timer late, making time too large and calculated speed too small [1] [accept: friction slowing car, measured speed less than true speed [1]]'}
+      ]
+    }
 
   ];
 }
