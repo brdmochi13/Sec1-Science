@@ -524,30 +524,39 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
     </div>
   </div>
 
-  <!-- Two columns -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.9rem" id="dashCols">
-    <!-- Skill Mastery -->
-    <div class="card">
-      <div class="card-head"><div class="card-letter">S</div><div class="card-title">Skill Mastery</div></div>
-      <div class="card-body" id="skillBars">
-        <div class="empty-state"><div class="es-icon">📊</div><p>Complete a paper to see mastery levels</p></div>
-      </div>
-    </div>
-    <!-- Paper History -->
-    <div class="card">
-      <div class="card-head"><div class="card-letter">H</div><div class="card-title">Paper History</div></div>
-      <div class="card-body" id="histRows">
-        <div class="empty-state"><div class="es-icon">📄</div><p>No papers completed yet</p></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mastery Radar -->
+  <!-- Mastery Radar — primary dashboard visual -->
   <div class="card">
-    <div class="card-head"><div class="card-letter">📡</div><div class="card-title">Mastery Radar — All Chapters</div><div class="card-marks" id="radarAvgBadge">—</div></div>
+    <div class="card-head"><div class="card-letter">📡</div><div class="card-title">Chapter Mastery Radar</div><div class="card-marks" id="radarAvgBadge">—</div></div>
     <div class="card-body" style="display:flex;flex-direction:column;align-items:center;gap:.75rem">
       <div id="radarChart"></div>
       <div id="chapterChips" style="display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center"></div>
+    </div>
+  </div>
+
+  <!-- AI Score Advisor -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">🎯</div><div class="card-title">Score Improvement Advisor</div></div>
+    <div class="card-body">
+      <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.75rem">
+        <span style="font-size:.82rem;color:var(--ink)">I want to improve my score by</span>
+        <select id="targetGain" style="padding:.3rem .6rem;border:1.5px solid var(--border);border-radius:6px;font-size:.82rem;font-family:inherit;background:var(--card);color:var(--ink)">
+          <option value="10">+10 marks</option>
+          <option value="15" selected>+15 marks</option>
+          <option value="20">+20 marks</option>
+          <option value="25">+25 marks</option>
+          <option value="30">+30 marks</option>
+        </select>
+        <button onclick="showAdvisor()" style="padding:.35rem .9rem;background:var(--ink);color:white;border:none;border-radius:6px;font-size:.82rem;font-family:inherit;font-weight:600;cursor:pointer">Show me what to focus on →</button>
+      </div>
+      <div id="advisorOut"></div>
+    </div>
+  </div>
+
+  <!-- Paper History — full width -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">H</div><div class="card-title">Paper History</div></div>
+    <div class="card-body" id="histRows">
+      <div class="empty-state"><div class="es-icon">📄</div><p>No papers completed yet</p></div>
     </div>
   </div>
 
@@ -1511,7 +1520,6 @@ function renderDashboard() {
     document.getElementById('dBest').textContent = '—';
     document.getElementById('dAvg').textContent = '—';
   }
-  renderSkillBars(d);
   renderHistory(d);
   renderHeatmap(d);
   renderStreak(d);
@@ -1589,6 +1597,52 @@ function renderChapterChips(d){
       '</div>';
   });
   el.innerHTML=html;
+}
+function showAdvisor(){
+  var d = loadData();
+  var target = parseInt(document.getElementById('targetGain').value, 10);
+  // Each chapter contributes ~12.5 marks to 100-mark paper
+  var marksPer = 100 / CH_META.length;
+  // Calculate potential gain per chapter (from current EMA to 85% ceiling)
+  var gains = CH_META.map(function(c){
+    var cur = chapterAvg(d, c.id);
+    var ceil = 85; // realistic drill target
+    var gain = Math.max(0, (ceil - cur) / 100 * marksPer);
+    return {ch:c, cur:cur, gain:gain};
+  });
+  // Sort by most gain first
+  gains.sort(function(a,b){return b.gain - a.gain;});
+  // Pick chapters until target is reached
+  var picked = [], cumGain = 0;
+  for(var i=0;i<gains.length;i++){
+    if(cumGain >= target) break;
+    picked.push(gains[i]);
+    cumGain += gains[i].gain;
+  }
+  var cur = Math.round(CH_META.reduce(function(s,c){return s+chapterAvg(d,c.id);},0)/CH_META.length);
+  var projected = Math.min(100, Math.round(cur + cumGain));
+  var html = '<div style="font-size:.78rem;color:var(--muted);margin-bottom:.6rem">Current estimated score: <strong style="color:var(--ink)">~'+cur+'%</strong> &nbsp;→&nbsp; Projected after focus: <strong style="color:#1a6b3c">~'+projected+'%</strong></div>';
+  html += '<div style="font-size:.78rem;font-weight:700;color:var(--ink);margin-bottom:.45rem">Priority chapters to drill (in order):</div>';
+  html += '<div style="display:flex;flex-direction:column;gap:.4rem">';
+  picked.forEach(function(g, idx){
+    var col = g.cur>=75?'#1a6b3c':g.cur>=55?'#b5590a':'#b91c1c';
+    var barW = Math.round(g.gain / marksPer * 100);
+    html += '<div style="display:flex;align-items:center;gap:.55rem">'
+      + '<span style="font-size:.72rem;font-weight:700;min-width:1.2rem;color:#9ca3af">'+(idx+1)+'.</span>'
+      + '<span style="font-size:.72rem;font-weight:700;min-width:4.5rem;color:'+col+'">Ch'+g.ch.num+'</span>'
+      + '<span style="font-size:.75rem;flex:1;color:var(--ink)">'+g.ch.title+'</span>'
+      + '<div style="width:70px;height:8px;background:var(--border);border-radius:4px;overflow:hidden"><div style="width:'+barW+'%;height:100%;background:'+col+';border-radius:4px"></div></div>'
+      + '<span style="font-size:.72rem;color:'+col+';min-width:3rem;text-align:right">+'+g.gain.toFixed(1)+' pts</span>'
+      + '</div>';
+  });
+  html += '</div>';
+  if(cumGain < target){
+    html += '<div style="margin-top:.6rem;font-size:.75rem;color:var(--muted)">⚠️ All chapters at drill target — overall score ceiling ~'+Math.round(cur + cumGain)+'%. Focus on Sec C free response technique for remaining marks.</div>';
+  }
+  html += '<div style="margin-top:.65rem;padding:.5rem .7rem;background:rgba(26,107,60,.07);border-radius:6px;border-left:3px solid #1a6b3c;font-size:.75rem;color:var(--ink)">'
+    + '💡 <strong>Drill tip:</strong> Use 🏋 Daily Drill — it auto-serves your weakest chapter first. Aim for 10–15 mins daily on the priority chapters above.'
+    + '</div>';
+  document.getElementById('advisorOut').innerHTML = html;
 }
 function renderSkillBars(d) {
   var c = document.getElementById('skillBars'), sk = d.skills || {}, keys = Object.keys(sk);
