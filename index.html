@@ -373,6 +373,11 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 .dynamic-note-card.note-new{border-color:#f59e0b;background:#fffdf5}
 .dynamic-note-tag{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:8px;margin-bottom:.4rem}
 
+
+/* ── Activity Widget ── */
+.act-tab{padding:.32rem .75rem;border:1.5px solid var(--border);border-radius:20px;font-family:inherit;font-size:.75rem;font-weight:700;background:none;color:var(--muted);cursor:pointer;transition:all .18s}
+.act-tab:hover{border-color:var(--gold);color:var(--gold)}
+.act-tab.act-tab-active{background:var(--gold);border-color:var(--gold);color:#fff}
 </style>
 
 <!-- Firebase SDKs -->
@@ -459,6 +464,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
   <button class="mtab" onclick="showTab('histTab',this);loadHistoryTab()">📋 History</button>
   <button class="mtab" onclick="showTab('drillTab',this);initDrill()">🏋 Daily Drill</button>
   <button class="mtab" onclick="showTab('formulaTab',this)">📐 Formula Sheet</button>
+  <button class="mtab" onclick="showTab('resourcesTab',this)">📖 Resources</button>
 </div>
 
 <!-- RESULT OVERLAY -->
@@ -575,15 +581,43 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
     </div>
   </div>
 
-  <!-- Today's Stats -->
-  <div class="card" id="todayStatsBox">
-    <div class="card-head"><div class="card-letter">📅</div><div class="card-title">Today's Activity</div></div>
-    <div class="card-body" id="todayStatsBody">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
-        <div style="text-align:center"><div style="font-size:1.6rem;font-weight:700;font-family:'Libre Baskerville',serif" id="todayQs">0</div><div style="font-size:.7rem;color:var(--muted)">Questions Today</div></div>
-        <div style="text-align:center"><div style="font-size:1.6rem;font-weight:700;font-family:'Libre Baskerville',serif" id="todayPapers">0</div><div style="font-size:.7rem;color:var(--muted)">Papers Today</div></div>
+  <!-- Activity Widget -->
+  <div class="card" id="todayStatsBox" style="grid-column:1/-1">
+    <div class="card-head"><div class="card-letter">📅</div><div class="card-title">Mokshith's Activity</div></div>
+    <div class="card-body">
+      <!-- Period selector tabs -->
+      <div style="display:flex;gap:.35rem;margin-bottom:.9rem;flex-wrap:wrap">
+        <button class="act-tab act-tab-active" onclick="selectActTab('today',this)">Today</button>
+        <button class="act-tab" onclick="selectActTab('yesterday',this)">Yesterday</button>
+        <button class="act-tab" onclick="selectActTab('week',this)">This Week</button>
+        <button class="act-tab" onclick="selectActTab('range',this)">Date Range</button>
       </div>
-      <div style="margin-top:.6rem;font-size:.78rem;color:var(--muted);text-align:center" id="todayDate"></div>
+      <!-- Date range picker (hidden unless range selected) -->
+      <div id="actRangePicker" style="display:none;margin-bottom:.75rem;display:none;gap:.5rem;align-items:center;flex-wrap:wrap">
+        <input type="date" id="actFrom" style="font-family:inherit;font-size:.8rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--paper);color:var(--ink)">
+        <span style="color:var(--muted);font-size:.8rem">to</span>
+        <input type="date" id="actTo" style="font-family:inherit;font-size:.8rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--paper);color:var(--ink)">
+        <button onclick="renderActPanel()" style="padding:4px 10px;font-family:inherit;font-size:.8rem;background:var(--gold);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700">Show</button>
+      </div>
+      <!-- Stats panel -->
+      <div id="actPanel">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:.75rem">
+          <div style="text-align:center;background:var(--paper);border-radius:8px;padding:.5rem">
+            <div style="font-size:1.5rem;font-weight:700;font-family:'Libre Baskerville',serif;color:var(--gold)" id="actQs">0</div>
+            <div style="font-size:.68rem;color:var(--muted);margin-top:2px">Questions</div>
+          </div>
+          <div style="text-align:center;background:var(--paper);border-radius:8px;padding:.5rem">
+            <div style="font-size:1.5rem;font-weight:700;font-family:'Libre Baskerville',serif;color:var(--green)" id="actPapers">0</div>
+            <div style="font-size:.68rem;color:var(--muted);margin-top:2px">Papers</div>
+          </div>
+          <div style="text-align:center;background:var(--paper);border-radius:8px;padding:.5rem">
+            <div style="font-size:1.5rem;font-weight:700;font-family:'Libre Baskerville',serif;color:#3b82f6" id="actAcc">—</div>
+            <div style="font-size:.68rem;color:var(--muted);margin-top:2px">Accuracy</div>
+          </div>
+        </div>
+        <div id="actBreakdown" style="font-size:.78rem;color:var(--muted)"></div>
+        <div id="actPeriodLabel" style="margin-top:.5rem;font-size:.72rem;color:var(--muted);text-align:right"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -2026,15 +2060,107 @@ function renderStreak(d) {
   var b=document.getElementById('streakBadge'); if(b) b.textContent=streak+'-day streak';
 }
 
+// ── Activity Widget ───────────────────────────────────────────
+var _actPeriod = 'today';
+var _actData   = null;   // store d for reuse
+
 function renderTodayStats(d) {
-  var today = new Date().toISOString().slice(0,10);
-  var qs = 0, papers = 0;
-  (d.history||[]).forEach(function(h){if(h.date&&h.date.slice(0,10)===today){papers++;}});
-  (d.qfHistory||[]).forEach(function(h){if(h.date&&h.date.slice(0,10)===today){qs+=h.total||0;}});
-  var qsEl=document.getElementById('todayQs'), ppEl=document.getElementById('todayPapers'), dtEl=document.getElementById('todayDate');
-  if(qsEl)qsEl.textContent=qs;
-  if(ppEl)ppEl.textContent=papers;
-  if(dtEl)dtEl.textContent=new Date().toLocaleDateString('en-SG',{weekday:'long',day:'numeric',month:'long'});
+  _actData = d;
+  renderActPanel();
+}
+
+function selectActTab(period, btn) {
+  _actPeriod = period;
+  document.querySelectorAll('.act-tab').forEach(function(b){b.classList.remove('act-tab-active');});
+  if(btn) btn.classList.add('act-tab-active');
+  var rp = document.getElementById('actRangePicker');
+  if(rp) rp.style.display = period==='range' ? 'flex' : 'none';
+  if(period !== 'range') renderActPanel();
+}
+
+function sgToday() {
+  return new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Singapore'});
+}
+
+function actDateRange() {
+  var t = sgToday();
+  if(_actPeriod === 'today') return {from:t, to:t, label:'Today — '+new Date().toLocaleDateString('en-SG',{weekday:'long',day:'numeric',month:'long'})};
+  if(_actPeriod === 'yesterday') {
+    var y = new Date(); y.setDate(y.getDate()-1);
+    var ys = y.toLocaleDateString('en-CA',{timeZone:'Asia/Singapore'});
+    return {from:ys, to:ys, label:'Yesterday — '+y.toLocaleDateString('en-SG',{weekday:'long',day:'numeric',month:'long'})};
+  }
+  if(_actPeriod === 'week') {
+    var now = new Date();
+    var day = now.getDay();                       // 0=Sun
+    var mon = new Date(now); mon.setDate(now.getDate()-(day===0?6:day-1));
+    var ms = mon.toLocaleDateString('en-CA',{timeZone:'Asia/Singapore'});
+    return {from:ms, to:t, label:'This Week (Mon–'+new Date().toLocaleDateString('en-SG',{weekday:'short'})+')'};
+  }
+  // range
+  var f = (document.getElementById('actFrom')||{}).value || t;
+  var tt2 = (document.getElementById('actTo')||{}).value || t;
+  return {from:f, to:tt2, label:f+' → '+tt2};
+}
+
+function renderActPanel() {
+  if(!_actData) return;
+  var d = _actData;
+  var rng = actDateRange();
+  var from = rng.from, to = rng.to;
+
+  // count papers in range
+  var papers = 0;
+  (d.history||[]).forEach(function(h){
+    var dt = (h.date||'').slice(0,10);
+    if(dt>=from && dt<=to) papers++;
+  });
+
+  // count QF questions and accuracy
+  var qs = 0, correct = 0;
+  (d.qfHistory||[]).forEach(function(h){
+    var dt = (h.date||h.ts||'').slice(0,10);
+    if(dt>=from && dt<=to){ qs+=(h.total||0); correct+=(h.correct||0); }
+  });
+
+  // count paper MCQ attempts (secA stored in history entries)
+  var paperQs = 0, paperCorrect = 0;
+  (d.history||[]).forEach(function(h){
+    var dt = (h.date||'').slice(0,10);
+    if(dt<from || dt>to) return;
+    paperQs    += (h.mcqTotal||0);
+    paperCorrect+=(h.mcqCorrect||0);
+  });
+
+  var totalQs  = qs + paperQs;
+  var totalCor = correct + paperCorrect;
+  var acc = totalQs > 0 ? Math.round(totalCor/totalQs*100)+'%' : '—';
+
+  // skill breakdown from QF sessions
+  var skillMap = {};
+  (d.qfHistory||[]).forEach(function(h){
+    var dt=(h.date||h.ts||'').slice(0,10);
+    if(dt<from||dt>to) return;
+    (h.skills||[]).forEach(function(s){ skillMap[s]=(skillMap[s]||0)+1; });
+  });
+  var skills = Object.keys(skillMap).sort(function(a,b){return skillMap[b]-skillMap[a];});
+  var skillHtml = skills.length ? '<div style="margin-top:.4rem"><span style="color:var(--muted);font-size:.72rem">Skills practised: </span>'+
+    skills.slice(0,6).map(function(s){return '<span style="display:inline-block;background:var(--paper);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:.7rem;margin:1px">'+s+'</span>';}).join(' ')+'</div>' : '';
+
+  var noAct = totalQs===0 && papers===0;
+  var breakHtml = noAct
+    ? '<div style="color:var(--muted);font-size:.78rem;text-align:center;padding:.5rem 0">No activity recorded for this period.</div>'
+    : '<div style="font-size:.78rem;color:var(--muted)">'+
+        (qs>0?'<div>⚡ Quick Fire: '+qs+' Q'+(qs!==1?'s':'')+(correct>0?' ('+Math.round(correct/qs*100)+'% correct)':'')+'</div>':'')  +
+        (paperQs>0?'<div>✏️ Papers: '+paperQs+' Q'+(paperQs!==1?'s':'')+(paperCorrect>0?' ('+Math.round(paperCorrect/paperQs*100)+'% correct)':'')+'</div>':'') +
+        skillHtml + '</div>';
+
+  var el = function(id){return document.getElementById(id);};
+  if(el('actQs'))    el('actQs').textContent    = totalQs;
+  if(el('actPapers'))el('actPapers').textContent = papers;
+  if(el('actAcc'))   el('actAcc').textContent    = acc;
+  if(el('actBreakdown'))el('actBreakdown').innerHTML = breakHtml;
+  if(el('actPeriodLabel'))el('actPeriodLabel').textContent = rng.label;
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -4141,6 +4267,121 @@ function saveApiConfig() {
     </table>
     <div class="callout"><strong>Rf value (chromatography):</strong> Rf = distance travelled by spot ÷ distance travelled by solvent. Range: 0 to 1. Same Rf = same substance.</div>
   </div></div>
+</div>
+
+<div id="resourcesTab" class="tab-content">
+  <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:1.2rem;color:var(--ink)">📖 Reference Materials — Sec 1 G3 Science</h2>
+
+  <!-- SEAB Syllabus -->
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-head"><div class="card-letter">🏫</div><div class="card-title">Official Syllabus (SEAB)</div></div>
+    <div class="card-body">
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .8rem">The official Singapore Examinations and Assessment Board syllabuses that this app is aligned to:</p>
+      <div style="display:flex;flex-direction:column;gap:.5rem">
+        <a href="https://www.seab.gov.sg/docs/default-source/national-examinations/syllabus/olevel/2027syllabus/6092_y27_sy.pdf" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.6rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.82rem;font-weight:600;transition:border-color .18s">
+          <span style="font-size:1.2rem">📄</span>
+          <div><div>O-Level Science (Physics/Chemistry) — Syllabus 6092 (2027)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">seab.gov.sg — official PDF</div></div>
+        </a>
+        <a href="https://www.seab.gov.sg/docs/default-source/national-examinations/syllabus/olevel/2027syllabus/6093_y27_sy.pdf" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.6rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.82rem;font-weight:600;transition:border-color .18s">
+          <span style="font-size:1.2rem">📄</span>
+          <div><div>O-Level Science (Physics/Biology) — Syllabus 6093 (2027)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">seab.gov.sg — official PDF</div></div>
+        </a>
+        <a href="https://www.seab.gov.sg/docs/default-source/national-examinations/syllabus/olevel/2027syllabus/6094_y27_sy.pdf" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.6rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.82rem;font-weight:600;transition:border-color .18s">
+          <span style="font-size:1.2rem">📄</span>
+          <div><div>O-Level Science (Chemistry/Biology) — Syllabus 6094 (2027)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">seab.gov.sg — official PDF</div></div>
+        </a>
+        <a href="https://www.seab.gov.sg/docs/default-source/national-examinations/syllabus/ntlevel/2027syllabus/5105_y27_sy.pdf" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.6rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.82rem;font-weight:600;transition:border-color .18s">
+          <span style="font-size:1.2rem">📄</span>
+          <div><div>N(T)-Level Science — Syllabus 5105 (2027)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">seab.gov.sg — official PDF</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chapter-by-chapter textbook references -->
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-head"><div class="card-letter">📚</div><div class="card-title">Textbook Chapter Reference</div></div>
+    <div class="card-body">
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .8rem">Marshall Cavendish / Star Publishing Lower Secondary Science (approved by MOE). Chapter alignment:</p>
+      <table style="width:100%;border-collapse:collapse;font-size:.8rem">
+        <thead>
+          <tr style="background:var(--paper)">
+            <th style="text-align:left;padding:.4rem .5rem;border-bottom:2px solid var(--border);color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em">Chapter</th>
+            <th style="text-align:left;padding:.4rem .5rem;border-bottom:2px solid var(--border);color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em">Topic</th>
+            <th style="text-align:left;padding:.4rem .5rem;border-bottom:2px solid var(--border);color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em">Key Concepts</th>
+            <th style="text-align:center;padding:.4rem .5rem;border-bottom:2px solid var(--border);color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em">Scope</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 1</td><td style="padding:.38rem .5rem">Scientific Endeavour</td><td style="padding:.38rem .5rem;color:var(--muted)">Fair test, variables, hypothesis, safety</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 2</td><td style="padding:.38rem .5rem">Physical Properties</td><td style="padding:.38rem .5rem;color:var(--muted)">States of matter, density, melting/boiling pts</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 3</td><td style="padding:.38rem .5rem">Chemical Properties</td><td style="padding:.38rem .5rem;color:var(--muted)">Elements, compounds, mixtures, particle model</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 4</td><td style="padding:.38rem .5rem">Separation Techniques</td><td style="padding:.38rem .5rem;color:var(--muted)">Filtration, evaporation, distillation, chromatography</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 5</td><td style="padding:.38rem .5rem">Ray Model of Light</td><td style="padding:.38rem .5rem;color:var(--muted)">Reflection, refraction, mirrors, lenses</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 6</td><td style="padding:.38rem .5rem">Cells</td><td style="padding:.38rem .5rem;color:var(--muted)">Cell structure, plant vs animal, organelles</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 7</td><td style="padding:.38rem .5rem">Particulate Matter</td><td style="padding:.38rem .5rem;color:var(--muted)">Kinetic model, diffusion, Brownian motion</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 8</td><td style="padding:.38rem .5rem">Atoms & Molecules</td><td style="padding:.38rem .5rem;color:var(--muted)">Atomic structure, periodic table, electron shells</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:#6b7280">Ch 9</td><td style="padding:.38rem .5rem">Human Body Systems</td><td style="padding:.38rem .5rem;color:var(--muted)">Digestive, circulatory, respiratory systems</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#f0f9ff;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">EXT</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:#6b7280">Ch 10</td><td style="padding:.38rem .5rem">Diversity of Life</td><td style="padding:.38rem .5rem;color:var(--muted)">Classification, ecosystems, food chains</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#f0f9ff;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">EXT</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:#6b7280">Ch 11</td><td style="padding:.38rem .5rem">Thermal Energy</td><td style="padding:.38rem .5rem;color:var(--muted)">Heat transfer: conduction, convection, radiation</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#f0f9ff;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">EXT</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:#6b7280">Ch 12</td><td style="padding:.38rem .5rem">Electricity & Circuits</td><td style="padding:.38rem .5rem;color:var(--muted)">Current, voltage, resistance, series/parallel</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#f0f9ff;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">EXT</span></td></tr>
+          <tr><td style="padding:.38rem .5rem;font-weight:700;color:#6b7280">Ch 13</td><td style="padding:.38rem .5rem">Forces & Motion</td><td style="padding:.38rem .5rem;color:var(--muted)">Speed, forces, Newton's laws, friction</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#f0f9ff;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">EXT</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Online Resources -->
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-head"><div class="card-letter">🌐</div><div class="card-title">Useful Study Websites</div></div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.6rem">
+        <a href="https://www.bbc.co.uk/bitesize/subjects/zng4d2p" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">📺</span>
+          <div><div style="font-weight:700;font-size:.82rem">BBC Bitesize — Science</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">Clear explanations, videos and quizzes for every topic</div></div>
+        </a>
+        <a href="https://www.khanacademy.org/science" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">🎓</span>
+          <div><div style="font-weight:700;font-size:.82rem">Khan Academy — Science</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">Free lessons on physics, chemistry and biology</div></div>
+        </a>
+        <a href="https://www.physicsclassroom.com" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">⚡</span>
+          <div><div style="font-weight:700;font-size:.82rem">The Physics Classroom</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">In-depth physics explanations and interactive simulations</div></div>
+        </a>
+        <a href="https://www.chemguide.co.uk" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">🧪</span>
+          <div><div style="font-weight:700;font-size:.82rem">Chemguide</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">Clear chemistry notes — elements, compounds, reactions</div></div>
+        </a>
+        <a href="https://phet.colorado.edu/en/simulations/filter?subjects=biology,chemistry,physics" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">🔬</span>
+          <div><div style="font-weight:700;font-size:.82rem">PhET Simulations (Colorado)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">Interactive science simulations — states of matter, circuits, optics</div></div>
+        </a>
+        <a href="https://www.youtube.com/@CrashCourse/playlists" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">▶️</span>
+          <div><div style="font-weight:700;font-size:.82rem">Crash Course Science (YouTube)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">Engaging 10–15 min videos on biology, chemistry and physics</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Past Paper links -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">📝</div><div class="card-title">Past Papers & School Resources</div></div>
+    <div class="card-body">
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .8rem">Resources for additional past paper practice beyond this app:</p>
+      <div style="display:flex;flex-direction:column;gap:.45rem">
+        <a href="https://www.singaporeolevels.com/science" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.5rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.8rem;font-weight:600">
+          📄 Singapore O-Levels — Science Past Papers Archive
+        </a>
+        <a href="https://www.10yearsseries.com.sg" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.5rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.8rem;font-weight:600">
+          📄 10-Year Series Online — O-Level Science
+        </a>
+        <div style="padding:.5rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;font-size:.78rem;color:var(--muted)">
+          💡 <strong>Tip:</strong> Upload your school's CA/SA papers as a new Practice Papers set — ask Claude to add them using the paper JSON format shown in the app blueprint.
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="histModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9000;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)closeHistModal()">
