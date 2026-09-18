@@ -1810,6 +1810,17 @@ function doAuth() {
           }, 8000);
         })
         .catch(function(e) {
+          // ── DEMO ACCOUNT FALLBACK ──
+          // Firebase accounts may not exist yet — check DEMO_ACCOUNTS first
+          if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password') {
+            var demo = DEMO_ACCOUNTS[email];
+            if (demo && demo.password === pwd) {
+              currentUser = {uid: 'demo_' + email, displayName: demo.name, email: email};
+              currentRole = demo.role;
+              onAuthSuccess();
+              return;
+            }
+          }
           var msg = e.message;
           if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential')
             msg = 'Email or password incorrect. Check and try again.';
