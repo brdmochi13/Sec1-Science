@@ -1660,35 +1660,59 @@ function doAuth() {
   var pwd   = document.getElementById('authPwd').value;
   var errEl = document.getElementById('authErr');
   errEl.textContent = '';
+  errEl.style.display = 'block';
   if (!email || !pwd) { errEl.textContent = 'Please enter email and password.'; return; }
 
-  document.getElementById('authSubmitBtn').disabled = true;
-  document.getElementById('authSubmitBtn').textContent = 'Please wait...';
+  var submitBtn = document.getElementById('authSubmitBtn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Please wait...';
+
+  function resetBtn() {
+    submitBtn.disabled = false;
+    submitBtn.textContent = authMode === 'login' ? 'Sign In' : 'Create Account';
+  }
+
+  function showErr(msg, code) {
+    console.error('Auth error:', code, msg);
+    errEl.textContent = msg;
+    errEl.style.color = '#dc2626';
+    errEl.style.fontWeight = '600';
+    resetBtn();
+  }
+
+  console.log('doAuth() called — mode:', authMode, 'email:', email, 'USE_FIREBASE:', USE_FIREBASE);
 
   if (USE_FIREBASE) {
+    if (!auth) { showErr('Firebase Auth not initialised. Refresh the page.', 'no-auth'); return; }
     if (authMode === 'login') {
       auth.signInWithEmailAndPassword(email, pwd)
         .then(function(uc) {
+          console.log('✅ signIn OK, UID:', uc.user.uid);
           currentUser = uc.user;
-          // Fetch role from Firestore then enter app immediately
           db.collection('users').doc(uc.user.uid).get()
             .then(function(doc) {
               currentRole = doc.exists ? (doc.data().role || 'student') : 'student';
+              console.log('Role loaded:', currentRole);
             })
-            .catch(function() { currentRole = 'student'; })
+            .catch(function(e) {
+              console.warn('Firestore role fetch failed:', e.message, '— defaulting to student');
+              currentRole = 'student';
+            })
             .finally(function() { onAuthSuccess(); });
         })
         .catch(function(e) {
-          var msg = e.message;
+          var msg;
           if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential')
             msg = 'Email or password incorrect. Check and try again.';
-          if (e.code === 'auth/wrong-password')
+          else if (e.code === 'auth/wrong-password')
             msg = 'Incorrect password.';
-          if (e.code === 'auth/too-many-requests')
-            msg = 'Too many failed attempts — wait a few minutes and try again.';
-          errEl.textContent = msg;
-          document.getElementById('authSubmitBtn').disabled=false;
-          document.getElementById('authSubmitBtn').textContent='Sign In';
+          else if (e.code === 'auth/too-many-requests')
+            msg = 'Account temporarily locked — too many failed attempts. Wait 5 minutes or reset your password.';
+          else if (e.code === 'auth/network-request-failed')
+            msg = 'Network error — check your internet connection.';
+          else
+            msg = e.code + ': ' + e.message;
+          showErr(msg, e.code);
         });
     } else {
       var name = document.getElementById('authName').value.trim() || 'User';
@@ -3328,7 +3352,7 @@ function buildPaperTabs() {
   // Filter papers by active chapter filter
   var filteredPapers = PAPERS.filter(function(p){ return paperMatchesFilter(p.num); });
   if (filteredPapers.length === 0) {
-    cont.innerHTML='<div style="text-align:center;padding:2rem;color:var(--muted);font-size:.85rem">No papers match the selected chapters. <button onclick="applyChapPreset('core');buildPaperTabs()" style="color:#166534;background:none;border:none;cursor:pointer;font-weight:700;font-family:inherit">Reset to Core</button></div>';
+    cont.innerHTML='<div style="text-align:center;padding:2rem;color:var(--muted);font-size:.85rem">No papers match the selected chapters. <button onclick="applyChapPreset(\'core\');buildPaperTabs()" style="color:#166534;background:none;border:none;cursor:pointer;font-weight:700;font-family:inherit">Reset to Core</button></div>';
     return;
   }
   // Update badge count
