@@ -1,17 +1,6252 @@
-// Auto-generated — serves index.html via Cloudflare Workers
-// Rebuilt from Sep 12 2026 working version
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
-})
-
-async function handleRequest(request) {
-  // Proxy to GitHub Pages
-  const url = 'https://brdmochi13.github.io/Sec1-Science/'
-  const response = await fetch(url, {
-    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; CloudflareWorker)' }
-  })
-  const body = await response.text()
-  return new Response(body, {
-    headers: { 'Content-Type': 'text/html;charset=UTF-8' }
-  })
+const HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>S1 Science Mastery · G3 EOY</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+:root{
+  --ink:#1c1c1e;--paper:#f5f0e8;--card:#fff;--green:#1a6b3c;--greenl:#e8f5ee;
+  --amber:#b5590a;--amberl:#fef3e2;--red:#b91c1c;--redl:#fef2f2;
+  --blue:#1e4d8c;--bluel:#eff6ff;--gold:#c9a227;--muted:#6b7280;--border:#d9d3c7;
+  --purple:#5b21b6;--purplel:#f5f3ff;
 }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.6}
+
+.topbar{background:var(--ink);padding:.85rem 1.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;position:sticky;top:0;z-index:200}
+.logo{font-family:'Libre Baskerville',serif;color:#f5f0e8;font-size:1.05rem;font-weight:700;letter-spacing:-.2px}
+.logo span{color:var(--gold)}
+.top-btns{display:flex;gap:.4rem;flex-wrap:wrap}
+.tbtn{padding:5px 13px;border-radius:5px;border:1.5px solid transparent;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tbtn-primary{background:var(--green);color:white;border-color:var(--green)}
+.tbtn-primary:hover{background:#145530}
+.tbtn-outline{background:transparent;color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.25)}
+.tbtn-outline:hover{background:rgba(255,255,255,.1)}
+.tbtn-gold{background:var(--gold);color:white;border-color:var(--gold)}
+.tbtn-danger{background:var(--red);color:white;border-color:var(--red)}
+
+.main-tabs{display:flex;overflow-x:auto;background:#252528;border-bottom:1px solid rgba(255,255,255,.06);scrollbar-width:none;position:sticky;top:52px;z-index:190}
+.main-tabs::-webkit-scrollbar{display:none}
+.mtab{flex:none;padding:.55rem .95rem;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.45);font-size:.79rem;font-weight:600;cursor:pointer;transition:all .18s;white-space:nowrap;font-family:inherit;min-height:44px}
+.mtab:hover{color:rgba(255,255,255,.8)}
+.mtab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-badge{display:inline-block;background:var(--red);color:white;border-radius:10px;padding:0 5px;font-size:.65rem;margin-left:3px;vertical-align:middle}
+
+.tab-content{display:none;max-width:880px;margin:0 auto;padding:1.1rem .95rem 4rem}
+.tab-content.active{display:block}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:1.1rem}
+.card-head{background:var(--ink);color:white;padding:.6rem .95rem;display:flex;align-items:center;gap:.6rem}
+.card-letter{width:26px;height:26px;background:var(--gold);color:var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Libre Baskerville',serif;font-size:.8rem;font-weight:700;flex-shrink:0}
+.card-title{font-size:.88rem;font-weight:600;flex:1}
+.card-marks{font-size:.72rem;background:rgba(255,255,255,.15);padding:2px 7px;border-radius:20px;color:rgba(255,255,255,.8)}
+.card-instr{padding:.55rem .95rem;font-size:.8rem;color:var(--muted);background:#f9f7f2;border-bottom:1px solid var(--border);font-style:italic}
+.card-body{padding:.75rem .95rem}
+
+.qrow{display:flex;align-items:flex-start;gap:.65rem;padding:.5rem 0;border-bottom:1px solid #f0ece4}
+.qrow:last-child{border-bottom:none}
+.qn{font-size:.73rem;font-weight:700;color:var(--muted);min-width:18px;padding-top:2px;flex-shrink:0}
+.qc{flex:1;font-size:.88rem;line-height:1.75}
+
+.mc-opts{display:flex;gap:5px;flex-wrap:wrap;margin-top:.25rem}
+.mcopt{padding:8px 14px;border:1px solid var(--border);border-radius:6px;background:white;font-family:inherit;font-size:.85rem;cursor:pointer;transition:all .14s;min-height:40px}
+.mcopt:hover{background:var(--greenl);border-color:var(--green)}
+.mcopt.ok{background:var(--greenl);border-color:var(--green);color:var(--green);font-weight:700}
+.mcopt.bad{background:var(--redl);border-color:var(--red);color:var(--red)}
+
+.ainp{border:none;border-bottom:2px solid var(--green);background:transparent;font-family:inherit;font-size:16px;color:var(--ink);padding:0 3px;min-width:110px;outline:none;transition:border-color .2s}
+.ainp:focus{border-bottom-color:var(--blue)}
+.ainp.ok{background:var(--greenl);border-radius:3px;border-color:var(--green);color:var(--green);font-weight:600}
+.ainp.bad{background:var(--redl);border-radius:3px;border-color:var(--red);color:var(--red)}
+.ainp.sm{min-width:55px}.ainp.md{min-width:80px}
+
+.csel{border:1.5px solid var(--border);border-radius:6px;padding:3px 7px;font-family:inherit;font-size:16px;background:white;color:var(--ink);outline:none;cursor:pointer}
+.csel.ok{background:var(--greenl);border-color:var(--green);color:var(--green);font-weight:600}
+.csel.bad{background:var(--redl);border-color:var(--red);color:var(--red)}
+
+.txtarea{width:100%;min-height:55px;border:1.5px solid var(--border);border-radius:7px;padding:.45rem .65rem;font-family:inherit;font-size:16px;color:var(--ink);resize:vertical;outline:none;transition:border-color .2s;margin-top:.3rem}
+.txtarea:focus{border-color:var(--blue)}
+
+.reveal{display:none;margin-top:.45rem;border-radius:6px;padding:.5rem .75rem;font-size:.82rem}
+.reveal.show{display:block}
+.reveal.info{background:var(--bluel);border-left:3px solid var(--blue)}
+.reveal.ok{background:var(--greenl);border-left:3px solid var(--green)}
+.rlabel{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.reveal.info .rlabel{color:var(--blue)}
+.reveal.ok .rlabel{color:var(--green)}
+.rans{font-weight:600}
+.rreason{font-weight:400;font-size:.8rem;margin-top:2px}
+.sab{margin-top:.35rem;padding:6px 14px;border:1.5px solid var(--blue);border-radius:5px;background:white;color:var(--blue);font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;transition:all .13s;min-height:36px;display:none}
+.sab.attempted{display:inline-flex;align-items:center;gap:4px}
+.sab:hover{background:var(--bluel)}
+.csb{display:block;margin:.55rem 0 0;padding:7px 18px;background:var(--green);color:white;border:none;border-radius:7px;font-family:inherit;font-size:.83rem;font-weight:600;cursor:pointer;transition:background .18s;min-height:44px;opacity:.45}
+.csb.ready{opacity:1}
+.csb:hover{background:#145530}
+
+.paper-tabs{display:flex;flex-wrap:wrap;gap:.3rem;padding:.3rem 0;margin-bottom:.65rem}
+.ptab{padding:5px 9px;border:1.5px solid var(--border);border-radius:20px;background:white;font-family:inherit;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .15s;color:var(--muted);min-height:40px}
+.ptab:hover{border-color:var(--green);color:var(--green)}
+.ptab.active{background:var(--green);color:white;border-color:var(--green)}
+.ptab.done{border-color:var(--green);color:var(--green);background:var(--greenl)}
+.ptab.done::after{content:" ✓"}
+
+/* DASHBOARD */
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin-bottom:1.2rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem}
+.stat-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.25rem}
+.stat-big{font-family:'Libre Baskerville',serif;font-size:2rem;font-weight:700;color:var(--ink)}
+.stat-sub{font-size:.78rem;color:var(--muted);margin-top:.1rem}
+.skill-bar-wrap{margin-bottom:.7rem}
+.skill-label{display:flex;justify-content:space-between;margin-bottom:.25rem}
+.skill-name{font-size:.83rem;font-weight:600}
+.skill-pct{font-size:.78rem;color:var(--muted)}
+.skill-track{height:8px;background:#e8e2d8;border-radius:4px;overflow:hidden}
+.skill-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.fill-red{background:var(--red)}.fill-amber{background:var(--amber)}.fill-green{background:var(--green)}
+.history-row{display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid #f0ece4;font-size:.83rem}
+.history-row:last-child{border-bottom:none}
+.hist-paper{font-weight:600;min-width:65px}
+.hist-bar-wrap{flex:1;height:6px;background:#e8e2d8;border-radius:3px;overflow:hidden}
+.hist-bar{height:100%;border-radius:3px;background:var(--green)}
+.hist-score{font-size:.8rem;color:var(--muted);min-width:40px;text-align:right}
+.weak-pill{display:inline-flex;align-items:center;gap:.3rem;padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:600;margin:.2rem .2rem 0 0}
+.weak-hi{background:var(--redl);color:var(--red);border:1px solid #fca5a5}
+.weak-med{background:var(--amberl);color:var(--amber);border:1px solid #fbbf24}
+.weak-ok{background:var(--greenl);color:var(--green);border:1px solid #86efac}
+.empty-state{text-align:center;padding:2rem 1rem;color:var(--muted)}
+.empty-state .es-icon{font-size:2.5rem;margin-bottom:.5rem}
+.empty-state p{font-size:.85rem}
+
+/* ACCORDION */
+.accordion{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:.9rem;overflow:hidden}
+.acc-head{display:flex;align-items:center;gap:.65rem;padding:.75rem .95rem;cursor:pointer;user-select:none;background:var(--card);transition:background .14s;min-height:48px}
+.acc-head:hover{background:#f5f3ee}
+.acc-badge{font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.t1{background:#d4edda;color:var(--green)}.t2{background:#fff3cd;color:#856404}.t3{background:#e2e3e5;color:#495057}
+.acc-title{font-weight:600;font-size:.9rem;flex:1}
+.chev{color:var(--muted);font-size:.7rem;transition:transform .22s;flex-shrink:0}
+.accordion.open .chev{transform:rotate(180deg)}
+.acc-body{display:none;padding:0 .95rem .9rem;border-top:1px solid var(--border)}
+.accordion.open .acc-body{display:block}
+.rt{width:100%;border-collapse:collapse;margin:.45rem 0;font-size:.84rem}
+.rt th{background:var(--greenl);color:var(--green);font-weight:600;text-align:left;padding:5px 8px;font-size:.76rem;text-transform:uppercase;letter-spacing:.03em}
+.rt td{padding:5px 8px;border-bottom:1px solid #f0ece4;vertical-align:top}
+.rt tr:last-child td{border-bottom:none}
+.callout{border-left:3px solid var(--green);background:var(--greenl);padding:.55rem .8rem;border-radius:0 6px 6px 0;margin:.55rem 0;font-size:.84rem}
+.callout.warn{border-left-color:#e6a817;background:#fff3cd}
+.callout.tip{border-left-color:var(--amber);background:var(--amberl)}
+.callout.red{border-left-color:var(--red);background:var(--redl)}
+.callout strong{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;color:var(--green)}
+.callout.warn strong{color:#856404}.callout.tip strong{color:var(--amber)}.callout.red strong{color:var(--red)}
+.pills{display:flex;flex-wrap:wrap;gap:4px;margin:.35rem 0}
+.pill{background:var(--greenl);border:1px solid #b7ddd0;color:var(--green);border-radius:20px;padding:2px 8px;font-size:.78rem;font-weight:500}
+.pill.am{background:#fff8e6;border-color:#f5cc80;color:#7a5800}
+h4{font-size:.86rem;font-weight:600;margin:.8rem 0 .3rem}
+p.body{font-size:.84rem;margin-bottom:.35rem}
+.wrong{color:var(--red);font-weight:500}.right{color:var(--green);font-weight:600}
+
+/* AI Practice */
+.ai-config{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem;margin-bottom:1.2rem}
+.ai-config h3{font-size:.95rem;font-weight:700;margin-bottom:.25rem}
+.ai-config p{font-size:.81rem;color:var(--muted);margin-bottom:.85rem}
+.cfg-grid{display:flex;flex-wrap:wrap;gap:.65rem;margin-bottom:.85rem}
+.cfg-item label{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:3px}
+.cfg-item select{padding:6px 9px;border:1px solid var(--border);border-radius:7px;font-family:inherit;font-size:16px;background:white;color:var(--ink);outline:none}
+.gen-btn{padding:9px 22px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.86rem;font-weight:700;cursor:pointer;transition:background .18s;display:flex;align-items:center;gap:.45rem;min-height:44px}
+.gen-btn:hover{background:#145530}
+.gen-btn:disabled{background:#aaa;cursor:not-allowed}
+.gen-btn .spin{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.gen-btn.loading .spin{display:block}
+.gen-btn.loading .btxt{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-status{font-size:.8rem;margin-top:.5rem;min-height:1.1rem}
+.weak-focus-bar{background:var(--amberl);border:1px solid #fbbf24;border-radius:8px;padding:.55rem .85rem;margin-bottom:.9rem;font-size:.82rem}
+.weak-focus-bar strong{color:var(--amber)}
+.ai-paper-header{background:var(--ink);color:white;border-radius:10px;padding:1rem 1.2rem;margin-bottom:1.1rem}
+.ai-paper-title{font-family:'Libre Baskerville',serif;font-size:1.15rem;font-weight:700;color:var(--gold)}
+.ai-paper-meta{font-size:.76rem;color:rgba(255,255,255,.55);margin-top:.2rem;display:flex;gap:.9rem;flex-wrap:wrap}
+.sec-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin:1.1rem 0 .45rem;padding-left:.45rem;border-left:3px solid var(--green)}
+.ai-q{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:.75rem;overflow:hidden}
+.ai-q-head{padding:.7rem .9rem}
+.ai-qn{font-size:.72rem;font-weight:700;color:var(--muted);margin-bottom:.3rem}
+.ai-pass{font-size:.85rem;line-height:1.8;margin:.35rem 0;background:#f9f7f2;padding:.6rem .8rem;border-radius:6px;border:1px solid #ece8e0}
+.ai-fb{font-size:.81rem;margin-top:.4rem;padding:.48rem .75rem;border-radius:6px;display:none}
+.ai-fb.show{display:block}
+.ai-fb.ok{background:var(--greenl);border-left:3px solid var(--green);color:#155724}
+.ai-fb.bad{background:var(--redl);border-left:3px solid var(--red);color:var(--red)}
+.wb-box{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:.65rem;padding:.55rem .75rem;background:#f9f7f2;border-radius:7px;border:1px solid #ece8e0}
+.wb-pill{padding:6px 13px;border:1px solid var(--border);border-radius:20px;background:white;font-size:.83rem;cursor:pointer;transition:all .14s;font-family:inherit;min-height:38px}
+.wb-pill:hover{background:var(--greenl);border-color:var(--green)}
+.wb-pill.sel{background:var(--greenl);border-color:var(--green);font-weight:600}
+.wb-pill.used{opacity:.35;cursor:default;pointer-events:none}
+.ai-chk{padding:5px 14px;background:var(--green);color:white;border:none;border-radius:5px;font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;min-height:44px}
+.ai-chk:disabled{background:#aaa;cursor:default}
+.score-sum{background:var(--ink);color:white;border-radius:10px;padding:1.2rem;text-align:center;display:none;margin-top:1.2rem}
+.score-sum.show{display:block}
+.score-big{font-family:'Libre Baskerville',serif;font-size:3rem;font-weight:700;color:var(--gold)}
+
+/* TIPS */
+.strat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:.8rem;margin-top:.8rem}
+.strat-c{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.75rem .9rem}
+.strat-c .ico{font-size:1.25rem;margin-bottom:.28rem}
+.strat-c h4{font-size:.84rem;font-weight:700;margin-bottom:.18rem}
+.strat-c p{font-size:.76rem;color:var(--muted)}
+
+/* CHARTS */
+.charts-section{margin:0 0 1rem;display:flex;flex-direction:column;gap:.9rem}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.9rem .95rem .75rem}
+.chart-card-title{font-size:.87rem;font-weight:700;color:var(--ink);margin:0 0 2px;display:flex;align-items:center;gap:.35rem}
+.chart-card-sub{font-size:.73rem;color:var(--muted);margin:0 0 9px}
+.mastery-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:.79rem}
+.m-lbl{width:120px;flex-shrink:0;color:var(--muted)}.m-track{flex:1;background:#e8e2d8;border-radius:999px;height:7px;overflow:hidden}
+.m-fill{height:100%;border-radius:999px}.m-pct{width:30px;text-align:right;font-weight:700;flex-shrink:0;font-size:.76rem}
+.m-badge{width:15px;height:15px;border-radius:3px;font-size:.6rem;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.hm-cell{width:12px;height:12px;border-radius:2px;background:#e8e2d8;position:relative}
+.hm-cell[data-l="1"]{background:#bbf7d0}.hm-cell[data-l="2"]{background:#4ade80}.hm-cell[data-l="3"]{background:#16a34a}
+.hm-cell[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:#f5f0e8;font-size:.63rem;padding:2px 5px;border-radius:3px;white-space:nowrap;z-index:99;pointer-events:none}
+.streak-badge{display:inline-flex;align-items:center;gap:3px;background:#fef3c7;color:#92400e;border-radius:20px;padding:2px 8px;font-size:.72rem;font-weight:700}
+
+/* Autosave */
+.autosave-bar{position:fixed;bottom:0;left:0;right:0;height:30px;background:rgba(28,28,30,.93);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.71rem;color:rgba(255,255,255,.4);z-index:9998;pointer-events:none}
+.autosave-bar.saved{color:#4ade80}
+.as-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;animation:asdot 1.5s ease-in-out infinite}
+.autosave-bar.saved .as-dot{animation:none}
+@keyframes asdot{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* Teacher assessment callout */
+.assess-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem}
+@media(max-width:520px){.assess-grid{grid-template-columns:1fr}}
+.assess-card{border-radius:9px;padding:.8rem .95rem;font-size:.82rem}
+.assess-card h4{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.assess-card ul{padding-left:1.1rem;line-height:1.8}
+.assess-str{background:var(--greenl);border:1px solid #86efac}
+.assess-str h4{color:var(--green)}
+.assess-wk{background:var(--redl);border:1px solid #fca5a5}
+.assess-wk h4{color:var(--red)}
+
+/* Q chip */
+.q-chip{display:inline-flex;align-items:center;gap:4px;font-size:.74rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:.4rem;vertical-align:middle}
+.q-chip.ok{background:var(--greenl);color:var(--green);border:1px solid #86efac}
+.q-chip.bad{background:var(--redl);color:var(--red);border:1px solid #fca5a5}
+
+/* Paper meta */
+.paper-meta{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.35rem 0 .6rem;font-size:.8rem;color:var(--muted)}
+
+/* Result overlay */
+.result-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.result-overlay.show{display:flex}
+.result-box{background:var(--ink);color:white;border-radius:16px;padding:1.8rem 1.5rem;max-width:440px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.4);animation:modalIn .22s ease;max-height:90vh;overflow-y:auto}
+.result-score-big{font-family:'Libre Baskerville',serif;font-size:3.5rem;font-weight:700;color:var(--gold);text-align:center;line-height:1}
+.result-score-max{font-size:.9rem;color:rgba(255,255,255,.5);text-align:center;margin-top:.15rem}
+.result-msg{font-size:.95rem;color:rgba(255,255,255,.8);text-align:center;margin:.7rem 0 1.2rem}
+.result-breakdown{background:rgba(255,255,255,.06);border-radius:10px;padding:.8rem 1rem;margin-bottom:1.1rem}
+.result-row{display:flex;align-items:center;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:.85rem}
+.result-row:last-child{border-bottom:none}
+.result-row-name{color:rgba(255,255,255,.7)}
+.result-row-score{font-weight:700}
+.result-row-score.full{color:#4ade80}.result-row-score.partial{color:var(--gold)}.result-row-score.zero{color:#f87171}
+.result-actions{display:flex;gap:.5rem}
+.result-btn{flex:1;padding:11px;border-radius:8px;border:none;font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;min-height:44px;transition:all .15s}
+.result-btn-retry{background:var(--green);color:white}
+.result-btn-close{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
+@keyframes modalIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* Submit paper btn */
+.submit-paper-btn{display:block;width:100%;margin:1.2rem 0 0;padding:13px 24px;background:var(--blue);color:white;border:none;border-radius:10px;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;transition:background .18s}
+.submit-paper-btn:hover{background:#163d72}
+.submit-paper-btn:disabled{background:#aaa;cursor:not-allowed}
+
+@media(max-width:768px){.tab-content{padding:.9rem .75rem 3rem}.dash-grid{grid-template-columns:1fr 1fr;gap:.6rem}.stat-big{font-size:1.6rem}.strat-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.dash-grid{grid-template-columns:1fr 1fr}.strat-grid{grid-template-columns:1fr}.cfg-grid{flex-direction:column}}
+
+/* ══ AUTH OVERLAY ══ */
+.auth-overlay{position:fixed;inset:0;background:rgba(28,28,30,.97);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;font-family:'Source Sans 3',sans-serif}
+.auth-box{background:white;border-radius:16px;padding:2rem 1.5rem;max-width:400px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.5);animation:modalIn .25s ease}
+.auth-logo{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;text-align:center;margin-bottom:.3rem}
+.auth-logo span{color:var(--gold)}
+.auth-sub{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:1.5rem}
+.auth-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.2rem}
+.auth-tab{flex:1;padding:.55rem;background:none;border:none;cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s}
+.auth-tab.active{color:var(--green);border-bottom-color:var(--green)}
+.auth-field{margin-bottom:.85rem}
+.auth-field label{display:block;font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem}
+.auth-inp{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s}
+.auth-inp:focus{border-color:var(--green)}
+.auth-inp.err{border-color:var(--red);background:var(--redl)}
+.auth-role-btns{display:flex;gap:.4rem;margin-bottom:1rem}
+.auth-role-btn{flex:1;padding:8px 6px;border:1.5px solid var(--border);border-radius:8px;background:white;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;text-align:center}
+.auth-role-btn:hover{border-color:var(--green);color:var(--green)}
+.auth-role-btn.sel{background:var(--green);color:white;border-color:var(--green)}
+.auth-btn{width:100%;padding:11px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .15s;min-height:44px}
+.auth-btn:hover{background:#145530}
+.auth-btn:disabled{background:#aaa;cursor:not-allowed}
+.auth-err{font-size:.78rem;color:var(--red);text-align:center;margin-top:.5rem;min-height:1rem}
+.auth-switch{font-size:.78rem;color:var(--muted);text-align:center;margin-top:.8rem}
+.auth-switch a{color:var(--green);cursor:pointer;font-weight:600}
+.role-badge{display:inline-flex;align-items:center;gap:.3rem;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:700;margin-left:.5rem}
+.role-student{background:#dbeafe;color:#1e40af}
+.role-parent{background:#fef3c7;color:#92400e}
+.role-teacher{background:#d1fae5;color:#065f46}
+/* Change password modal */
+.pwd-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10000;align-items:center;justify-content:center;padding:1rem}
+.pwd-modal-overlay.show{display:flex}
+.pwd-modal{background:white;border-radius:14px;padding:1.5rem;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.pwd-modal h3{font-size:1rem;font-weight:700;margin-bottom:1rem}
+/* Memorisation notes style */
+.memo-card{background:linear-gradient(135deg,#f0faf4 0%,#e8f5ee 100%);border:1.5px solid #86efac;border-radius:10px;padding:.9rem 1rem;margin:.5rem 0}
+.memo-card h5{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-bottom:.5rem}
+.memo-list{list-style:none;padding:0}
+.memo-list li{padding:.2rem 0;font-size:.84rem;display:flex;align-items:flex-start;gap:.4rem}
+.memo-list li::before{content:"✦";color:var(--green);font-size:.6rem;margin-top:.3rem;flex-shrink:0}
+.memo-phrase{background:white;border:1px solid #86efac;border-radius:20px;padding:2px 10px;font-size:.78rem;font-weight:600;color:var(--green);display:inline-block;margin:.15rem .15rem 0}
+.flash-card{background:white;border:2px solid var(--gold);border-radius:10px;padding:1rem;margin:.4rem 0;cursor:pointer;transition:all .2s;text-align:center}
+.flash-card:hover{border-color:var(--green);transform:translateY(-1px)}
+.flash-front{font-weight:700;font-size:.9rem}
+.flash-back{display:none;margin-top:.6rem;font-size:.82rem;color:var(--green);border-top:1px solid var(--border);padding-top:.5rem}
+.flash-card.flipped .flash-back{display:block}
+.flash-card.flipped .flash-front{color:var(--muted)}
+/* Section C self-marking */
+.self-mark-row{display:flex;align-items:center;gap:.5rem;margin-top:.4rem;padding:.4rem .6rem;background:#f9f7f2;border-radius:6px;border:1px solid var(--border)}
+.self-mark-row label{font-size:.76rem;font-weight:600;color:var(--muted);flex:1}
+.mark-btns{display:flex;gap:.3rem}
+.mark-btn{padding:3px 10px;border:1.5px solid var(--border);border-radius:20px;background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;transition:all .14s;min-width:30px}
+.mark-btn:hover{border-color:var(--green);color:var(--green)}
+.mark-btn.sel-full{background:var(--green);color:white;border-color:var(--green)}
+.mark-btn.sel-partial{background:var(--amberl);color:var(--amber);border-color:var(--amber)}
+.mark-btn.sel-zero{background:var(--redl);color:var(--red);border-color:var(--red)}
+/* Parent-only sections */
+.parent-only{display:none}
+.teacher-only{display:none}
+@keyframes modalIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+
+button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk,.acc-head{pointer-events:auto!important;position:relative}
+
+.hist-sort-btn{padding:5px 11px;background:white;border:1.5px solid var(--border);border-radius:20px;font-family:inherit;font-size:.73rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s}
+.hist-sort-btn:hover{border-color:var(--green);color:var(--green)}
+.hist-sort-btn.active{background:var(--green);color:white;border-color:var(--green)}
+.hist-card{background:white;border:1.5px solid var(--border);border-radius:12px;padding:1rem 1.1rem .9rem;cursor:pointer;transition:all .2s}
+.hist-card:hover{border-color:var(--green);box-shadow:0 4px 18px rgba(0,0,0,.09);transform:translateY(-1px)}
+.hist-bar-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+.hist-bar-label{font-size:.7rem;color:var(--muted);width:46px;flex-shrink:0}
+.hist-bar-track{flex:1;height:7px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+.hist-bar-fill{height:100%;border-radius:4px}
+.hist-bar-val{font-size:.7rem;font-weight:700;color:var(--ink);width:32px;text-align:right}
+.hist-tag{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.7rem;font-weight:700}
+.hist-summary-stat{background:white;border:1.5px solid;border-radius:10px;padding:.75rem;text-align:center}
+.hist-summary-val{font-family:'Libre Baskerville',serif;font-size:1.4rem;font-weight:700;line-height:1;margin-bottom:.25rem}
+.hist-summary-lbl{font-size:.67rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.hm-sec-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:.9rem 0 .45rem;padding-top:.6rem;border-top:1px solid var(--border)}
+.hm-row{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem .5rem;border-radius:6px;margin-bottom:.22rem;font-size:.81rem;line-height:1.4}
+.hm-row.correct{background:#f0fdf4}.hm-row.wrong{background:#fef2f2}.hm-row.partial{background:#fffbeb}
+.hm-icon{font-size:.9rem;flex-shrink:0;margin-top:2px}
+
+
+/* ── QUICK FIRE ── */
+.qf-tf-btn{flex:1;max-width:160px;padding:14px 20px;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.95rem;font-weight:700;cursor:pointer;background:white;transition:all .15s}
+.qf-tf-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.qf-tf-btn.sel-true{background:#dcfce7;border-color:#16a34a;color:#15803d}
+.qf-tf-btn.sel-false{background:#fee2e2;border-color:#dc2626;color:#b91c1c}
+.qf-tf-btn:disabled{cursor:default;transform:none}
+.qf-mcq-opt{padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-family:inherit;font-size:.85rem;cursor:pointer;background:white;text-align:left;transition:all .15s;display:flex;align-items:flex-start;gap:.5rem}
+.qf-mcq-opt:hover:not(:disabled){border-color:var(--green);background:#f0fdf4}
+.qf-mcq-opt.opt-correct{background:#dcfce7;border-color:#16a34a;color:#15803d;font-weight:700}
+.qf-mcq-opt.opt-wrong{background:#fee2e2;border-color:#dc2626;color:#b91c1c}
+.qf-mcq-opt:disabled{cursor:default}
+.qf-feedback-correct{background:#f0fdf4;border:2px solid #bbf7d0}
+.qf-feedback-wrong{background:#fef2f2;border:2px solid #fecaca}
+.qf-feedback-partial{background:#fffbeb;border:2px solid #fde68a}
+/* Teacher Brief */
+.brief-entry{border-left:3px solid var(--green);padding-left:.9rem;margin-bottom:1.4rem}
+.brief-entry-date{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.05em;margin-bottom:.35rem}
+.brief-entry-new{border-color:#f59e0b;background:#fffbeb;padding:.75rem .9rem;border-radius:0 8px 8px 0}
+.brief-section{margin-bottom:.7rem}
+.brief-section h4{font-size:.82rem;font-weight:700;color:var(--ink);margin:.5rem 0 .25rem}
+.brief-skill-bar{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;font-size:.79rem}
+.brief-skill-name{width:140px;flex-shrink:0;color:var(--ink)}
+.brief-skill-track{flex:1;height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+.brief-skill-fill{height:100%;border-radius:4px}
+.brief-skill-pct{width:34px;text-align:right;font-weight:700;color:var(--ink);flex-shrink:0}
+/* Dynamic notes */
+.dynamic-note-card{background:white;border:1.5px solid var(--border);border-radius:10px;padding:.85rem 1rem;margin-bottom:.75rem}
+.dynamic-note-card.note-new{border-color:#f59e0b;background:#fffdf5}
+.dynamic-note-tag{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:8px;margin-bottom:.4rem}
+
+
+/* ── Activity Widget ── */
+.chap-chk-item{display:flex;align-items:center;gap:.3rem;padding:.22rem .35rem;border-radius:6px;cursor:pointer;user-select:none;font-size:.73rem;font-weight:600;color:#374151;transition:background .12s}
+.chap-chk-item:hover{background:#f3f4f6}
+.chap-chk-item input[type=checkbox]{width:13px;height:13px;cursor:pointer;accent-color:#166534}
+.chap-chk-item .chap-badge{font-size:.65rem;padding:.1rem .3rem;border-radius:4px;font-weight:700}
+.chap-chk-item.core-ch .chap-badge{background:#d1fae5;color:#065f46}
+.chap-chk-item.ext-ch .chap-badge{background:#dcfce7;color:#166534}
+.act-tab{padding:.32rem .75rem;border:1.5px solid var(--border);border-radius:20px;font-family:inherit;font-size:.75rem;font-weight:700;background:none;color:var(--muted);cursor:pointer;transition:all .18s}
+.act-tab:hover{border-color:var(--gold);color:var(--gold)}
+.act-tab.act-tab-active{background:var(--gold);border-color:var(--gold);color:#fff}
+</style>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<!-- TOPBAR -->
+
+<!-- ══ AUTH OVERLAY ══ -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-box">
+    <div class="auth-logo">S1 Science <span>Mastery</span> · G3</div>
+    <div class="auth-sub">Sign in to track progress across devices</div>
+    <div id="authForm">
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="authSwitchTab('login',this)">Sign In</button>
+        <button class="auth-tab" onclick="authSwitchTab('signup',this)">Register</button>
+      </div>
+      <div id="signupRoleRow" style="display:none">
+        <div style="font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem">Select Role</div>
+        <div class="auth-role-btns">
+          <button class="auth-role-btn sel" onclick="selectRole('student',this)">🎓 Student</button>
+          <button class="auth-role-btn" onclick="selectRole('parent',this)">👨‍👩‍👦 Parent</button>
+          <button class="auth-role-btn" onclick="selectRole('teacher',this)">📋 Teacher</button>
+        </div>
+      </div>
+      <div class="auth-field"><label>Email</label><input class="auth-inp" id="authEmail" type="email" placeholder="you@email.com" autocomplete="email"></div>
+      <div class="auth-field"><label>Password</label><input class="auth-inp" id="authPwd" type="password" placeholder="Password (min 6 chars)" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAuth()"></div>
+      <div id="signupNameRow" class="auth-field" style="display:none"><label>Display Name</label><input class="auth-inp" id="authName" type="text" placeholder="e.g. Mokshith"></div>
+      <button class="auth-btn" id="authSubmitBtn" onclick="doAuth()">Sign In</button>
+      <div class="auth-err" id="authErr"></div>
+      <div class="auth-switch" id="authSwitch">Don't have an account? <a onclick="authSwitchTab('signup',null)">Register</a></div>
+      <div style="text-align:center;margin-top:.8rem;font-size:.74rem;color:var(--muted)">
+        Accounts: mokshith@sci.sg / parent@sci.sg / teacher@sci.sg · Password: <strong>Abcd1234</strong>
+      </div>
+      <div style="margin-top:.6rem;padding-top:.6rem;border-top:1px solid #e5e7eb">
+        <div style="font-size:.7rem;color:var(--muted);text-align:center;margin-bottom:.4rem">Quick sign-in:</div>
+        <div style="display:flex;gap:.35rem;justify-content:center">
+          <button onclick="quickLogin('mokshith@sci.sg','Abcd1234')" style="flex:1;padding:7px 4px;border:1.5px solid #1e4d8c;border-radius:8px;background:#dbeafe;font-family:inherit;font-size:.75rem;font-weight:700;cursor:pointer;color:#1e4d8c;min-height:38px">🎓 Student</button>
+          <button onclick="quickLogin('parent@sci.sg','Abcd1234')" style="flex:1;padding:7px 4px;border:1.5px solid #92400e;border-radius:8px;background:#fef3c7;font-family:inherit;font-size:.75rem;font-weight:700;cursor:pointer;color:#92400e;min-height:38px">👨‍👩‍👦 Parent</button>
+          <button onclick="quickLogin('teacher@sci.sg','Abcd1234')" style="flex:1;padding:7px 4px;border:1.5px solid #065f46;border-radius:8px;background:#d1fae5;font-family:inherit;font-size:.75rem;font-weight:700;cursor:pointer;color:#065f46;min-height:38px">📋 Teacher</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHANGE PASSWORD MODAL ══ -->
+<div class="pwd-modal-overlay" id="pwdModal">
+  <div class="pwd-modal">
+    <h3>🔑 Change Password</h3>
+    <div class="auth-field"><label>New Password</label><input class="auth-inp" id="newPwd1" type="password" placeholder="Min 6 characters"></div>
+    <div class="auth-field"><label>Confirm Password</label><input class="auth-inp" id="newPwd2" type="password" placeholder="Repeat password"></div>
+    <div class="auth-err" id="pwdErr"></div>
+    <div style="display:flex;gap:.5rem;margin-top:.5rem">
+      <button class="auth-btn" style="background:var(--muted)" onclick="document.getElementById('pwdModal').classList.remove('show')">Cancel</button>
+      <button class="auth-btn" onclick="doChangePwd()">Update Password</button>
+    </div>
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="logo">S1 Science <span>Mastery</span> · G3 EOY <span id="roleBadge" class="role-badge role-student" style="display:none">Student</span></div>
+  <div class="top-btns" id="topBtns">
+    <span id="userDisplayName" style="color:rgba(255,255,255,.5);font-size:.75rem;display:none"></span>
+    <button class="tbtn tbtn-outline" id="btnAnswerKey" onclick="openAnswerKeyModal()" style="display:none">🔐 Answer Key</button>
+    <button class="tbtn tbtn-outline" id="btnBrief" onclick="openTeacherBriefModal()" style="display:none">📋 Teacher Brief</button>
+    <button class="tbtn tbtn-outline" onclick="document.getElementById('pwdModal').classList.add('show')">🔑 Change Pwd</button>
+    <button class="tbtn tbtn-gold" onclick="signOutUser()">Sign Out</button>
+  </div>
+</div>
+
+<!-- MAIN TABS -->
+<div class="main-tabs">
+  <button class="mtab active" onclick="showTab('dashTab',this)">📊 Dashboard</button>
+  <button class="mtab" onclick="showTab('notesTab',this)">📚 Study Notes</button>
+  <button class="mtab" onclick="showTab('papersTab',this)">✏️ Practice Papers <span class="tab-badge" id="papersBadge">33</span></button>
+  <button class="mtab" onclick="showTab('aiTab',this)">🤖 AI Practice</button>
+  <button class="mtab" onclick="showTab('tipsTab',this)">💡 Exam Tips</button>
+  <button class="mtab" onclick="showTab('qfTab',this);initQuickFire()">⚡ Quick Fire</button>
+  <button class="mtab" onclick="showTab('histTab',this);loadHistoryTab()">📋 History</button>
+  <button class="mtab" onclick="showTab('drillTab',this);initDrill()">🏋 Daily Drill</button>
+  <button class="mtab" onclick="showTab('formulaTab',this)">📐 Formula Sheet</button>
+  <button class="mtab" onclick="showTab('resourcesTab',this)">📖 Resources</button>
+</div>
+
+<!-- RESULT OVERLAY -->
+<div class="result-overlay" id="resultOverlay" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="result-box" id="resultBox"></div>
+</div>
+
+<!-- ═══ DASHBOARD TAB ═══ -->
+<div id="dashTab" class="tab-content active">
+
+  <!-- Teacher Assessment -->
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-head"><div class="card-letter">🏫</div><div class="card-title">Teacher's Assessment — Mokshith (G3 Science)</div></div>
+    <div class="card-body">
+      <div class="assess-grid">
+        <div class="assess-card assess-str">
+          <h4>✅ Strengths Identified</h4>
+          <ul>
+            <li>SI units, measurement & error types (Ch 1)</li>
+            <li>Floating/sinking rule (density comparisons)</li>
+            <li>Element vs compound classification (Ch 3)</li>
+            <li>Basic MCQ recall for separation techniques</li>
+            <li>Cell organelle identification</li>
+          </ul>
+        </div>
+        <div class="assess-card assess-wk">
+          <h4>⚠️ Weakness Areas (Priority Focus)</h4>
+          <ul>
+            <li><strong>Section C Free Response</strong> — 30 marks: needs full explanation with scientific reasoning, not just one-word answers</li>
+            <li><strong>Ray Model of Light (Ch 5)</strong> — reflection/refraction ray diagrams, must use ruler & label angles</li>
+            <li><strong>Particulate Nature of Matter (Ch 7)</strong> — heating curve interpretation, state changes at particle level</li>
+            <li><strong>Atoms & Molecules (Ch 8)</strong> — proton number, nucleon number, electron configuration</li>
+            <li><strong>Chemical Properties (Ch 3)</strong> — acid/alkali reactions, pH scale, indicators</li>
+            <li><strong>Hypothesis writing</strong> — incomplete IF-THEN format; needs quantitative IV/DV statements</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout warn"><strong>📌 Teacher Priority Note</strong>📌 G3 EOY is 100 marks (Sec A: 30 MCQ | Sec B: 40 Structured | Sec C: 30 Free Response). Ray Model of Light and Particulate Nature of Matter appear every year as Section C questions — prioritise these for the final 2 weeks.</div>
+    </div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="dash-grid" id="statsGrid">
+    <div class="stat-card">
+      <div class="stat-label">Papers Done</div>
+      <div class="stat-big" id="dPapers">0</div>
+      <div class="stat-sub">of 33 practice papers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Best Score</div>
+      <div class="stat-big" id="dBest">—</div>
+      <div class="stat-sub">out of 100 marks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg Score</div>
+      <div class="stat-big" id="dAvg">—</div>
+      <div class="stat-sub">target: 90/100 (90%)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Study Streak</div>
+      <div class="stat-big" id="dStreak">0</div>
+      <div class="stat-sub">days in a row 🔥</div>
+    </div>
+  </div>
+
+  <!-- EOY Readiness Banner -->
+  <div class="card" id="eoyBanner" style="background:linear-gradient(135deg,#0f4c2a 0%,#166534 60%,#1a7a3f 100%);border:none;padding:0;overflow:hidden">
+    <div style="padding:1rem 1.25rem .85rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.7rem">
+        <div>
+          <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.55);margin-bottom:.2rem">EOY Exam Readiness</div>
+          <div style="display:flex;align-items:baseline;gap:.4rem">
+            <span id="eoyPct" style="font-size:2.4rem;font-weight:800;color:#fff;line-height:1">—</span>
+            <span style="font-size:1rem;color:rgba(255,255,255,.65);font-weight:600">%</span>
+            <span id="eoyGrade" style="font-size:.85rem;font-weight:700;padding:.15rem .55rem;border-radius:99px;background:rgba(255,255,255,.18);color:#fff;margin-left:.25rem">—</span>
+          </div>
+          <div id="eoySubtitle" style="font-size:.73rem;color:rgba(255,255,255,.6);margin-top:.25rem">Avg EMA across core chapters</div>
+        </div>
+        <!-- Chapter filter toggle -->
+        <div style="position:relative">
+          <button id="chapFilterBtn" onclick="toggleChapDropdown()" style="display:flex;align-items:center;gap:.35rem;padding:.38rem .75rem;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;font-family:inherit;font-size:.73rem;font-weight:700;cursor:pointer;transition:all .18s">
+            <span id="chapFilterLabel">📚 Core Ch1–8</span>
+            <span id="chapDropArrow" style="font-size:.65rem;transition:transform .2s">▼</span>
+          </button>
+          <div id="chapDropdown" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1.5px solid #e5e7eb;border-radius:10px;padding:.5rem;min-width:240px;box-shadow:0 8px 24px rgba(0,0,0,.14);z-index:200">
+            <div style="font-size:.68rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;padding:0 .3rem">Quick Select</div>
+            <div style="display:flex;gap:.35rem;margin-bottom:.55rem;flex-wrap:wrap;padding:0 .15rem">
+              <button class="chap-preset" onclick="applyChapPreset('core')" style="padding:.25rem .6rem;border-radius:6px;border:1.5px solid #d1fae5;background:#ecfdf5;color:#065f46;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit">Core (Ch1–8)</button>
+              <button class="chap-preset" onclick="applyChapPreset('ext')" style="padding:.25rem .6rem;border-radius:6px;border:1.5px solid #dcfce7;background:#f0fdf4;color:#166534;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit">Extended (Ch9–13)</button>
+              <button class="chap-preset" onclick="applyChapPreset('all')" style="padding:.25rem .6rem;border-radius:6px;border:1.5px solid #e5e7eb;background:#f9fafb;color:#374151;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit">All 13</button>
+            </div>
+            <div style="font-size:.68rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem;padding:0 .3rem">Individual Chapters</div>
+            <div id="chapCheckboxes" style="display:grid;grid-template-columns:1fr 1fr;gap:.22rem;padding:0 .1rem"></div>
+            <div style="margin-top:.6rem;padding-top:.5rem;border-top:1px solid #f3f4f6;display:flex;justify-content:flex-end">
+              <button onclick="applyChapFilter();toggleChapDropdown()" style="padding:.3rem .8rem;border-radius:7px;border:none;background:#166534;color:#fff;font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit">Apply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Progress bar -->
+      <div style="background:rgba(255,255,255,.18);border-radius:99px;height:8px;overflow:hidden;margin-bottom:.4rem">
+        <div id="eoyBar" style="height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,#86efac,#4ade80);transition:width .6s ease"></div>
+      </div>
+      <!-- Chapter sparklines row -->
+      <div id="eoyChapRow" style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem"></div>
+    </div>
+  </div>
+
+  <!-- Mastery Radar — primary dashboard visual -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">📡</div><div class="card-title">Chapter Mastery Radar</div><div class="card-marks" id="radarAvgBadge">—</div></div>
+    <div class="card-body" style="display:flex;flex-direction:column;align-items:center;gap:.75rem">
+      <div id="radarChart"></div>
+      <div id="chapterChips" style="display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center"></div>
+    </div>
+  </div>
+
+  <!-- AI Score Advisor -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">🎯</div><div class="card-title">Score Improvement Advisor</div></div>
+    <div class="card-body">
+      <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.75rem">
+        <span style="font-size:.82rem;color:var(--ink)">I want to improve my score by</span>
+        <select id="targetGain" style="padding:.3rem .6rem;border:1.5px solid var(--border);border-radius:6px;font-size:.82rem;font-family:inherit;background:var(--card);color:var(--ink)">
+          <option value="10">+10 marks</option>
+          <option value="15" selected>+15 marks</option>
+          <option value="20">+20 marks</option>
+          <option value="25">+25 marks</option>
+          <option value="30">+30 marks</option>
+        </select>
+        <button onclick="showAdvisor()" style="padding:.35rem .9rem;background:var(--ink);color:white;border:none;border-radius:6px;font-size:.82rem;font-family:inherit;font-weight:600;cursor:pointer">Show me what to focus on →</button>
+      </div>
+      <div id="advisorOut"></div>
+    </div>
+  </div>
+
+  <!-- Paper History — full width -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">H</div><div class="card-title">Paper History</div></div>
+    <div class="card-body" id="histRows">
+      <div class="empty-state"><div class="es-icon">📄</div><p>No papers completed yet</p></div>
+    </div>
+  </div>
+
+  <!-- Activity heatmap -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-letter">📅</div>
+      <div class="card-title">Study Activity</div>
+      <span class="streak-badge" id="streakBadge">0-day streak</span>
+    </div>
+    <div class="card-body">
+      <div style="overflow-x:auto;padding-bottom:.3rem">
+        <div style="display:flex;gap:3px;margin-bottom:4px;font-size:.65rem;color:var(--muted)" id="hmMonthLabels"></div>
+        <div style="display:grid;gap:3px" id="hmGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activity Widget -->
+  <div class="card" id="todayStatsBox" style="grid-column:1/-1">
+    <div class="card-head"><div class="card-letter">📅</div><div class="card-title">Mokshith's Activity</div></div>
+    <div class="card-body">
+      <!-- Period selector tabs -->
+      <div style="display:flex;gap:.35rem;margin-bottom:.9rem;flex-wrap:wrap">
+        <button class="act-tab act-tab-active" onclick="selectActTab('today',this)">Today</button>
+        <button class="act-tab" onclick="selectActTab('yesterday',this)">Yesterday</button>
+        <button class="act-tab" onclick="selectActTab('week',this)">This Week</button>
+        <button class="act-tab" onclick="selectActTab('range',this)">Date Range</button>
+      </div>
+      <!-- Date range picker (hidden unless range selected) -->
+      <div id="actRangePicker" style="display:none;margin-bottom:.75rem;display:none;gap:.5rem;align-items:center;flex-wrap:wrap">
+        <input type="date" id="actFrom" style="font-family:inherit;font-size:.8rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--paper);color:var(--ink)">
+        <span style="color:var(--muted);font-size:.8rem">to</span>
+        <input type="date" id="actTo" style="font-family:inherit;font-size:.8rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--paper);color:var(--ink)">
+        <button onclick="renderActPanel()" style="padding:4px 10px;font-family:inherit;font-size:.8rem;background:var(--gold);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700">Show</button>
+      </div>
+      <!-- Stats panel -->
+      <div id="actPanel">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:.75rem">
+          <div style="text-align:center;background:var(--paper);border-radius:8px;padding:.5rem">
+            <div style="font-size:1.5rem;font-weight:700;font-family:'Libre Baskerville',serif;color:var(--gold)" id="actQs">0</div>
+            <div style="font-size:.68rem;color:var(--muted);margin-top:2px">Questions</div>
+          </div>
+          <div style="text-align:center;background:var(--paper);border-radius:8px;padding:.5rem">
+            <div style="font-size:1.5rem;font-weight:700;font-family:'Libre Baskerville',serif;color:var(--green)" id="actPapers">0</div>
+            <div style="font-size:.68rem;color:var(--muted);margin-top:2px">Papers</div>
+          </div>
+          <div style="text-align:center;background:var(--paper);border-radius:8px;padding:.5rem">
+            <div style="font-size:1.5rem;font-weight:700;font-family:'Libre Baskerville',serif;color:#3b82f6" id="actAcc">—</div>
+            <div style="font-size:.68rem;color:var(--muted);margin-top:2px">Accuracy</div>
+          </div>
+        </div>
+        <div id="actBreakdown" style="font-size:.78rem;color:var(--muted)"></div>
+        <div id="actPeriodLabel" style="margin-top:.5rem;font-size:.72rem;color:var(--muted);text-align:right"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STUDY NOTES TAB add Dummy═══ -->
+<div id="notesTab" class="tab-content">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">
+  <p style="font-size:.82rem;color:var(--muted);margin:0">Click any topic to expand notes. <strong>G3 Science EOY — 13 chapters (Sec A 30M + Sec B 40M + Sec C 30M = 100 marks)</strong> — focus on Tier 1 first.</p>
+  <button onclick="refreshStudyNotes()" id="refreshNotesBtn" style="padding:7px 14px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;flex-shrink:0">🔄 Refresh Notes</button>
+</div>
+<div id="dynamicNotesArea"></div>
+
+  <!-- TIER 1 -->
+  <div class="sec-label">📚 Core 8 Chapters — In-Scope for Exam</div>
+
+  <div class="sec-label" style="margin-top:.5rem">🔵 TIER 1 — Must Master (Every Paper)</div>
+
+  <!-- Measurement -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t1">Tier 1</span><span class="acc-title">📐 Measurement, SI Units & Errors</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <h4>SI Units (must memorise all)</h4>
+      <table class="rt"><tr><th>Quantity</th><th>SI Unit</th><th>Symbol</th></tr>
+        <tr><td>Length</td><td>Metre</td><td>m</td></tr>
+        <tr><td>Mass</td><td>Kilogram</td><td>kg</td></tr>
+        <tr><td>Time</td><td>Second</td><td>s</td></tr>
+        <tr><td>Temperature</td><td>Kelvin</td><td>K (°C used in practice)</td></tr>
+        <tr><td>Volume</td><td>Cubic metre</td><td>m³ (cm³ also acceptable)</td></tr>
+      </table>
+      <h4>Instruments & Precision</h4>
+      <table class="rt"><tr><th>Instrument</th><th>Measures</th><th>Precision</th><th>Example reading</th></tr>
+        <tr><td>Metre rule</td><td>Length</td><td>0.1 cm (1 mm)</td><td>5.2 cm ✓ NOT 5.24 cm</td></tr>
+        <tr><td>Digital calipers</td><td>Length</td><td>0.01 cm</td><td>5.24 cm ✓</td></tr>
+        <tr><td>Measuring cylinder</td><td>Volume of liquid</td><td>1 cm³ typically</td><td>Read bottom of meniscus — <strong>eye level</strong></td></tr>
+        <tr><td>Electronic balance</td><td>Mass</td><td>0.1 g</td><td>Must read 0.0 g before placing object</td></tr>
+      </table>
+      <div class="callout red"><strong>⛔ Common Exam Trap</strong>Measuring cylinder: eye must be LEVEL with the bottom of the meniscus — not above or below. Answer: C (level with bottom of meniscus)</div>
+      <h4>Types of Error</h4>
+      <table class="rt"><tr><th>Error Type</th><th>Cause</th><th>How to fix</th></tr>
+        <tr><td><strong>Zero error</strong></td><td>Instrument reads non-zero when it should read zero</td><td>Subtract zero reading from all measurements</td></tr>
+        <tr><td><strong>Parallax error</strong></td><td>Eye not level with scale when reading</td><td>Position eye perpendicular to scale</td></tr>
+        <tr><td><strong>Unpredictable error</strong></td><td>Random human mistakes</td><td>Repeat experiment ≥3 times, take average</td></tr>
+      </table>
+      <div class="callout"><strong>✅ Key Rule</strong>Repeating and averaging reduces <em>unpredictable</em> errors. Zero error is a <em>consistent</em> error — averaging does NOT fix it.</div>
+      <h4>Qualitative vs Quantitative Data</h4>
+      <div class="pills">
+        <span class="pill">Qualitative = descriptions (colour, smell, texture)</span>
+        <span class="pill am">Quantitative = numbers with units (mass, temperature, volume)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Physical Properties -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t1">Tier 1</span><span class="acc-title">⚗️ Physical Properties of Matter</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <h4>Key Physical Properties</h4>
+      <svg width="100%" viewBox="0 0 700 185" style="max-width:700px;margin:1rem auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+  <rect width="700" height="185" fill="#f8fafc" rx="10"/>
+  <text x="350" y="22" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#374151">Three States of Matter — Particle Arrangement</text>
+  <rect x="20" y="35" width="200" height="140" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="120" y="57" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#3b82f6">SOLID</text>
+  <circle cx="60" cy="78" r="13" fill="#3b82f6" opacity=".85"/><circle cx="88" cy="78" r="13" fill="#3b82f6" opacity=".85"/><circle cx="116" cy="78" r="13" fill="#3b82f6" opacity=".85"/><circle cx="144" cy="78" r="13" fill="#3b82f6" opacity=".85"/>
+  <circle cx="60" cy="106" r="13" fill="#3b82f6" opacity=".85"/><circle cx="88" cy="106" r="13" fill="#3b82f6" opacity=".85"/><circle cx="116" cy="106" r="13" fill="#3b82f6" opacity=".85"/><circle cx="144" cy="106" r="13" fill="#3b82f6" opacity=".85"/>
+  <circle cx="60" cy="134" r="13" fill="#3b82f6" opacity=".85"/><circle cx="88" cy="134" r="13" fill="#3b82f6" opacity=".85"/><circle cx="116" cy="134" r="13" fill="#3b82f6" opacity=".85"/><circle cx="144" cy="134" r="13" fill="#3b82f6" opacity=".85"/>
+  <text x="120" y="170" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#1e40af">Regular, tightly packed — fixed shape</text>
+  <rect x="250" y="35" width="200" height="140" rx="8" fill="#f0fdf4" stroke="#10b981" stroke-width="2"/>
+  <text x="350" y="57" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#10b981">LIQUID</text>
+  <circle cx="285" cy="82" r="13" fill="#10b981" opacity=".75"/><circle cx="315" cy="74" r="13" fill="#10b981" opacity=".75"/><circle cx="348" cy="85" r="13" fill="#10b981" opacity=".75"/><circle cx="382" cy="76" r="13" fill="#10b981" opacity=".75"/>
+  <circle cx="275" cy="112" r="13" fill="#10b981" opacity=".75"/><circle cx="308" cy="118" r="13" fill="#10b981" opacity=".75"/><circle cx="342" cy="108" r="13" fill="#10b981" opacity=".75"/><circle cx="375" cy="115" r="13" fill="#10b981" opacity=".75"/>
+  <circle cx="290" cy="143" r="13" fill="#10b981" opacity=".75"/><circle cx="330" cy="137" r="13" fill="#10b981" opacity=".75"/><circle cx="365" cy="145" r="13" fill="#10b981" opacity=".75"/>
+  <text x="350" y="170" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#065f46">Random, close — takes container shape</text>
+  <rect x="480" y="35" width="200" height="140" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="580" y="57" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#f97316">GAS</text>
+  <circle cx="510" cy="80" r="13" fill="#f97316" opacity=".65"/><circle cx="620" cy="88" r="13" fill="#f97316" opacity=".65"/>
+  <circle cx="565" cy="110" r="13" fill="#f97316" opacity=".65"/>
+  <circle cx="505" cy="140" r="13" fill="#f97316" opacity=".65"/><circle cx="635" cy="138" r="13" fill="#f97316" opacity=".65"/>
+  <text x="580" y="170" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#c2410c">Far apart, fast-moving — fills container</text>
+</svg>
+
+      <table class="rt"><tr><th>Property</th><th>Definition</th><th>G2 Example</th></tr>
+        <tr><td>Density</td><td>Mass per unit volume</td><td>Steel 7.87 g/cm³, water 1.0 g/cm³</td></tr>
+        <tr><td>Melting point</td><td>Temperature where solid → liquid</td><td>Iron: 1535°C, ethanol: -117°C</td></tr>
+        <tr><td>Boiling point</td><td>Temperature where liquid → gas</td><td>Water: 100°C</td></tr>
+        <tr><td>Electrical conductivity</td><td>Ability to conduct electricity</td><td>Metals = good; rubber, plastic = poor</td></tr>
+        <tr><td>Thermal conductivity</td><td>Ability to transfer heat</td><td>Metals = good; wood, air = poor</td></tr>
+        <tr><td>Flexibility</td><td>Ability to bend without breaking</td><td>Plastic hose: flexible; glass rod: brittle</td></tr>
+        <tr><td>Hardness</td><td>Resistance to scratching</td><td>Diamond hardest; chalk softest</td></tr>
+        <tr><td>Strength</td><td>Ability to support load without deforming</td><td>Steel beams, concrete</td></tr>
+      </table>
+      <h4>Material Classes</h4>
+      <table class="rt"><tr><th>Class</th><th>Key Properties</th><th>Examples</th></tr>
+        <tr><td>Metal</td><td>Shiny, conducts heat/electricity, high melting point</td><td>Iron, copper, aluminium</td></tr>
+        <tr><td>Ceramic</td><td>Hard, brittle, poor conductor, made from clay, high m.p.</td><td>Pottery, tiles, bricks</td></tr>
+        <tr><td>Glass</td><td>Transparent, brittle, poor conductor</td><td>Windows, test tubes</td></tr>
+        <tr><td>Plastic</td><td>Lightweight, flexible, poor conductor, low m.p.</td><td>Bags, pipes, insulation</td></tr>
+        <tr><td>Fibre</td><td>Can be woven, lightweight</td><td>Cotton, wool, nylon</td></tr>
+      </table>
+      <div class="callout warn"><strong>📌 Sustainable Living Link</strong>G2 papers ask about choosing materials responsibly. Cloth bags over plastic = lower environmental impact. Must justify using physical properties.</div>
+    </div>
+  </div>
+
+  <!-- Density -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t1">Tier 1</span><span class="acc-title">⚖️ Density Calculations & Floating/Sinking</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <div class="callout" style="text-align:center;font-size:1rem;letter-spacing:.05em"><strong>Formula</strong>Density (ρ) = Mass (m) ÷ Volume (V) &nbsp;|&nbsp; Unit: g/cm³ or kg/m³</div>
+      <h4>Floating / Sinking Rule</h4>
+      <div class="pills">
+        <span class="pill">Object density &lt; liquid density → FLOATS</span>
+        <span class="pill am">Object density &gt; liquid density → SINKS</span>
+        <span class="pill" style="background:#eff6ff;border-color:#bfdbfe;color:var(--blue)">Object density = liquid density → SUSPENDED</span>
+      </div>
+      <div class="callout warn"><strong>⚠️ Steel ship paradox (Paper 3, Q2)</strong>Steel (7.87 g/cm³) is denser than water (1.0 g/cm³) yet ships float — because the overall density of the ship (steel + air inside) is less than water. The ship's shape traps air, reducing average density.</div>
+      <h4>Worked Example (Paper 8 style)</h4>
+      <div class="callout tip"><strong>Step-by-step calculation</strong>Wood block: mass = 200g, dimensions = 10cm × 5cm × 4cm<br>Step 1: V = l × w × h = 10 × 5 × 4 = <strong>200 cm³</strong><br>Step 2: ρ = m/V = 200/200 = <strong>1.0 g/cm³</strong><br>Step 3: Compare with water (1.0 g/cm³) → density equal → object is at the boundary (just floats)<br><em>Always show ALL 3 steps for full marks!</em></div>
+      <h4>Volume by Displacement (irregular solids)</h4>
+      <div class="callout"><strong>✅ Method</strong>1. Measure initial water volume (V₁) in measuring cylinder<br>2. Tie string to object, gently lower into cylinder<br>3. Measure final water volume (V₂)<br>4. Volume of object = V₂ − V₁<br><em>Must measure mass BEFORE placing in water (mass reading becomes inaccurate if object is wet)</em></div>
+    </div>
+  </div>
+
+  <!-- Elements, Compounds, Mixtures -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t1">Tier 1</span><span class="acc-title">🧪 Elements, Compounds & Mixtures</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <h4>Definitions (must be exact)</h4>
+      <svg width="100%" viewBox="0 0 700 190" style="max-width:700px;margin:1rem auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+  <rect width="700" height="190" fill="#f8fafc" rx="10"/>
+  <text x="350" y="22" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#374151">Element vs Compound vs Mixture — Particle Model</text>
+  <rect x="15" y="35" width="210" height="145" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="120" y="57" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#1d4ed8">ELEMENT</text>
+  <circle cx="65" cy="90" r="20" fill="#3b82f6"/><text x="65" y="95" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">A</text>
+  <circle cx="120" cy="85" r="20" fill="#3b82f6"/><text x="120" y="90" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">A</text>
+  <circle cx="175" cy="90" r="20" fill="#3b82f6"/><text x="175" y="95" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">A</text>
+  <circle cx="85" cy="130" r="20" fill="#3b82f6"/><text x="85" y="135" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">A</text>
+  <circle cx="155" cy="128" r="20" fill="#3b82f6"/><text x="155" y="133" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">A</text>
+  <text x="120" y="172" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#1e40af">ONE type of atom only (e.g. Fe, O2, Au)</text>
+  <rect x="245" y="35" width="210" height="145" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+  <text x="350" y="57" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#a16207">COMPOUND</text>
+  <circle cx="285" cy="90" r="18" fill="#3b82f6"/><text x="285" y="95" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">A</text>
+  <line x1="303" y1="90" x2="322" y2="90" stroke="#374151" stroke-width="2.5"/>
+  <circle cx="340" cy="90" r="18" fill="#ef4444"/><text x="340" y="95" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">B</text>
+  <circle cx="375" cy="90" r="18" fill="#3b82f6"/><text x="375" y="95" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">A</text>
+  <line x1="393" y1="90" x2="412" y2="90" stroke="#374151" stroke-width="2.5"/>
+  <circle cx="430" cy="90" r="18" fill="#ef4444"/><text x="430" y="95" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">B</text>
+  <circle cx="295" cy="132" r="18" fill="#3b82f6"/><text x="295" y="137" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">A</text>
+  <line x1="313" y1="132" x2="332" y2="132" stroke="#374151" stroke-width="2.5"/>
+  <circle cx="350" cy="132" r="18" fill="#ef4444"/><text x="350" y="137" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">B</text>
+  <text x="350" y="172" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#a16207">Different atoms CHEMICALLY BONDED (e.g. H2O, NaCl)</text>
+  <rect x="475" y="35" width="210" height="145" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="580" y="57" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#15803d">MIXTURE</text>
+  <circle cx="510" cy="86" r="18" fill="#3b82f6"/><text x="510" y="91" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">A</text>
+  <circle cx="558" cy="100" r="18" fill="#ef4444"/><text x="558" y="105" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">B</text>
+  <circle cx="605" cy="85" r="18" fill="#3b82f6"/><text x="605" y="90" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">A</text>
+  <circle cx="525" cy="132" r="18" fill="#ef4444"/><text x="525" y="137" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">B</text>
+  <circle cx="580" cy="128" r="18" fill="#3b82f6"/><text x="580" y="133" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">A</text>
+  <text x="580" y="172" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#15803d">NOT bonded — variable ratio (e.g. air, seawater)</text>
+</svg>
+
+      <table class="rt"><tr><th>Type</th><th>Definition</th><th>Example</th></tr>
+        <tr><td><strong>Element</strong></td><td>Pure substance made up of only ONE type of atom. Cannot be broken down further by chemical means.</td><td>Iron (Fe), Oxygen (O₂), Gold (Au)</td></tr>
+        <tr><td><strong>Compound</strong></td><td>Pure substance made of TWO or more DIFFERENT elements chemically combined in FIXED proportions. Has different properties from its elements.</td><td>Water (H₂O), Salt (NaCl), CO₂</td></tr>
+        <tr><td><strong>Mixture</strong></td><td>Two or more substances PHYSICALLY combined (not chemically bonded). Each substance retains its own properties. Constituents in VARIABLE proportions.</td><td>Air, seawater, soil, alloys</td></tr>
+      </table>
+      <h4>Solution vs Suspension</h4>
+      <table class="rt"><tr><th></th><th>Solution</th><th>Suspension</th></tr>
+        <tr><td>Transparency</td><td>Transparent (clear)</td><td>Cloudy/opaque</td></tr>
+        <tr><td>Solute</td><td>Dissolved (soluble)</td><td>Insoluble particles suspended</td></tr>
+        <tr><td>Settling</td><td>Does NOT settle</td><td>Settles on standing</td></tr>
+        <tr><td>Example</td><td>Salt water, sugar water</td><td>Muddy water, chalk water</td></tr>
+      </table>
+      <h4>Key Chemical Symbols (exam traps)</h4>
+      <div class="callout red"><strong>⛔ Must Memorise — Common MCQ Traps</strong>
+        Nitrogen = <strong>N</strong> (NOT Ni) &nbsp;|&nbsp; Nickel = <strong>Ni</strong> &nbsp;|&nbsp; Carbon = <strong>C</strong> (NOT Ca) &nbsp;|&nbsp; Calcium = <strong>Ca</strong> &nbsp;|&nbsp; Cobalt = <strong>Co</strong> &nbsp;|&nbsp; Beryllium = <strong>Be</strong> (NOT B) &nbsp;|&nbsp; Boron = <strong>B</strong></div>
+      <h4>Rate of Dissolving — Factors</h4>
+      <div class="pills">
+        <span class="pill">Higher temperature → faster dissolving</span>
+        <span class="pill">Stirring → faster dissolving</span>
+        <span class="pill">Smaller particle size → faster dissolving</span>
+        <span class="pill am">Solubility is the MAXIMUM amount that can dissolve at a given temperature</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Separation -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t1">Tier 1</span><span class="acc-title">🔬 Separation Techniques</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <h4>All 5 Techniques — When & How</h4>
+      <svg width="100%" viewBox="0 0 700 215" style="max-width:700px;margin:1rem auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+  <rect width="700" height="215" fill="#f8fafc" rx="10"/>
+  <text x="350" y="22" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#374151">Filtration Setup — Labelled Diagram</text>
+  <rect x="338" y="30" width="6" height="175" rx="2" fill="#9ca3af"/>
+  <rect x="338" y="68" width="55" height="5" rx="2" fill="#6b7280"/>
+  <circle cx="395" cy="70" r="10" fill="none" stroke="#6b7280" stroke-width="4"/>
+  <polygon points="355,50 450,50 420,115 385,115" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <polygon points="357,52 448,52 418,112 387,112" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+  <circle cx="395" cy="78" r="5" fill="#8b5cf6" opacity=".8"/>
+  <circle cx="410" cy="88" r="5" fill="#8b5cf6" opacity=".8"/>
+  <circle cx="385" cy="88" r="4" fill="#8b5cf6" opacity=".8"/>
+  <circle cx="400" cy="98" r="4" fill="#8b5cf6" opacity=".8"/>
+  <rect x="399" y="115" width="7" height="32" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <ellipse cx="402" cy="152" rx="4" ry="6" fill="#3b82f6" opacity=".7"/>
+  <rect x="360" y="158" width="85" height="45" rx="4" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="362" y="175" width="81" height="26" rx="2" fill="#d1fae5" opacity=".8"/>
+  <line x1="445" y1="158" x2="452" y2="152" stroke="#10b981" stroke-width="2"/>
+  <text x="240" y="55" text-anchor="end" font-family="system-ui,sans-serif" font-size="12" fill="#374151">Funnel</text>
+  <line x1="242" y1="52" x2="352" y2="62" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4"/>
+  <text x="240" y="82" text-anchor="end" font-family="system-ui,sans-serif" font-size="12" fill="#92400e">Filter paper</text>
+  <line x1="242" y1="79" x2="355" y2="76" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4"/>
+  <text x="240" y="108" text-anchor="end" font-family="system-ui,sans-serif" font-size="12" fill="#7c3aed">Residue</text>
+  <line x1="242" y1="105" x2="383" y2="92" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4"/>
+  <text x="465" y="153" text-anchor="start" font-family="system-ui,sans-serif" font-size="12" fill="#1d4ed8">Filtrate (drops)</text>
+  <line x1="463" y1="150" x2="407" y2="150" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4"/>
+  <text x="465" y="183" text-anchor="start" font-family="system-ui,sans-serif" font-size="12" fill="#065f46">Filtrate (collected)</text>
+  <line x1="463" y1="180" x2="448" y2="180" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4"/>
+  <text x="465" y="203" text-anchor="start" font-family="system-ui,sans-serif" font-size="12" fill="#374151">Beaker</text>
+  <line x1="463" y1="200" x2="448" y2="196" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4"/>
+  <text x="460" y="44" text-anchor="start" font-family="system-ui,sans-serif" font-size="11" fill="#6b7280">← mixture poured in</text>
+</svg>
+
+      <table class="rt"><tr><th>Technique</th><th>Separates</th><th>Principle</th><th>Real-life use</th></tr>
+        <tr><td><strong>Magnetic attraction</strong></td><td>Magnetic solid from non-magnetic</td><td>Only iron/steel/nickel attracted by magnet</td><td>Recycling scrap metal, removing iron from food</td></tr>
+        <tr><td><strong>Filtration</strong></td><td>Insoluble solid from liquid</td><td>Solid particles too large to pass through filter paper pores</td><td>Removing sand from water, sewage treatment</td></tr>
+        <tr><td><strong>Evaporation</strong></td><td>Dissolved solid from solution</td><td>Liquid evaporates (boils off), solid remains</td><td>Salt from seawater, ikan bilis preservation</td></tr>
+        <tr><td><strong>Distillation</strong></td><td>Liquid (solvent) from solution; mixtures of liquids with different boiling points</td><td>Substance with lower b.p. vaporises first, condenses to form distillate</td><td>NEWater production, distilled water, perfume</td></tr>
+        <tr><td><strong>Chromatography</strong></td><td>Mixture of dissolved pigments/dyes</td><td>Different pigments travel different distances with solvent based on solubility</td><td>Testing food dyes, forensic analysis, ink testing</td></tr>
+      </table>
+      <div class="callout red"><strong>⚠️ Exam Language Traps</strong><strong>Residue</strong> = solid LEFT on filter paper (NOT the liquid) &nbsp;|&nbsp; <strong>Filtrate</strong> = liquid that PASSES through filter paper &nbsp;|&nbsp; <strong>Distillate</strong> = liquid collected AFTER condensation in distillation &nbsp;|&nbsp; NOT the substance remaining in flask!</div>
+      <h4>Multi-step Separation (most common Section C type)</h4>
+      <div class="callout tip"><strong>Iron + sand + salt mixture — standard sequence:</strong><br>Step 1: Magnetic attraction → remove iron filings<br>Step 2: Add water, stir → salt dissolves; sand does NOT<br>Step 3: Filtration → remove sand (residue); salt solution passes through (filtrate)<br>Step 4: Evaporation → evaporate water, collect solid salt<br>(If pure water needed → distillation instead of evaporation at Step 4)</div>
+      <h4>Chromatography — Key Terms</h4>
+      <div class="pills">
+        <span class="pill">Solvent front = how far solvent travels</span>
+        <span class="pill">The HIGHEST spot = most soluble in solvent</span>
+        <span class="pill am">Number of spots = number of pigments present</span>
+        <span class="pill">Chromatogram = the paper after experiment</span>
+      </div>
+      <div class="callout"><strong>✅ Singapore Context: NEWater (Paper 7)</strong>3 steps: (1) Microfiltration (removes solids) → (2) Reverse osmosis (removes dissolved salts, bacteria) → (3) UV disinfection (kills remaining microorganisms)<br>Singapore's 4 National Taps: Local catchment, Imported water, NEWater, Desalinated water</div>
+    </div>
+  </div>
+
+  <!-- Scientific Method -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t1">Tier 1</span><span class="acc-title">🔭 Scientific Method & Investigation</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <h4>Variables — Definitions</h4>
+      <svg width="100%" viewBox="0 0 700 185" style="max-width:700px;margin:1rem auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#f97316"/></marker>
+    <marker id="arrowG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#10b981"/></marker>
+    <marker id="arrowV" markerWidth="8" markerHeight="8" refX="3" refY="6" orient="auto"><path d="M0,0 L6,0 L3,8 z" fill="#8b5cf6"/></marker>
+  </defs>
+  <rect width="700" height="185" fill="#f8fafc" rx="10"/>
+  <text x="350" y="22" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#374151">Fair Test — Variables Diagram</text>
+  <rect x="25" y="45" width="175" height="80" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="112" y="68" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#f97316">Independent Variable</text>
+  <text x="112" y="86" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#6b7280">The ONE variable you CHANGE</text>
+  <text x="112" y="104" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-style="italic" fill="#f97316">(e.g. temperature)</text>
+  <line x1="200" y1="85" x2="253" y2="85" stroke="#f97316" stroke-width="2" marker-end="url(#arrowO)"/>
+  <rect x="255" y="55" width="190" height="60" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="350" y="80" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#3b82f6">EXPERIMENT</text>
+  <text x="350" y="99" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#6b7280">Fair Test</text>
+  <line x1="445" y1="85" x2="498" y2="85" stroke="#10b981" stroke-width="2" marker-end="url(#arrowG)"/>
+  <rect x="500" y="45" width="175" height="80" rx="8" fill="#f0fdf4" stroke="#10b981" stroke-width="2"/>
+  <text x="587" y="68" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#10b981">Dependent Variable</text>
+  <text x="587" y="86" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#6b7280">The variable you MEASURE</text>
+  <text x="587" y="104" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-style="italic" fill="#10b981">(e.g. time to dissolve)</text>
+  <line x1="350" y1="115" x2="350" y2="148" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#arrowV)"/>
+  <rect x="185" y="150" width="330" height="28" rx="8" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="350" y="169" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#7c3aed">Controlled Variables — everything else kept CONSTANT (fair test)</text>
+</svg>
+
+      <table class="rt"><tr><th>Variable</th><th>Definition</th><th>Example (dissolving experiment)</th></tr>
+        <tr><td><strong>Independent Variable (IV)</strong></td><td>The variable you CHANGE (only 1)</td><td>Temperature of water</td></tr>
+        <tr><td><strong>Dependent Variable (DV)</strong></td><td>The variable you MEASURE/OBSERVE</td><td>Time taken for salt to dissolve</td></tr>
+        <tr><td><strong>Controlled Variables (CV)</strong></td><td>Everything else kept CONSTANT for fair test</td><td>Amount of salt, amount of water, stirring rate</td></tr>
+      </table>
+      <div class="callout"><strong>✅ Hypothesis Format (must use IF-THEN)</strong>"If [IV] increases, then [DV] will [increase/decrease] because [reason]."<br>Example: "If the temperature of water increases, then the rate of dissolving of salt will increase because higher temperature gives particles more energy to move faster and collide more."</div>
+      <h4>Steps of Scientific Method (in order)</h4>
+      <div class="pills">
+        <span class="pill">1. Observe/identify problem</span>
+        <span class="pill">2. Formulate hypothesis</span>
+        <span class="pill">3. Plan & carry out experiment</span>
+        <span class="pill">4. Collect data</span>
+        <span class="pill">5. Analyse/interpret data</span>
+        <span class="pill">6. Draw conclusions</span>
+      </div>
+      <div class="callout warn"><strong>📌 If results do NOT support hypothesis:</strong>Do NOT say "my hypothesis is wrong and I give up." Correct answer: "I will re-examine the hypothesis and modify it based on the evidence gathered, then design a new experiment to test it."</div>
+      <h4>Accuracy vs Precision</h4>
+      <table class="rt"><tr><th>Term</th><th>Meaning</th></tr>
+        <tr><td>Accuracy</td><td>Closeness to the TRUE value</td></tr>
+        <tr><td>Precision</td><td>Closeness of REPEATED measurements to EACH OTHER (consistency)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- TIER 2 -->
+  <div class="sec-label" style="margin-top:1.4rem">🟡 TIER 2 — High Value (80% of Papers)</div>
+
+  <!-- Cells -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t2">Tier 2</span><span class="acc-title">🧬 Model of Cells — Chapter 6</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <div class="callout" style="background:#fff8e1;border-color:#f9a825"><strong>⭐ G3 EOY Topic — High Priority!</strong> Ch6 is a key end-of-year topic. Know every organelle, every function, and ALL differences between plant and animal cells.</div>
+      <h4>Cell Organelles — Both Cell Types</h4>
+      <table class="rt"><tr><th>Organelle</th><th>Function</th><th>Animal?</th><th>Plant?</th></tr>
+        <tr><td>Cell membrane</td><td>Controls substances in/out; thin, partially permeable layer</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Nucleus</td><td>Controls ALL cell activities; contains DNA (genetic/hereditary material)</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Cytoplasm</td><td>Jelly-like fluid; site where most chemical reactions take place</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Vacuole</td><td>Stores liquids, food and waste materials</td><td>Small &amp; numerous (or absent)</td><td>Large &amp; few (central)</td></tr>
+        <tr><td>Cell wall</td><td>Tough outer covering; rigid structural support; fixed shape; allows substances in/out (fully permeable)</td><td>✗</td><td>✓</td></tr>
+        <tr><td>Chloroplast</td><td>"Food factory" — contains chlorophyll; allows photosynthesis</td><td>✗</td><td>✓</td></tr>
+      </table>
+      <div class="callout red"><strong>⛔ Top Exam Trap: Cell WALL vs Cell MEMBRANE</strong><br>Cell MEMBRANE = partially permeable (controls what gets in/out)<br>Cell WALL = fully permeable (only provides rigid structural support &amp; shape)<br><em>Never say "cell wall is partially permeable" — it is the membrane!</em></div>
+      <h4>Plant Cell vs Animal Cell — Key Differences</h4>
+      <table class="rt"><tr><th>Feature</th><th>Plant Cell</th><th>Animal Cell</th></tr>
+        <tr><td>Cell wall</td><td>✓ Has cell wall (cellulose)</td><td>✗ No cell wall</td></tr>
+        <tr><td>Chloroplasts</td><td>✓ Has chloroplasts</td><td>✗ No chloroplasts</td></tr>
+        <tr><td>Vacuole</td><td>One or two LARGE vacuoles in centre</td><td>Many SMALL vacuoles (or none)</td></tr>
+        <tr><td>Shape</td><td>Regular, fixed shape (due to cell wall)</td><td>Irregular, can change shape</td></tr>
+        <tr><td>Size</td><td>Usually LARGER</td><td>Usually smaller</td></tr>
+      </table>
+      <div class="callout"><strong>✅ Organisation Hierarchy (must know order!)</strong><br>
+        <span style="font-size:1.05rem">Cell → Tissue → Organ → (Organ) System → Organism</span><br><br>
+        <strong>Cell:</strong> basic structural and functional unit of life<br>
+        <strong>Tissue:</strong> cells of the same type performing the same function<br>
+        <strong>Organ:</strong> different tissues working together for a specific function<br>
+        <strong>System:</strong> organs working together (e.g. digestive system)<br>
+        <strong>Organism:</strong> all systems working together (e.g. human)
+      </div>
+      <h4>Division of Labour</h4>
+      <p class="body">In multicellular organisms, different cells are specialised for different functions. This <strong>division of labour</strong> means each cell/tissue/organ does its specific job efficiently — the organism functions better than if all cells were the same.</p>
+      <div class="callout warn"><strong>Example — Small Intestine:</strong><br>
+        Absorbing cells (absorb nutrients) → form absorbing tissue → combine with muscle tissue → form the small intestine (organ) → part of digestive system → part of organism
+      </div>
+      <h4>Advances in Technology &amp; Cells</h4>
+      <table class="rt"><tr><th>Technology</th><th>How it helps</th></tr>
+        <tr><td>Light microscope</td><td>Shows basic cell structure; can see nucleus, chloroplasts (some)</td></tr>
+        <tr><td>Electron microscope</td><td>Much higher magnification; shows fine details of organelles</td></tr>
+        <tr><td>AI systems</td><td>Can identify cancer cells from thousands of images with high accuracy</td></tr>
+        <tr><td>3D printing</td><td>Bioengineers can print artificial organs (hearts, livers) for transplant</td></tr>
+      </table>
+      <h4>Unicellular vs Multicellular</h4>
+      <div class="pills">
+        <span class="pill"><strong>Unicellular</strong> = one cell does everything (bacteria, paramecium, amoeba, diatom)</span>
+        <span class="pill am"><strong>Multicellular</strong> = many cells specialised for different jobs (humans, plants, cats)</span>
+      </div>
+      <div class="callout warn"><strong>⚠️ Exceptions to typical cell models:</strong><br>
+        Root hair cells = plant cells WITHOUT chloroplasts (no light underground!)<br>
+        Red blood cells = animal cells WITHOUT a nucleus (more space for haemoglobin)<br>
+        Euglena = has BOTH chloroplasts (plant-like) AND can swim/absorb food (animal-like)
+      </div>
+      <h4>📊 Plant vs Animal Cell Diagram</h4>
+      <svg viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;border:1px solid var(--border);border-radius:8px;background:#fff;display:block;margin:.5rem 0">
+        <!-- Plant cell (left) -->
+        <rect x="10" y="15" width="150" height="130" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+        <rect x="18" y="23" width="134" height="114" rx="3" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+        <ellipse cx="85" cy="80" rx="22" ry="16" fill="#bfdbfe" stroke="#1e4d8c" stroke-width="1.5"/>
+        <rect x="55" y="30" width="12" height="8" rx="2" fill="#4ade80" stroke="#16a34a" stroke-width="1"/>
+        <rect x="110" y="30" width="12" height="8" rx="2" fill="#4ade80" stroke="#16a34a" stroke-width="1"/>
+        <ellipse cx="55" cy="100" rx="7" ry="5" fill="#fcd34d" stroke="#f59e0b" stroke-width="1"/>
+        <ellipse cx="120" cy="95" rx="7" ry="5" fill="#fcd34d" stroke="#f59e0b" stroke-width="1"/>
+        <text x="85" y="84" font-size="7" text-anchor="middle" fill="#1e4d8c" font-weight="700">Nucleus</text>
+        <text x="70" y="31" font-size="6" fill="#16a34a">Chloroplast</text>
+        <text x="85" y="152" font-size="9" text-anchor="middle" fill="#16a34a" font-weight="700">🌿 Plant Cell</text>
+        <!-- Labels -->
+        <text x="12" y="13" font-size="6.5" fill="#555">Cell wall</text>
+        <!-- Animal cell (right) -->
+        <ellipse cx="275" cy="80" rx="70" ry="60" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+        <ellipse cx="275" cy="80" rx="55" ry="46" fill="#fefce8" stroke="#fde68a" stroke-width="1"/>
+        <ellipse cx="275" cy="80" rx="18" ry="14" fill="#bfdbfe" stroke="#1e4d8c" stroke-width="1.5"/>
+        <ellipse cx="245" cy="60" rx="7" ry="5" fill="#fcd34d" stroke="#f59e0b" stroke-width="1"/>
+        <ellipse cx="305" cy="100" rx="7" ry="5" fill="#fcd34d" stroke="#f59e0b" stroke-width="1"/>
+        <text x="275" y="84" font-size="7" text-anchor="middle" fill="#1e4d8c" font-weight="700">Nucleus</text>
+        <text x="275" y="152" font-size="9" text-anchor="middle" fill="#ca8a04" font-weight="700">🐾 Animal Cell</text>
+        <text x="232" y="55" font-size="6" fill="#d97706">Mito.</text>
+        <text x="300" y="99" font-size="6" fill="#d97706">Mito.</text>
+        <!-- No cell wall, no chloroplast -->
+        <text x="180" y="60" font-size="7" fill="#dc2626">✗ Cell wall</text>
+        <text x="180" y="72" font-size="7" fill="#dc2626">✗ Chloroplast</text>
+        <text x="180" y="84" font-size="7" fill="#dc2626">✗ Large vacuole</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Particulate Nature -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t2">Tier 2</span><span class="acc-title">⚛️ Particulate Nature of Matter — Chapter 7</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <div class="callout" style="background:#fff8e1;border-color:#f9a825"><strong>⭐ G3 EOY Topic — High Priority!</strong> Ch7 is a key end-of-year topic. Know all 3 states, state changes, diffusion explanation and expansion/contraction.</div>
+      <h4>States of Matter — Full Comparison</h4>
+      <table class="rt"><tr><th>Property</th><th>Solid</th><th>Liquid</th><th>Gas</th></tr>
+        <tr><td>Arrangement</td><td>Very closely packed, orderly/regular, fixed positions</td><td>Closely packed, disorderly, no fixed positions</td><td>Far apart, disorderly</td></tr>
+        <tr><td>Movement</td><td>Vibrate about fixed positions</td><td>Move randomly, slide past one another</td><td>Move rapidly and randomly in all directions</td></tr>
+        <tr><td>Shape</td><td>Fixed/definite shape</td><td>No fixed shape (takes shape of container)</td><td>No fixed shape (fills entire container)</td></tr>
+        <tr><td>Volume</td><td>Definite volume</td><td>Definite volume</td><td>No definite volume</td></tr>
+        <tr><td>Compressible?</td><td>No — particles already very close</td><td>No — particles already close</td><td>Yes — large spaces between particles</td></tr>
+        <tr><td>Forces of attraction</td><td>Very strong</td><td>Strong</td><td>Weak</td></tr>
+      </table>
+      <h4>Changes of State</h4>
+      <table class="rt"><tr><th>Change</th><th>Process</th><th>What happens to particles</th></tr>
+        <tr><td>Solid → Liquid</td><td><strong>Melting</strong> (upon heating)</td><td>Particles gain energy, vibrate faster, overcome strong forces → free to slide</td></tr>
+        <tr><td>Liquid → Solid</td><td><strong>Freezing</strong> (upon cooling)</td><td>Particles lose energy, slow down, pulled into fixed positions by forces of attraction</td></tr>
+        <tr><td>Liquid → Gas</td><td><strong>Boiling/Evaporation</strong> (upon heating)</td><td>Particles gain energy, move faster, overcome forces → escape as gas</td></tr>
+        <tr><td>Gas → Liquid</td><td><strong>Condensation</strong> (upon cooling)</td><td>Particles lose energy, slow down, pulled closer together</td></tr>
+        <tr><td>Solid → Gas</td><td><strong>Sublimation</strong> (no liquid stage)</td><td>Dry ice (solid CO₂) → gas directly; particles gain enough energy to skip liquid state</td></tr>
+      </table>
+      <div class="callout red"><strong>⛔ Conservation of Mass</strong><br>During ANY state change, expansion, or contraction — the NUMBER of particles and their SIZE do NOT change. Mass is always conserved. NEVER say "new particles are formed" or "particles get bigger."</div>
+      <h4>Expansion and Contraction</h4>
+      <div class="callout">
+        <strong>Heating → Expansion:</strong> Particles gain energy, vibrate more vigorously → distances between particles INCREASE → volume increases<br><br>
+        <strong>Cooling → Contraction:</strong> Particles lose energy, vibrate less → distances between particles DECREASE → volume decreases<br><br>
+        ✅ Number &amp; size of particles = UNCHANGED (conservation of mass)
+      </div>
+      <h4>Diffusion</h4>
+      <p class="body"><strong>Diffusion</strong> = the NET movement of particles from a region of <strong>higher concentration</strong> to a region of <strong>lower concentration</strong>.</p>
+      <table class="rt"><tr><th>Example</th><th>How diffusion explains it</th></tr>
+        <tr><td>Smell of cooking food spreads across room</td><td>Food particles move from high conc. (near pan) to low conc. (rest of room)</td></tr>
+        <tr><td>Perfume fragrance spreads</td><td>Perfume particles diffuse from bottle outwards</td></tr>
+        <tr><td>Tea bag colours water</td><td>Tea particles spread from bag (high conc.) into water (low conc.) until uniform</td></tr>
+        <tr><td>Helium balloon deflates slowly</td><td>Small He particles diffuse through porous rubber from inside (high) to outside (low)</td></tr>
+        <tr><td>Virus spread by coughing</td><td>Virus particles suspended in air → diffuse to other people by Brownian motion</td></tr>
+        <tr><td>Durian smell detectable from far away</td><td>Durian particles diffuse through air by diffusion</td></tr>
+      </table>
+      <div class="callout warn"><strong>Brownian Motion</strong><br>
+        The random, zigzag movement of tiny particles (like pollen grains or smoke particles) in a fluid, caused by being bombarded from all directions by the smaller, invisible particles of the fluid.<br>
+        Proved by: Robert Brown (1827) observing pollen in water → Albert Einstein explained it → Jean Perrin verified it experimentally.
+      </div>
+      <div class="callout warn"><strong>DW-MRI — Real-world application of diffusion</strong><br>
+        Diffusion-weighted MRI (DW-MRI) detects changes in water diffusion patterns in body tissues — used to detect stroke and cancer at early stages. Shows the particulate nature of matter has real medical applications.
+      </div>
+      <h4>📊 Heating Curve — Pure Substance</h4>
+      <svg viewBox="0 0 280 170" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;border:1px solid var(--border);border-radius:8px;background:#fff;display:block;margin:.5rem 0">
+        <!-- Axes -->
+        <line x1="30" y1="150" x2="265" y2="150" stroke="#555" stroke-width="1.5"/>
+        <line x1="30" y1="10" x2="30" y2="150" stroke="#555" stroke-width="1.5"/>
+        <text x="140" y="165" font-size="9" text-anchor="middle" fill="#555">Time →</text>
+        <text x="12" y="85" font-size="9" text-anchor="middle" fill="#555" transform="rotate(-90,12,85)">Temp °C →</text>
+        <!-- Heating curve -->
+        <!-- Solid warming -->
+        <line x1="30" y1="140" x2="70" y2="100" stroke="#1e4d8c" stroke-width="2.5"/>
+        <!-- Melting plateau -->
+        <line x1="70" y1="100" x2="110" y2="100" stroke="#1e4d8c" stroke-width="2.5"/>
+        <!-- Liquid warming -->
+        <line x1="110" y1="100" x2="160" y2="50" stroke="#1e4d8c" stroke-width="2.5"/>
+        <!-- Boiling plateau -->
+        <line x1="160" y1="50" x2="220" y2="50" stroke="#1e4d8c" stroke-width="2.5"/>
+        <!-- Gas warming -->
+        <line x1="220" y1="50" x2="258" y2="20" stroke="#1e4d8c" stroke-width="2.5"/>
+        <!-- Labels -->
+        <text x="44" y="128" font-size="7.5" fill="#555">Solid</text>
+        <text x="72" y="92" font-size="7.5" fill="#dc2626">Melting (m.p.)</text>
+        <text x="118" y="80" font-size="7.5" fill="#555">Liquid</text>
+        <text x="162" y="44" font-size="7.5" fill="#dc2626">Boiling (b.p.)</text>
+        <text x="230" y="28" font-size="7.5" fill="#555">Gas</text>
+        <!-- m.p. line -->
+        <line x1="30" y1="100" x2="70" y2="100" stroke="#dc2626" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="2" y="103" font-size="6.5" fill="#dc2626">m.p.</text>
+        <!-- b.p. line -->
+        <line x1="30" y1="50" x2="160" y2="50" stroke="#dc2626" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="2" y="53" font-size="6.5" fill="#dc2626">b.p.</text>
+        <text x="80" y="115" font-size="7" fill="#dc2626">Temp stays constant during state changes!</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Atoms & Molecules -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t2">Tier 2</span><span class="acc-title">🔬 Atoms, Molecules & Periodic Table</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <h4>Atom Structure (G2 level)</h4>
+      <svg width="100%" viewBox="0 0 700 215" style="max-width:700px;margin:1rem auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+  <rect width="700" height="215" fill="#f8fafc" rx="10"/>
+  <text x="350" y="22" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#374151">Atom Structure — Nucleus, Shells and Electrons</text>
+  <circle cx="350" cy="115" r="92" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <circle cx="350" cy="115" r="58" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <circle cx="350" cy="115" r="32" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+  <text x="350" y="110" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#92400e">Nucleus</text>
+  <circle cx="338" cy="120" r="9" fill="#ef4444"/><text x="338" y="124" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="white">p+</text>
+  <circle cx="356" cy="126" r="9" fill="#ef4444"/><text x="356" y="130" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="white">p+</text>
+  <circle cx="362" cy="112" r="9" fill="#9ca3af"/><text x="362" y="116" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="white">n</text>
+  <circle cx="292" cy="115" r="8" fill="#3b82f6"/><text x="292" y="119" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="white">e-</text>
+  <circle cx="408" cy="115" r="8" fill="#3b82f6"/><text x="408" y="119" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="white">e-</text>
+  <circle cx="350" cy="23" r="8" fill="#10b981"/><text x="350" y="27" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="white">e-</text>
+  <circle cx="350" cy="207" r="8" fill="#10b981"/><text x="350" y="211" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="white">e-</text>
+  <circle cx="258" cy="115" r="8" fill="#10b981"/><text x="258" y="119" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="white">e-</text>
+  <circle cx="442" cy="115" r="8" fill="#10b981"/><text x="442" y="119" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="white">e-</text>
+  <text x="95" y="90" text-anchor="end" font-family="system-ui,sans-serif" font-size="12" fill="#dc2626">Proton (p+)</text>
+  <text x="95" y="106" text-anchor="end" font-family="system-ui,sans-serif" font-size="12" fill="#6b7280">Neutron (n)</text>
+  <text x="95" y="122" text-anchor="end" font-family="system-ui,sans-serif" font-size="11" fill="#92400e">— in nucleus</text>
+  <line x1="97" y1="108" x2="320" y2="115" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3"/>
+  <text x="460" y="80" text-anchor="start" font-family="system-ui,sans-serif" font-size="12" fill="#1d4ed8">1st shell (max 2 e-)</text>
+  <line x1="458" y1="77" x2="416" y2="112" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3"/>
+  <text x="460" y="132" text-anchor="start" font-family="system-ui,sans-serif" font-size="12" fill="#059669">2nd shell (max 8 e-)</text>
+  <line x1="458" y1="129" x2="450" y2="120" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3"/>
+</svg>
+
+      <div class="callout"><strong>Atom</strong> = electrically neutral; positively charged nucleus (protons + neutrons) + negatively charged electrons orbiting around it. Each element has a unique number of protons (atomic number).</div>
+      <h4>Molecule</h4>
+      <p class="body">A group of <strong>two or more atoms</strong> chemically combined. E.g. O₂ = 2 oxygen atoms; H₂O = 2 hydrogen + 1 oxygen atom.</p>
+      <h4>Periodic Table</h4>
+      <div class="pills">
+        <span class="pill">Period = horizontal row</span>
+        <span class="pill">Group = vertical column</span>
+        <span class="pill am">Same group = similar chemical properties</span>
+      </div>
+      <div class="callout red"><strong>⛔ Writing chemical formulae NOT required in G2</strong>You need to COUNT atoms from given formulae but do NOT need to write them. H₂O → 2 H atoms + 1 O atom.</div>
+    </div>
+  </div>
+
+  <!-- Light -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t2">Tier 2</span><span class="acc-title">💡 Ray Model of Light</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <h4>Reflection</h4>
+      <div class="callout"><strong>Law: Angle of incidence = Angle of reflection</strong> (both measured from the NORMAL, not the surface)<br>Specular reflection: smooth surface → parallel reflected rays (mirrors)<br>Diffuse reflection: rough surface → scattered reflected rays (paper, walls)</div>
+      <h4>Mirrors</h4>
+      <table class="rt"><tr><th>Mirror</th><th>Image type</th><th>Use</th></tr>
+        <tr><td>Plane mirror</td><td>Virtual, upright, same size, laterally inverted</td><td>Bathroom mirror</td></tr>
+        <tr><td>Convex mirror</td><td>Virtual, upright, smaller — wider field of view</td><td>Car side mirrors, security mirrors</td></tr>
+        <tr><td>Concave mirror</td><td>Real or virtual depending on object position</td><td>Torch reflector, dentist's mirror</td></tr>
+      </table>
+      <div class="callout warn"><strong>Refraction (optional for G2 but may appear)</strong>Light bends when entering a different medium. Into denser medium (air→glass) = bends TOWARD normal. Into less dense (glass→air) = bends AWAY from normal. No angle calculations required for G2.</div>
+      <div class="callout red"><strong>EM Radiation — beneficial and harmful</strong>Infrared: remote controls (beneficial); excessive heat (harmful)<br>Ultraviolet: vitamin D production (beneficial); skin cancer (harmful)<br>Light: vision (beneficial); light pollution (harmful)</div>
+      <h4>📊 Reflection Diagram</h4>
+      <svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;border:1px solid var(--border);border-radius:8px;background:#fff;padding:4px;display:block;margin:.5rem 0">
+        <!-- Mirror surface -->
+        <line x1="140" y1="20" x2="140" y2="140" stroke="#555" stroke-width="2"/>
+        <text x="148" y="155" font-size="10" fill="#555">Mirror</text>
+        <!-- Normal -->
+        <line x1="60" y1="80" x2="220" y2="80" stroke="#999" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="222" y="83" font-size="9" fill="#999">Normal</text>
+        <!-- Incident ray -->
+        <line x1="60" y1="20" x2="140" y2="80" stroke="#1e4d8c" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="62" y="18" font-size="9" fill="#1e4d8c">Incident ray</text>
+        <!-- Reflected ray -->
+        <line x1="140" y1="80" x2="220" y2="20" stroke="#1a6b3c" stroke-width="2" marker-end="url(#arr2)"/>
+        <text x="196" y="18" font-size="9" fill="#1a6b3c">Reflected ray</text>
+        <!-- Angle labels -->
+        <text x="100" y="73" font-size="9" fill="#1e4d8c">i</text>
+        <text x="162" y="73" font-size="9" fill="#1a6b3c">r</text>
+        <text x="108" y="105" font-size="9" fill="#555">i = r</text>
+        <defs>
+          <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1e4d8c"/></marker>
+          <marker id="arr2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1a6b3c"/></marker>
+        </defs>
+      </svg>
+      <h4>📊 Refraction Diagram</h4>
+      <svg viewBox="0 0 280 170" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;border:1px solid var(--border);border-radius:8px;background:#fff;padding:4px;display:block;margin:.5rem 0">
+        <!-- Air/glass boundary -->
+        <rect x="0" y="85" width="280" height="85" fill="#dbeafe" opacity=".5"/>
+        <line x1="0" y1="85" x2="280" y2="85" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="4" y="80" font-size="9" fill="#555">Air (less dense)</text>
+        <text x="4" y="165" font-size="9" fill="#1e4d8c">Glass (denser)</text>
+        <!-- Normal -->
+        <line x1="140" y1="0" x2="140" y2="170" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="142" y="10" font-size="9" fill="#999">Normal</text>
+        <!-- Incident ray -->
+        <line x1="60" y1="20" x2="140" y2="85" stroke="#1e4d8c" stroke-width="2" marker-end="url(#arr3)"/>
+        <!-- Refracted ray (bends toward normal) -->
+        <line x1="140" y1="85" x2="170" y2="160" stroke="#1a6b3c" stroke-width="2" stroke-dasharray="0" marker-end="url(#arr4)"/>
+        <text x="65" y="18" font-size="9" fill="#1e4d8c">Incident</text>
+        <text x="174" y="158" font-size="9" fill="#1a6b3c">Refracted</text>
+        <text x="148" y="72" font-size="9" fill="#1e4d8c">θ₁</text>
+        <text x="148" y="108" font-size="9" fill="#1a6b3c">θ₂</text>
+        <text x="4" y="130" font-size="9" fill="#555">θ₂ &lt; θ₁ (bends toward normal)</text>
+        <defs>
+          <marker id="arr3" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1e4d8c"/></marker>
+          <marker id="arr4" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1a6b3c"/></marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <!-- TIER 3 -->
+  <div class="sec-label" style="margin-top:1.4rem">🟢 TIER 3 — Supporting Topics (60% of Papers)</div>
+
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t3">Tier 3</span><span class="acc-title">⚡ Forces, Energy & Heat Transfer</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <h4>Forces</h4>
+      <div class="pills">
+        <span class="pill">Contact forces: friction, normal, applied</span>
+        <span class="pill am">Non-contact: gravity, magnetic</span>
+        <span class="pill">SI unit of force: Newton (N)</span>
+      </div>
+      <h4>Energy</h4>
+      <div class="callout"><strong>Conservation of Energy</strong>Energy cannot be created or destroyed — only converted from one form to another.<br>Forms: Kinetic, Gravitational Potential, Elastic Potential, Thermal, Chemical, Electrical, Light, Sound</div>
+      <table class="rt"><tr><th>Energy source</th><th>Conversion</th><th>Renewable?</th></tr>
+        <tr><td>Solar panel</td><td>Light → Electrical</td><td>✓</td></tr>
+        <tr><td>Hydroelectric</td><td>GPE → KE → Electrical</td><td>✓</td></tr>
+        <tr><td>Wind turbine</td><td>KE (wind) → Electrical</td><td>✓</td></tr>
+        <tr><td>Biofuel</td><td>Chemical → Heat</td><td>✓</td></tr>
+        <tr><td>Coal/Gas</td><td>Chemical → Thermal → KE → Electrical</td><td>✗</td></tr>
+      </table>
+      <h4>Heat Transfer</h4>
+      <table class="rt"><tr><th>Method</th><th>Medium?</th><th>Example</th></tr>
+        <tr><td>Conduction</td><td>Yes (solid best)</td><td>Metal spoon in hot soup</td></tr>
+        <tr><td>Convection</td><td>Yes (fluid)</td><td>Boiling water currents</td></tr>
+        <tr><td>Radiation</td><td>No (works in vacuum)</td><td>Sun heating Earth</td></tr>
+      </table>
+      <div class="callout warn"><strong>Expansion Applications</strong>Bimetallic strip: bends toward metal that expands LESS. Used in thermostats, fire alarms.</div>
+    </div>
+  </div>
+
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge t3">Tier 3</span><span class="acc-title">🌿 Other G2 Topics (Brief Reference)</span><span class="chev">▼</span></div>
+    <div class="acc-body">
+      <h4>Chemical Changes</h4>
+      <div class="pills">
+        <span class="pill">Chemical change = new substance formed</span>
+        <span class="pill am">Types: combustion, oxidation (rusting), neutralisation, thermal decomposition</span>
+        <span class="pill">Mass is CONSERVED in chemical reactions</span>
+      </div>
+      <h4>Electrical Systems</h4>
+      <div class="pills">
+        <span class="pill">Current unit: Ampere (A)</span>
+        <span class="pill">Potential difference unit: Volt (V)</span>
+        <span class="pill am">Resistance unit: Ohm (Ω)</span>
+        <span class="pill">Power unit: Watt (W)</span>
+      </div>
+      <h4>Human Body Systems</h4>
+      <div class="pills">
+        <span class="pill">Digestive: mouth → gullet → stomach → small intestine → large intestine → rectum</span>
+        <span class="pill am">Transport: arteries (away from heart), veins (toward heart), capillaries (exchange)</span>
+        <span class="pill">Diffusion: high → low concentration</span>
+      </div>
+      <h4>Ecosystems</h4>
+      <div class="pills">
+        <span class="pill">Food chain: producer → primary consumer → secondary consumer</span>
+        <span class="pill am">Photosynthesis: light energy → chemical energy (glucose)</span>
+        <span class="pill">Abiotic factors: temperature, light, water, pH</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- NEW TOPICS: Ch9-Ch13 -->
+  <div class="sec-label" style="margin-top:2rem;background:#dcfce7;color:#166534;border-color:#86efac">🔬 Extended Topics (Ch9–Ch13)</div>
+
+  <!-- Ch9: Human Body Systems -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge" style="background:#0ea5e9;color:#fff">Ch9</span><span class="acc-title">&#x1FAC0; Human Body Systems</span><span class="chev">&#x25BC;</span></div>
+    <div class="acc-body">
+      <h4>The Major Body Systems</h4>
+      <table class="rt"><tr><th>System</th><th>Main Organs</th><th>Function</th></tr>
+        <tr><td>Digestive</td><td>Mouth, stomach, small intestine, large intestine, liver</td><td>Break down food into nutrients for absorption</td></tr>
+        <tr><td>Circulatory</td><td>Heart, arteries, veins, capillaries, blood</td><td>Transport nutrients, oxygen, hormones, remove waste</td></tr>
+        <tr><td>Respiratory</td><td>Nose, trachea, bronchi, lungs, alveoli</td><td>Exchange oxygen and carbon dioxide</td></tr>
+        <tr><td>Excretory</td><td>Kidneys, lungs, skin</td><td>Remove metabolic waste (urea, CO2, excess water)</td></tr>
+      </table>
+      <h4>Circulatory System</h4>
+      <div class="pills">
+        <span class="pill">Artery = blood AWAY from heart</span>
+        <span class="pill am">Vein = blood TO heart</span>
+        <span class="pill" style="background:#eff6ff;border-color:#bfdbfe;color:var(--blue)">Capillary = exchange with cells</span>
+      </div>
+      <div class="callout red"><strong>Exception!</strong> Pulmonary ARTERY = deoxygenated (heart to lungs). Pulmonary VEIN = oxygenated (lungs to heart).</div>
+      <h4>Alveoli Adaptations for Gas Exchange</h4>
+      <div class="callout">1. Thin walls (1 cell thick) — short diffusion distance<br>2. Large surface area (millions of alveoli)<br>3. Rich blood supply — maintains concentration gradient<br>4. Moist surface — gases dissolve to cross membrane</div>
+      <h4>Digestive System Journey</h4>
+      <table class="rt"><tr><th>Location</th><th>What happens</th></tr>
+        <tr><td>Mouth</td><td>Chewing + amylase digests starch → maltose</td></tr>
+        <tr><td>Stomach</td><td>HCl + pepsin digest proteins, churning</td></tr>
+        <tr><td>Small intestine</td><td>Enzymes complete digestion; villi absorb nutrients</td></tr>
+        <tr><td>Large intestine</td><td>Water absorbed; faeces formed</td></tr>
+        <tr><td>Liver</td><td>Produces bile; produces urea; stores glycogen</td></tr>
+        <tr><td>Kidneys</td><td>Filter urea, excess water, salts → urine</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Ch10: Diversity of Living Things -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge" style="background:#10b981;color:#fff">Ch10</span><span class="acc-title">&#x1F33F; Diversity of Living Things</span><span class="chev">&#x25BC;</span></div>
+    <div class="acc-body">
+      <h4>The 7 Life Processes (MRS NERG)</h4>
+      <div class="pills">
+        <span class="pill">M-Movement</span><span class="pill am">R-Reproduction</span>
+        <span class="pill">S-Sensitivity</span><span class="pill am">N-Nutrition</span>
+        <span class="pill">E-Excretion</span><span class="pill am">R-Respiration</span>
+        <span class="pill">G-Growth</span>
+      </div>
+      <h4>Classification Hierarchy</h4>
+      <div class="callout"><strong>King Philip Came Over For Good Soup</strong><br>Kingdom &rarr; Phylum &rarr; Class &rarr; Order &rarr; Family &rarr; Genus &rarr; Species</div>
+      <h4>The Five Kingdoms</h4>
+      <table class="rt"><tr><th>Kingdom</th><th>Cell type</th><th>Features</th><th>Examples</th></tr>
+        <tr><td>Monera</td><td>Prokaryote</td><td>Unicellular, no nucleus</td><td>Bacteria</td></tr>
+        <tr><td>Protista</td><td>Eukaryote</td><td>Mostly unicellular</td><td>Amoeba, algae</td></tr>
+        <tr><td>Fungi</td><td>Eukaryote</td><td>Multicellular, decomposers, absorb food</td><td>Mushrooms, yeast</td></tr>
+        <tr><td>Plantae</td><td>Eukaryote</td><td>Multicellular, autotrophs (photosynthesis)</td><td>Mosses, ferns, flowering plants</td></tr>
+        <tr><td>Animalia</td><td>Eukaryote</td><td>Multicellular, heterotrophs, move</td><td>Insects, fish, mammals</td></tr>
+      </table>
+      <h4>Vertebrate Groups Comparison</h4>
+      <table class="rt"><tr><th>Group</th><th>Skin</th><th>Breathing</th><th>Temperature</th><th>Reproduction</th></tr>
+        <tr><td>Fish</td><td>Scales</td><td>Gills</td><td>Cold-blooded</td><td>Eggs in water</td></tr>
+        <tr><td>Amphibians</td><td>Moist, smooth</td><td>Gills then lungs</td><td>Cold-blooded</td><td>Eggs in water</td></tr>
+        <tr><td>Reptiles</td><td>Dry, scaly</td><td>Lungs</td><td>Cold-blooded</td><td>Eggs on land</td></tr>
+        <tr><td>Birds</td><td>Feathers</td><td>Lungs</td><td>Warm-blooded</td><td>Eggs on land</td></tr>
+        <tr><td>Mammals</td><td>Hair/fur</td><td>Lungs</td><td>Warm-blooded</td><td>Live young, fed milk</td></tr>
+      </table>
+      <div class="callout warn"><strong>Arthropod Comparison</strong><br>
+        Insects: 6 legs, 3 body segments<br>Arachnids: 8 legs, 2 body segments<br>Both: exoskeleton + jointed legs</div>
+    </div>
+  </div>
+
+  <!-- Ch11: Thermal Energy -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge" style="background:#f97316;color:#fff">Ch11</span><span class="acc-title">&#x1F321;&#xFE0F; Thermal Energy &amp; Heat Transfer</span><span class="chev">&#x25BC;</span></div>
+    <div class="acc-body">
+      <h4>Three Methods of Heat Transfer</h4>
+      <table class="rt"><tr><th>Method</th><th>Medium needed?</th><th>How it works</th><th>Best in</th></tr>
+        <tr><td><strong>Conduction</strong></td><td>Yes (contact)</td><td>Particle vibration transfer along material</td><td>Solids (metals)</td></tr>
+        <tr><td><strong>Convection</strong></td><td>Yes (fluid)</td><td>Hot fluid rises (less dense); cool fluid sinks</td><td>Liquids and gases</td></tr>
+        <tr><td><strong>Radiation</strong></td><td>No</td><td>Infrared electromagnetic waves</td><td>Vacuum, space</td></tr>
+      </table>
+      <div class="callout"><strong>Heat always flows from HOT to COLD until thermal equilibrium</strong></div>
+      <h4>Radiation: Colour Rules</h4>
+      <table class="rt"><tr><th>Surface</th><th>Absorber</th><th>Emitter</th></tr>
+        <tr><td>Dull black</td><td>BEST</td><td>BEST</td></tr>
+        <tr><td>Shiny silver / white</td><td>Worst</td><td>Worst</td></tr>
+      </table>
+      <div class="callout warn"><strong>Applications</strong><br>
+        Solar panels: black to absorb radiation<br>
+        Thermos flask: silver walls (reflect radiation) + vacuum (no conduction/convection)<br>
+        White walls in hot countries: reflect radiation, stay cooler<br>
+        Sea breeze: land heats faster than sea = convection current</div>
+    </div>
+  </div>
+
+  <!-- Ch12: Electricity & Circuits -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge" style="background:#8b5cf6;color:#fff">Ch12</span><span class="acc-title">&#x26A1; Electricity &amp; Circuits</span><span class="chev">&#x25BC;</span></div>
+    <div class="acc-body">
+      <h4>Key Quantities</h4>
+      <table class="rt"><tr><th>Quantity</th><th>Symbol</th><th>Unit</th><th>Instrument</th><th>Connection</th></tr>
+        <tr><td>Current</td><td>I</td><td>Ampere (A)</td><td>Ammeter</td><td>SERIES</td></tr>
+        <tr><td>Voltage (p.d.)</td><td>V</td><td>Volt (V)</td><td>Voltmeter</td><td>PARALLEL</td></tr>
+        <tr><td>Resistance</td><td>R</td><td>Ohm (&#x03A9;)</td><td>Ohmmeter</td><td>&#x2014;</td></tr>
+      </table>
+      <div class="callout" style="text-align:center;font-size:1.1rem"><strong>Ohm's Law: V = I &times; R</strong><br>I = V &divide; R &nbsp;&nbsp; R = V &divide; I</div>
+      <h4>Series vs Parallel</h4>
+      <table class="rt"><tr><th></th><th>Series</th><th>Parallel</th></tr>
+        <tr><td>Current</td><td>SAME throughout</td><td>Splits at branches</td></tr>
+        <tr><td>Voltage</td><td>Shared between components</td><td>SAME across each branch</td></tr>
+        <tr><td>If one fails</td><td>All go out</td><td>Others stay on</td></tr>
+        <tr><td>Used for</td><td>Simple torches</td><td>Household wiring</td></tr>
+      </table>
+      <div class="callout warn"><strong>Remember</strong><br>
+        Ammeter: low resistance, in SERIES<br>
+        Voltmeter: high resistance, in PARALLEL<br>
+        More series components = more resistance = less current<br>
+        More parallel branches = less total resistance</div>
+    </div>
+  </div>
+
+  <!-- Ch13: Forces & Motion -->
+  <div class="accordion" onclick="toggleAcc(this)">
+    <div class="acc-head"><span class="acc-badge" style="background:#ef4444;color:#fff">Ch13</span><span class="acc-title">&#x1F3C3; Forces &amp; Motion</span><span class="chev">&#x25BC;</span></div>
+    <div class="acc-body">
+      <h4>Key Definitions</h4>
+      <table class="rt"><tr><th>Term</th><th>Definition</th><th>Unit</th></tr>
+        <tr><td>Mass</td><td>Amount of matter in an object</td><td>kg</td></tr>
+        <tr><td>Weight</td><td>Gravitational force on mass (W = mg)</td><td>Newton (N)</td></tr>
+        <tr><td>Speed</td><td>Distance &divide; Time (no direction)</td><td>m/s or km/h</td></tr>
+        <tr><td>Velocity</td><td>Speed WITH direction</td><td>m/s (+ direction)</td></tr>
+        <tr><td>Friction</td><td>Force opposing motion between surfaces</td><td>Newton (N)</td></tr>
+      </table>
+      <div class="callout" style="text-align:center"><strong>W = m &times; g</strong> (Earth: g = 10 N/kg; Moon: g &asymp; 1.6 N/kg)<br>
+        <strong>Speed = Distance &divide; Time</strong></div>
+      <h4>Newton's 1st Law</h4>
+      <div class="callout"><strong>Net force = 0 &rarr; object stays at rest OR moves at constant speed in straight line</strong><br>
+        Book on table: weight = normal force (balanced)<br>
+        Skydiver at terminal velocity: weight = air resistance (balanced)</div>
+      <h4>Distance-Time Graphs</h4>
+      <table class="rt"><tr><th>Shape</th><th>Meaning</th></tr>
+        <tr><td>Horizontal line</td><td>STATIONARY (not moving)</td></tr>
+        <tr><td>Straight line, positive gradient</td><td>Constant speed</td></tr>
+        <tr><td>Steeper straight line</td><td>Greater constant speed</td></tr>
+        <tr><td>Curved line (gradient increasing)</td><td>Accelerating</td></tr>
+      </table>
+      <div class="callout warn"><strong>Terminal Velocity</strong><br>
+        As falling object speeds up &rarr; air resistance increases &rarr; net force falls &rarr; acceleration falls<br>
+        When air resistance = weight &rarr; net force = 0 &rarr; constant (terminal) speed</div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- ═══ PRACTICE PAPERS TAB ═══ -->
+<div id="papersTab" class="tab-content">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.6rem">
+    <p style="font-size:.82rem;color:var(--muted);margin:0">33 practice papers — G2 format (Sec A MCQ + Sec B T/F + Sec C Structured). Submit each to track progress.</p>
+    <div style="position:relative">
+      <button onclick="togglePaperChapDrop()" style="display:flex;align-items:center;gap:.35rem;padding:.35rem .75rem;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);color:var(--ink);font-family:inherit;font-size:.73rem;font-weight:700;cursor:pointer">
+        <span>📋</span><span id="paperChapFilterLabel">Core Ch1–8</span><span style="font-size:.65rem">▼</span>
+      </button>
+      <div id="paperChapDrop" style="display:none;position:absolute;right:0;top:calc(100%+6px);background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.5rem;min-width:230px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200">
+        <div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem">Quick Select</div>
+        <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.5rem">
+          <button onclick="applyChapPreset('core');togglePaperChapDrop()" style="padding:.22rem .55rem;border-radius:6px;border:1.5px solid #d1fae5;background:#ecfdf5;color:#065f46;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit">Core (Ch1–8)</button>
+          <button onclick="applyChapPreset('ext');togglePaperChapDrop()" style="padding:.22rem .55rem;border-radius:6px;border:1.5px solid #dcfce7;background:#f0fdf4;color:#166534;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit">Extended</button>
+          <button onclick="applyChapPreset('all');togglePaperChapDrop()" style="padding:.22rem .55rem;border-radius:6px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit">All 13</button>
+        </div>
+        <div id="paperChapCheckboxes" style="display:grid;grid-template-columns:1fr 1fr;gap:.2rem"></div>
+        <div style="margin-top:.5rem;border-top:1px solid var(--border);padding-top:.4rem;display:flex;justify-content:flex-end">
+          <button onclick="applyChapFilter();togglePaperChapDrop();buildPaperTabs()" style="padding:.28rem .75rem;border-radius:7px;border:none;background:#166534;color:#fff;font-size:.74rem;font-weight:700;cursor:pointer;font-family:inherit">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="paper-tabs" id="paperTabsBtns"></div>
+  <div id="paperContents"></div>
+</div>
+
+<!-- ═══ AI PRACTICE TAB ═══ -->
+<div id="aiTab" class="tab-content">
+  <div class="ai-config">
+    <h3>🤖 AI Practice Generator</h3>
+    <p>Generate a custom practice paper based on Mokshith's weak areas. Powered by Claude AI.</p>
+    <div id="weakFocusBar" class="weak-focus-bar" style="display:none"><strong>⚠️ Auto-focusing on weak topics: </strong><span id="weakTopicsList"></span></div>
+    <div class="cfg-grid">
+      <div class="cfg-item" style="flex:100%">
+        <label>Focus Chapters <span style="font-weight:400;color:var(--muted)">(select one or more — ⚠️ = your weak area)</span></label>
+        <div id="topicPillsAI" style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.3rem">
+          <button class="ai-topic-pill weak" data-topic="auto" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--amber);background:var(--amberl);font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--amber)">⚠️ Auto (weakest)</button>
+          <button class="ai-topic-pill" data-topic="Diversity of Matter: Physical Properties" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Ch2: Physical Properties</button>
+          <button class="ai-topic-pill" data-topic="Diversity of Matter: Chemical Composition" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Ch3: Chemical Properties</button>
+          <button class="ai-topic-pill" data-topic="Measurement" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Measurement</button>
+          <button class="ai-topic-pill" data-topic="Physical Properties" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Physical Properties</button>
+          <button class="ai-topic-pill" data-topic="Elements/Compounds/Mixtures" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid #c9a227;background:#fef9e7;font-family:inherit;font-size:.76rem;font-weight:700;cursor:pointer;color:#7a5800">⭐ Ch3: Elem/Comp/Mixtures</button>
+          <button class="ai-topic-pill" data-topic="Solutions and Suspensions" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid #c9a227;background:#fef9e7;font-family:inherit;font-size:.76rem;font-weight:700;cursor:pointer;color:#7a5800">⭐ Ch3: Solutions</button>
+          <button class="ai-topic-pill" data-topic="Density Calculations" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid #c9a227;background:#fef9e7;font-family:inherit;font-size:.76rem;font-weight:700;cursor:pointer;color:#7a5800">⭐ Ch2: Density Calc</button>
+          <button class="ai-topic-pill" data-topic="Density" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Density</button>
+          <button class="ai-topic-pill" data-topic="Elements/Mixtures" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Elements &amp; Mixtures</button>
+          <button class="ai-topic-pill" data-topic="Separation" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Separation Techniques</button>
+          <button class="ai-topic-pill" data-topic="Scientific Method" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Scientific Method</button>
+          <button class="ai-topic-pill" data-topic="Cells" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Cells</button>
+          <button class="ai-topic-pill" data-topic="Particulate Matter" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Particulate Matter</button>
+          <button class="ai-topic-pill" data-topic="Light" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Light</button>
+          <button class="ai-topic-pill" data-topic="Energy/Forces" onclick="toggleAITopic(this)" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--muted)">Energy &amp; Forces</button>
+        </div>
+      </div>
+      <div class="cfg-item">
+        <label>Difficulty</label>
+        <select id="cfgDiff">
+          <option value="standard">Standard (G2 level)</option>
+          <option value="challenging">Challenging (stretch)</option>
+          <option value="foundation">Foundation (build confidence)</option>
+        </select>
+      </div>
+      <div class="cfg-item">
+        <label>Section Type</label>
+        <select id="cfgSection">
+          <option value="all">Full Mini-Paper (all 3 sections)</option>
+          <option value="mcq">Section A only (MCQ)</option>
+          <option value="tf">Section B only (True/False)</option>
+          <option value="structured">Section C only (Structured)</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button class="gen-btn" id="genBtn" onclick="generateAIPaper()">
+        <span class="spin"></span><span class="btxt">✨ Generate Practice Paper</span>
+      </button>
+      <button class="tbtn tbtn-outline" onclick="openApiConfigModal()" style="padding:0 15px; height:45px; border-radius:8px; border:2px solid var(--border); background:white; cursor:pointer; font-family:inherit; font-weight:600; font-size:.85rem; color:var(--muted)">⚙️ AI Provider Settings</button>
+    </div>
+    <div class="gen-status" id="genStatus"></div>
+  </div>
+  <div id="aiPaperOut"></div>
+</div>
+
+<!-- ═══ TIPS TAB ═══ -->
+<div id="tipsTab" class="tab-content">
+  <div class="card">
+    <div class="card-head"><div class="card-letter">⏱</div><div class="card-title">Time Strategy — 40 marks in ~60 minutes</div></div>
+    <div class="card-body">
+      <div class="strat-grid">
+        <div class="strat-c"><div class="ico">A</div><h4>Section A: MCQ (~15 min)</h4><p>1.5 min per question. Eliminate 2 clearly wrong options first. Never leave blank — no negative marking.</p></div>
+        <div class="strat-c"><div class="ico">B</div><h4>Section B: True/False (~20 min)</h4><p>2 min per question. Write T/F clearly, then FULL reason sentence. Every reason mark counts — 5 reasons = 5 marks.</p></div>
+        <div class="strat-c"><div class="ico">C</div><h4>Section C: Structured (~25 min)</h4><p>Show all working in calculations. Use Point-Evidence-Explain for all "explain" questions. Leave space to go back.</p></div>
+        <div class="strat-c"><div class="ico">✓</div><h4>Final 5 minutes</h4><p>Check all units are written. Verify density calculations (divide, not multiply). Re-read any "NOT" questions in MCQ.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">❌</div><div class="card-title">Common Mistakes (from mark scheme analysis)</div></div>
+    <div class="card-body">
+      <table class="rt">
+        <tr><th>Mistake</th><th>Wrong answer (rejected)</th><th>Correct answer (accepted)</th></tr>
+        <tr><td>Filtrate vs residue</td><td>"Residue is the liquid that passes through"</td><td class="right">Residue = solid on filter paper. Filtrate = liquid through.</td></tr>
+        <tr><td>Distillate location</td><td>"Distillate is what remains in flask"</td><td class="right">Distillate = liquid that condensed and was COLLECTED</td></tr>
+        <tr><td>True/False reason</td><td>"True because it is correct"</td><td class="right">"True because [specific scientific principle]."</td></tr>
+        <tr><td>Hypothesis direction</td><td>"If temperature increases, salt dissolves"</td><td class="right">"If temperature increases, rate of dissolving INCREASES because particles have more energy."</td></tr>
+        <tr><td>Density calculation units</td><td>Writing "3 g" instead of "3 g/cm³"</td><td class="right">Always include /cm³ or /m³ for density units</td></tr>
+        <tr><td>Compound definition</td><td>"Two or more substances combined"</td><td class="right">"Two or more ELEMENTS CHEMICALLY combined in FIXED proportions"</td></tr>
+        <tr><td>Chromatography — most soluble</td><td>"Spot nearest starting line = most soluble"</td><td class="right">Spot FURTHEST from starting line = most soluble (carried furthest by solvent)</td></tr>
+        <tr><td>Parallax error</td><td>"Error because scale is wrong"</td><td class="right">"Error because eye is not perpendicular to scale when reading"</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">💬</div><div class="card-title">Section B True/False — Answer Template</div></div>
+    <div class="card-body">
+      <div class="callout tip"><strong>Always use this structure for full marks</strong>"[True/False] because [scientific principle that directly explains why]."<br><br>Example: "Distillation separates substances based on differences in their particle sizes."<br>→ <span class="wrong">✗ False because particle sizes are used in filtration.</span><br>→ <span class="right">✓ False because distillation separates substances based on their different BOILING POINTS, not particle sizes.</span></div>
+      <div class="callout warn"><strong>Half-mark trap</strong>If you write the correct T/F but wrong reason, or correct reason without stating T/F — you lose HALF the marks. Always write both.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">🇸🇬</div><div class="card-title">Singapore Science Contexts — Must Know Facts</div></div>
+    <div class="card-body">
+      <table class="rt">
+        <tr><th>Context</th><th>Key Facts</th></tr>
+        <tr><td>NEWater</td><td>3 steps: Microfiltration → Reverse osmosis → UV disinfection. Well within WHO guidelines for drinking.</td></tr>
+        <tr><td>4 National Taps</td><td>Local catchment (reservoirs), Imported water (Malaysia), NEWater (recycled), Desalinated water (from sea)</td></tr>
+        <tr><td>Desalination vs NEWater</td><td>Both produce clean water. Desalination uses reverse osmosis on SEAWATER. NEWater uses reverse osmosis on treated USED WATER.</td></tr>
+        <tr><td>Sustainable living</td><td>Cloth bags better than plastic (reusable, biodegradable). 3Rs: Reduce, Reuse, Recycle.</td></tr>
+        <tr><td>Climate change link</td><td>Combustion of fossil fuels → CO₂ → greenhouse effect → global warming. Renewable energy reduces this.</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- AUTO-SAVE BAR -->
+<div class="autosave-bar" id="autosaveBar"><div class="as-dot"></div><span id="autosaveMsg">Auto-save active</span></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// FIREBASE CONFIG
+// ── Replace with your project config from Firebase Console ──
+// ── console.firebase.google.com → Project Settings → Your Apps ──
+// ══════════════════════════════════════════════════════════════════
+var FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDiPfOPCNE1vU3ZKEOq4FhQNGUDwEdzGHw",
+  authDomain: "sec-science.firebaseapp.com",
+  projectId: "sec-science",
+  storageBucket: "sec-science.firebasestorage.app",
+  messagingSenderId: "451752119969",
+  appId: "1:451752119969:web:3cd17a3688ce986d74aae0"
+};
+
+// ══ FALLBACK: Use localStorage when Firebase is not configured ══
+var USE_FIREBASE = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
+var db = null, auth = null, currentUser = null, currentRole = null;
+
+if (USE_FIREBASE) {
+  firebase.initializeApp(FIREBASE_CONFIG);
+  db = firebase.firestore();
+  auth = firebase.auth();
+}
+
+// ─── DEMO ACCOUNTS (pre-created if using local mode) ───
+var DEMO_ACCOUNTS = {
+  "mokshith@sci.sg": {password:"Abcd1234", role:"student", name:"Mokshith"},
+  "parent@sci.sg":   {password:"Abcd1234", role:"parent",  name:"Parent"},
+  "teacher@sci.sg":  {password:"Abcd1234", role:"teacher", name:"Teacher"}
+};
+
+// ══════════════════════════════════════════════════════════════════
+// AUTH FUNCTIONS
+// ══════════════════════════════════════════════════════════════════
+var authMode = 'login', selectedRole = 'student';
+
+function authSwitchTab(mode, btn) {
+  authMode = mode;
+  document.querySelectorAll('.auth-tab').forEach(function(b){b.classList.remove('active');});
+  if (btn) btn.classList.add('active');
+  var isSignup = mode === 'signup';
+  document.getElementById('signupRoleRow').style.display = isSignup ? 'block' : 'none';
+  document.getElementById('signupNameRow').style.display = isSignup ? 'block' : 'none';
+  document.getElementById('authSubmitBtn').textContent = isSignup ? 'Create Account' : 'Sign In';
+  document.getElementById('authSwitch').innerHTML = isSignup
+    ? 'Already have an account? <a onclick="authSwitchTab(\\'login\\',null)">Sign In</a>'
+    : "Don't have an account? <a onclick=\\"authSwitchTab('signup',null)\\">Register</a>";
+  document.getElementById('authErr').textContent = '';
+}
+
+function selectRole(role, btn) {
+  selectedRole = role;
+  document.querySelectorAll('.auth-role-btn').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');
+}
+
+function doAuth() {
+  var email = document.getElementById('authEmail').value.trim().toLowerCase();
+  var pwd   = document.getElementById('authPwd').value;
+  var errEl = document.getElementById('authErr');
+  errEl.textContent = '';
+  if (!email || !pwd) { errEl.textContent = 'Please enter email and password.'; return; }
+
+  document.getElementById('authSubmitBtn').disabled = true;
+  document.getElementById('authSubmitBtn').textContent = 'Please wait...';
+
+  if (USE_FIREBASE) {
+    if (authMode === 'login') {
+      auth.signInWithEmailAndPassword(email, pwd)
+        .then(function(uc) {
+          currentUser = uc.user;
+          // Fetch role from Firestore then enter app immediately
+          db.collection('users').doc(uc.user.uid).get()
+            .then(function(doc) {
+              currentRole = doc.exists ? (doc.data().role || 'student') : 'student';
+            })
+            .catch(function() { currentRole = 'student'; })
+            .finally(function() { onAuthSuccess(); });
+        })
+        .catch(function(e) {
+          var msg = e.message;
+          if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential')
+            msg = 'Email or password incorrect. Check and try again.';
+          if (e.code === 'auth/wrong-password')
+            msg = 'Incorrect password.';
+          if (e.code === 'auth/too-many-requests')
+            msg = 'Too many failed attempts — wait a few minutes and try again.';
+          errEl.textContent = msg;
+          document.getElementById('authSubmitBtn').disabled=false;
+          document.getElementById('authSubmitBtn').textContent='Sign In';
+        });
+    } else {
+      var name = document.getElementById('authName').value.trim() || 'User';
+      auth.createUserWithEmailAndPassword(email, pwd)
+        .then(function(uc) {
+          return Promise.all([
+            uc.user.updateProfile({displayName: name}),
+            db.collection('users').doc(uc.user.uid).set({role: selectedRole, name: name, email: email, createdAt: firebase.firestore.FieldValue.serverTimestamp()})
+          ]);
+        })
+        .catch(function(e) { errEl.textContent = e.message; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent='Create Account'; });
+    }
+  } else {
+    // Local mode — demo accounts
+    var acct = DEMO_ACCOUNTS[email];
+    if (!acct) { errEl.textContent = 'Email not found. Use demo accounts shown below.'; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent=authMode==='login'?'Sign In':'Create Account'; return; }
+    if (acct.password !== pwd) { errEl.textContent = 'Incorrect password.'; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent='Sign In'; return; }
+    currentUser = {uid: email, email: email, displayName: acct.name};
+    currentRole = acct.role;
+    onAuthSuccess();
+  }
+}
+
+function onAuthSuccess() {
+  document.getElementById('authOverlay').style.display = 'none';
+  var role = currentRole || 'student';
+  var name = currentUser.displayName || currentUser.email;
+  var badge = document.getElementById('roleBadge');
+  badge.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+  badge.className = 'role-badge role-' + role;
+  badge.style.display = 'inline-flex';
+  document.getElementById('userDisplayName').textContent = 'Hi, ' + name;
+  document.getElementById('userDisplayName').style.display = 'inline';
+  // Show teacher brief only for parent/teacher
+  if (role === 'parent' || role === 'teacher') {
+    document.getElementById('btnBrief').style.display = 'inline-block';
+    var _ak=document.getElementById('btnAnswerKey');
+    if(_ak) _ak.style.display='inline-block';
+  }
+  // Show parent-only / teacher-only sections
+  if (role === 'parent' || role === 'teacher') {
+    document.querySelectorAll('.parent-only').forEach(function(el){el.style.display='block';});
+  }
+  if (role === 'teacher') {
+    document.querySelectorAll('.teacher-only').forEach(function(el){el.style.display='block';});
+  }
+  buildPaperTabs();
+  renderDashboard();
+  // Show Answer Key for parent/teacher
+  if (role==='parent'||role==='teacher') {
+    var akb=document.getElementById('btnAnswerKey');
+    if(akb) akb.style.display='inline-block';
+  }
+  if (USE_FIREBASE) loadDataFromFirebase();
+}
+
+if (USE_FIREBASE) {
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      currentUser = user;
+      // Try to get role from Firestore, but always fall through even if it fails
+      db.collection('users').doc(user.uid).get()
+        .then(function(doc) {
+          currentRole = doc.exists ? (doc.data().role || 'student') : 'student';
+          onAuthSuccess();
+        })
+        .catch(function(e) {
+          // Firestore read failed (likely rules) — still log in as student
+          console.warn('Firestore user read failed:', e.message, '— logging in as student');
+          currentRole = 'student';
+          onAuthSuccess();
+        });
+    }
+  });
+}
+
+function signOutUser() {
+  if (USE_FIREBASE) {
+    auth.signOut().then(function() { location.reload(); });
+  } else {
+    currentUser = null; currentRole = null;
+    document.getElementById('authOverlay').style.display = 'flex';
+    document.getElementById('authEmail').value = '';
+    document.getElementById('authPwd').value = '';
+    document.getElementById('authSubmitBtn').disabled = false;
+    document.getElementById('authSubmitBtn').textContent = 'Sign In';
+  }
+}
+
+function doChangePwd() {
+  var p1 = document.getElementById('newPwd1').value;
+  var p2 = document.getElementById('newPwd2').value;
+  var errEl = document.getElementById('pwdErr');
+  errEl.textContent = '';
+  if (p1.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; return; }
+  if (p1 !== p2) { errEl.textContent = 'Passwords do not match.'; return; }
+  if (USE_FIREBASE && auth.currentUser) {
+    auth.currentUser.updatePassword(p1)
+      .then(function() {
+        document.getElementById('pwdModal').classList.remove('show');
+        document.getElementById('newPwd1').value='';
+        document.getElementById('newPwd2').value='';
+        alert('Password updated successfully!');
+      })
+      .catch(function(e) { errEl.textContent = e.message; });
+  } else {
+    // Local demo mode — find account and update
+    if (currentUser) {
+      var acct = DEMO_ACCOUNTS[currentUser.email];
+      if (acct) acct.password = p1;
+    }
+    document.getElementById('pwdModal').classList.remove('show');
+    alert('Password updated (local session only — re-login to confirm).');
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// DATA LAYER — Firebase + localStorage fallback
+// ══════════════════════════════════════════════════════════════════
+var STORAGE_KEY = 'sci_wa2_g2_v1';
+var SKILL_NAMES = ['Measurement','Physical Properties','Density','Elements/Mixtures','Separation','Scientific Method','Cells','Particulate Matter','Light','Energy/Forces'];
+var SKILL_KEYS = ['Scientific Endeavour','Physical Properties','Chemical Properties','Separation Techniques','Ray Model of Light','Cells','Particulate Matter','Atoms & Molecules'];
+// Chapter metadata for radar chart — 1 EMA skill per chapter
+// ── Chapter filter state (shared between dashboard & papers tab) ──
+var CORE_CHAPS = ['ch1','ch2','ch3','ch4','ch5','ch6','ch7','ch8'];
+var EXT_CHAPS  = ['ch9','ch10','ch11','ch12','ch13'];
+
+// Paper → chapter(s) mapping
+var PAPER_CHAP = {
+  1:['ch1','ch2'],  // Measurement & Matter
+  2:['ch2','ch4'],  // Properties & Separation
+  3:['ch1'],        // Scientific Investigation
+  4:['ch1'],        // Data & Errors
+  5:['ch2','ch4'],  // Density & Solutions
+  6:['ch1'],        // Lab Safety
+  7:['ch1'],        // Errors & NEWater
+  8:['ch2'],        // Density Calculations
+  9:['ch2','ch3','ch4'], // Mixed Review
+  10:['ch2','ch3','ch4'], // Comprehensive
+  11:['ch2'],       // Physical Properties
+  12:['ch3'],       // Elements, Compounds
+  13:['ch2','ch4'], // Solutions, Suspensions
+  14:['ch1','ch2'], // Measurement & Density
+  15:['ch3'],       // Chemical Composition
+  16:['ch2'],       // Physical Properties
+  17:['ch4'],       // Separation Techniques
+  18:['ch2','ch3'], // Mixed Ch2&Ch3
+  19:['ch2','ch3'], // Challenging Ch2&Ch3
+  20:['ch2','ch3','ch4','ch6','ch7'], // Full Syllabus
+  21:['ch6'],       // Cells
+  22:['ch7'],       // Particulate
+  23:['ch6','ch7'], // Cells & Particulate
+  24:['ch9'],25:['ch9'],
+  26:['ch10'],27:['ch10'],
+  28:['ch11'],29:['ch11'],
+  30:['ch12'],31:['ch12'],
+  32:['ch13'],33:['ch13']
+};
+
+// Active chapter filter — default to Core (Ch1–8)
+var _chapFilter = CORE_CHAPS.slice();
+var _chapDropOpen = false;
+var _paperChapDropOpen = false;
+
+function paperMatchesFilter(paperNum) {
+  var chaps = PAPER_CHAP[paperNum] || [];
+  return chaps.some(function(c){ return _chapFilter.indexOf(c) >= 0; });
+}
+
+function applyChapPreset(preset) {
+  if (preset === 'core') _chapFilter = CORE_CHAPS.slice();
+  else if (preset === 'ext') _chapFilter = EXT_CHAPS.slice();
+  else _chapFilter = CORE_CHAPS.concat(EXT_CHAPS);
+  syncChapCheckboxes();
+  updateChapFilterLabel();
+  renderEOYBanner();
+}
+
+function applyChapFilter() {
+  // Read checkboxes
+  _chapFilter = [];
+  document.querySelectorAll('.chap-filter-cb:checked').forEach(function(cb){
+    _chapFilter.push(cb.value);
+  });
+  if (_chapFilter.length === 0) _chapFilter = CORE_CHAPS.slice(); // fallback
+  updateChapFilterLabel();
+  renderEOYBanner();
+}
+
+function updateChapFilterLabel() {
+  var isCore = JSON.stringify(_chapFilter.slice().sort()) === JSON.stringify(CORE_CHAPS.slice().sort());
+  var isExt  = JSON.stringify(_chapFilter.slice().sort()) === JSON.stringify(EXT_CHAPS.slice().sort());
+  var isAll  = _chapFilter.length === 13;
+  var label  = isCore ? '📚 Core Ch1–8' : isExt ? '🔬 Extended Ch9–13' : isAll ? '📋 All 13 Chapters' : '📋 '+_chapFilter.length+' Chapters';
+  var el1 = document.getElementById('chapFilterLabel');
+  var el2 = document.getElementById('paperChapFilterLabel');
+  if (el1) el1.textContent = label.replace(/^📚 |^🔬 |^📋 /,'');  // strip emoji for space
+  if (el2) { el2.textContent = label.replace(/📚 |🔬 |📋 /g,''); }
+}
+
+function syncChapCheckboxes() {
+  document.querySelectorAll('.chap-filter-cb').forEach(function(cb){
+    cb.checked = _chapFilter.indexOf(cb.value) >= 0;
+  });
+}
+
+function buildChapCheckboxes(containerId) {
+  var cont = document.getElementById(containerId);
+  if (!cont) return;
+  var html = '';
+  CH_META.forEach(function(c){
+    var isCore = CORE_CHAPS.indexOf(c.id) >= 0;
+    var checked = _chapFilter.indexOf(c.id) >= 0 ? 'checked' : '';
+    html += '<label class="chap-chk-item '+(isCore?'core-ch':'ext-ch')+'">'
+      + '<input type="checkbox" class="chap-filter-cb" value="'+c.id+'" '+checked+'>'
+      + '<span class="chap-badge">Ch'+c.num+'</span>'
+      + '<span style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+c.title+'</span>'
+      + '</label>';
+  });
+  cont.innerHTML = html;
+}
+
+function toggleChapDropdown() {
+  _chapDropOpen = !_chapDropOpen;
+  var dd = document.getElementById('chapDropdown');
+  var arrow = document.getElementById('chapDropArrow');
+  if (dd) dd.style.display = _chapDropOpen ? 'block' : 'none';
+  if (arrow) arrow.style.transform = _chapDropOpen ? 'rotate(180deg)' : '';
+  if (_chapDropOpen) buildChapCheckboxes('chapCheckboxes');
+}
+
+function togglePaperChapDrop() {
+  _paperChapDropOpen = !_paperChapDropOpen;
+  var dd = document.getElementById('paperChapDrop');
+  if (dd) dd.style.display = _paperChapDropOpen ? 'block' : 'none';
+  if (_paperChapDropOpen) buildChapCheckboxes('paperChapCheckboxes');
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+  if (_chapDropOpen && !e.target.closest('#chapDropdown') && !e.target.closest('#chapFilterBtn')) {
+    toggleChapDropdown();
+  }
+  if (_paperChapDropOpen && !e.target.closest('#paperChapDrop') && !e.target.closest('[onclick*="togglePaperChapDrop"]')) {
+    _paperChapDropOpen = false;
+    var dd = document.getElementById('paperChapDrop');
+    if (dd) dd.style.display = 'none';
+  }
+});
+
+// ── EOY Readiness Banner renderer ──
+function renderEOYBanner() {
+  var d = _actData || loadData();
+  // Avg EMA across selected chapters
+  var filtered = CH_META.filter(function(c){ return _chapFilter.indexOf(c.id) >= 0; });
+  if (!filtered.length) return;
+  var scores = filtered.map(function(c){ return chapterAvg(d, c.id); });
+  var avg = Math.round(scores.reduce(function(a,b){return a+b;},0) / scores.length);
+
+  var pctEl = document.getElementById('eoyPct');
+  var barEl = document.getElementById('eoyBar');
+  var gradeEl = document.getElementById('eoyGrade');
+  var subtitleEl = document.getElementById('eoySubtitle');
+  var chapRowEl = document.getElementById('eoyChapRow');
+
+  if (!pctEl) return;
+
+  pctEl.textContent = avg;
+  if (barEl) barEl.style.width = avg + '%';
+
+  // Grade + color
+  var grade, barColor;
+  if (avg >= 85)      { grade='A1 Ready 🎉'; barColor='#4ade80'; }
+  else if (avg >= 75) { grade='A2 Target 🎯'; barColor='#86efac'; }
+  else if (avg >= 65) { grade='B3 Range 📈'; barColor='#fbbf24'; }
+  else if (avg >= 55) { grade='C5 Range ⚡'; barColor='#f97316'; }
+  else                { grade='Needs Work 💪'; barColor='#ef4444'; }
+
+  if (gradeEl) gradeEl.textContent = grade;
+  if (barEl) barEl.style.background = 'linear-gradient(90deg,'+barColor+','+barColor+'aa)';
+
+  // Subtitle
+  var isCore = JSON.stringify(_chapFilter.slice().sort()) === JSON.stringify(CORE_CHAPS.slice().sort());
+  var isAll  = _chapFilter.length === 13;
+  if (subtitleEl) {
+    subtitleEl.textContent = isCore ? 'Core chapters avg · EOY focus' :
+                             isAll  ? 'All 13 chapters avg' :
+                             _chapFilter.length + ' selected chapters avg';
+  }
+
+  // Chapter chips row
+  if (chapRowEl) {
+    var row = '';
+    filtered.forEach(function(c){
+      var v = Math.round(chapterAvg(d, c.id));
+      var bg = v>=75?'rgba(74,222,128,.25)':v>=55?'rgba(251,191,36,.25)':'rgba(239,68,68,.25)';
+      var col = v>=75?'#86efac':v>=55?'#fde68a':'#fca5a5';
+      row += '<div style="display:flex;align-items:center;gap:.25rem;padding:.18rem .48rem;border-radius:99px;background:'+bg+';border:1px solid '+col+'">'
+           + '<span style="font-size:.65rem;font-weight:700;color:'+col+'">Ch'+c.num+'</span>'
+           + '<span style="font-size:.65rem;color:'+col+'">'+v+'%</span>'
+           + '</div>';
+    });
+    chapRowEl.innerHTML = row;
+  }
+}
+
+var CH_META=[
+  {id:'ch1', num:1, title:'Scientific Endeavour', skill:'Scientific Endeavour'},
+  {id:'ch2', num:2, title:'Physical Properties',  skill:'Physical Properties'},
+  {id:'ch3', num:3, title:'Chemical Properties',  skill:'Chemical Properties'},
+  {id:'ch4', num:4, title:'Separation Techniques',skill:'Separation Techniques'},
+  {id:'ch5', num:5, title:'Ray Model of Light',   skill:'Ray Model of Light'},
+  {id:'ch6', num:6, title:'Cells',                skill:'Cells'},
+  {id:'ch7', num:7, title:'Particulate Matter',   skill:'Particulate Matter'},
+  {id:'ch8', num:8, title:'Atoms & Molecules',    skill:'Atoms & Molecules'},
+  {id:'ch9', num:9, title:'Human Body Systems',   skill:'Human Body Systems'},
+  {id:'ch10',num:10,title:'Diversity of Life',    skill:'Diversity of Life'},
+  {id:'ch11',num:11,title:'Thermal Energy',        skill:'Thermal Energy'},
+  {id:'ch12',num:12,title:'Electricity & Circuits',skill:'Electricity & Circuits'},
+  {id:'ch13',num:13,title:'Forces & Motion',       skill:'Forces & Motion'}
+];
+function chapterAvg(d, chapId){
+  var m=CH_META.find(function(c){return c.id===chapId;});
+  if(!m) return 50;
+  return Math.round(getEmaSkill(d, m.skill));
+}
+// EMA adaptive skill tracking (same engine as Maths app)
+function emaUpdate(d, skill, correct) {
+  if (!d.ema) d.ema = {};
+  var s = d.ema[skill] || 50;
+  s = correct ? s + (100-s)*0.12 : s + (0-s)*0.18;
+  s = Math.max(0, Math.min(100, s));
+  d.ema[skill] = Math.round(s*10)/10;
+  return d;
+}
+function getEmaSkill(d, skill) { return (d.ema && d.ema[skill]) || 50; }
+function getWeakSkillsEma(d) {
+  return SKILL_KEYS.slice().sort(function(a,b){ return getEmaSkill(d,a)-getEmaSkill(d,b); });
+}
+
+function getUID() { return currentUser ? (currentUser.uid || currentUser.email) : 'anon'; }
+
+function loadData() {
+  try {
+    var d = JSON.parse(localStorage.getItem(STORAGE_KEY + '_' + getUID()) || 'null');
+    if (d && d.history) return d;
+  } catch(e) {}
+  return {history:[], skills:{}, attempts:[]};
+}
+
+function saveData(d) {
+  try {
+    localStorage.setItem(STORAGE_KEY + '_' + getUID(), JSON.stringify(d));
+    if (USE_FIREBASE && currentUser) saveDataToFirebase(d);
+    flash('saved');
+  } catch(e) { flash('error'); }
+}
+
+function saveDataToFirebase(d) {
+  if (!db || !currentUser) return;
+  db.collection('progress').doc(getUID()).set({
+    history: d.history,
+    skills: d.skills,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(function(e) { console.error('Firebase save error:', e); });
+}
+
+function loadDataFromFirebase() {
+  if (!db || !currentUser) return;
+  db.collection('progress').doc(getUID()).get().then(function(doc) {
+    if (doc.exists) {
+      var d = doc.data();
+      localStorage.setItem(STORAGE_KEY + '_' + getUID(), JSON.stringify(d));
+      renderDashboard();
+    }
+  }).catch(function(e) { console.warn('Firebase load error:', e); });
+}
+
+function flash(cls) {
+  var b=document.getElementById('autosaveBar'), m=document.getElementById('autosaveMsg');
+  b.className = 'autosave-bar ' + cls;
+  m.textContent = cls==='saved' ? 'Progress saved ✓' : cls==='saving' ? 'Saving...' : 'Save error';
+  if (cls==='saved') setTimeout(function(){b.className='autosave-bar';m.textContent='Auto-save active';}, 2000);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════════════════════
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.mtab').forEach(function(b){b.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (id==='dashTab') renderDashboard();
+  if (id==='aiTab') { setTimeout(initAITopicPills, 100); }
+}
+
+function toggleAcc(el) { el.classList.toggle('open'); }
+
+// ══════════════════════════════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════════════════════════════
+function renderDashboard() {
+  var d = loadData(), h = d.history || [];
+  document.getElementById('dPapers').textContent = h.length;
+  if (h.length) {
+    var scores = h.map(function(x){return x.score;});
+    var best = Math.max.apply(null, scores);
+    var avg = Math.round(scores.reduce(function(a,b){return a+b;},0) / scores.length);
+    document.getElementById('dBest').textContent = best + '/100';
+    document.getElementById('dAvg').textContent = avg + '/100';
+  } else {
+    document.getElementById('dBest').textContent = '—';
+    document.getElementById('dAvg').textContent = '—';
+  }
+  renderHistory(d);
+  renderHeatmap(d);
+  renderStreak(d);
+  renderTodayStats(d);
+  renderRadar(d);
+  renderChapterChips(d);
+  renderEOYBanner();
+}
+
+function renderRadar(d){
+  var el=document.getElementById('radarChart');
+  if(!el) return;
+  var N=CH_META.length;
+  var size=380, cx=size/2, cy=size/2, R=130;
+  var pts=[], labelPts=[];
+  var rings=[0.2,0.4,0.6,0.8,1.0];
+  var ringGrids=rings.map(function(){return [];});
+  for(var i=0;i<N;i++){
+    var ang=-Math.PI/2+i*2*Math.PI/N;
+    var val=chapterAvg(d,CH_META[i].id);
+    var r=R*(val/100);
+    pts.push([cx+r*Math.cos(ang), cy+r*Math.sin(ang)]);
+    rings.forEach(function(rv,ri){ringGrids[ri].push([cx+R*rv*Math.cos(ang), cy+R*rv*Math.sin(ang)]);});
+    var lr=R+28;
+    labelPts.push({x:cx+lr*Math.cos(ang), y:cy+lr*Math.sin(ang), num:CH_META[i].num, title:CH_META[i].title||'', val:Math.round(val)});
+  }
+  function poly(arr){return arr.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ');}
+  var svg='<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="max-width:100%;overflow:visible">';
+  ringGrids.forEach(function(g,ri){
+    var fill=ri%2===0?'rgba(232,226,216,.22)':'rgba(255,255,255,.0)';
+    svg+='<polygon points="'+poly(g)+'" fill="'+fill+'" stroke="#d9d3c7" stroke-width="1"/>';
+  });
+  [20,40,60,80].forEach(function(pct){
+    var ry=cy-R*(pct/100);
+    svg+='<text x="'+(cx+3)+'" y="'+(ry-2).toFixed(1)+'" font-size="8.5" fill="#9ca3af" text-anchor="start">'+pct+'%</text>';
+  });
+  for(var i=0;i<N;i++){
+    var ang=-Math.PI/2+i*2*Math.PI/N;
+    svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+R*Math.cos(ang)).toFixed(1)+'" y2="'+(cy+R*Math.sin(ang)).toFixed(1)+'" stroke="#e8e2d8" stroke-width="1.2"/>';
+  }
+  svg+='<polygon points="'+poly(pts)+'" fill="rgba(26,107,60,.18)" stroke="none"/>';
+  svg+='<polygon points="'+poly(pts)+'" fill="none" stroke="#1a6b3c" stroke-width="2" stroke-linejoin="round"/>';
+  pts.forEach(function(p,i){
+    var v=labelPts[i].val;
+    var col=v>=75?'#1a6b3c':v>=55?'#b5590a':'#b91c1c';
+    svg+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="4.5" fill="white" stroke="'+col+'" stroke-width="2"/>';
+    svg+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.5" fill="'+col+'"/>';
+  });
+  labelPts.forEach(function(p){
+    var abbr=p.title.length>9?p.title.slice(0,8)+'…':p.title;
+    var col=p.val>=75?'#1a6b3c':p.val>=55?'#b5590a':'#b91c1c';
+    svg+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y-4).toFixed(1)+'" font-size="9.5" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="'+col+'">Ch'+p.num+'</text>';
+    svg+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y+7).toFixed(1)+'" font-size="8" text-anchor="middle" dominant-baseline="middle" fill="#6b7280">'+p.val+'%</text>';
+  });
+  var avg=Math.round(pts.reduce(function(s,p,i){return s+labelPts[i].val;},0)/N);
+  var avgCol=avg>=75?'#1a6b3c':avg>=55?'#b5590a':'#b91c1c';
+  svg+='<circle cx="'+cx+'" cy="'+cy+'" r="24" fill="white" stroke="#e8e2d8" stroke-width="1.5"/>';
+  svg+='<text x="'+cx+'" y="'+(cy-4)+'" font-size="13" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="'+avgCol+'">'+avg+'%</text>';
+  svg+='<text x="'+cx+'" y="'+(cy+10)+'" font-size="7.5" text-anchor="middle" fill="#9ca3af">avg</text>';
+  svg+='</svg>';
+  el.innerHTML=svg;
+  var badge=document.getElementById('radarAvgBadge');
+  if(badge) badge.textContent=avg+'%';
+}
+function renderChapterChips(d){
+  var el=document.getElementById('chapterChips');
+  if(!el) return;
+  var html='';
+  CH_META.forEach(function(c){
+    var v=chapterAvg(d,c.id);
+    var col=v>=75?'#1a6b3c':v>=55?'#b5590a':'#b91c1c';
+    var bg=v>=75?'rgba(26,107,60,.10)':v>=55?'rgba(181,89,10,.10)':'rgba(185,28,28,.10)';
+    html+='<div style="display:flex;align-items:center;gap:.3rem;padding:.25rem .55rem;border-radius:99px;border:1.5px solid '+col+';background:'+bg+'">'+
+      '<span style="font-size:.7rem;font-weight:700;color:'+col+'">Ch'+c.num+'</span>'+
+      '<span style="font-size:.68rem;color:'+col+'">'+Math.round(v)+'%</span>'+
+      '</div>';
+  });
+  el.innerHTML=html;
+}
+function showAdvisor(){
+  var d = loadData();
+  var target = parseInt(document.getElementById('targetGain').value, 10);
+  // Each chapter contributes ~12.5 marks to 100-mark paper
+  var marksPer = 100 / CH_META.length;
+  // Calculate potential gain per chapter (from current EMA to 85% ceiling)
+  var gains = CH_META.map(function(c){
+    var cur = chapterAvg(d, c.id);
+    var ceil = 85; // realistic drill target
+    var gain = Math.max(0, (ceil - cur) / 100 * marksPer);
+    return {ch:c, cur:cur, gain:gain};
+  });
+  // Sort by most gain first
+  gains.sort(function(a,b){return b.gain - a.gain;});
+  // Pick chapters until target is reached
+  var picked = [], cumGain = 0;
+  for(var i=0;i<gains.length;i++){
+    if(cumGain >= target) break;
+    picked.push(gains[i]);
+    cumGain += gains[i].gain;
+  }
+  var cur = Math.round(CH_META.reduce(function(s,c){return s+chapterAvg(d,c.id);},0)/CH_META.length);
+  var projected = Math.min(100, Math.round(cur + cumGain));
+  var html = '<div style="font-size:.78rem;color:var(--muted);margin-bottom:.6rem">Current estimated score: <strong style="color:var(--ink)">~'+cur+'%</strong> &nbsp;→&nbsp; Projected after focus: <strong style="color:#1a6b3c">~'+projected+'%</strong></div>';
+  html += '<div style="font-size:.78rem;font-weight:700;color:var(--ink);margin-bottom:.45rem">Priority chapters to drill (in order):</div>';
+  html += '<div style="display:flex;flex-direction:column;gap:.4rem">';
+  picked.forEach(function(g, idx){
+    var col = g.cur>=75?'#1a6b3c':g.cur>=55?'#b5590a':'#b91c1c';
+    var barW = Math.round(g.gain / marksPer * 100);
+    html += '<div style="display:flex;align-items:center;gap:.55rem">'
+      + '<span style="font-size:.72rem;font-weight:700;min-width:1.2rem;color:#9ca3af">'+(idx+1)+'.</span>'
+      + '<span style="font-size:.72rem;font-weight:700;min-width:4.5rem;color:'+col+'">Ch'+g.ch.num+'</span>'
+      + '<span style="font-size:.75rem;flex:1;color:var(--ink)">'+g.ch.title+'</span>'
+      + '<div style="width:70px;height:8px;background:var(--border);border-radius:4px;overflow:hidden"><div style="width:'+barW+'%;height:100%;background:'+col+';border-radius:4px"></div></div>'
+      + '<span style="font-size:.72rem;color:'+col+';min-width:3rem;text-align:right">+'+g.gain.toFixed(1)+' pts</span>'
+      + '</div>';
+  });
+  html += '</div>';
+  if(cumGain < target){
+    html += '<div style="margin-top:.6rem;font-size:.75rem;color:var(--muted)">⚠️ All chapters at drill target — overall score ceiling ~'+Math.round(cur + cumGain)+'%. Focus on Sec C free response technique for remaining marks.</div>';
+  }
+  html += '<div style="margin-top:.65rem;padding:.5rem .7rem;background:rgba(26,107,60,.07);border-radius:6px;border-left:3px solid #1a6b3c;font-size:.75rem;color:var(--ink)">'
+    + '💡 <strong>Drill tip:</strong> Use 🏋 Daily Drill — it auto-serves your weakest chapter first. Aim for 10–15 mins daily on the priority chapters above.'
+    + '</div>';
+  document.getElementById('advisorOut').innerHTML = html;
+}
+function renderSkillBars(d) {
+  var c = document.getElementById('skillBars'), sk = d.skills || {}, keys = Object.keys(sk);
+  if (!keys.length) { c.innerHTML='<div class="empty-state"><div class="es-icon">📊</div><p>Complete a paper to see mastery levels</p></div>'; return; }
+  var html = '';
+  keys.forEach(function(name) {
+    var v=sk[name], pct=v[0]?Math.round(v[1]/v[0]*100):0;
+    var cls=pct>=80?'fill-green':pct>=55?'fill-amber':'fill-red';
+    html += '<div class="skill-bar-wrap"><div class="skill-label"><span class="skill-name">'+name+'</span><span class="skill-pct">'+pct+'%</span></div><div class="skill-track"><div class="skill-fill '+cls+'" style="width:'+pct+'%"></div></div></div>';
+  });
+  c.innerHTML = html;
+}
+
+function renderHistory(d) {
+  var el = document.getElementById('histRows');
+  var h  = d.history   || [];
+  var ai = d.aiHistory || [];
+  if (!h.length && !ai.length) {
+    el.innerHTML = '<div class="empty-state"><div class="es-icon">📄</div><p>No papers completed yet. Start with Paper 1!</p></div>';
+    return;
+  }
+  var html = '';
+
+  // Practice Papers section
+  if (h.length) {
+    html += '<div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.35rem">✏️ Practice Papers</div>';
+    h.slice().reverse().forEach(function(r) {
+      var pct = Math.round(r.score/40*100);
+      var col = pct>=90?'var(--green)':pct>=70?'var(--amber)':'var(--red)';
+      var wa2 = (typeof r.paper==='number' && r.paper>=11) ? ' ★' : '';
+      var dt  = r.date ? new Date(r.date).toLocaleDateString('en-SG',{day:'numeric',month:'short'}) : '';
+      html += '<div class="history-row">';
+      html += '<span class="hist-paper">Paper '+r.paper+wa2+'</span>';
+      html += '<div class="hist-bar-wrap"><div class="hist-bar" style="width:'+pct+'%;background:'+col+'"></div></div>';
+      html += '<span class="hist-score" style="color:'+col+'">'+r.score+'/40 ('+pct+'%)</span>';
+      if (r.secBreakdown) html += '<span style="font-size:.68rem;color:var(--muted);margin-left:.25rem">A:'+r.secBreakdown.a+' B:'+r.secBreakdown.b+' C:'+r.secBreakdown.c+'</span>';
+      if (dt) html += '<span style="font-size:.67rem;color:#9ca3af;margin-left:auto">'+dt+'</span>';
+      html += '</div>';
+    });
+  }
+
+  // AI Practice section
+  if (ai.length) {
+    html += '<div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin:.75rem 0 .35rem;border-top:1px solid var(--border);padding-top:.6rem">🤖 AI Practice Papers</div>';
+    ai.slice().reverse().forEach(function(r) {
+      var pct = r.total>0 ? Math.round(r.score/r.total*100) : 0;
+      var col = pct>=80?'var(--green)':pct>=60?'var(--amber)':'var(--red)';
+      var dt  = r.date ? new Date(r.date).toLocaleDateString('en-SG',{day:'numeric',month:'short'}) : '';
+      var ref = r.key ? r.key.split('_ai_')[1] : '';
+      html += '<div class="history-row">';
+      html += '<span class="hist-paper" style="color:var(--blue)">🤖 '+r.topic+'</span>';
+      html += '<div class="hist-bar-wrap"><div class="hist-bar" style="width:'+pct+'%;background:'+col+'"></div></div>';
+      html += '<span class="hist-score" style="color:'+col+'">'+r.score+'/'+r.total+' Qs</span>';
+      if (ref) html += '<span style="font-size:.64rem;color:#9ca3af;font-family:monospace;margin-left:.25rem" title="Unique key">#'+ref+'</span>';
+      if (dt) html += '<span style="font-size:.67rem;color:#9ca3af;margin-left:auto">'+dt+'</span>';
+      html += '</div>';
+    });
+  }
+  el.innerHTML = html;
+}
+function renderHeatmap(d) {
+  var g=document.getElementById('hmGrid'), lb=document.getElementById('hmMonthLabels');
+  if (!g) return;
+  var dm={};
+  (d.history||[]).forEach(function(h){if(h.date){var k=h.date.slice(0,10);dm[k]=(dm[k]||0)+1;}});
+  var W=16, today=new Date(), sd=new Date(today);
+  sd.setDate(today.getDate()-(W-1)*7-today.getDay());
+  g.style.gridTemplateColumns='repeat('+W+',12px)'; g.style.gridTemplateRows='repeat(7,12px)';
+  g.innerHTML=''; lb.innerHTML='';
+  var lm=-1;
+  for(var w=0;w<W;w++){var wd=new Date(sd);wd.setDate(wd.getDate()+w*7);var m=wd.getMonth();var sp=document.createElement('span');sp.style.cssText='width:12px;flex-shrink:0;text-align:center;font-size:9px;';sp.textContent=m!==lm?wd.toLocaleString('default',{month:'short'}):'';lb.appendChild(sp);lm=m;}
+  for(var w2=0;w2<W;w2++){for(var dy=0;dy<7;dy++){var dt=new Date(sd);dt.setDate(dt.getDate()+w2*7+dy);if(dt>today){var bl=document.createElement('div');bl.style.cssText='width:12px;height:12px;';g.appendChild(bl);continue;}var dk=dt.toISOString().slice(0,10);var cnt=dm[dk]||0;var lv=cnt===0?0:cnt===1?1:cnt<=3?2:3;var cell=document.createElement('div');cell.className='hm-cell';if(lv)cell.dataset.l=lv;cell.dataset.tip=cnt?dt.getDate()+' '+dt.toLocaleString('default',{month:'short'})+': '+cnt+' attempt'+(cnt>1?'s':''):dt.getDate()+' '+dt.toLocaleString('default',{month:'short'});cell.addEventListener('mouseenter',function(e){var tt=document.getElementById('hmTooltip');if(tt){tt.textContent=this.dataset.tip;tt.style.cssText='display:block;position:fixed;background:#1c1c1e;color:#f5f0e8;font-size:.72rem;padding:4px 9px;border-radius:5px;pointer-events:none;z-index:999;left:'+(e.clientX+10)+'px;top:'+(e.clientY-28)+'px';}});
+cell.addEventListener('mouseleave',function(){var tt=document.getElementById('hmTooltip');if(tt)tt.style.display='none';});
+g.appendChild(cell);}}}
+
+function renderStreak(d) {
+  var dm={};(d.history||[]).forEach(function(h){if(h.date){var k=h.date.slice(0,10);dm[k]=1;}});
+  var today=new Date(), chk=new Date(today), streak=0;
+  for(var i=0;i<366;i++){var k=chk.toISOString().slice(0,10);if(dm[k]){streak++;chk.setDate(chk.getDate()-1);}else break;}
+  document.getElementById('dStreak').textContent = streak;
+  var b=document.getElementById('streakBadge'); if(b) b.textContent=streak+'-day streak';
+}
+
+// ── Activity Widget ───────────────────────────────────────────
+var _actPeriod = 'today';
+var _actData   = null;   // store d for reuse
+
+function renderTodayStats(d) {
+  _actData = d;
+  renderActPanel();
+  renderEOYBanner();
+}
+
+function selectActTab(period, btn) {
+  _actPeriod = period;
+  document.querySelectorAll('.act-tab').forEach(function(b){b.classList.remove('act-tab-active');});
+  if(btn) btn.classList.add('act-tab-active');
+  var rp = document.getElementById('actRangePicker');
+  if(rp) rp.style.display = period==='range' ? 'flex' : 'none';
+  if(period !== 'range') renderActPanel();
+}
+
+function sgToday() {
+  return new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Singapore'});
+}
+
+function actDateRange() {
+  var t = sgToday();
+  if(_actPeriod === 'today') return {from:t, to:t, label:'Today — '+new Date().toLocaleDateString('en-SG',{weekday:'long',day:'numeric',month:'long'})};
+  if(_actPeriod === 'yesterday') {
+    var y = new Date(); y.setDate(y.getDate()-1);
+    var ys = y.toLocaleDateString('en-CA',{timeZone:'Asia/Singapore'});
+    return {from:ys, to:ys, label:'Yesterday — '+y.toLocaleDateString('en-SG',{weekday:'long',day:'numeric',month:'long'})};
+  }
+  if(_actPeriod === 'week') {
+    var now = new Date();
+    var day = now.getDay();                       // 0=Sun
+    var mon = new Date(now); mon.setDate(now.getDate()-(day===0?6:day-1));
+    var ms = mon.toLocaleDateString('en-CA',{timeZone:'Asia/Singapore'});
+    return {from:ms, to:t, label:'This Week (Mon–'+new Date().toLocaleDateString('en-SG',{weekday:'short'})+')'};
+  }
+  // range
+  var f = (document.getElementById('actFrom')||{}).value || t;
+  var tt2 = (document.getElementById('actTo')||{}).value || t;
+  return {from:f, to:tt2, label:f+' → '+tt2};
+}
+
+function renderActPanel() {
+  if(!_actData) return;
+  var d = _actData;
+  var rng = actDateRange();
+  var from = rng.from, to = rng.to;
+
+  // count papers in range
+  var papers = 0;
+  (d.history||[]).forEach(function(h){
+    var dt = (h.date||'').slice(0,10);
+    if(dt>=from && dt<=to) papers++;
+  });
+
+  // count QF questions and accuracy
+  var qs = 0, correct = 0;
+  (d.qfHistory||[]).forEach(function(h){
+    var dt = (h.date||h.ts||'').slice(0,10);
+    if(dt>=from && dt<=to){ qs+=(h.total||0); correct+=(h.correct||0); }
+  });
+
+  // count paper MCQ attempts (secA stored in history entries)
+  var paperQs = 0, paperCorrect = 0;
+  (d.history||[]).forEach(function(h){
+    var dt = (h.date||'').slice(0,10);
+    if(dt<from || dt>to) return;
+    paperQs    += (h.mcqTotal||0);
+    paperCorrect+=(h.mcqCorrect||0);
+  });
+
+  var totalQs  = qs + paperQs;
+  var totalCor = correct + paperCorrect;
+  var acc = totalQs > 0 ? Math.round(totalCor/totalQs*100)+'%' : '—';
+
+  // skill breakdown from QF sessions
+  var skillMap = {};
+  (d.qfHistory||[]).forEach(function(h){
+    var dt=(h.date||h.ts||'').slice(0,10);
+    if(dt<from||dt>to) return;
+    (h.skills||[]).forEach(function(s){ skillMap[s]=(skillMap[s]||0)+1; });
+  });
+  var skills = Object.keys(skillMap).sort(function(a,b){return skillMap[b]-skillMap[a];});
+  var skillHtml = skills.length ? '<div style="margin-top:.4rem"><span style="color:var(--muted);font-size:.72rem">Skills practised: </span>'+
+    skills.slice(0,6).map(function(s){return '<span style="display:inline-block;background:var(--paper);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:.7rem;margin:1px">'+s+'</span>';}).join(' ')+'</div>' : '';
+
+  var noAct = totalQs===0 && papers===0;
+  var breakHtml = noAct
+    ? '<div style="color:var(--muted);font-size:.78rem;text-align:center;padding:.5rem 0">No activity recorded for this period.</div>'
+    : '<div style="font-size:.78rem;color:var(--muted)">'+
+        (qs>0?'<div>⚡ Quick Fire: '+qs+' Q'+(qs!==1?'s':'')+(correct>0?' ('+Math.round(correct/qs*100)+'% correct)':'')+'</div>':'')  +
+        (paperQs>0?'<div>✏️ Papers: '+paperQs+' Q'+(paperQs!==1?'s':'')+(paperCorrect>0?' ('+Math.round(paperCorrect/paperQs*100)+'% correct)':'')+'</div>':'') +
+        skillHtml + '</div>';
+
+  var el = function(id){return document.getElementById(id);};
+  if(el('actQs'))    el('actQs').textContent    = totalQs;
+  if(el('actPapers'))el('actPapers').textContent = papers;
+  if(el('actAcc'))   el('actAcc').textContent    = acc;
+  if(el('actBreakdown'))el('actBreakdown').innerHTML = breakHtml;
+  if(el('actPeriodLabel'))el('actPeriodLabel').textContent = rng.label;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// PAPERS — BUILD & INTERACT
+// ══════════════════════════════════════════════════════════════════
+var paperState = {};
+function getPS(pidx) {
+  if (!paperState[pidx]) paperState[pidx]={secA:{}, secATF:{}, secBReasonScore:{}, secCScore:{}, submitted:false};
+  return paperState[pidx];
+}
+
+var PAPERS = generateAllPapers();
+
+function generateAllPapers(){
+  return [
+    {
+      num:1, title:'Paper 1 — Measurement & Matter',
+      secA:[
+        {q:'What is the SI unit of mass?',opts:['Gram (g)','Kilogram (kg)','Milligram (mg)','Tonne (t)'],ans:1,skill:'Measurement',fb:'SI unit of mass is kilogram (kg). Gram is a derived unit.'},
+        {q:'Which of the following is an example of qualitative data?',opts:['Mass of 50 g','Temperature of 37°C','The colour of the solution is blue','Volume of 200 ml'],ans:2,skill:'Scientific Method',fb:'Qualitative data = descriptions (colour, smell, texture). The others are quantitative (numbers with units).'},
+        {q:'Which type of error occurs when an instrument gives a non-zero reading when the true value should be zero?',opts:['Parallax error','Zero error','Human error','Unpredictable error'],ans:1,skill:'Measurement',fb:'Zero error = when instrument reads non-zero at zero value. It is a consistent (systematic) error.'},
+        {q:'Iron and sulfur form a mixture. Which separation technique should be used to separate them?',opts:['Filtration','Distillation','Magnetic attraction','Evaporation'],ans:2,skill:'Separation',fb:'Iron is magnetic, sulfur is not. Magnetic attraction separates magnetic from non-magnetic materials.'},
+        {q:'Water is a compound because it ___.',opts:['Can be separated into hydrogen and oxygen easily','Is made of two elements chemically combined','Has the same properties as hydrogen and oxygen','Is a liquid at room temperature'],ans:1,skill:'Elements/Mixtures',fb:'Compound = two or more elements chemically combined in fixed proportions. Water (H₂O) = H and O chemically combined.'},
+        {q:'When measuring the volume of a liquid in a measuring cylinder, where should the student\\'s eye be?',opts:['Above the meniscus','Below the meniscus','Level with the bottom of the meniscus','Level with the top of the meniscus'],ans:2,skill:'Measurement',fb:'Eye must be LEVEL with the bottom of the meniscus to avoid parallax error.'},
+        {q:'Air is best described as a ___.',opts:['Element','Compound','Mixture','Pure substance'],ans:2,skill:'Elements/Mixtures',fb:'Air is a mixture of nitrogen, oxygen, argon, CO₂ etc. — physically combined, not chemically bonded.'},
+        {q:'Which property describes a material\\'s ability to bend without breaking and return to original shape?',opts:['Hardness','Strength','Flexibility','Density'],ans:2,skill:'Physical Properties',fb:'Flexibility = ability to bend without breaking. Elasticity would be returning to original shape. G2 accepts "flexibility" here.'},
+        {q:'The density of an object is 0.8 g/cm³. It is placed in water (density 1.0 g/cm³). What will happen?',opts:['It sinks','It floats','It dissolves','It explodes'],ans:1,skill:'Density',fb:'Object density (0.8) < water density (1.0) → object FLOATS.'},
+        {q:'Which separation technique is used to obtain salt from salt solution?',opts:['Filtration','Magnetic attraction','Evaporation','Chromatography'],ans:2,skill:'Separation',fb:'Salt is dissolved in water. Evaporation removes the water, leaving solid salt behind.'}
+      ],
+      secB:[
+        {stmt:'Compounds have fixed proportions of their constituent elements by mass.',ans:true,reason:'Compounds are chemically combined substances where elements are always present in the same ratio by mass, e.g. water is always 2:1 hydrogen to oxygen.'},
+        {stmt:'A plastic ruler is harder than a glass rod.',ans:false,reason:'Glass is harder than plastic. Hardness is resistance to scratching. Glass scratches plastic but plastic cannot scratch glass.'},
+        {stmt:'The residue in filtration is the liquid that passes through the filter paper.',ans:false,reason:'The residue is the SOLID that is LEFT on the filter paper. The liquid that passes through is called the FILTRATE.'},
+        {stmt:'Distillation can be used to obtain pure water from salt solution.',ans:true,reason:'Distillation boils the solution and collects the condensed water vapour. Salt has a much higher boiling point than water, so only water vapour forms.'},
+        {stmt:'Taking multiple readings reduces the effect of unpredictable errors.',ans:true,reason:'Unpredictable (random) errors vary each time. Taking multiple readings and averaging reduces their effect because positive and negative variations cancel out.'}
+      ],
+      secC:[
+        {type:'exp',q:'A student carried out an experiment to find out how the amount of baking soda affects the texture of cookies.\\n(a) State the independent variable.\\n(b) State ONE variable that should be kept constant.\\n(c) What should the student do if results do not support the hypothesis?',marks:6,scheme:'(a) Amount of baking soda [1]\\n(b) Any ONE of: baking temperature, baking time, amount of flour/butter/sugar, oven used [1]\\n(c) Re-examine the hypothesis and modify it based on evidence gathered; design a new experiment to test the modified hypothesis [2]'},
+        {type:'calc',q:'An object has a mass of 45 g and a volume of 15 cm³.\\n(a) Calculate the density. Show working.\\n(b) Will the object float or sink in water (density 1.0 g/cm³)? Explain.',marks:7,scheme:'(a) ρ = m/V = 45/15 = 3.0 g/cm³ [2 — formula + substitution + answer + unit]\\n(b) It sinks because its density (3.0 g/cm³) is greater than water density (1.0 g/cm³). [2]'},
+        {type:'sep',q:'A mixture contains iron filings, sand and salt.\\n(a) Step 1 — how to separate iron filings.\\n(b) Step 2 — how to separate salt from sand.\\n(c) Step 3 — obtain solid salt from salt solution.',marks:7,scheme:'(a) Use magnetic attraction: pass magnet over mixture; iron filings are attracted to magnet and removed. [2]\\n(b) Add water; salt dissolves, sand does not. Filter the mixture. Sand (residue) stays on filter paper; salt solution (filtrate) passes through. [2]\\n(c) Evaporation: heat the salt solution in an evaporating dish; water evaporates leaving solid salt. [2]'}
+      ]
+    },
+    {
+      num:2, title:'Paper 2 — Properties & Separation',
+      secA:[
+        {q:'Which of the following is a physical property of matter?',opts:['Flammability','Electrical conductivity','Reactivity with acid','Toxicity'],ans:1,skill:'Physical Properties',fb:'Physical properties are measured without changing chemical composition: electrical conductivity, density, melting point. Flammability and reactivity involve chemical change.'},
+        {q:'Sodium chloride (common salt) is best classified as a ___.',opts:['Element','Compound','Mixture','Suspension'],ans:1,skill:'Elements/Mixtures',fb:'NaCl is a compound — sodium and chlorine chemically combined in 1:1 ratio. It has different properties from its elements.'},
+        {q:'Which instrument is most suitable for measuring the volume of an irregularly shaped solid?',opts:['Beaker','Volumetric flask','Measuring cylinder with water displacement','Syringe'],ans:2,skill:'Measurement',fb:'Water displacement in measuring cylinder measures volume of irregular solid. Volume = final level - initial level.'},
+        {q:'A student looks at a ruler from an angle instead of perpendicularly. What type of error is introduced?',opts:['Zero error','Parallax error','Consistent error','Random error'],ans:1,skill:'Measurement',fb:'Parallax error = error due to viewing scale from incorrect angle, not perpendicular.'},
+        {q:'Which of the following is NOT a safety rule in the science laboratory?',opts:['Wear safety goggles when there is risk of eye injury','Taste chemicals to identify them','Tie long hair back','Wash hands thoroughly before leaving'],ans:1,skill:'Scientific Method',fb:'You must NEVER taste chemicals — they may be toxic or corrosive. All others are correct safety rules.'},
+        {q:'Copper is a good electrical conductor. Which class of materials does copper belong to?',opts:['Ceramic','Plastic','Metal','Fibre'],ans:2,skill:'Physical Properties',fb:'Copper is a metal. Metals are generally good conductors of both heat and electricity.'},
+        {q:'A suspension differs from a solution in that a suspension ___.',opts:['Is transparent','Allows light to pass through fully','Contains insoluble substances that may settle','Has no solute'],ans:2,skill:'Elements/Mixtures',fb:'Suspension = insoluble particles in liquid; they scatter light (not transparent) and settle on standing. Solution = solute fully dissolved, transparent.'},
+        {q:'Which gas makes up approximately 78% of air?',opts:['Oxygen','Carbon dioxide','Nitrogen','Water vapour'],ans:2,skill:'Elements/Mixtures',fb:'Air composition: ~78% nitrogen, ~21% oxygen, ~1% argon and trace gases including CO₂.'},
+        {q:'The melting point of a substance is the temperature at which it changes from ___.',opts:['Liquid to gas','Solid to liquid','Gas to liquid','Liquid to solid'],ans:1,skill:'Physical Properties',fb:'Melting point = temperature of solid→liquid change. Boiling point = liquid→gas. Condensation = gas→liquid. Solidification/freezing = liquid→solid.'},
+        {q:'Paper chromatography is used to separate substances that ___.',opts:['Have different boiling points','Have different magnetic properties','Dissolve to different extents in a solvent','Have different particle sizes'],ans:2,skill:'Separation',fb:'Chromatography separates based on different solubilities in the solvent. More soluble = travels further. Different boiling points = distillation.'}
+      ],
+      secB:[
+        {stmt:'Elements are the basic building blocks of matter and cannot be broken down into simpler substances.',ans:true,reason:'Elements consist of only one type of atom and cannot be broken down into simpler substances by chemical means. They are the simplest form of pure substance.'},
+        {stmt:'A hypothesis must always be proven correct for an experiment to be valuable.',ans:false,reason:'A hypothesis that is disproven is still scientifically valuable. It eliminates incorrect explanations and helps scientists modify their understanding and design better experiments.'},
+        {stmt:'Metals are generally good conductors of both heat and electricity.',ans:true,reason:'Metals contain free-moving electrons which allow them to transfer electrical charge and thermal energy efficiently, making them good conductors of both heat and electricity.'},
+        {stmt:'The filtrate is the solid collected on the filter paper after filtration.',ans:false,reason:'The filtrate is the LIQUID that passes through the filter paper. The solid left on the filter paper is called the RESIDUE.'},
+        {stmt:'A concentrated solution contains a higher percentage of dissolved solute than a dilute solution.',ans:true,reason:'Concentration refers to the amount of solute dissolved per unit volume of solution. A concentrated solution has more solute particles dissolved compared to a dilute solution.'}
+      ],
+      secC:[
+        {type:'exp',q:'Material properties table: X (high electrical conductivity, high m.p., shiny), W (low electrical conductivity, transparent, high m.p.), Y (low electrical conductivity, lightweight, flexible), Z (low electrical conductivity, hard, made from clay).\\n(a) Identify the metal. Give ONE reason.\\n(b) Which is most likely glass? Give ONE reason.\\n(c) Which material (Y or Z) suits electrical wire insulation? Explain.',marks:8,scheme:'(a) X is a metal. Reason: high electrical conductivity OR shiny OR high melting point [2]\\n(b) W is most likely glass. Reason: transparent OR low electrical conductivity OR high melting point [2]\\n(c) Y (plastic). Because plastic has low electrical conductivity, preventing dangerous electric shock [2]'},
+        {type:'exp',q:'A drop of ink on filter paper is dipped into water. After some time, ink separates into three coloured bands: yellow (top), red (middle), blue (bottom).\\n(a) Name the separation technique.\\n(b) Which colour is most soluble in water? Explain.\\n(c) State ONE real-life application of this technique.',marks:6,scheme:'(a) Paper chromatography [1]\\n(b) Yellow is most soluble. It dissolved most easily in water and was carried furthest from the starting line [2]\\n(c) Any ONE of: testing food dye safety, forensic analysis of inks, detecting fraud in documents, testing drug purity [1]'},
+        {type:'exp',q:'Explain the difference between a solution and a suspension. Give one example of each.\\n(a) Solution and example.\\n(b) Suspension and example.',marks:6,scheme:'(a) A solution is a transparent mixture where the solute is completely dissolved in the solvent. Example: salt water, sugar solution [2]\\n(b) A suspension is a cloudy mixture containing insoluble particles that do not dissolve and may settle on standing. Example: muddy water, chalk water [2]'}
+      ]
+    },
+    {
+      num:3, title:'Paper 3 — Scientific Investigation',
+      secA:[
+        {q:'Which of the following BEST describes science?',opts:['The study of human behaviour','The study of natural phenomena in the world','The study of mathematics','The study of languages'],ans:1,skill:'Scientific Method',fb:'Science is the study of natural phenomena in the world — how things in nature work.'},
+        {q:'The boiling point of water is 100°C. This means water changes from ___.',opts:['Solid to liquid at 100°C','Liquid to gas at 100°C','Gas to liquid at 100°C','Solid to gas at 100°C'],ans:1,skill:'Physical Properties',fb:'Boiling point is the temperature at which liquid → gas. Melting point is solid → liquid.'},
+        {q:'A block of pine wood (density 0.51 g/cm³) is placed in water. What happens?',opts:['It sinks because it is denser than water','It floats because it is less dense than water','It dissolves in water','It melts in water'],ans:1,skill:'Density',fb:'Pine wood density (0.51) < water density (1.0 g/cm³) → floats.'},
+        {q:'Which of the following best describes a compound?',opts:['A substance made of one type of element only','Two or more elements not chemically combined','Two or more elements chemically combined in a fixed proportion','A mixture of solute and solvent'],ans:2,skill:'Elements/Mixtures',fb:'Compound = two or more elements CHEMICALLY combined in FIXED proportions. Option A is an element. Option B is a mixture.'},
+        {q:'When measuring volume of liquid in measuring cylinder, the student should read ___.',opts:['The top of the meniscus','The bottom of the meniscus','The middle of the meniscus','Any part of the meniscus'],ans:1,skill:'Measurement',fb:'Always read the bottom of the meniscus (for water and most liquids). Eye must be level with it.'},
+        {q:'Which of the following materials is an electrical insulator?',opts:['Copper','Iron','Rubber','Steel'],ans:2,skill:'Physical Properties',fb:'Rubber is an insulator — it does not conduct electricity. Copper, iron and steel are metals = good conductors.'},
+        {q:'Seawater can be made into drinking water using ___.',opts:['Filtration','Magnetic attraction','Evaporation','Distillation or reverse osmosis'],ans:3,skill:'Separation',fb:'Distillation or reverse osmosis separates pure water from dissolved salts. Filtration alone cannot remove dissolved salt.'},
+        {q:'In an experiment, the variable that is observed or measured is called the ___.',opts:['Independent variable','Dependent variable','Controlled variable','Hypothesis'],ans:1,skill:'Scientific Method',fb:'Dependent variable (DV) = what you MEASURE in response to changes in the IV.'},
+        {q:'Which of the following is an example of a mixture made up of elements only?',opts:['Salt solution','Steel (iron and carbon)','Water','Carbon dioxide'],ans:1,skill:'Elements/Mixtures',fb:'Steel = mixture of iron (element) and carbon (element) — physically combined, not chemically bonded. Water and CO₂ are compounds.'},
+        {q:'What is the main purpose of a control variable in an experiment?',opts:['To make the experiment interesting','To ensure the experiment is a fair test','To change the outcome of the experiment','To measure the dependent variable'],ans:1,skill:'Scientific Method',fb:'Control variables are kept constant to ensure only the IV changes — making it a FAIR TEST.'}
+      ],
+      secB:[
+        {stmt:'Scientific knowledge can change when new evidence is found and accepted by the scientific community.',ans:true,reason:'Scientific knowledge is reliable but not permanent. When new evidence that contradicts existing theories is repeatedly verified and accepted by the scientific community, knowledge is revised.'},
+        {stmt:'An electronic balance should show a zero reading before any substance is placed on it.',ans:true,reason:'If the balance does not show 0.0 g before use, it has a zero error. The balance must be tared/zeroed first to ensure accurate mass readings.'},
+        {stmt:'Mixtures always have a fixed proportion of their constituents.',ans:false,reason:'Unlike compounds, mixtures have VARIABLE proportions of their constituents. For example, salt water can have any amount of salt dissolved in water.'},
+        {stmt:'Distillation separates substances based on differences in their particle sizes.',ans:false,reason:'Distillation separates substances based on their different BOILING POINTS, not particle sizes. Particle size is the principle for filtration.'},
+        {stmt:'Glass is classified as a metal because it is shiny and hard.',ans:false,reason:'Glass is not a metal. Glass is classified as a non-metallic material/ceramic-like substance. It is brittle, does not conduct electricity, and is transparent — unlike metals.'}
+      ],
+      secC:[
+        {type:'exp',q:'A student investigates how temperature affects the rate of dissolving of sugar in water.\\n(a) State the IV and DV.\\n(b) State TWO variables that must be kept constant.\\n(c) Predict the result and justify your prediction.',marks:8,scheme:'(a) IV: Temperature of water. DV: Time taken for sugar to dissolve (rate of dissolving) [2]\\n(b) Any two: Amount of sugar, amount of water, type of sugar, stirring rate [2]\\n(c) As temperature increases, rate of dissolving increases. Because higher temperature gives sugar and water particles more energy to move faster, increasing collisions between particles [2]'},
+        {type:'calc',q:'A steel ship floats on seawater even though steel (7.87 g/cm³) is denser than seawater (1.03 g/cm³).\\n(a) Explain why the ship floats.\\n(b) What would happen if overloaded? Explain.',marks:6,scheme:'(a) The ship is hollow and traps air inside. The overall average density of the ship (steel + air) is less than seawater, so it floats [2]\\n(b) The ship would sink. When overloaded, the ship sinks deeper until water enters OR the weight of cargo adds so much that average density exceeds seawater [2]'},
+        {type:'class',q:'Classify each as element, compound or mixture. Give a reason.\\n(a) Carbon dioxide (CO₂)\\n(b) Air\\n(c) Gold (Au)',marks:6,scheme:'(a) Compound — contains carbon and oxygen chemically combined in a fixed ratio (1 carbon : 2 oxygen) [2]\\n(b) Mixture — contains nitrogen, oxygen, argon, CO₂ physically combined in variable proportions [2]\\n(c) Element — made of only one type of atom (gold atoms only); cannot be broken down into simpler substances [2]'}
+      ]
+    },
+    {
+      num:4, title:'Paper 4 — Data & Errors',
+      secA:[
+        {q:'Which of the following is a quantitative observation?',opts:['The liquid is blue','The solid feels rough','The mass of the solid is 25.4 g','The gas has a pungent smell'],ans:2,skill:'Measurement',fb:'Quantitative = numerical measurement with unit (25.4 g). Blue, rough, pungent are qualitative (descriptive).'},
+        {q:'Which SI unit is used to measure temperature?',opts:['Degree Celsius (°C)','Kelvin (K)','Fahrenheit (°F)','Joule (J)'],ans:1,skill:'Measurement',fb:'SI unit of temperature is Kelvin (K). Celsius is used in practice but Kelvin is the SI standard.'},
+        {q:'A material that cannot be scratched by another material is said to have high ___.',opts:['Flexibility','Strength','Density','Hardness'],ans:3,skill:'Physical Properties',fb:'Hardness = resistance to scratching. Strength = resist deformation under load.'},
+        {q:'Which is the best method to separate a mixture of salt and sand?',opts:['Magnetic attraction then evaporation','Dissolve in water, filter, then evaporate','Filtration alone','Distillation alone'],ans:1,skill:'Separation',fb:'Salt is soluble, sand is not. Step 1: add water (salt dissolves). Step 2: Filter (remove sand). Step 3: Evaporate (collect salt).'},
+        {q:'The Periodic Table of Elements is used to ___.',opts:['List all mixtures found in nature','Show how compounds are formed','Organise elements based on their properties','Describe the properties of solutions'],ans:2,skill:'Elements/Mixtures',fb:'Periodic Table organises ALL known elements by their properties (period = row, group = column, similar properties in same group).'},
+        {q:'Which of the following statements about compounds is correct?',opts:['They can be separated by physical means','Their properties are the same as their constituent elements','They are formed by physical mixing','Their constituent elements are chemically combined in fixed proportions'],ans:3,skill:'Elements/Mixtures',fb:'Compounds = elements chemically combined in fixed proportions. They CANNOT be separated by physical means. They have DIFFERENT properties from their elements.'},
+        {q:'During filtration of chalk water, chalk particles are left on the filter paper because ___.',opts:['Chalk is magnetic','Chalk is soluble in water','Chalk particles are larger than pores of filter paper','Chalk has higher density than water'],ans:2,skill:'Separation',fb:'Filtration works because chalk particles are too large to pass through the tiny pores of filter paper.'},
+        {q:'Which of the following is NOT an application of evaporation?',opts:['Preserving food such as ikan bilis','Producing salt from salt solution','Separating iron from sand','Removing water from milk to make milk powder'],ans:2,skill:'Separation',fb:'Separating iron from sand uses magnetic attraction, not evaporation.'},
+        {q:'A hypothesis is best described as ___.',opts:['A conclusion drawn from results','A proposed explanation for an observation that can be tested','A method of carrying out an experiment','A type of qualitative data'],ans:1,skill:'Scientific Method',fb:'Hypothesis = a proposed explanation/prediction that can be TESTED through experimentation.'},
+        {q:'Which hazard symbol warns of substances that may cause fire or explosion on contact with heat?',opts:['Corrosive','Flammable','Acute Toxicity','Environmental Toxicity'],ans:1,skill:'Scientific Method',fb:'Flammable symbol (flame) = substance that may catch fire easily or cause fire/explosion. Corrosive = dripping hand/surface symbol.'}
+      ],
+      secB:[
+        {stmt:'In paper chromatography, the substance that travels the furthest from the starting point is the most soluble in the solvent.',ans:true,reason:'More soluble substances dissolve more readily in the solvent and are carried further up the paper. The most soluble substance has the highest Rf value (travels furthest).'},
+        {stmt:'Qualitative data is always more useful than quantitative data in science.',ans:false,reason:'Both types are useful in different situations. Quantitative data (numbers) allows precise comparison and calculation. Qualitative data describes qualities. Neither is always more useful — depends on what is being investigated.'},
+        {stmt:'When a solute dissolves in a solvent, a suspension is formed.',ans:false,reason:'When a solute dissolves in a solvent, a SOLUTION is formed. A suspension contains insoluble particles that do not dissolve and may settle on standing.'},
+        {stmt:'The hardness of a material is its resistance to wear, tear and scratches.',ans:true,reason:'Hardness is defined as the ability of a material to resist scratching, wear and deformation on its surface. Diamond is the hardest natural material.'},
+        {stmt:'Increasing the temperature of the solvent increases the rate of dissolving.',ans:true,reason:'Higher temperature gives solvent and solute particles more kinetic energy, causing them to move faster and collide more frequently, breaking apart solute particles faster.'}
+      ],
+      secC:[
+        {type:'exp',q:'Scales A and C show -50g when empty. Scale B shows 0g. Scale D shows +20g.\\n(a) Which scales have zero error? Name the type and explain.\\n(b) Student uses Scale A, reads 150g. What is the actual mass?\\n(c) How should student correct for zero error before use?',marks:8,scheme:'(a) Scales A (negative, -50g) and D (positive, +20g) have zero errors. Zero error = when an instrument gives a non-zero reading when there is nothing on it [2]\\n(b) Scale A reads -50g when empty, so actual mass = 150 - (-50) = 150 + 50 = 200g [2]\\n(c) Note the zero error reading; subtract the zero error reading from all subsequent measurements OR adjust/tare the balance to 0 before measuring [2]'},
+        {type:'class',q:'Milk contains water, fats, proteins and calcium.\\n(a) Is milk element, compound or mixture? State two reasons.\\n(b) Name ONE separation technique to remove water from milk.',marks:6,scheme:'(a) Mixture — because (1) contains more than one type of substance physically combined, not chemically bonded; (2) each component retains its own properties; constituents in variable proportions [1+2]\\n(b) Evaporation or distillation [1]'},
+        {type:'sep',q:'Separate a mixture of iron filings, chalk powder and water.\\n(a) Remove iron filings. Name the technique.\\n(b) After removing iron, separate chalk from water. Name the technique.',marks:6,scheme:'(a) Magnetic attraction — pass a magnet through the mixture; iron filings are attracted to and removed by the magnet. [2]\\n(b) Filtration — pour through filter paper; chalk (residue) stays on paper; water (filtrate) passes through. [2]'}
+      ]
+    },
+    {
+      num:5, title:'Paper 5 — Density & Solutions',
+      secA:[
+        {q:'Water is made up of hydrogen and oxygen. Water is best classified as a ___.',opts:['Mixture','Element','Compound','Suspension'],ans:2,skill:'Elements/Mixtures',fb:'Water (H₂O) = hydrogen and oxygen chemically combined in fixed 2:1 ratio → compound.'},
+        {q:'Which of the following is an example of a solution?',opts:['Muddy water','Sand in water','Salt water','Chalk and water'],ans:2,skill:'Elements/Mixtures',fb:'Salt water = salt (solute) dissolved in water (solvent) → clear solution. Muddy water and chalk water are suspensions.'},
+        {q:'The strength of a material is its ability to ___.',opts:['Bend without breaking','Support a heavy load without changing shape','Conduct electricity','Permanently resist scratching'],ans:1,skill:'Physical Properties',fb:'Strength = ability to support loads without breaking or deforming. Hardness = resist scratching. Flexibility = bend without breaking.'},
+        {q:'Which of the following correctly describes density?',opts:['Mass × Volume','Volume ÷ Mass','Mass ÷ Volume','Mass + Volume'],ans:2,skill:'Density',fb:'Density = Mass ÷ Volume (ρ = m/V). Units: g/cm³ or kg/m³.'},
+        {q:'Which of the following statements is true about elements?',opts:['They are made up of two or more types of atoms','They can be broken down into simpler substances by chemical means','They are the basic building blocks of matter','They always exist as gases'],ans:2,skill:'Elements/Mixtures',fb:'Elements = basic building blocks; made of ONE type of atom only; cannot be broken down into simpler substances.'},
+        {q:'A student keeps the temperature of the oven constant. This variable is called a ___.',opts:['Dependent variable','Independent variable','Controlled variable','Hypothesis'],ans:2,skill:'Scientific Method',fb:'Controlled variable (CV) = kept constant to ensure fair test. Temperature is controlled here.'},
+        {q:'Which correctly describes a mixture?',opts:['Constituents are chemically combined','Constituents are in a fixed ratio','Constituents retain their original properties','Constituents cannot be separated'],ans:2,skill:'Elements/Mixtures',fb:'In a mixture, each component retains its own properties. They are NOT chemically combined, NOT in fixed ratios, and CAN be separated physically.'},
+        {q:'Which separation technique uses the property of different boiling points?',opts:['Filtration','Chromatography','Distillation','Magnetic attraction'],ans:2,skill:'Separation',fb:'Distillation separates based on different boiling points. The component with lower b.p. vaporises first.'},
+        {q:'An object has density greater than water. When placed in water, it will ___.',opts:['Float on the surface','Dissolve','Sink','Explode'],ans:2,skill:'Density',fb:'Object density > water density → sinks. Object density < water density → floats.'},
+        {q:'Which of the following is a laboratory safety rule?',opts:['Eat and drink in the laboratory','Taste chemicals to identify them','Report all spills and breakages to the teacher immediately','Stack glassware as high as possible to save space'],ans:2,skill:'Scientific Method',fb:'Always report accidents to teacher immediately. Never eat/drink in lab, taste chemicals, or create unsafe conditions with stacked glass.'}
+      ],
+      secB:[
+        {stmt:'A solution is transparent and light can pass through it fully.',ans:true,reason:'A solution is a homogeneous mixture where the solute is completely dissolved. Because all particles are at molecular size, they do not scatter light — the solution appears clear and transparent.'},
+        {stmt:'Copper and silver are examples of non-metals.',ans:false,reason:'Copper and silver are METALS. They are shiny, conduct heat and electricity well, and have high melting points. Non-metals include sulfur, carbon (graphite), nitrogen.'},
+        {stmt:'The independent variable is the variable that is changed in an experiment.',ans:true,reason:'The independent variable (IV) is deliberately changed by the experimenter to observe its effect on the dependent variable.'},
+        {stmt:'Evaporation can be used to obtain salt from sand.',ans:false,reason:'Evaporation cannot separate salt from sand directly because salt is not dissolved — it is physically mixed with sand. The correct procedure is to first dissolve in water, filter to remove sand, THEN evaporate to get salt.'},
+        {stmt:'Scientific knowledge must be based on evidence and not personal feelings.',ans:true,reason:'Science relies on objective, reproducible evidence gathered through systematic observation and experimentation. Personal feelings and opinions are not scientific evidence.'}
+      ],
+      secC:[
+        {type:'calc',q:'Three liquids: A (0.80 g/cm³), B (1.30 g/cm³), C = water (1.00 g/cm³).\\n(a) Which is densest? How do you know?\\n(b) Draw and label how liquids arrange if poured into same container (they do not mix).\\n(c) An object (density 0.95 g/cm³) is placed in. In which liquid(s) does it float?',marks:8,scheme:'(a) Liquid B (1.30 g/cm³) is densest. Higher density value = more mass per unit volume [2]\\n(b) Diagram: B at bottom, C (water) in middle, A at top. Denser liquids sink below less dense ones [2]\\n(c) Floats in B (density 1.30 > 0.95) and C (density 1.00 > 0.95), but sinks in A (density 0.80 < 0.95) [2]'},
+        {type:'sep',q:'Coloured inks on filter paper dipped in solvent. Three bands at different heights.\\n(a) Name this separation technique.\\n(b) Three bands are visible. What does this tell us about the ink?\\n(c) The paper obtained is called a ___.',marks:6,scheme:'(a) Paper chromatography [1]\\n(b) The ink is a mixture of three different pigments/dyes with different solubilities in the solvent [2]\\n(c) Chromatogram [1]'},
+        {type:'exp',q:'Explain why Marie Curie\\'s values and attitudes were important to scientific knowledge.\\n(a) State TWO values she demonstrated.\\n(b) Explain how ONE of these helped advance science.',marks:6,scheme:'(a) Any two of: perseverance/resilience, integrity, objectivity, curiosity, open-mindedness, courage/creativity [2]\\n(b) E.g. Perseverance — she continued research despite obstacles and lack of resources, leading to discovery of radium and polonium and advancing understanding of radioactivity [2]'}
+      ]
+    },
+    {
+      num:6, title:'Paper 6 — Lab Safety & Applications',
+      secA:[
+        {q:'Which of the following is an example of a hazard symbol?',opts:['Green cross','Flammable symbol','Red circle','Blue star'],ans:1,skill:'Scientific Method',fb:'Flammable symbol (orange/yellow flame) is a standard hazard warning symbol in science labs.'},
+        {q:'The variable measured in response to the independent variable is called the ___.',opts:['Controlled variable','Dependent variable','Fixed variable','Constant'],ans:1,skill:'Scientific Method',fb:'Dependent variable (DV) = what you observe/measure as a result of changing the IV.'},
+        {q:'Which correctly states the formula for density?',opts:['Density = Volume × Mass','Density = Mass + Volume','Density = Mass ÷ Volume','Density = Volume ÷ Mass'],ans:2,skill:'Density',fb:'Density = Mass ÷ Volume. Never volume ÷ mass (that would be specific volume).'},
+        {q:'Aluminium is used to make aeroplane parts because it is ___.',opts:['Transparent and flexible','Lightweight and strong','High in thermal conductivity','Hard and brittle'],ans:1,skill:'Physical Properties',fb:'Aluminium: lightweight (low density) AND strong (high strength) — ideal for aircraft. Not brittle.'},
+        {q:'Which best describes the role of the scientific community?',opts:['To always agree with new ideas immediately','To analyse and evaluate evidence thoroughly before accepting an interpretation','To ignore new evidence that challenges existing theories','To conduct experiments only in laboratories'],ans:1,skill:'Scientific Method',fb:'Scientific community critically analyses new evidence. Knowledge changes when evidence is repeatedly verified and accepted — not immediately.'},
+        {q:'A student dissolves sugar in hot water. This is an example of ___.',opts:['Evaporation','Filtration','Forming a solution','Forming a suspension'],ans:2,skill:'Elements/Mixtures',fb:'Sugar dissolves in water → solution formed. Both transparent and sugar is fully dissolved.'},
+        {q:'How is NEWater produced in Singapore?',opts:['Distillation only','Filtration and evaporation','Microfiltration, reverse osmosis and ultraviolet disinfection','Magnetic attraction'],ans:2,skill:'Separation',fb:'NEWater: 3 steps — (1) Microfiltration, (2) Reverse osmosis, (3) UV disinfection.'},
+        {q:'Which correctly identifies the residue in filtration?',opts:['The liquid that passes through','The solid left on the filter paper','The dissolved substance','The solvent'],ans:1,skill:'Separation',fb:'Residue = solid left on filter paper. Filtrate = liquid that passes through.'},
+        {q:'Which material is most suitable for making a frying pan handle?',opts:['Metal — high thermal conductivity','Plastic — low thermal conductivity','Glass — low electrical conductivity','Ceramic — high melting point'],ans:1,skill:'Physical Properties',fb:'Frying pan handle needs to NOT conduct heat easily (so user does not get burned). Plastic has LOW thermal conductivity — safe for handle.'},
+        {q:'Substance X boiling point 78°C and Y boiling point 100°C. Which technique separates a mixture of X and Y?',opts:['Filtration','Magnetic attraction','Chromatography','Distillation'],ans:3,skill:'Separation',fb:'Different boiling points → distillation. X will vaporise first at 78°C and can be collected separately.'}
+      ],
+      secB:[
+        {stmt:'Measuring multiple times and averaging the results helps reduce the effect of unpredictable errors.',ans:true,reason:'Unpredictable (random) errors vary in direction and magnitude. Taking multiple readings and averaging causes these errors to partially cancel out, giving a more reliable result.'},
+        {stmt:'Elements and compounds are both types of pure substances.',ans:true,reason:'A pure substance contains only one type of particle (elements = one type of atom; compounds = one type of molecule). Both are pure substances, unlike mixtures which contain two or more substances.'},
+        {stmt:'Sand can be dissolved in water to form a solution.',ans:false,reason:'Sand is insoluble in water. When sand is added to water, it forms a SUSPENSION, not a solution. The sand particles do not dissolve and will settle at the bottom on standing.'},
+        {stmt:'The thermal conductivity of plastic is higher than that of metal.',ans:false,reason:'Metals have HIGHER thermal conductivity than plastics. Metals contain free electrons that transfer thermal energy efficiently. Plastics are poor conductors/good insulators.'},
+        {stmt:'A soluble substance can always be separated from its solvent using filtration.',ans:false,reason:'Filtration only removes INSOLUBLE solids. A dissolved substance passes through the filter paper along with the liquid. Evaporation or distillation is needed to separate a dissolved substance from its solvent.'}
+      ],
+      secC:[
+        {type:'exp',q:'Student heats salt solution in evaporating dish over Bunsen burner.\\n(a) Name the separation technique.\\n(b) What substance remains after heating? Explain why.\\n(c) State ONE safety precaution.\\n(d) Name ONE real-life application.',marks:8,scheme:'(a) Evaporation [1]\\n(b) Salt (sodium chloride) remains. Water has a much lower boiling point (100°C) and evaporates; salt remains as it has very high boiling point [2]\\n(c) Any ONE: wear goggles, do not heat to complete dryness (may cause spitting/cracking), use heat-proof mat, tie hair back [1]\\n(d) Production of table salt from seawater in salt pans [2]'},
+        {type:'exp',q:'Scientist investigates whether size of solute particles affects rate of dissolving.\\n(a) State IV and DV.\\n(b) State the hypothesis.\\n(c) What would scientist observe if hypothesis is correct?',marks:6,scheme:'(a) IV: Size of solute particles. DV: Rate of dissolving (time taken to dissolve) [2]\\n(b) If solute particle size decreases, rate of dissolving increases because smaller particles have greater surface area for contact with solvent [2]\\n(c) Smaller particles (powder) would dissolve faster than larger particles (chunks) — scientist would observe powder dissolving in shorter time [2]'},
+        {type:'class',q:'Explain differences between elements, compounds, mixtures using iron (Fe), water (H₂O) and seawater.\\n(a) Iron (Fe).\\n(b) Water (H₂O).',marks:6,scheme:'(a) Iron is an ELEMENT — it contains only one type of atom (iron atoms). It cannot be broken down into simpler substances by chemical means. [2]\\n(b) Water is a COMPOUND — it contains hydrogen and oxygen chemically combined in a fixed ratio (2:1 by atoms). It has different properties from its constituent elements (hydrogen and oxygen are gases; water is a liquid). [2]'}
+      ]
+    },
+    {
+      num:7, title:'Paper 7 — Errors & NEWater',
+      secA:[
+        {q:'Which of the following is the correct SI unit for volume?',opts:['Litre (l)','Millilitre (ml)','Cubic metre (m³)','Cubic centimetre (cm³)'],ans:2,skill:'Measurement',fb:'SI unit of volume = cubic metre (m³). Litre and millilitre are common but not SI. cm³ is derived.'},
+        {q:'A student uses a ruler and reads it at an angle. What type of error is introduced?',opts:['Zero error','Parallax error','Consistent error','Random error'],ans:1,skill:'Measurement',fb:'Reading at an angle (not perpendicular) = parallax error.'},
+        {q:'Pewter is a mixture of tin and other metals. Pewter is best classified as ___.',opts:['An element','A compound','A mixture','A solution'],ans:2,skill:'Elements/Mixtures',fb:'Pewter = alloy = mixture of metals physically combined, not chemically bonded.'},
+        {q:'Which of the following describes distillation?',opts:['Separating using a magnet','Filtering using filter paper','Boiling and condensing to separate substances with different boiling points','Dissolving and evaporating'],ans:2,skill:'Separation',fb:'Distillation = heat to boil (lower b.p. component evaporates) → cool to condense → collect distillate.'},
+        {q:'Which of the following is NOT a physical property of matter?',opts:['Melting point','Reactivity with water','Electrical conductivity','Density'],ans:1,skill:'Physical Properties',fb:'Reactivity with water is a CHEMICAL property (involves chemical change). Melting point, conductivity, density are physical properties (no chemical change).'},
+        {q:'In "Plants grow taller when given more water" — which is the dependent variable?',opts:['Amount of water given','Type of plant','Height of plant','Amount of sunlight'],ans:2,skill:'Scientific Method',fb:'DV = what is measured as a result. Height of plant is what is being measured. Amount of water = IV. Type of plant, sunlight = CVs.'},
+        {q:'Concrete is made from calcium carbonate, silicon dioxide and water. Concrete is a ___.',opts:['Mixture of compounds','Compound of elements','Pure element','Solution'],ans:0,skill:'Elements/Mixtures',fb:'Concrete is a MIXTURE of compounds (calcium carbonate, silicon dioxide, water). They are physically combined, not chemically bonded.'},
+        {q:'Which hazard symbol means a substance may cause harm to the environment?',opts:['Flammable','Environmental Toxicity','Corrosive','Acute Toxicity'],ans:1,skill:'Scientific Method',fb:'Environmental toxicity symbol = dead tree/fish image. Indicates harm to the environment.'},
+        {q:'A student mixes chalk with water and shines a torchlight. What is observed?',opts:['Light passes through fully — solution','Light does not pass through fully — suspension','Chalk dissolves — solution','Mixture changes colour — compound'],ans:1,skill:'Elements/Mixtures',fb:'Chalk is insoluble in water → suspension. Suspensions are cloudy — light cannot pass through fully (scatters). A solution would be transparent.'},
+        {q:'Which is an application of magnetic attraction in real life?',opts:['Producing NEWater','Removing iron from scrap metal in recycling','Separating ink colours','Preserving food'],ans:1,skill:'Separation',fb:'Magnetic attraction used in recycling to separate iron/steel from other scrap materials. NEWater = reverse osmosis. Ink = chromatography. Food = evaporation.'}
+      ],
+      secB:[
+        {stmt:'Plastic is a poor conductor of heat and electricity, making it useful for electrical insulation.',ans:true,reason:'Plastic has low thermal and electrical conductivity, meaning it does not allow heat or electricity to flow through easily. This makes it safe and effective for insulating electrical wires.'},
+        {stmt:'All metals are solids at room temperature.',ans:false,reason:'Mercury (Hg) is a metal that is liquid at room temperature (melting point: -39°C). Therefore, not all metals are solids at room temperature.'},
+        {stmt:'A compound has different properties from the elements it is made of.',ans:true,reason:'In a compound, elements are chemically combined, forming new chemical bonds that result in a substance with entirely different physical and chemical properties from its constituent elements (e.g., sodium and chlorine are both harmful, but NaCl = table salt = safe to eat).'},
+        {stmt:'The solubility of a solute depends only on the temperature of the solvent.',ans:false,reason:'Solubility is affected by temperature AND the nature of the solute and solvent. Some solutes dissolve better in certain solvents. Temperature is a major factor but not the only one.'},
+        {stmt:'When a magnet is used to separate iron filings from sulfur, this works because sulfur is also magnetic.',ans:false,reason:'This works because IRON filings are magnetic, not sulfur. Sulfur is non-magnetic. The magnet attracts only the iron filings, leaving the non-magnetic sulfur behind.'}
+      ],
+      secC:[
+        {type:'exp',q:'Substances: P (m.p. 1535°C, conducts, shiny=Iron), Q (m.p. -117°C, no conductivity=Ethanol), R (m.p. 801°C, no conductivity as solid=NaCl), S (m.p. 1710°C, no conductivity, transparent=Glass).\\n(a) Which is most likely a metal? TWO reasons.\\n(b) Which is liquid at room temperature (25°C)?\\n(c) Substance R used for cooking. Identify use and explain.',marks:10,scheme:'(a) P (Iron). Two of: conducts electricity / shiny / very high melting point [2]\\n(b) Q (Ethanol). Its melting point is -117°C, so at 25°C it is above its melting point → liquid [2]\\n(c) R = sodium chloride (common salt). Used as a food seasoning/preservative. It enhances flavour and draws out moisture from food [2]'},
+        {type:'sep',q:'Singapore\\'s NEWater production:\\n(a) Describe the THREE steps.\\n(b) Why is reverse osmosis used instead of distillation for desalination?\\n(c) State TWO of Singapore\\'s Four National Taps.',marks:10,scheme:'(a) Step 1: Microfiltration — removes large particles, bacteria, solids. Step 2: Reverse osmosis — removes dissolved salts, viruses. Step 3: UV disinfection — kills remaining microorganisms [3]\\n(b) Reverse osmosis uses less energy than distillation and does not require heating. Also produces water of same quality [1]\\n(c) Any two: Local catchment water / Imported water from Malaysia / NEWater / Desalinated water [2]'}
+      ]
+    },
+    {
+      num:8, title:'Paper 8 — Density Calculations',
+      secA:[
+        {q:'Which correctly defines a hypothesis?',opts:['A conclusion based on results','A proposed explanation for an observation that can be tested','A list of equipment used','A type of graph'],ans:1,skill:'Scientific Method',fb:'Hypothesis = proposed explanation/prediction that CAN BE TESTED through experiment. Conclusion comes AFTER results are analysed.'},
+        {q:'Which is an example of quantitative data?',opts:['The texture of the rock is rough','The solution is colourless','The temperature of the water is 45.2°C','The smell of the gas is pungent'],ans:2,skill:'Measurement',fb:'Quantitative = numerical with units. 45.2°C is a number with unit. Others are qualitative (descriptions).'},
+        {q:'An object sinks in water. This tells us that its density is ___.',opts:['Equal to water','Less than water','Greater than water','Zero'],ans:2,skill:'Density',fb:'Sinks → density > water density (1.0 g/cm³).'},
+        {q:'Which technique to obtain pure water from muddy water?',opts:['Evaporation','Distillation','Magnetic attraction','Filtration then distillation'],ans:3,skill:'Separation',fb:'Muddy water has both insoluble particles (sand/clay) and dissolved substances. Filter first (remove insoluble), then distil (remove dissolved salts) to get pure water.'},
+        {q:'The five main classes of materials are ceramic, metal, glass, fibres and ___.',opts:['Rubber','Plastic','Concrete','Wood'],ans:1,skill:'Physical Properties',fb:'Five main material classes in G2 syllabus: metals, ceramics, glass, plastics, fibres.'},
+        {q:'Which statement about lab safety is correct?',opts:['Chemicals can be touched with bare hands','Broken glassware should be disposed of in regular bin','Safety goggles should be worn when there is any risk of eye injury','Food and drinks are permitted in the laboratory'],ans:2,skill:'Scientific Method',fb:'Wear goggles for eye protection whenever there is risk. Never touch chemicals with bare hands, put broken glass in regular bins, or consume food/drink in lab.'},
+        {q:'Which is formed when carbon and oxygen react chemically?',opts:['Air','A mixture of carbon and oxygen','Carbon dioxide — a compound','A solution'],ans:2,skill:'Elements/Mixtures',fb:'Carbon + oxygen → carbon dioxide (CO₂) — a chemical reaction forms a new compound. This is a chemical change.'},
+        {q:'Separating iron from mixture of iron filings and sulfur using magnet is called ___.',opts:['Filtration','Distillation','Magnetic attraction','Chromatography'],ans:2,skill:'Separation',fb:'Magnetic attraction = using a magnet to separate magnetic materials (iron) from non-magnetic (sulfur).'},
+        {q:'Rate of dissolving of sugar in water can be increased by ___.',opts:['Cooling the water','Using larger sugar crystals','Reducing stirring','Crushing the sugar into smaller pieces'],ans:3,skill:'Separation',fb:'Smaller particles = more surface area = faster dissolving. Heating (not cooling), stirring (not reducing), and crushing increase rate.'},
+        {q:'In production of salt using evaporation, what provides energy to evaporate water?',opts:['Filtration','Sunlight or heat','Magnetic attraction','Condensation'],ans:1,skill:'Separation',fb:'Evaporation uses heat energy (from sunlight or Bunsen burner) to vaporise water, leaving solid salt.'}
+      ],
+      secB:[
+        {stmt:'Glass is a good conductor of electricity.',ans:false,reason:'Glass is a poor conductor (insulator) of electricity. It does not contain free electrons or ions that can carry electrical charge.'},
+        {stmt:'The dependent variable is the variable that the scientist measures or observes.',ans:true,reason:'The dependent variable (DV) is the variable that changes in response to the independent variable. It is what the scientist measures or observes to determine the outcome of the experiment.'},
+        {stmt:'Compounds can be separated into their constituent elements by physical means.',ans:false,reason:'Compounds are chemically bonded and can only be broken down by CHEMICAL means (e.g., electrolysis, heating). Physical means like filtering or evaporating cannot break chemical bonds.'},
+        {stmt:'An ice cube placed in warm water will float because ice is less dense than liquid water.',ans:true,reason:'Ice (density ~0.92 g/cm³) is less dense than liquid water (1.00 g/cm³). Therefore ice floats on water. This is why icebergs float.'},
+        {stmt:'Paper chromatography separates substances based on differences in their boiling points.',ans:false,reason:'Paper chromatography separates based on DIFFERENT SOLUBILITIES in the solvent. Substances that are more soluble travel further. Boiling points are used in distillation.'}
+      ],
+      secC:[
+        {type:'sep',q:'Mixture of sand, salt and iron filings. Obtain (i) iron filings, (ii) salt and (iii) clean water separately.\\n(a) Outline step-by-step procedure.\\n(b) Name the technique to separate salt from water at the end.\\n(c) Name the liquid obtained when salt solution is distilled.',marks:10,scheme:'(a) Step 1: Magnetic attraction — remove iron filings with magnet. Step 2: Add water — salt dissolves, sand does not. Step 3: Filtration — remove sand. Step 4: Distillation — collect pure water; salt remains. [4]\\n(b) Distillation [1]\\n(c) Distillate (pure water / distilled water) [1]'},
+        {type:'calc',q:'Wood block: mass 200g, dimensions 10cm × 5cm × 4cm.\\n(a) Calculate volume. Show working.\\n(b) Calculate density. Show working.\\n(c) Will wood block float or sink? Justify.',marks:10,scheme:'(a) V = l × w × h = 10 × 5 × 4 = 200 cm³ [2]\\n(b) ρ = m/V = 200/200 = 1.0 g/cm³ [2]\\n(c) The wood block is at the boundary — its density (1.0 g/cm³) equals water density (1.0 g/cm³). It would just float (suspended at surface). Accept: barely floats / floats with surface level with water. [2]'}
+      ]
+    },
+    {
+      num:9, title:'Paper 9 — Mixed Review',
+      secA:[
+        {q:'Which of the following is NOT an example of a physical property?',opts:['Density','Melting point','Colour','Flammability'],ans:3,skill:'Physical Properties',fb:'Flammability is a CHEMICAL property — it involves a chemical change (combustion). Physical properties (density, m.p., colour) do not involve chemical change.'},
+        {q:'What is the purpose of using a sinker when measuring volume of a floating object?',opts:['To make the object denser','To ensure the object is fully submerged','To dissolve the object','To increase the volume of water'],ans:1,skill:'Measurement',fb:'Sinker keeps floating object submerged so its full volume displaces water. Without sinker, partial submersion gives incorrect (smaller) volume reading.'},
+        {q:'Which best describes a solvent?',opts:['The substance that is dissolved','The substance in which the solute dissolves','The mixture formed when a solid dissolves','The solid that remains after filtration'],ans:1,skill:'Elements/Mixtures',fb:'Solvent = substance that DISSOLVES the solute. Solute = substance that is dissolved. Together they form a solution.'},
+        {q:'Which mixture can be separated using magnetic attraction?',opts:['Salt and sugar','Iron filings and sulfur','Chalk and water','Sand and salt'],ans:1,skill:'Separation',fb:'Iron is magnetic. Iron filings can be attracted by magnet, leaving non-magnetic sulfur behind.'},
+        {q:'Which is a property of fibres?',opts:['High electrical conductivity','Can be woven into fabrics','High thermal conductivity','Made from clay'],ans:1,skill:'Physical Properties',fb:'Fibres can be woven into fabrics (cotton, nylon, wool). Ceramics are made from clay. Fibres are poor conductors.'},
+        {q:'A student collects 3 readings: 12.5g, 12.6g, 12.5g. These are ___.',opts:['Accurate but not precise','Precise but not accurate','Both accurate and precise','Neither accurate nor precise'],ans:1,skill:'Measurement',fb:'Precise = readings close to EACH OTHER (12.5, 12.6, 12.5 are very close). Accurate = close to TRUE VALUE — we don\\'t know the true value here, so cannot confirm accuracy.'},
+        {q:'Distillation is used to ___.',opts:['Remove iron from scrap metal','Separate substances with different boiling points','Separate solids from liquids using a sieve','Identify coloured substances in a mixture'],ans:1,skill:'Separation',fb:'Distillation = separates based on different boiling points. Iron = magnetic attraction. Coloured substances = chromatography.'},
+        {q:'Which is NOT part of Singapore\\'s Four National Taps?',opts:['Water from local catchment','NEWater','Desalinated water','Water from underground wells'],ans:3,skill:'Separation',fb:'Singapore\\'s Four National Taps: Local catchment, Imported water (Malaysia), NEWater, Desalinated water. Underground wells is NOT one of the four.'},
+        {q:'In an experiment, the colour changing from blue to colourless is an example of ___.',opts:['Quantitative data','Qualitative data','A hypothesis','An independent variable'],ans:1,skill:'Measurement',fb:'Colour change is observed (described) but not measured numerically → qualitative data.'},
+        {q:'What error is introduced when weighing scale shows -5g when nothing is on it?',opts:['Parallax error','Unpredictable error','Zero error','Human error'],ans:2,skill:'Measurement',fb:'Zero error = instrument reads non-zero when it should read zero. Here -5g is the zero error.'}
+      ],
+      secB:[
+        {stmt:'The properties of a mixture are the same as the properties of its constituents.',ans:true,reason:'Unlike compounds, in a mixture each constituent retains its original properties. For example, in a mixture of iron filings and sulfur, iron is still magnetic and sulfur is still yellow.'},
+        {stmt:'Ceramic materials are generally good conductors of electricity.',ans:false,reason:'Ceramics are generally POOR conductors (insulators) of electricity. They do not contain free electrons. This is why ceramic insulators are used in electrical systems.'},
+        {stmt:'Evaporation is used to obtain a dissolved solid from its solution.',ans:true,reason:'When a solution is heated, the solvent (water) evaporates as water vapour. The dissolved solid cannot evaporate at these temperatures and remains behind as a solid.'},
+        {stmt:'In filtration, the liquid that passes through the filter paper is called the residue.',ans:false,reason:'The liquid that passes through the filter paper is called the FILTRATE. The residue is the solid that is retained on the filter paper.'},
+        {stmt:'A student who repeats an experiment three times is trying to improve the reliability of their results.',ans:true,reason:'Repeating an experiment and obtaining consistent results increases reliability. Averaging repeated results reduces the effect of unpredictable (random) errors, giving a more reliable value.'}
+      ],
+      secC:[
+        {type:'exp',q:'Student investigates how stirring affects rate of dissolving of salt in water at constant temperature.\\n(a) State IV, DV and one CV.\\n(b) Write a hypothesis.\\n(c) State expected result if hypothesis is correct.',marks:10,scheme:'(a) IV: Stirring rate / whether stirring occurs. DV: Time taken for salt to dissolve. CV: Amount of salt, amount of water, temperature of water [3]\\n(b) If stirring rate increases, rate of dissolving increases because stirring disperses dissolved salt particles away from the solute surface, allowing more fresh solvent to contact the solute [1]\\n(c) The stirred solution would dissolve all salt faster (in less time) compared to the unstirred solution [2]'},
+        {type:'sep',q:'Factory separates: copper pieces, sand and salt. Copper for recycling, salt for food, clean water for industrial use.\\n(a) Separate copper from sand and salt.\\n(b) Separate sand from salt and water.\\n(c) Obtain (i) solid salt and (ii) pure water from salt solution.',marks:10,scheme:'(a) Copper is not magnetic — use sorting/size sieving. Accept: copper can be picked out physically as it has distinct appearance and size. Not magnetic attraction. [2]\\n(b) Add water to dissolve salt; filter to separate sand (residue) from salt solution (filtrate). [2]\\n(c)(i) Evaporate the salt solution — water evaporates, solid salt remains. (ii) Distil the salt solution — collect water vapour as distillate. [2]'}
+      ]
+    },
+    {
+      num:10, title:'Paper 10 — Comprehensive Review',
+      secA:[
+        {q:'Which has high flexibility and can be coiled without breaking?',opts:['Glass rod','Wooden ruler','Plastic hose','Ceramic tile'],ans:2,skill:'Physical Properties',fb:'Plastic hose is flexible — can be bent and coiled without breaking. Glass and ceramic are brittle.'},
+        {q:'When a substance boils, it changes from ___.',opts:['Solid to liquid','Liquid to gas','Gas to liquid','Solid to gas'],ans:1,skill:'Physical Properties',fb:'Boiling = liquid → gas. Melting = solid → liquid. Condensing = gas → liquid.'},
+        {q:'Skin contact with a corrosive chemical can cause ___.',opts:['Fire and explosion','Breathing difficulties','Severe damage to skin and eyes','Plant growth'],ans:2,skill:'Scientific Method',fb:'Corrosive substances chemically damage body tissue — severe burns to skin and eyes.'},
+        {q:'Which correctly matches separation technique with its use?',opts:['Filtration — separate substances with different boiling points','Chromatography — separate insoluble solids from liquids','Distillation — separate a mixture of liquids with different boiling points','Evaporation — separate substances by magnetic properties'],ans:2,skill:'Separation',fb:'Distillation separates liquids by different boiling points. Filtration = particle size. Chromatography = solubility. Evaporation = evaporating liquid from solution.'},
+        {q:'Salt water is best described as ___.',opts:['A pure substance','An element','A compound','A mixture'],ans:3,skill:'Elements/Mixtures',fb:'Salt water = salt + water physically combined in variable proportions → mixture.'},
+        {q:'Which scientist demonstrated the sun is at the centre of the solar system using a telescope?',opts:['Ptolemy','Nicolaus Copernicus','Galileo Galilei','Marie Curie'],ans:2,skill:'Scientific Method',fb:'Galileo Galilei used a telescope to observe evidence supporting the heliocentric model. Copernicus proposed it, Galileo provided observational evidence.'},
+        {q:'A student measures height of a plant over 10 days. What type of data is collected?',opts:['Qualitative data','Quantitative data','Hypothesis','Inference'],ans:1,skill:'Measurement',fb:'Height measurements = numbers with units → quantitative data.'},
+        {q:'Which is a correct safety rule for electrical appliances?',opts:['Use devices with frayed insulation','Touch appliances with wet hands','Do not overload an electrical socket','Repair devices yourself if broken'],ans:2,skill:'Scientific Method',fb:'Never overload electrical sockets (fire risk). Frayed insulation = electric shock risk. Wet hands + electricity = fatal. Always get qualified person to repair.'},
+        {q:'Gold coin (density 19.3 g/cm³) placed in water (1.0 g/cm³). It will ___.',opts:['Float because it is shiny','Float because it is a metal','Sink because its density is greater than water\\'s','Dissolve in water'],ans:2,skill:'Density',fb:'19.3 g/cm³ >> 1.0 g/cm³ → sinks. All metals do not float — it depends on density vs liquid.'},
+        {q:'Correct order to separate iron filings, sand and salt from mixture?',opts:['Magnetic attraction → dissolve in water → filter → evaporate','Filter → magnetic attraction → dissolve → evaporate','Evaporate → filter → magnetic attraction','Dissolve → evaporate → magnetic attraction → filter'],ans:0,skill:'Separation',fb:'Step 1: Magnetic attraction (remove iron — must be done FIRST before adding water). Step 2: Dissolve in water (salt dissolves). Step 3: Filter (remove sand). Step 4: Evaporate (collect salt).'}
+      ],
+      secB:[
+        {stmt:'Plastics have a low melting point, making them unsuitable for use in high-temperature environments.',ans:true,reason:'Plastics generally have low melting points and soften or deform when heated. This makes them unsuitable for high-temperature applications such as in engines or near open flames.'},
+        {stmt:'The scientific community must analyse evidence thoroughly before accepting a new interpretation.',ans:true,reason:'Scientific knowledge must be rigorously tested and verified. The scientific community reviews evidence through peer review to ensure claims are reliable and reproducible before acceptance.'},
+        {stmt:'In distillation, the distillate is the substance that remains in the flask.',ans:false,reason:'The distillate is the substance that EVAPORATED and was then CONDENSED — collected in the receiving flask. The substance remaining in the original flask is the non-volatile component.'},
+        {stmt:'An element can be made up of two or more different types of atoms.',ans:false,reason:'An element contains only ONE type of atom. For example, oxygen (O₂) consists only of oxygen atoms, not different types. A compound contains two or more different types of atoms.'},
+        {stmt:'NEWater is ultra-clean recycled water that is safe for drinking and is well within WHO guidelines.',ans:true,reason:'NEWater undergoes three purification stages including reverse osmosis and UV disinfection, producing water that exceeds WHO drinking water standards. It is used for drinking and for industrial purposes requiring ultra-clean water.'}
+      ],
+      secC:[
+        {type:'sep',q:'Paper chromatography experiment with food colouring.\\n(a) Describe the procedure.\\n(b) Chromatogram shows 4 coloured spots. What does this tell us?\\n(c) Which spot represents dye most soluble in solvent? Explain.',marks:8,scheme:'(a) Draw a pencil line (starting line) on filter paper. Place a spot of food colouring on the line. Suspend paper in solvent so that solvent is BELOW starting line. Allow solvent to rise. Remove paper when solvent reaches near top. Mark solvent front. Allow to dry. [3]\\n(b) The food colouring is a mixture of at least 4 different pigments/dyes [1]\\n(c) The highest spot (nearest solvent front). Most soluble dye dissolves most readily in the solvent and is carried furthest. [2]'},
+        {type:'calc',q:'Metal block: mass 540g, dimensions 6cm × 5cm × 3cm. Steel = 8.05 g/cm³, Iron = 7.87 g/cm³, Gold = 19.3 g/cm³.\\n(a) Calculate volume.\\n(b) Calculate density.\\n(c) Identify the likely metal.',marks:6,scheme:'(a) V = 6 × 5 × 3 = 90 cm³ [1]\\n(b) ρ = 540/90 = 6.0 g/cm³ [2]\\n(c) The density (6.0 g/cm³) is less than steel (8.05) and iron (7.87). It could be a lighter metal such as aluminium (~2.7) or zinc (~7.1). Accept: not iron, steel, or gold. [1]'},
+        {type:'exp',q:'Physical properties influence sustainable living choices.\\n(a) Compare cloth bags and plastic bags using TWO physical properties.\\n(b) State why cloth bags are more environmentally sustainable.',marks:6,scheme:'(a) Any two comparisons with specific properties: Flexibility: both flexible. Strength: cloth may be less strong but adequate for shopping. Durability: cloth bags last longer. Biodegradability is a physical property — cloth biodegrades; plastic does not. [2]\\n(b) Cloth bags are biodegradable (break down naturally), reusable many times (reducing waste), and made from natural sustainable materials [2]'}
+
+      ]
+    },
+    {
+      num:11, title:'Paper 11 — Physical Properties & Classification',
+      secA:[
+        {q:'Which physical property describes a material\\'s ability to bend without breaking and return to its original shape?',opts:['Hardness','Flexibility','Strength','Ductility'],ans:1,fb:'Flexibility = ability to bend without breaking and return to original shape. Hardness = resist scratching. Strength = support load.',skill:'Physical Properties'},
+        {q:'A material has a melting point of 1085°C and conducts electricity well. It is most likely a:',opts:['Ceramic','Plastic','Metal','Fibre'],ans:2,fb:'Metals have high melting points and good electrical conductivity. Plastics and fibres have low melting points. Ceramics don\\'t conduct electricity.',skill:'Physical Properties'},
+        {q:'Which instrument measures the mass of a substance?',opts:['Measuring cylinder','Electronic balance','Vernier callipers','Thermometer'],ans:1,fb:'Electronic balance measures mass. Measuring cylinder measures volume. Vernier callipers measure length. Thermometer measures temperature.',skill:'Measurement'},
+        {q:'The SI unit of volume is:',opts:['cm³','litre','m³','mL'],ans:2,fb:'SI unit of volume is cubic metre (m³). cm³ and mL are commonly used but are not SI units.',skill:'Measurement'},
+        {q:'A wooden block (density 0.6 g/cm³) is placed in salt water (density 1.2 g/cm³). The block will:',opts:['Sink to the bottom','Float on the surface','Dissolve in the water','Remain suspended in the middle'],ans:1,fb:'The block density (0.6) is less than salt water (1.2), so it floats. Objects float when their density is less than the liquid.',skill:'Density'},
+        {q:'Which property is investigated when we test how easily a material can be scratched?',opts:['Strength','Flexibility','Hardness','Malleability'],ans:2,fb:'Hardness is the resistance to wear, tear and scratching. A harder material scratches a softer one.',skill:'Physical Properties'},
+        {q:'Glass is best classified as:',opts:['Metal — good conductor','Ceramic-like — transparent, poor conductor, brittle','Plastic — flexible, low melting point','Fibre — can be woven'],ans:1,fb:'Glass: transparent, poor electrical conductor, poor thermal conductor, brittle, high melting point — shares properties with ceramics.',skill:'Physical Properties'},
+        {q:'A student reads a measuring cylinder with their eye ABOVE the water level. This causes a:',opts:['Zero error','Parallax error that makes reading too high','Parallax error that makes reading too low','No error — eye position doesn\\'t matter'],ans:2,fb:'Parallax error: eye must be level with the meniscus. Reading from above makes the reading appear lower than actual value.',skill:'Measurement'},
+        {q:'To find the volume of an irregular stone using water displacement, the student should:',opts:['Weigh the stone on a balance','Measure the stone with a ruler','Record initial and final water levels in measuring cylinder','Measure the stone with callipers'],ans:2,fb:'Volume displacement: V = final water level - initial water level. This works for irregular objects that cannot be measured with rulers.',skill:'Measurement'},
+        {q:'Which combination of properties makes copper most suitable for electrical wiring?',opts:['High melting point and hard','Good conductor and ductile (can be drawn into wires)','Low density and flexible','Transparent and strong'],ans:1,fb:'Copper: excellent electrical conductor + ductile (drawn into thin wires without breaking) = ideal for electrical wiring.',skill:'Physical Properties'}
+      ],
+      secB:[
+        {stmt:'The hardness of a material is its ability to support a heavy load without changing shape permanently.',ans:false,reason:'Hardness is the resistance to wear, tear and scratching. The ability to support a heavy load without changing shape permanently is STRENGTH.',skill:'Physical Properties'},
+        {stmt:'Density is defined as mass per unit volume.',ans:true,reason:'Density = Mass ÷ Volume. The SI unit is kg/m³, also expressed as g/cm³. This is the standard scientific definition.',skill:'Density'},
+        {stmt:'A vernier calliper can measure lengths to the nearest 0.1 cm.',ans:false,reason:'A vernier calliper measures to 0.01 cm (0.1 mm) precision. A metre rule measures to 0.1 cm. The vernier calliper is more precise.',skill:'Measurement'},
+        {stmt:'When a substance is heated to its boiling point, the temperature continues to rise until all liquid has evaporated.',ans:false,reason:'At boiling point, temperature remains constant. Energy absorbed breaks intermolecular bonds to change state, not raise temperature. Temperature only rises again after all liquid has evaporated.',skill:'Physical Properties'},
+        {stmt:'Plastics are generally poor conductors of both heat and electricity.',ans:true,reason:'Plastics have low electrical and thermal conductivity because they have no free electrons to carry charge or thermal energy. This makes them useful as insulators.',skill:'Physical Properties'}
+      ],
+      secC:[
+        {type:'structured',q:'A student measures the density of an irregular stone.\\n(a) The mass of the stone is 84 g. The initial water level in the measuring cylinder is 40 cm³. After submerging the stone, the level rises to 50 cm³.\\n    (i) Calculate the volume of the stone. [1]\\n    (ii) Calculate the density of the stone. Show your working and give units. [2]\\n(b) The student forgot to zero the balance before measuring. It showed –0.5 g with nothing on it. What is the actual mass of the stone if the balance reads 84 g? [1]\\n(c) Why must the stone be fully submerged when using water displacement? [1]',marks:12,
+         scheme:'(a)(i) Volume = 50 – 40 = 10 cm³ [1]\\n(a)(ii) Density = mass ÷ volume = 84 ÷ 10 = 8.4 g/cm³ [1 for working, 1 for correct answer with units]\\n(b) Zero error = –0.5 g, so actual mass = 84 – (–0.5) = 84.5 g [1]\\n(c) If not fully submerged, the volume displaced equals only the submerged portion, not the total volume of the stone — giving an incorrect (lower) volume reading. [1]'},
+        {type:'structured',q:'The table shows four materials and their properties:\\n\\nMaterial | Melting point (°C) | Conducts electricity | Flexible\\nP        | –40                | Yes                 | Yes\\nQ        | 1250               | Yes                 | No\\nR        | 40                 | No                  | Yes\\nS        | 230                | No                  | No\\n\\n(a) Which material is most suitable for making the prongs (metal pins) of an electrical plug? Explain why. [2]\\n(b) Which material is most suitable for making the casing (outer cover) of the plug? Explain why. [2]',marks:8,
+         scheme:'(a) Material Q [1] — it has a high melting point (withstands heat), conducts electricity (allows current to flow through prongs), meets requirements for plug prongs [1]\\n(b) Material S or R [1] — it does not conduct electricity (acts as insulator to protect users from electric shock), has suitable melting point [1]'}
+      ]
+    },
+    {
+      num:12, title:'Paper 12 — Elements, Compounds & Mixtures',
+      secA:[
+        {q:'Water (H₂O) is a compound because:',opts:['It is liquid at room temperature','Two different elements are chemically combined in a fixed ratio','It can be separated by filtration','It contains hydrogen atoms'],ans:1,fb:'Compound: two or more DIFFERENT elements CHEMICALLY COMBINED in FIXED proportions. H₂O always has 2H:1O by atoms.',skill:'Elements/Mixtures'},
+        {q:'Which of the following is an element?',opts:['Carbon dioxide (CO₂)','Common salt (NaCl)','Copper (Cu)','Air'],ans:2,fb:'Copper (Cu) is an element — only one type of atom. CO₂ and NaCl are compounds. Air is a mixture.',skill:'Elements/Mixtures'},
+        {q:'A mixture differs from a compound because a mixture:',opts:['Has a fixed boiling point','Has components chemically joined','Can be separated by physical methods','Is always transparent'],ans:2,fb:'Mixtures are physically combined and can be separated by physical methods (filtration, evaporation, distillation). Compounds are chemically combined and cannot be easily separated.',skill:'Elements/Mixtures'},
+        {q:'The Periodic Table arranges elements so that elements in the same GROUP have:',opts:['The same mass','Similar chemical properties','The same number of atoms','The same physical state'],ans:1,fb:'Elements in the same group (vertical column) have similar chemical properties. Periods are horizontal rows where properties change from metals to non-metals.',skill:'Elements/Mixtures'},
+        {q:'When iron filings and sulfur powder are MIXED together, the properties of the mixture:',opts:['Are completely different from both iron and sulfur','Are the same as those of the compound iron sulfide','Still show properties of both iron AND sulfur','Cannot be determined'],ans:2,fb:'In a mixture, each component retains its own properties. Iron is still magnetic; sulfur is still yellow. This is different from the compound FeS which has new properties.',skill:'Elements/Mixtures'},
+        {q:'Carbon dioxide (CO₂) has a fixed ratio of carbon to oxygen of:',opts:['1:1','1:2','2:1','3:1'],ans:1,fb:'CO₂ contains 1 carbon atom and 2 oxygen atoms — ratio 1:2. This fixed ratio is characteristic of all compounds.',skill:'Elements/Mixtures'},
+        {q:'Which of the following is a MIXTURE?',opts:['Pure water','Table salt (NaCl)','Stainless steel (iron + carbon + other metals)','Carbon dioxide gas'],ans:2,fb:'Stainless steel is an alloy — a solid mixture of metals physically combined. Pure water and NaCl are pure substances (compound). CO₂ is a compound.',skill:'Elements/Mixtures'},
+        {q:'Which statement about compounds is CORRECT?',opts:['Compounds have the same properties as their constituent elements','Compounds have fixed proportions by mass','Compounds can be separated by physical means','Compounds are formed by physical changes'],ans:1,fb:'Compounds: fixed proportions by mass, formed by chemical reactions, different properties from constituent elements, cannot be separated by physical means.',skill:'Elements/Mixtures'},
+        {q:'The chemical symbol for Sodium is:',opts:['S','So','Na','N'],ans:2,fb:'Na = Sodium (from Latin Natrium). S = Sulfur. N = Nitrogen. Common traps: Ca (calcium) not C (carbon); Fe (iron) not Ir.',skill:'Elements/Mixtures'},
+        {q:'Which of the following substances contains only ONE type of element?',opts:['Carbon dioxide','Oxygen gas (O₂)','Salt water','Bronze (copper + tin)'],ans:1,fb:'Oxygen gas (O₂) contains only oxygen atoms — it is an element. CO₂ is a compound. Salt water is a mixture. Bronze is a mixture (alloy).',skill:'Elements/Mixtures'}
+      ],
+      secB:[
+        {stmt:'A compound can be separated into its elements by physical methods such as filtration.',ans:false,reason:'Compounds are chemically combined and can only be separated by chemical means (e.g. electrolysis, chemical reactions). Physical methods like filtration only separate mixtures.',skill:'Elements/Mixtures'},
+        {stmt:'Elements in the same period of the Periodic Table have similar chemical properties.',ans:false,reason:'Elements in the same GROUP (vertical column) have similar chemical properties. Elements in the same PERIOD (horizontal row) change gradually from metallic to non-metallic properties.',skill:'Elements/Mixtures'},
+        {stmt:'Air is a mixture because its components are physically combined and present in variable proportions.',ans:true,reason:'Air contains N₂ (~78%), O₂ (~21%), and small amounts of other gases — these proportions vary slightly with location and altitude. The components retain their individual properties and can be separated physically.',skill:'Elements/Mixtures'},
+        {stmt:'When magnesium burns in oxygen, a compound is formed that has the same properties as magnesium.',ans:false,reason:'When a compound forms, its properties are DIFFERENT from those of the constituent elements. Magnesium oxide (MgO) is a white solid, unlike shiny silver magnesium or colourless oxygen gas.',skill:'Elements/Mixtures'},
+        {stmt:'Sodium chloride is a compound because sodium and chlorine are chemically combined in a fixed ratio of 1:1.',ans:true,reason:'NaCl = sodium + chlorine in 1:1 atomic ratio. They are chemically combined (ionic bond), forming a compound with properties different from either element (reactive sodium metal + toxic chlorine gas).',skill:'Elements/Mixtures'}
+      ],
+      secC:[
+        {type:'structured',q:'The diagram represents particles in three substances P, Q and R.\\nP: All same-type particles, spread far apart\\nQ: Two different types of particles, bonded in pairs, regular pattern\\nR: Three types of particles mixed together, random arrangement\\n\\n(a) Identify each substance as an element, compound or mixture. Give a reason for EACH answer. [3]\\n(b) State ONE difference in properties between a compound and a mixture made of the same substances. [1]\\n(c) Give one example of a real compound made of only hydrogen and oxygen. [1]',marks:10,
+         scheme:'(a) P = Element [0.5] — only one type of particle present [0.5]\\n    Q = Compound [0.5] — two different types of particles chemically combined in fixed ratio [0.5]\\n    R = Mixture [0.5] — three types of particles physically combined, random arrangement [0.5]\\n(b) Any TWO of: compound has fixed proportions / specific melting and boiling point / cannot be separated by physical means / different properties from elements. [1 each, max 2]\\n(c) Water (H₂O) or hydrogen peroxide (H₂O₂) [1]'},
+        {type:'structured',q:'A student has a mixture of iron filings and sulfur powder.\\n(a) Suggest ONE physical method to separate iron filings from sulfur. Explain how it works. [2]\\n(b) When iron and sulfur are heated together, a grey-black solid (iron sulfide) is formed. State TWO ways in which iron sulfide is DIFFERENT from the original mixture. [2]\\n(c) Can iron sulfide be separated back into iron and sulfur using a magnet? Explain. [1]',marks:10,
+         scheme:'(a) Use a magnet [1] — iron is magnetic and is attracted to the magnet while sulfur is not, so iron is pulled away from the sulfur [1]\\n(b) Any TWO: Iron sulfide cannot be separated by a magnet (iron no longer magnetic) / iron sulfide is grey-black while the mixture shows yellow (sulfur) and silver (iron) / iron sulfide has a fixed composition while the mixture can be any ratio / iron sulfide has a different melting point from either element [2]\\n(c) No [0.5] — because in iron sulfide, iron is chemically combined with sulfur. It is no longer in its elemental form and cannot be attracted to a magnet [0.5]'}
+      ]
+    },
+    {
+      num:13, title:'Paper 13 — Solutions, Suspensions & Density',
+      secA:[
+        {q:'Which of the following is a SOLUTION?',opts:['Muddy water','Sand in water','Salt dissolved in water','Flour mixed in water'],ans:2,fb:'Salt water = solution: solute fully dissolved, transparent, particles cannot be seen, does not settle. Muddy water and flour in water are suspensions (cloudy, settle).',skill:'Elements/Mixtures'},
+        {q:'The substance that dissolves in a solution is called the:',opts:['Solvent','Solute','Solution','Suspension'],ans:1,fb:'Solute = substance that dissolves. Solvent = substance doing the dissolving. Solution = the mixture formed.',skill:'Elements/Mixtures'},
+        {q:'Which factor does NOT affect the rate of dissolving?',opts:['Temperature of solvent','Particle size of solute','Colour of the solute','Amount of stirring'],ans:2,fb:'Colour does not affect dissolving rate. Factors that DO affect rate: temperature (higher = faster), particle size (smaller = faster), stirring (more = faster).',skill:'Elements/Mixtures'},
+        {q:'A suspension differs from a solution because a suspension:',opts:['Is always coloured','Contains only one substance','Has particles that settle on standing and cannot pass through filter paper','Is always hotter than a solution'],ans:2,fb:'Suspension: insoluble particles settle on standing, light cannot fully pass through, particles left on filter paper (residue). Solution: transparent, particles stay dissolved, pass through filter.',skill:'Elements/Mixtures'},
+        {q:'Which of the following CANNOT be used to increase the density of a liquid?',opts:['Adding dissolved salt','Heating the liquid','Cooling the liquid','Adding more of the same liquid'],ans:3,fb:'Adding more of the same liquid does not change density (intensive property). Adding salt increases density. Heating usually decreases density (expansion). Cooling usually increases density (contraction).',skill:'Density'},
+        {q:'The density of iron is 7.87 g/cm³. A piece of iron has mass 78.7 g. What is its volume?',opts:['5 cm³','10 cm³','620 cm³','0.1 cm³'],ans:1,fb:'V = m ÷ ρ = 78.7 ÷ 7.87 = 10 cm³. Always: V = m/ρ, m = ρV, ρ = m/V.',skill:'Density'},
+        {q:'Which describes a concentrated solution?',opts:['A solution with a large volume','A solution with a high proportion of dissolved solute','A solution that is very hot','A solution with large solute particles'],ans:1,fb:'Concentrated = high proportion of solute per volume of solvent. Dilute = low proportion. Concentration is independent of temperature or particle size.',skill:'Elements/Mixtures'},
+        {q:'Three liquids of densities 0.8, 1.0 and 1.4 g/cm³ are poured into a container. They do not mix. Which is at the bottom?',opts:['The 0.8 g/cm³ liquid','The 1.0 g/cm³ liquid','The 1.4 g/cm³ liquid','They mix evenly'],ans:2,fb:'Densest liquid sinks to bottom. Order (bottom to top): 1.4 → 1.0 → 0.8. Densest = bottom, least dense = top.',skill:'Density'},
+        {q:'Which statement about solubility is correct?',opts:['All solids dissolve in all solvents','Solubility depends only on temperature','Solubility depends on both the type of solute and type of solvent','Solubility is the same as rate of dissolving'],ans:2,fb:'Solubility depends on: type of solute + type of solvent. Rate of dissolving is different from solubility. Not all substances dissolve in all solvents.',skill:'Elements/Mixtures'},
+        {q:'NEWater in Singapore is produced using which process?',opts:['Filtration only','Evaporation and condensation','Microfiltration, reverse osmosis, then UV disinfection','Magnetic separation then distillation'],ans:2,fb:'NEWater: 3 steps — (1) Microfiltration removes solids (2) Reverse osmosis removes dissolved impurities (3) UV disinfection kills microorganisms.',skill:'Elements/Mixtures'}
+      ],
+      secB:[
+        {stmt:'A solution is a type of mixture in which the solute particles can be seen with the naked eye.',ans:false,reason:'In a solution, solute particles are fully dissolved and CANNOT be seen. A solution is clear and transparent. Suspensions have visible particles that may settle.',skill:'Elements/Mixtures'},
+        {stmt:'The solubility of most solid substances increases as the temperature of the solvent increases.',ans:true,reason:'Higher temperature gives solvent particles more energy, allowing them to interact more with solute particles and dissolve them faster. Generally, solubility of solids increases with temperature.',skill:'Elements/Mixtures'},
+        {stmt:'Crushing a solid into smaller pieces increases its solubility in a given solvent.',ans:false,reason:'Crushing increases the RATE OF DISSOLVING by increasing surface area — more solute particles are exposed to the solvent. Solubility (maximum amount that can dissolve) is NOT changed.',skill:'Elements/Mixtures'},
+        {stmt:'An object will float in a liquid if its density is less than the density of the liquid.',ans:true,reason:'Float = object density LESS THAN liquid density. Sink = object density GREATER THAN liquid density. Equal densities = suspended (neither float nor sink).',skill:'Density'},
+        {stmt:'A suspension is transparent and allows light to pass through fully.',ans:false,reason:'A suspension is CLOUDY (turbid) and does NOT allow light to pass through fully because insoluble particles scatter light. A solution is transparent and allows light to pass through fully.',skill:'Elements/Mixtures'}
+      ],
+      secC:[
+        {type:'structured',q:'A student dissolves different amounts of sugar in 100 cm³ of water at 25°C and records when no more sugar dissolves.\\n\\n(a) Define solubility. [1]\\n(b) The student found that 204 g of sugar dissolved completely in 100 cm³ of water at 25°C but 205 g did not fully dissolve. What is the approximate solubility of sugar at 25°C in g per 100 cm³ of water? [1]\\n(c) State THREE factors that affect the rate at which sugar dissolves in water. [3]',marks:10,
+         scheme:'(a) Solubility is the maximum amount of solute that can dissolve in a fixed volume of solvent at a specific temperature [1]\\n(b) Approximately 204 g per 100 cm³ of water [1]\\n(c) Any THREE of: temperature of solvent (higher = faster) / particle size of solute (smaller = faster) / stirring / amount of solvent [1 each, max 3]'},
+        {type:'structured',q:'(a) State the difference between a solution and a suspension. [2]\\n(b) A student pours dirty river water through filter paper.\\n    (i) What is the liquid that passes through called? [1]\\n    (ii) What is the solid left on the filter paper called? [1]\\n    (iii) Is the liquid that passes through (filtrate) a solution, suspension or pure water? Explain. [2]',marks:10,
+         scheme:'(a) Solution: solute fully dissolved, clear/transparent, particles cannot be seen, does not settle [1]\\n    Suspension: insoluble particles, cloudy, particles settle on standing [1]\\n(b)(i) Filtrate [1]\\n(b)(ii) Residue [1]\\n(b)(iii) Solution (or suspension/mixture) [1] — The filtrate is a solution because the dissolved substances (solutes like salts and minerals) pass through the filter paper along with the water. It may not be pure water as dissolved substances remain [1]'}
+      ]
+    },
+    {
+      num:14, title:'Paper 14 — Measurement & Density Calculations',
+      secA:[
+        {q:'Which of the following is the correct SI unit for density?',opts:['g/cm³','kg/m³','g/m³','kg/cm³'],ans:1,fb:'SI unit of density = kg/m³ (using SI units: kg for mass, m³ for volume). g/cm³ is also accepted in G2 Science.',skill:'Density'},
+        {q:'A student measures an empty beaker: 150 g. With liquid: 350 g. Volume of liquid = 100 cm³. The density of the liquid is:',opts:['2 g/cm³','3.5 g/cm³','1.5 g/cm³','0.5 g/cm³'],ans:0,fb:'Mass of liquid = 350 – 150 = 200 g. Density = 200 ÷ 100 = 2 g/cm³.',skill:'Density'},
+        {q:'What type of error occurs when a balance shows 0.3 g with nothing on it?',opts:['Parallax error','Random error','Zero error','Systematic error'],ans:2,fb:'Zero error: instrument shows non-zero reading when measuring nothing. Must subtract zero reading from all measurements to correct.',skill:'Measurement'},
+        {q:'When measuring the volume of liquid in a measuring cylinder, the eye should be:',opts:['Above the meniscus','Below the meniscus','Level with the BOTTOM of the meniscus','Level with the TOP of the meniscus'],ans:2,fb:'Eye must be LEVEL with the BOTTOM of the meniscus (for concave liquids like water). Reading from above = too low reading. Reading from below = too high reading.',skill:'Measurement'},
+        {q:'A cuboid has dimensions 4 cm × 5 cm × 2 cm and a mass of 120 g. Its density is:',opts:['3 g/cm³','6 g/cm³','0.33 g/cm³','15 g/cm³'],ans:0,fb:'Volume = 4 × 5 × 2 = 40 cm³. Density = 120 ÷ 40 = 3 g/cm³.',skill:'Density'},
+        {q:'To reduce the effect of random errors in an experiment, a student should:',opts:['Use a more precise instrument','Repeat the experiment and take the average','Zero the balance before each use','Keep all variables constant'],ans:1,fb:'Averaging multiple readings reduces random (unpredictable) errors. More precise instruments reduce the size of errors. Zeroing fixes zero error (not random error).',skill:'Measurement'},
+        {q:'Which apparatus is used to measure the volume of an irregular solid?',opts:['Electronic balance','Ruler','Measuring cylinder with water displacement','Thermometer'],ans:2,fb:'Irregular solids: use water displacement in measuring cylinder. V = final level – initial level. Rulers only work for regular shapes.',skill:'Measurement'},
+        {q:'A piece of metal sinks in water (density 1.0 g/cm³) but floats in mercury (density 13.6 g/cm³). The density of the metal is:',opts:['Less than 1.0 g/cm³','Between 1.0 and 13.6 g/cm³','Greater than 13.6 g/cm³','Exactly 1.0 g/cm³'],ans:1,fb:'Sinks in water → density > 1.0. Floats in mercury → density < 13.6. Therefore: 1.0 < density < 13.6 g/cm³.',skill:'Density'},
+        {q:'100 millilitres is equal to:',opts:['1 cm³','10 cm³','100 cm³','1000 cm³'],ans:2,fb:'1 mL = 1 cm³. Therefore 100 mL = 100 cm³. Also: 1 L = 1000 cm³ = 1000 mL.',skill:'Measurement'},
+        {q:'The Vernier calliper measures to a precision of:',opts:['1 cm','0.1 cm','0.01 cm','0.001 cm'],ans:2,fb:'Vernier calliper precision = 0.01 cm (0.1 mm). Metre rule = 0.1 cm (1 mm). Micrometer = 0.001 cm (0.01 mm).',skill:'Measurement'}
+      ],
+      secB:[
+        {stmt:'Qualitative observations are observations that involve measurements with numbers and units.',ans:false,reason:'Quantitative observations involve numbers and units (e.g. mass = 50 g). Qualitative observations are descriptive (e.g. colour, smell, texture) and do not involve numerical measurements.',skill:'Measurement'},
+        {stmt:'The density of a substance changes when it is cut into smaller pieces.',ans:false,reason:'Density is an intensive property — it does not change with the amount or size of the sample. Cutting changes mass AND volume equally, so density (mass/volume) remains the same.',skill:'Density'},
+        {stmt:'Ice floats on water because ice is less dense than liquid water.',ans:true,reason:'Ice (0.92 g/cm³) is less dense than liquid water (1.00 g/cm³). This is because the crystal structure of ice has more space between molecules than liquid water.',skill:'Density'},
+        {stmt:'A zero error can be eliminated by repeating the experiment three times and averaging the results.',ans:false,reason:'Averaging eliminates RANDOM errors. A zero error is a SYSTEMATIC error that shifts ALL readings by the same amount. It must be corrected by subtracting the zero reading from every measurement.',skill:'Measurement'},
+        {stmt:'When two liquids of different densities that do not mix are poured together, the denser liquid will always be at the bottom.',ans:true,reason:'A denser liquid has more mass per unit volume, so gravity pulls it to the bottom. The less dense liquid floats on top. This is why oil (density ~0.9 g/cm³) floats on water (1.0 g/cm³).',skill:'Density'}
+      ],
+      secC:[
+        {type:'structured',q:'A student carries out an experiment to find the density of a stone.\\n\\nStep 1: Mass of stone = 63 g\\nStep 2: Volume of water in measuring cylinder = 25.0 cm³\\nStep 3: Stone fully submerged — new reading = 46.0 cm³\\n\\n(a) Calculate the volume of the stone. [1]\\n(b) Calculate the density of the stone. Show working and units. [2]\\n(c) Will the stone float or sink in seawater of density 1.03 g/cm³? Explain. [2]',marks:12,
+         scheme:'(a) Volume = 46.0 – 25.0 = 21.0 cm³ [1]\\n(b) Density = 63 ÷ 21.0 = 3.0 g/cm³ [1 for working][1 for answer with units]\\n(c) The stone sinks in seawater [1] because its density (3.0 g/cm³) is greater than the density of seawater (1.03 g/cm³). An object sinks when its density exceeds that of the liquid [1]'},
+        {type:'structured',q:'The table below shows the densities of four liquids:\\nLiquid A: 0.80 g/cm³ | Liquid B: 1.00 g/cm³ | Liquid C: 1.26 g/cm³ | Liquid D: 13.6 g/cm³\\n\\n(a) If all four liquids are poured into the same container and do not mix, list them in order from top to bottom. [1]\\n(b) An object of density 1.05 g/cm³ is placed in the container. In which liquid(s) will it float? [1]\\n(c) An experiment shows that 50 cm³ of Liquid C has a mass of 63 g. Is this consistent with the density given in the table? Show your calculation. [2]',marks:8,
+         scheme:'(a) Top to bottom: A (0.80), B (1.00), C (1.26), D (13.6) — least dense to most dense [1]\\n(b) The object (1.05) floats on Liquid C (1.26) and Liquid D (13.6) because its density is less than these liquids. It sinks in A (0.80) and B (1.00). So it floats on/in C and D [1]\\n(c) Density = 63 ÷ 50 = 1.26 g/cm³ [1]. Yes, this is consistent with the given value of 1.26 g/cm³ [1]'}
+      ]
+    },
+    {
+      num:15, title:'Paper 15 — Chemical Composition Deep Dive',
+      secA:[
+        {q:'Which of the following groups of substances are ALL elements?',opts:['Water, oxygen, sulfur','Copper, oxygen, nitrogen','Salt, iron, helium','Carbon dioxide, gold, neon'],ans:1,fb:'Copper (Cu), Oxygen (O₂), Nitrogen (N₂) are all elements — each has only one type of atom. Water and salt are compounds. CO₂ is a compound.',skill:'Elements/Mixtures'},
+        {q:'When burning sulfur in oxygen forms sulfur dioxide, this is:',opts:['A physical change forming a mixture','A chemical change forming a compound','A physical change forming an element','A chemical change forming a mixture'],ans:1,fb:'Burning is a chemical reaction. S + O₂ → SO₂ (sulfur dioxide) — a new substance (compound) is formed with different properties.',skill:'Elements/Mixtures'},
+        {q:'Which statement correctly describes a COMPOUND?',opts:['Made of one type of atom only','Made of two or more elements physically combined','Made of two or more elements chemically combined in fixed proportions','Made of elements in variable proportions'],ans:2,fb:'Compound = two or more elements CHEMICALLY COMBINED in FIXED PROPORTIONS by mass. Key words: chemically, fixed.',skill:'Elements/Mixtures'},
+        {q:'Brass is an alloy made of copper and zinc. Brass is best classified as:',opts:['An element','A compound','A mixture','A solution only'],ans:2,fb:'Brass = copper + zinc PHYSICALLY combined (alloy = solid mixture of metals). Components retain some individual properties and are in variable proportions.',skill:'Elements/Mixtures'},
+        {q:'Mercury oxide (HgO) decomposes when heated to form mercury and oxygen. This shows that:',opts:['Mercury oxide is a mixture','Mercury oxide is an element','Mercury oxide is a compound containing mercury and oxygen','Mercury is a non-metal'],ans:2,fb:'Decomposition by heating proves HgO is a compound. Compounds can be broken down by chemical means to their constituent elements. Mixtures would require only physical separation.',skill:'Elements/Mixtures'},
+        {q:'In the Periodic Table, what is a GROUP?',opts:['A horizontal row of elements','A vertical column of elements with similar properties','A group of metals only','The number of protons in an element'],ans:1,fb:'Group = vertical column. Elements in same group have similar chemical properties. Period = horizontal row (properties change L to R from metallic to non-metallic).',skill:'Elements/Mixtures'},
+        {q:'Which element has the chemical symbol Fe?',opts:['Fluorine','Fluorite','Fermium','Iron'],ans:3,fb:'Fe = Iron (from Latin Ferrum). Common traps: F = Fluorine, Fr = Francium, Fe = Iron, Fm = Fermium.',skill:'Elements/Mixtures'},
+        {q:'Milk is best classified as:',opts:['An element','A compound','A pure substance','A mixture'],ans:3,fb:'Milk is a mixture containing water, fats, proteins, sugars, minerals — multiple substances physically combined. It has no fixed composition.',skill:'Elements/Mixtures'},
+        {q:'Which of the following statements about elements is INCORRECT?',opts:['Elements are the simplest pure substances','Elements cannot be broken down by chemical means','Elements are arranged in the Periodic Table','Elements always exist as single atoms'],ans:3,fb:'Elements can exist as molecules (O₂, N₂, S₈) or single atoms (noble gases). Not all elements are monatomic. The other three statements are correct.',skill:'Elements/Mixtures'},
+        {q:'Sodium (Na) is a reactive metal and chlorine (Cl) is a toxic gas. When combined chemically, they form sodium chloride (NaCl) which is safe table salt. This shows:',opts:['Mixtures have different properties from components','Compounds can always be separated by filtration','Compounds have properties different from their constituent elements','Elements always combine in 1:1 ratio'],ans:2,fb:'Key property of compounds: the compound has DIFFERENT properties from its constituent elements. NaCl is safe while Na is explosive and Cl is toxic.',skill:'Elements/Mixtures'}
+      ],
+      secB:[
+        {stmt:'Seawater is a compound because it contains many different substances.',ans:false,reason:'Seawater is a MIXTURE because its components (water, dissolved salts, gases) are physically combined, not chemically bonded, and are in variable proportions. It can be separated by physical methods like evaporation.',skill:'Elements/Mixtures'},
+        {stmt:'A compound always has a higher melting point than the elements it is made from.',ans:false,reason:'This is not always true. Melting point of a compound depends on its specific structure and bonding. For example, hydrogen gas melts at –259°C and oxygen at –218°C, but water (H₂O) melts at 0°C — between the two.',skill:'Elements/Mixtures'},
+        {stmt:'The formation of a compound from its elements always involves a chemical reaction.',ans:true,reason:'Compound formation requires chemical bonds to form between atoms of different elements. This requires a chemical reaction. Energy is usually involved (given out or taken in) and new properties appear.',skill:'Elements/Mixtures'},
+        {stmt:'Carbon dioxide is an element because it contains only carbon and oxygen — two common elements.',ans:false,reason:'Carbon dioxide (CO₂) is a COMPOUND because carbon and oxygen are chemically combined in a fixed ratio (1:2). Elements contain only ONE type of atom. CO₂ has two different types of atoms bonded together.',skill:'Elements/Mixtures'},
+        {stmt:'A mixture has the same melting point as a pure compound.',ans:false,reason:'Pure substances (elements and compounds) have a FIXED, sharp melting point. Mixtures melt over a RANGE of temperatures because different components melt at different temperatures — no single fixed melting point.',skill:'Elements/Mixtures'}
+      ],
+      secC:[
+        {type:'structured',q:'Study the following substances:\\nAir, Iron, Water, Bronze (copper + tin), Carbon dioxide, Helium gas\\n\\n(a) Classify each substance as Element (E), Compound (C) or Mixture (M). [3]\\n(b) State one method to show that carbon dioxide is a compound and not a mixture of carbon and oxygen. [1]\\n(c) Explain why the properties of water are different from those of hydrogen gas and oxygen gas. [2]',marks:10,
+         scheme:'(a) Air = M, Iron = E, Water = C, Bronze = M, Carbon dioxide = C, Helium = E [0.5 each, max 3]\\n(b) Any valid method: Show it has a fixed boiling point / Show it has a fixed composition by mass (always 3:8 C:O by mass) / Show it cannot be separated by physical means / Decompose it chemically to prove C and O in fixed ratio [1]\\n(c) Water is a compound [1]. When hydrogen and oxygen form water through a chemical reaction, new chemical bonds form, creating a new substance with entirely different properties from the elements. Water is liquid at room temp, while H₂ and O₂ are gases [1]'},
+        {type:'structured',q:'A student is given three unknown substances: X, Y and Z.\\n- X: Burns with a blue flame, melts at –189°C, boils at –183°C\\n- Y: Shiny solid, conducts electricity, melts at 1085°C, ductile\\n- Z: White powder, dissolves in water to give a clear solution, melting point 801°C\\n\\n(a) Identify the type of material (element/compound/mixture) for each. Justify using evidence from the data. [3]\\n(b) Identify what substance X most likely is. [1]',marks:10,
+         scheme:'(a) X = Element [1] — extremely low melting/boiling points suggest a gas (non-metal element), specific sharp m.p. and b.p.\\n    Y = Element [1] — shiny, conducts electricity = metal, sharp melting point = pure element (or accept compound with justification)\\n    Z = Compound [1] — dissolves to give clear solution, specific sharp melting point 801°C suggests pure compound (consistent with NaCl)\\n(b) X is oxygen (O₂) — m.p. –218°C, b.p. –183°C OR accept nitrogen (N₂ m.p. –210, b.p. –196°C) with justification [1]'}
+      ]
+    },
+    {
+      num:16, title:'Paper 16 — Physical Properties Applications',
+      secA:[
+        {q:'Which physical property is most important when choosing a material for a cooking pot base?',opts:['High flexibility','Good thermal conductivity','Low density','High transparency'],ans:1,fb:'Cooking pot base needs to transfer heat efficiently to the food. Good thermal conductivity = heat flows through easily. Flexibility and transparency are irrelevant.',skill:'Physical Properties'},
+        {q:'A material with low electrical conductivity is best described as:',opts:['A good conductor','An insulator','A superconductor','A semiconductor'],ans:1,fb:'Insulator = poor/low electrical conductivity. Does not allow electric current to flow easily. Examples: plastic, rubber, glass, ceramics.',skill:'Physical Properties'},
+        {q:'Fibres are used to make clothing because they can be:',opts:['Melted and moulded into shape','Spun into threads and woven','Conduct heat well','Be transparent'],ans:1,fb:'Fibres (cotton, wool, nylon): can be spun into threads and woven into fabrics. They absorb dyes and are poor conductors of heat — keeping us warm.',skill:'Physical Properties'},
+        {q:'Diamond is the hardest natural substance. This means diamond can:',opts:['Conduct electricity very well','Scratch all other materials','Melt at low temperatures','Be bent without breaking'],ans:1,fb:'Hardness = resistance to scratching. The hardest material scratches all softer materials but cannot be scratched by them. Diamond is rated 10 on Mohs hardness scale.',skill:'Physical Properties'},
+        {q:'Which material would be MOST suitable for making the insulation around electrical wires?',opts:['Copper — good conductor','Iron — high melting point','Plastic — poor conductor, flexible','Glass — transparent, brittle'],ans:2,fb:'Wire insulation needs to: (1) NOT conduct electricity (safety) + (2) be flexible (for bending). Plastic meets both. Copper and iron conduct electricity. Glass is brittle.',skill:'Physical Properties'},
+        {q:'A steel bridge expands in summer and contracts in winter. This is due to changes in:',opts:['Density changing its composition','Thermal expansion — particles move faster when heated','Electrical conductivity in different seasons','The hardness of steel changing with temperature'],ans:1,fb:'Thermal expansion: when heated, particles vibrate faster and push further apart → material expands in length/volume. Contraction on cooling.',skill:'Physical Properties'},
+        {q:'Which property of metals makes them suitable for making jewellery that can be hammered into flat sheets?',opts:['High melting point','Malleability','High hardness','Transparency'],ans:1,fb:'Malleability = can be hammered/rolled into thin sheets without breaking. Gold and silver are highly malleable. Ductility = drawn into wires.',skill:'Physical Properties'},
+        {q:'A non-stick frying pan needs a coating that does not react with food and can withstand high temperatures. Which class of material is most suitable?',opts:['Plastic — low melting point','Fibres — absorbs liquids','Ceramic-based coating — chemically inert, high m.p.','Glass — brittle and transparent'],ans:2,fb:'Ceramic-based coatings (e.g. PTFE) are chemically inert, withstand high temperatures, and do not react with food. Plastics melt at low temperatures.',skill:'Physical Properties'},
+        {q:'The ability of a material to return to its original shape after bending is specifically called:',opts:['Elasticity','Flexibility','Strength','Hardness'],ans:1,fb:'Flexibility = ability to bend WITHOUT BREAKING and RETURN to original shape. Elasticity is a related concept but flexibility is the term used in G2 Science.',skill:'Physical Properties'},
+        {q:'Which statement about metals is CORRECT?',opts:['All metals are magnetic','Metals are generally poor conductors of electricity','Metals have high melting points compared to plastics and fibres','All metals are silver-coloured'],ans:2,fb:'Metals generally have high melting points. Not all metals are magnetic (only iron, nickel, cobalt). Metals are GOOD conductors. Metals come in various colours (copper = orange, gold = yellow).',skill:'Physical Properties'}
+      ],
+      secB:[
+        {stmt:'A material with a low melting point is always a plastic.',ans:false,reason:'Low melting point is a property of plastics but not ALL materials with low m.p. are plastics. Some metals (mercury m.p. –39°C, gallium 30°C) have low melting points. Low m.p. means little energy is needed to overcome forces between particles.',skill:'Physical Properties'},
+        {stmt:'Good electrical conductors are always good thermal conductors.',ans:false,reason:'Generally true for metals (free electrons conduct both heat and electricity), but there are exceptions (e.g. diamond conducts heat very well but poorly conducts electricity). The statement "always" makes it incorrect.',skill:'Physical Properties'},
+        {stmt:'The strength of a material refers to its ability to support a heavy load without permanently changing shape.',ans:true,reason:'Strength = ability to support load without permanent deformation. High-strength materials are used in structures (bridges, buildings) to bear loads. This is different from hardness (resistance to scratching) or flexibility.',skill:'Physical Properties'},
+        {stmt:'Ceramics are suitable for electrical wiring because they have high melting points.',ans:false,reason:'Ceramics have high melting points but they are poor conductors of electricity — making them UNSUITABLE for electrical wiring. Electrical wiring requires a GOOD conductor (metals like copper). Ceramics are used as insulators on power lines.',skill:'Physical Properties'},
+        {stmt:'The physical properties of a material help us decide which material to use for a specific application.',ans:true,reason:'Materials are selected based on required physical properties for each application. For example, a cooking pot needs high melting point + good thermal conductivity. A window needs transparency. This is the fundamental reason for classifying materials by their properties.',skill:'Physical Properties'}
+      ],
+      secC:[
+        {type:'structured',q:'(a) Complete the table by filling in ONE suitable material and explaining why it is chosen for each application:\\n\\nApplication: (i) Electrical wire core — Material: ___ Reason: ___\\nApplication: (ii) Handle of a saucepan — Material: ___ Reason: ___\\nApplication: (iii) Spectacle lenses — Material: ___ Reason: ___\\n[3 marks]\\n\\n(b) A student says "ceramics and glass are both made from similar materials, so they have the same properties." Do you agree? Explain your answer by comparing TWO properties. [2]',marks:12,
+         scheme:'(a)(i) Copper/metal [0.5] — good electrical conductor, allows current to flow [0.5]\\n(a)(ii) Plastic/wood [0.5] — poor thermal conductor/heat insulator, prevents burning hand [0.5]\\n(a)(iii) Glass/clear plastic [0.5] — transparent, allows light to pass through so wearer can see [0.5]\\n(b) Do not agree [0] — accept any two valid comparisons:\\n    Similarity: both have high melting points, both are brittle, both are poor electrical conductors\\n    Difference: glass is transparent but ceramics are opaque / glass can be moulded when molten but ceramics are fired/baked / ceramics can be made very hard (for cutting tools) while glass is less hard [2]'},
+        {type:'structured',q:'The diagram shows the heating curve of a pure substance X.\\n(The curve shows flat plateau at 50°C during melting, then rises, flat plateau at 210°C during boiling)\\n\\n(a) What is the melting point of substance X? [1]\\n(b) What is the boiling point of substance X? [1]\\n(c) During the flat sections of the graph, what is the energy used for? [1]\\n(d) A student heats a MIXTURE of two substances instead. How would the heating curve look different from that of the pure substance? [1]',marks:8,
+         scheme:'(a) 50°C [1]\\n(b) 210°C [1]\\n(c) Energy is used to break the forces between particles to change state (not to raise temperature). The temperature stays constant during the state change. [1]\\n(d) For a mixture, the melting/boiling would occur over a RANGE of temperatures (not a flat plateau) because different components melt/boil at different temperatures [1]'}
+      ]
+    },
+    {
+      num:17, title:'Paper 17 — Separation Techniques & Solutions',
+      secA:[
+        {q:'To separate sand from a sand-salt water mixture, which technique is used FIRST?',opts:['Evaporation','Distillation','Filtration','Chromatography'],ans:2,fb:'First: filtration (removes insoluble sand). Then: evaporation (removes water to get salt). Order matters: filtration → evaporation.',skill:'Separation'},
+        {q:'In paper chromatography, the substance that travels FURTHEST from the starting line is:',opts:['The least soluble in the solvent','The most soluble in the solvent','The densest substance','The least volatile substance'],ans:1,fb:'Most soluble = dissolves best in solvent = carried furthest by solvent flow. Least soluble = stays nearest starting line. Rf value = distance of spot ÷ distance of solvent front.',skill:'Separation'},
+        {q:'Which method is used to obtain PURE WATER from salt water?',opts:['Filtration','Evaporation','Distillation','Magnetic separation'],ans:2,fb:'Distillation: boil salt water → collect steam → condense to get pure water. Evaporation collects the salt (not the water). Filtration only removes insoluble particles.',skill:'Separation'},
+        {q:'The liquid that passes through the filter paper during filtration is called:',opts:['The residue','The filtrate','The distillate','The solvent front'],ans:1,fb:'Filtrate = liquid THROUGH filter paper. Residue = solid LEFT ON filter paper. Distillate = liquid collected in distillation. Solvent front = furthest point in chromatography.',skill:'Separation'},
+        {q:'A mixture of iron filings, sand and salt is dissolved in water. Which order of steps separates ALL THREE components?',opts:['Filter → magnet → evaporate','Magnet → add water → filter → evaporate','Evaporate → filter → magnet','Distil → filter → magnet'],ans:1,fb:'Step 1: Magnet removes iron (magnetic). Step 2: Add water — salt dissolves. Step 3: Filter — removes sand (insoluble). Step 4: Evaporate — recovers salt.',skill:'Separation'},
+        {q:'Which separation technique is based on DIFFERENT BOILING POINTS of substances?',opts:['Filtration','Evaporation','Chromatography','Distillation'],ans:3,fb:'Distillation separates by different boiling points. The lower-boiling-point substance evaporates first, is condensed, and collected. Filtration = particle size. Chromatography = solubility.',skill:'Separation'},
+        {q:'Chromatography is used to separate:',opts:['Insoluble solids from liquids','Mixtures of soluble substances with different solubilities in a solvent','Liquids of different boiling points','Magnetic materials from non-magnetic'],ans:1,fb:'Chromatography separates soluble substances that have different solubilities in a solvent. The more soluble substance travels further up the paper.',skill:'Separation'},
+        {q:'Which of the following describes the RESIDUE in filtration?',opts:['The liquid that passes through','The dissolved substance in the filtrate','The insoluble solid that remains on the filter paper','The solvent used in the process'],ans:2,fb:'Residue = insoluble solid that cannot pass through the filter paper and remains on it. Filtrate = liquid that passes through. Common error: confusing residue and filtrate.',skill:'Separation'},
+        {q:'NEWater treats water using reverse osmosis. This removes:',opts:['Only insoluble particles','Bacteria only','Dissolved salts and other dissolved substances','Only colour from water'],ans:2,fb:'Reverse osmosis uses a semi-permeable membrane to remove dissolved salts, bacteria, viruses, and other dissolved impurities. This produces very pure water.',skill:'Separation'},
+        {q:'Which of the following cannot be separated by simple filtration?',opts:['Muddy water','A salt solution','A mixture of sand and water','Chalk suspension in water'],ans:1,fb:'Salt solution: salt is DISSOLVED (soluble) — it passes through the filter paper with water. Filtration only separates insoluble particles. To recover salt, use evaporation.',skill:'Separation'}
+      ],
+      secB:[
+        {stmt:'Distillation and evaporation both separate a solute from its solvent, but only distillation allows the SOLVENT to be collected.',ans:true,reason:'Evaporation: solvent evaporates and is lost to the atmosphere — only solute (solid) is collected. Distillation: solvent vapour is condensed and collected. Use distillation when you need to keep the solvent (e.g. to get pure water from salt water).',skill:'Separation'},
+        {stmt:'The residue in filtration is always a compound.',ans:false,reason:'The residue in filtration is an insoluble solid — it could be an element (e.g. iron filings), a compound (e.g. chalk/CaCO₃) or a mixture (e.g. sand). The key property is that it is INSOLUBLE in the liquid used.',skill:'Separation'},
+        {stmt:'In paper chromatography, a substance with a high Rf value is more soluble in the solvent used.',ans:true,reason:'Rf = distance moved by substance ÷ distance moved by solvent. Higher Rf = travels further = more soluble in the solvent (carries better with moving solvent). Lower Rf = less soluble = stays closer to starting line.',skill:'Separation'},
+        {stmt:'Filtration can be used to separate a mixture of two dissolved salts in water.',ans:false,reason:'Both dissolved salts would pass through the filter paper (they are soluble). Filtration only separates insoluble particles from liquids. To separate two dissolved salts, chromatography or fractional crystallisation would be needed.',skill:'Separation'},
+        {stmt:'To obtain pure salt from a mixture of salt and sand, the correct order is: add water → filter → evaporate.',ans:true,reason:'(1) Add water — salt dissolves in water, sand does not. (2) Filter — removes insoluble sand (residue = sand, filtrate = salt water). (3) Evaporate — removes water, leaving pure salt behind. This is the correct sequence.',skill:'Separation'}
+      ],
+      secC:[
+        {type:'structured',q:'A student has a mixture of salt, sand and chalk. She knows:\\n- Salt dissolves in water\\n- Sand is insoluble in water\\n- Chalk is insoluble in water but can be dissolved in hydrochloric acid\\n\\n(a) She first adds water and stirs. What happens to the salt? [1]\\n(b) She then filters the mixture. What is in the residue? What is in the filtrate? [2]\\n(c) How can she obtain dry salt from the filtrate? [1]\\n(d) She wants to distinguish between sand and chalk. Suggest ONE test and expected results for EACH substance. [2]',marks:10,
+         scheme:'(a) Salt dissolves in water (forms a solution) [1]\\n(b) Residue = sand + chalk [1] | Filtrate = salt solution (salt dissolved in water) [1]\\n(c) Heat/evaporate the filtrate to remove water — salt crystals remain [1]\\n(d) Add dilute hydrochloric acid:\\n    Sand: no reaction / no change [1]\\n    Chalk: fizzes/bubbles produced (CO₂ gas released) [1]'},
+        {type:'structured',q:'A dye company wants to find out how many colours make up a green food colouring.\\n(a) Which separation technique should they use? [1]\\n(b) Describe how they would carry out this technique. [3]\\n(c) The results show three spots at heights 3 cm, 5 cm and 8 cm from the start line. The solvent front is at 10 cm. Calculate the Rf value for EACH spot and state which colour is most soluble in the solvent. [3]',marks:10,
+         scheme:'(a) Paper chromatography / thin-layer chromatography [1]\\n(b) Place concentrated spot on pencil baseline [1] / Stand in solvent NOT touching spot [1] / Allow solvent to rise by capillary action [1] / Remove and mark solvent front [1]\\n(c) Rf₁=3/10=0.30, Rf₂=5/10=0.50, Rf₃=8/10=0.80 [1 for all correct]\\n    Most soluble = spot at 8 cm (Rf=0.80) — travelled furthest with solvent [1]'}
+      ]
+    },
+    {
+      num:18, title:'Paper 18 — Mixed Review: Ch2 & Ch3',
+      secA:[
+        {q:'Which of the following shows the CORRECT relationship: density = ?',opts:['Volume × Mass','Mass ÷ Volume','Volume ÷ Mass','Mass + Volume'],ans:1,fb:'Density = Mass ÷ Volume. Remember the triangle: Mass on top, Density and Volume on bottom. m = ρV, V = m/ρ, ρ = m/V.',skill:'Density'},
+        {q:'A compound has all of these properties EXCEPT:',opts:['Fixed composition by mass','Formed by chemical reaction','Has same properties as its constituent elements','Can only be separated by chemical means'],ans:2,fb:'Compounds have DIFFERENT properties from constituent elements. All other options correctly describe compounds.',skill:'Elements/Mixtures'},
+        {q:'Which material class is BRITTLE (breaks easily when bent)?',opts:['Metals','Plastics','Fibres','Ceramics and glass'],ans:3,fb:'Ceramics and glass are brittle — they break suddenly when bent rather than deforming. Metals are malleable/ductile. Plastics and fibres are flexible.',skill:'Physical Properties'},
+        {q:'To increase the rate at which sugar dissolves in water, a student could:',opts:['Use larger sugar crystals','Use ice-cold water','Use powdered sugar (smaller crystals)','Add more sugar to the water'],ans:2,fb:'Smaller particle size = greater surface area = faster dissolving. Higher temperature, stirring, and smaller particles all INCREASE rate of dissolving.',skill:'Elements/Mixtures'},
+        {q:'Air has approximately 78% nitrogen and 21% oxygen. This means air is:',opts:['A compound because it has a fixed composition','A mixture because its components are in variable proportions','An element because nitrogen is most abundant','A compound because it contains two gases'],ans:1,fb:'Air is a mixture: components (N₂, O₂, CO₂, etc.) are physically combined in variable proportions. Composition varies with location and altitude.',skill:'Elements/Mixtures'},
+        {q:'Which instrument measures SHORT lengths of small objects to 0.01 cm precision?',opts:['Metre rule','Measuring tape','Vernier calliper','Thermometer'],ans:2,fb:'Vernier calliper: 0.01 cm precision, for small objects. Metre rule: 0.1 cm. Measuring tape: for longer/curved lengths. Thermometer: temperature.',skill:'Measurement'},
+        {q:'A hot drink cools down and the liquid contracts slightly. This is because:',opts:['The particles get smaller when cooled','The particles move less and come closer together','The drink loses mass as it cools','The particles disappear on cooling'],ans:1,fb:'Particles themselves do NOT change size. When cooled, particles have less energy, vibrate less, and come closer together — liquid contracts in volume.',skill:'Physical Properties'},
+        {q:'Which of the following mixtures can be separated by using a magnet?',opts:['Salt and sand','Iron filings and sulfur powder','Sand and chalk','Sugar and salt'],ans:1,fb:'Iron filings are magnetic; sulfur is not. A magnet attracts iron and separates it from sulfur. Salt, sand, chalk, sugar are all non-magnetic.',skill:'Separation'},
+        {q:'An element that is a gas at room temperature and does NOT conduct electricity is likely a:',opts:['Metal like copper','Metalloid like silicon','Non-metal like nitrogen or oxygen','Liquid metal like mercury'],ans:2,fb:'Non-metals: often gases at room temperature, poor electrical conductors. Metals: solid (mostly), good conductors. Noble gases are also non-metals.',skill:'Elements/Mixtures'},
+        {q:'Melting and boiling are examples of:',opts:['Chemical changes that form new substances','Physical changes — substance changes state but not composition','Chemical reactions that require chemical energy','Changes that permanently alter the substance'],ans:1,fb:'Melting and boiling are PHYSICAL changes — the substance changes state but its chemical composition remains the same. Water (H₂O) is still H₂O whether ice, liquid or steam.',skill:'Physical Properties'}
+      ],
+      secB:[
+        {stmt:'The melting point of a pure substance is a fixed, specific temperature.',ans:true,reason:'Pure substances (elements and compounds) have a sharp, fixed melting point. This property is used to identify pure substances and test purity. Impure substances and mixtures melt over a range of temperatures.',skill:'Physical Properties'},
+        {stmt:'Copper is suitable for electrical wiring because it is ductile AND a good electrical conductor.',ans:true,reason:'Copper: (1) Good electrical conductor — low resistance, allows current to flow efficiently. (2) Ductile — can be drawn into long, thin wires without breaking. Both properties are essential for electrical wiring.',skill:'Physical Properties'},
+        {stmt:'A mixture has a fixed composition by mass, just like a compound.',ans:false,reason:'Compounds have FIXED proportions by mass (e.g. water is always 11.1% H and 88.9% O by mass). Mixtures have VARIABLE proportions — you can add any amount of salt to water to make salt water.',skill:'Elements/Mixtures'},
+        {stmt:'Increasing the temperature of a solvent always increases the solubility of all substances.',ans:false,reason:'Higher temperature increases solubility of most solid solutes. However, for gases dissolved in liquids (e.g. oxygen in water), increasing temperature DECREASES solubility — dissolved gases escape from heated liquids.',skill:'Elements/Mixtures'},
+        {stmt:'The density of an object changes when it is cut in half.',ans:false,reason:'Density is an INTENSIVE property — it does not depend on the amount of material. Cutting in half reduces both mass and volume by the same proportion, so density (mass/volume) remains unchanged.',skill:'Density'}
+      ],
+      secC:[
+        {type:'structured',q:'A student is asked to identify an unknown white powder. She performs the following tests:\\nTest 1: Dissolves completely in water to form a clear solution\\nTest 2: The solution conducts electricity\\nTest 3: When heated strongly, it does not melt but decomposes at 801°C\\nTest 4: Is made of two elements (sodium and chlorine) in a fixed ratio\\n\\n(a) Is the substance an element, compound or mixture? Give TWO pieces of evidence. [2]\\n(b) Identify the substance. [1]\\n(c) The student says "Since sodium is a reactive metal and chlorine is toxic, sodium chloride must also be dangerous." Is she correct? Explain. [2]',marks:10,
+         scheme:'(a) Compound [1] — made of TWO different elements (Na and Cl) in a fixed ratio [1] / or: specific decomposition temperature suggests pure compound / or: conducting electricity suggests ions formed from two different elements\\n(b) Sodium chloride (NaCl) / common salt [1]\\n(c) She is incorrect [1]. Compounds have DIFFERENT properties from their constituent elements. NaCl is a harmless compound even though sodium (explosive in water) and chlorine (toxic gas) are dangerous. The chemical bonding creates an entirely new substance [1]'},
+        {type:'structured',q:'The table shows properties of three substances A, B and C:\\n\\nSubstance A: Density 2.7 g/cm³, melting point 660°C, good conductor of electricity, silvery solid\\nSubstance B: Density 1.0 g/cm³, melting point 0°C, boiling point 100°C, does not conduct electricity\\nSubstance C: Density 0.9 g/cm³, melting point 160°C, poor conductor, can be moulded\\n\\n(a) For each substance, identify the class of material it belongs to (metal, ceramic, glass, plastic or fibre). [3]\\n(b) A 54 g block of substance A has volume 20 cm³. Verify that the density of A is consistent with the data in the table. [2]',marks:10,
+         scheme:'(a) A = Metal (aluminium) [1] — shiny, good conductor, high melting point, high density\\n    B = Not a material class — it is water (a pure compound/liquid) [1] — m.p. 0°C, b.p. 100°C, density 1.0 g/cm³ are defining properties of water\\n    C = Plastic [1] — low density, can be moulded, poor conductor, medium melting point\\n(b) Density = mass ÷ volume = 54 ÷ 20 = 2.7 g/cm³ [1]. This matches the value in the table (2.7 g/cm³), so the data is consistent [1]'}
+      ]
+    },
+    {
+      num:19, title:'Paper 19 — Challenging Applications (Ch2 & Ch3)',
+      secA:[
+        {q:'A hollow steel ball floats in water. If the same mass of steel were used to make a SOLID ball, it would:',opts:['Still float because steel is steel','Sink because its average density would be greater than water','Float but lower than before','Dissolve in water'],ans:1,fb:'The hollow ball floats because air inside reduces average density below water. A solid ball of same mass has SMALLER volume → higher density (>1.0 g/cm³) → sinks.',skill:'Density'},
+        {q:'Which statement about solutions is NOT true?',opts:['A solution is a homogeneous mixture','The solute in a solution cannot be seen with the naked eye','A solution separates into layers on standing','Light can pass fully through a solution'],ans:2,fb:'Solutions do NOT separate into layers on standing (this is suspensions). Solutions are homogeneous — uniform throughout. Suspensions settle and are cloudy.',skill:'Elements/Mixtures'},
+        {q:'Alloys are mixtures of metals. Compared to pure metals, alloys often have:',opts:['Lower melting points','Greater strength and hardness','Lower density','Worse electrical conductivity'],ans:1,fb:'Alloys have greater strength and hardness than pure metals because different-sized atoms disrupt the regular arrangement, making it harder for layers to slide. Example: steel (iron + carbon) is much stronger than pure iron.',skill:'Physical Properties'},
+        {q:'A student notices that a piece of chalk weighs 10 g and has volume 4 cm³. Marble also contains calcium carbonate. The student expects marble to have density:',opts:['Less than 2.5 g/cm³','Greater than chalk\\'s density because marble is harder','Exactly 2.5 g/cm³ because both contain CaCO₃','Cannot be determined from this information'],ans:3,fb:'Density depends on the specific material, not just composition. Marble and chalk both contain CaCO₃ but have different crystal structures and porosities. We cannot determine marble\\'s density from chalk\\'s density alone.',skill:'Density'},
+        {q:'In a hospital, a patient is given a saline drip (salt water). This is a:',opts:['Suspension','Compound','Solution','Element'],ans:2,fb:'Saline = salt (NaCl) dissolved in water = solution. It is clear, transparent, uniform throughout. Solutions can be given intravenously. Suspensions would block blood vessels.',skill:'Elements/Mixtures'},
+        {q:'Which physical property is MOST useful for distinguishing a metal from a non-metal?',opts:['Colour','Electrical conductivity','Density','Melting point'],ans:1,fb:'Electrical conductivity: metals are good conductors, non-metals are poor conductors (except graphite). Colour, density and melting point have overlapping ranges between metals and non-metals.',skill:'Physical Properties'},
+        {q:'At room temperature (25°C), sulfur is a yellow solid and chlorine is a green gas. When they form sulfur dichloride (SCl₂), which prediction is correct?',opts:['SCl₂ is yellow and solid','SCl₂ is green and gaseous','SCl₂ has different properties from both S and Cl','SCl₂ is a yellow-green mixture'],ans:2,fb:'Compounds have DIFFERENT properties from constituent elements. SCl₂ is actually a dark red/amber liquid at room temperature — completely different from yellow solid sulfur or green gas chlorine.',skill:'Elements/Mixtures'},
+        {q:'Which BEST describes what happens during filtration?',opts:['Soluble substances are separated by different boiling points','Insoluble particles are trapped by filter paper while liquid passes through','Dissolved substances are separated by their different colours','Magnetic materials are removed by a magnetic field'],ans:1,fb:'Filtration: liquid and dissolved substances pass through tiny pores in filter paper. Insoluble particles (too large) are trapped as residue. The filter separates by PARTICLE SIZE.',skill:'Separation'},
+        {q:'Water has a density of 1.00 g/cm³ and ice has a density of 0.92 g/cm³. Which conclusion can be drawn?',opts:['Ice is heavier than water','Ice sinks in water','Ice floats in water because it is less dense','Water and ice have the same mass'],ans:2,fb:'Ice density (0.92) < water density (1.00) → ice floats. This is unique — most substances are denser as solids than as liquids. This property is critical for aquatic ecosystems.',skill:'Density'},
+        {q:'The SOLUBILITY of a substance is:',opts:['How fast it dissolves in a solvent','The maximum amount that can dissolve in a given volume of solvent at a specific temperature','Whether it dissolves or not','The amount already dissolved in a solution'],ans:1,fb:'Solubility = maximum amount of solute (in g) that can dissolve in 100 cm³ of solvent at a specific temperature. Different from rate of dissolving (how fast).',skill:'Elements/Mixtures'}
+      ],
+      secB:[
+        {stmt:'A solution of table salt in water has a higher density than pure water.',ans:true,reason:'Adding solute (salt) to water increases the mass without proportionally increasing the volume, so density increases. This is why objects float more easily in the ocean (salt water) than in fresh water — salt water is denser.',skill:'Density'},
+        {stmt:'Chromatography can only be used to separate coloured substances.',ans:false,reason:'Chromatography separates substances based on different solubilities in a moving solvent. It CAN separate colourless substances — but a chemical spray (locating agent) or UV light is used to make the spots visible.',skill:'Separation'},
+        {stmt:'An element always exists as a single, isolated atom.',ans:false,reason:'Elements can exist as single atoms (noble gases: He, Ne, Ar) OR as molecules (O₂, N₂, H₂, S₈) OR as giant structures (diamond, graphite, metals). The key feature of an element is that it contains only ONE type of atom.',skill:'Elements/Mixtures'},
+        {stmt:'Styrofoam (density 0.03 g/cm³) will float on any liquid denser than 0.03 g/cm³.',ans:true,reason:'Styrofoam density (0.03) is less than almost all common liquids including water, oil, and salt solutions. It will float because it is less dense than these liquids. It would only sink in a liquid denser than 0.03 g/cm³.',skill:'Density'},
+        {stmt:'When table salt dissolves in water, the salt undergoes a chemical change.',ans:false,reason:'Dissolving is a PHYSICAL change — the salt disperses as ions into the water but the Na⁺ and Cl⁻ ions are not chemically altered. The salt can be recovered by evaporation, confirming it is a physical (reversible) change.',skill:'Elements/Mixtures'}
+      ],
+      secC:[
+        {type:'structured',q:'Scientists are developing a new material for spacecraft re-entry shields. Requirements:\\n- Must withstand temperatures above 1600°C\\n- Must be lightweight (density < 2.5 g/cm³)\\n- Must not conduct electricity\\n- Must be rigid (not flexible)\\n\\nThe candidates are:\\nMaterial X: density 1.8 g/cm³, melting point 1700°C, poor electrical conductor, rigid\\nMaterial Y: density 8.9 g/cm³, melting point 1455°C, good electrical conductor, strong\\nMaterial Z: density 2.2 g/cm³, melting point 3550°C, poor electrical conductor, rigid\\n\\n(a) Which material is MOST suitable? Justify using all four criteria. [4]\\n(b) What class of material is Material Y likely to be? [1]',marks:10,
+         scheme:'(a) Material X [1] — satisfies: temperature ✓ (1700°C > 1600°C), lightweight ✓ (1.8 < 2.5 g/cm³), non-conductor ✓, rigid ✓ [1 per criterion checked, max 3 for justification]\\n    Material Z also meets temp and other criteria but density 2.2 could be accepted if < 2.5 is met [award marks if well justified]\\n(b) Material Y is a metal [1] — high density, good electrical conductor, relatively high melting point (consistent with copper: density 8.9, m.p. 1085°C)'},
+        {type:'structured',q:'(a) Explain, using the particle model, why:\\n    (i) Stirring increases the rate at which sugar dissolves in water [2]\\n    (ii) Heating a cup of tea makes the tea dissolve faster [2]\\n(b) A student adds sugar to tea until no more dissolves. She then heats the tea. More sugar dissolves. Explain this observation. [2]',marks:10,
+         scheme:'(a)(i) Stirring moves dissolved sugar particles away from the surface of undissolved sugar [1], bringing fresh solvent (water molecules) into contact with more of the sugar surface, increasing collisions between water and sugar particles [1]\\n(a)(ii) Heating gives water molecules more kinetic energy [1], so they move faster and collide more frequently and with more force with sugar particles, breaking them away from the sugar crystal more quickly [1]\\n(b) Solubility increases with temperature [1]. At higher temperature, water can hold more dissolved sugar — the maximum amount that can dissolve (solubility) increases, so the previously saturated solution can dissolve more sugar [1]'}
+      ]
+    },
+    {
+      num:20, title:'Paper 20 — Full Syllabus Practice',
+      secA:[
+        {q:'Which of the following best describes the physical property "thermal conductivity"?',opts:['The ability to conduct electric current','The ability to transfer heat energy','The ability to withstand scratching','The temperature at which a substance melts'],ans:1,fb:'Thermal conductivity = measure of how easily heat flows through a material. High thermal conductivity = good thermal conductor (metals). Low = good insulator (plastic, wood).',skill:'Physical Properties'},
+        {q:'Which of the following is NOT a physical property?',opts:['Melting point','Density','Ability to react with oxygen','Electrical conductivity'],ans:2,fb:'Ability to react with oxygen is a CHEMICAL property — involves a chemical change. Physical properties can be observed/measured without changing chemical composition.',skill:'Physical Properties'},
+        {q:'Substance P has density 3.5 g/cm³ and mass 17.5 g. What is its volume?',opts:['61.25 cm³','5 cm³','14 cm³','0.2 cm³'],ans:1,fb:'V = m ÷ ρ = 17.5 ÷ 3.5 = 5 cm³.',skill:'Density'},
+        {q:'Which of the following is a COMPOUND?',opts:['Copper','Air','Carbon dioxide (CO₂)','Bronze (copper + tin alloy)'],ans:2,fb:'CO₂ = carbon + oxygen chemically combined in fixed ratio = compound. Copper = element. Air = mixture. Bronze = alloy/mixture.',skill:'Elements/Mixtures'},
+        {q:'A concentrated solution becomes DILUTE when:',opts:['More solute is added','More solvent is added','The temperature is lowered','The solution is filtered'],ans:1,fb:'Dilute = less solute per volume of solvent. Adding MORE SOLVENT (water) dilutes the solution — same amount of solute spread in more liquid = lower concentration.',skill:'Elements/Mixtures'},
+        {q:'Which correctly describes the RESIDUE after filtration?',opts:['The liquid that passes through filter paper','The solid that cannot pass through filter paper','The dissolved substance in the filtrate','The clean water collected'],ans:1,fb:'Residue = insoluble solid LEFT ON filter paper. Filtrate = liquid that passes THROUGH. Essential definitions for filtration questions.',skill:'Separation'},
+        {q:'A steel ship floats because:',opts:['Steel is less dense than water','The hollow ship displaces enough water so average density is less than water','Steel repels water','The ship has a special coating'],ans:1,fb:'Steel (7.87 g/cm³) is denser than water, but the hollow ship contains air. Average density of (steel + air) < water → floats. Same principle as a hollow ball.',skill:'Density'},
+        {q:'Which of the following would INCREASE the solubility of a gas in water?',opts:['Heating the water','Stirring the water','Cooling the water','Adding salt to the water'],ans:2,fb:'For GASES dissolved in liquids, cooling INCREASES solubility (less energy to escape). This is why cold water holds more dissolved oxygen — important for fish in cold water.',skill:'Elements/Mixtures'},
+        {q:'Which statement about the Periodic Table is CORRECT?',opts:['Elements in the same period have similar chemical properties','Elements are arranged by increasing number of neutrons','Elements in the same group have similar chemical properties','Metals are always on the right side'],ans:2,fb:'Elements in same GROUP (vertical column) have similar chemical properties. Period = horizontal row. Elements arranged by increasing proton number. Metals = left side.',skill:'Elements/Mixtures'},
+        {q:'Measuring the length of a curved surface is best done with a:',opts:['Vernier calliper','Digital calliper','Metre rule only','Measuring tape or flexible ruler'],ans:3,fb:'Measuring tape or flexible ruler conforms to curved surfaces. Callipers and metre rules are for straight-line measurements. This is why dressmakers use measuring tapes.',skill:'Measurement'}
+      ],
+      secB:[
+        {stmt:'Helium gas is an element because it cannot be broken down into simpler substances by chemical means.',ans:true,reason:'An element is a pure substance made of only one type of atom and cannot be broken down by chemical means. Helium (He) consists of single helium atoms — it is a noble gas element.',skill:'Elements/Mixtures'},
+        {stmt:'The rate of dissolving and the solubility of a substance are the same thing.',ans:false,reason:'Rate of dissolving = how FAST a solute dissolves. Solubility = the MAXIMUM AMOUNT that can dissolve. Crushing sugar increases rate of dissolving but does not change its solubility. These are two different concepts.',skill:'Elements/Mixtures'},
+        {stmt:'All metals are malleable, meaning they can be hammered into thin sheets without cracking.',ans:false,reason:'Most metals are malleable, but not ALL. Mercury is a liquid at room temperature (cannot be hammered). Some metals like bismuth are brittle. The statement "all" is too absolute.',skill:'Physical Properties'},
+        {stmt:'When salt is filtered from a salt-water solution, salt will be found in the residue on the filter paper.',ans:false,reason:'Salt is DISSOLVED (soluble) in water. It passes THROUGH the filter paper along with the water into the filtrate. Only INSOLUBLE substances remain as residue on the filter paper.',skill:'Separation'},
+        {stmt:'A substance with a density less than 1.0 g/cm³ will always float in water.',ans:true,reason:'Water density = 1.0 g/cm³. Any object with density LESS THAN 1.0 g/cm³ will float in water. Float condition: object density < liquid density. This is a fundamental principle of buoyancy.',skill:'Density'}
+      ],
+      secC:[
+        {type:'structured',q:'Mokshith conducts an experiment to find the density of cooking oil.\\n\\nStep 1: He finds the mass of an empty 25 cm³ measuring cylinder = 45.0 g\\nStep 2: He adds cooking oil to the 25 cm³ mark. Mass = 67.4 g\\n\\n(a) Calculate the mass of the cooking oil. [1]\\n(b) Calculate the density of the cooking oil. Give your answer to 2 decimal places with units. [2]\\n(c) Will the cooking oil float or sink in water (density 1.0 g/cm³)? Explain. [2]\\n(d) Cooking oil and water are mixed and shaken. Explain what happens when left to stand. [2]',marks:10,
+         scheme:'(a) Mass of oil = 67.4 – 45.0 = 22.4 g [1]\\n(b) Volume = 25 cm³. Density = 22.4 ÷ 25 = 0.90 g/cm³ (to 2 d.p.) [1 for working, 1 for correct answer with units]\\n(c) Cooking oil floats on water [1]. Its density (0.90 g/cm³) is less than water (1.0 g/cm³) — less dense objects float on denser liquids [1]\\n(d) When left to stand, the oil and water separate into two layers [1]. Oil floats on top (less dense) and water sinks to the bottom (more dense). They do not mix because they have different densities and oil is immiscible with water [1]'},
+        {type:'structured',q:'(a) The diagram shows three test tubes, each containing a different substance:\\nTest tube X: Contains a colourless gas at room temperature, burns in air\\nTest tube Y: Contains a silvery liquid that conducts electricity, density 13.6 g/cm³\\nTest tube Z: Contains a white solid that dissolves in water to give a clear conducting solution\\n\\nFor EACH substance X, Y and Z:\\n    (i) State whether it is an element, compound or mixture [3]\\n    (ii) Identify the substance [3]\\n\\n(b) Explain why substance Z is classified as a compound and not a mixture. [2]',marks:10,
+         scheme:'(a) X: Element [1] — hydrogen gas (H₂) [1] (colourless gas, burns in air)\\n    Y: Element [1] — mercury (Hg) [1] (liquid metal, density 13.6 g/cm³, conducts electricity)\\n    Z: Compound [1] — sodium chloride (NaCl) [1] (white solid, dissolves to give conducting solution, specific composition)\\n(b) Sodium chloride is a compound because: sodium and chlorine are chemically combined [1] in a fixed ratio (1:1 by atoms / fixed proportion by mass). It cannot be separated by physical means / has different properties from sodium and chlorine / has a specific sharp melting point [1]'}
+      ]
+    },
+    {
+      num:21, title:'Ch6 Practice — Cells',
+      secA:[
+        {q:'Which cell structure controls the movement of substances into and out of the cell?',opts:['Cell wall','Nucleus','Cell membrane','Vacuole'],ans:2,skill:'Cells',fb:'The cell membrane is thin and partially permeable — it controls what enters and exits. The cell wall is fully permeable and only provides structural support.'},
+        {q:'Which structure is found in a plant cell but NOT in an animal cell?',opts:['Nucleus','Cytoplasm','Chloroplast','Cell membrane'],ans:2,skill:'Cells',fb:'Chloroplasts (for photosynthesis) are found only in plant cells. Nucleus, cytoplasm, and cell membrane are found in both plant and animal cells.'},
+        {q:'What is the function of the nucleus?',opts:['Carries out photosynthesis','Stores water and food','Controls all cell activities and contains DNA','Provides rigid structural support'],ans:2,skill:'Cells',fb:'The nucleus is the control centre of the cell. It contains DNA (the genetic/hereditary material) and directs all cell activities.'},
+        {q:'A student observes a cell with a large central vacuole and a cell wall. What type of cell is it?',opts:['Animal cell','Plant cell','Bacterium','Red blood cell'],ans:1,skill:'Cells',fb:'A large central vacuole AND cell wall together are features found ONLY in plant cells. Animal cells do not have cell walls.'},
+        {q:'What is the correct order of organisation from smallest to largest?',opts:['Organ to Tissue to Cell to System to Organism','Cell to Tissue to Organ to System to Organism','Tissue to Cell to Organ to System to Organism','Cell to Organ to Tissue to System to Organism'],ans:1,skill:'Cells',fb:'Cell to Tissue to Organ to System to Organism — this is the division of labour hierarchy in multicellular organisms.'},
+        {q:'Which instrument allows scientists to see organelles in much greater detail?',opts:['X-ray machine','Electron microscope','MRI scanner','Magnifying glass'],ans:1,skill:'Cells',fb:'The electron microscope provides much higher magnification and resolution than a light microscope, revealing fine details of organelles.'},
+        {q:'What type of organism consists of only one cell?',opts:['Multicellular','Unicellular','Tissue','Organ'],ans:1,skill:'Cells',fb:'Unicellular organisms (bacteria, paramecium, amoeba) consist of only one cell that performs all life functions.'},
+        {q:'Root hair cells do not contain chloroplasts. What does this best tell you?',opts:['Root hair cells cannot survive','Cells can be specialised and are exceptions to typical cell models','All plant cells must have chloroplasts','Root hair cells are animal cells'],ans:1,skill:'Cells',fb:'Root hair cells are underground (no light available), so chloroplasts are not needed. This shows cells can be modified versions of typical models when specialised for a function.'}
+      ],
+      secB:[
+        {stmt:'The cell membrane and the cell wall both control the movement of substances into and out of a plant cell.',ans:false,reason:'Only the cell MEMBRANE is partially permeable and controls movement of substances. The cell wall is fully permeable — it allows all substances through and only provides rigid structural support.'},
+        {stmt:'Red blood cells are examples of animal cells that do not follow the typical animal cell model exactly.',ans:true,reason:'Red blood cells have no nucleus (unlike typical animal cells). The nucleus is absent to leave more space for haemoglobin, maximising oxygen-carrying capacity — this is specialisation.'},
+        {stmt:'A multicellular organism can survive with cells of only one type, all performing the same function.',ans:false,reason:'Multicellular organisms require division of labour — different types of specialised cells for different functions. All cells being the same would make complex functions like digestion and movement impossible.'},
+        {stmt:'Tissues that perform different functions work together to form an organ.',ans:true,reason:'An organ is made up of DIFFERENT types of tissues working together to perform a specific function. For example, the stomach (organ) contains muscle tissue and lining tissue working together.'},
+        {stmt:'The cytoplasm is the control centre of the cell because it contains DNA.',ans:false,reason:'The NUCLEUS is the control centre and contains DNA. Cytoplasm is the jelly-like fluid where most chemical reactions take place — it does not contain DNA or control cell activities.'}
+      ],
+      secC:[
+        {type:'str',q:'(a) Name the cell structure that protects the cell and gives it a regular, fixed shape in plant cells. [1]\\n(b) State ONE function of the nucleus. [1]\\n(c) State the difference between the vacuole in a plant cell and the vacuole in an animal cell. [2]',marks:4,scheme:'(a) Cell wall [1]\\n(b) Controls all activities of the cell / contains DNA (genetic material) [1]\\n(c) Plant cell has ONE or TWO large vacuoles in the centre of the cell [1]; Animal cell has many small vacuoles or may have no vacuole [1]'},
+        {type:'str',q:'A scientist examines two unknown cells under a microscope.\\nCell P: has a cell wall, chloroplasts, and a large central vacuole.\\nCell Q: has no cell wall, no chloroplasts, and many small vacuoles.\\n(a) State whether Cell P is a plant cell or animal cell. Give ONE reason. [2]\\n(b) State whether Cell Q is a plant cell or animal cell. Give ONE reason. [2]\\n(c) Name ONE cell structure found in BOTH Cell P and Cell Q. [1]',marks:5,scheme:'(a) Plant cell [1]; because it has a cell wall AND/OR chloroplasts AND/OR large central vacuole — features of plant cells [1]\\n(b) Animal cell [1]; because it has no cell wall AND no chloroplasts, and has many small vacuoles — features of animal cells [1]\\n(c) Any ONE of: nucleus / cytoplasm / cell membrane [1]'},
+        {type:'str',q:'Explain how cells, tissues, and organs work together to allow a multicellular organism to function efficiently. Use the human digestive system as an example. [4]',marks:4,scheme:'Cells of the same type performing the same function group together to form a tissue [1]. Different tissues work together to form an organ [1]. For example, in the stomach (organ), muscle tissue and lining tissue work together [1]. This division of labour allows the digestive system to break down food efficiently — each part specialised for its function [1].'}
+      ]
+    },
+    {
+      num:22, title:'Ch7 Practice — Particulate Nature',
+      secA:[
+        {q:'What does the particulate nature of matter state?',opts:['Matter is made of large visible particles','Matter is made of tiny discrete particles in constant random motion','Matter only exists as solids and liquids','Particles in matter do not move'],ans:1,skill:'Particulate',fb:'The particulate nature of matter: all matter is made of tiny discrete particles, too small to see, in constant and random motion.'},
+        {q:'When a gas is heated, what happens to its particles?',opts:['They gain energy and move slower','They lose energy and move faster','They gain energy, move faster and spread further apart','They gain energy but stay in fixed positions'],ans:2,skill:'Particulate',fb:'On heating, gas particles gain energy, move faster, and distances between particles increase — the gas expands.'},
+        {q:'Which correctly describes particles in a liquid?',opts:['Far apart, moving randomly and quickly','Vibrate about fixed positions in an orderly arrangement','Closely packed in disorderly manner, sliding past each other','Closely packed in an orderly arrangement'],ans:2,skill:'Particulate',fb:'Liquid particles are closely packed but in a disorderly manner. They move randomly and slide past one another — that is why liquids take the shape of their container but have a definite volume.'},
+        {q:'A helium balloon slowly deflates without a hole. What explains this?',opts:['Helium dissolves into rubber','Helium particles escape through the porous balloon surface by diffusion','The rubber contracts when cold','The pressure inside equals outside'],ans:1,skill:'Particulate',fb:'Helium particles diffuse from high concentration (inside) to lower concentration (outside) through tiny pores in the rubber. This is diffusion of a gas.'},
+        {q:'What is diffusion?',opts:['Movement of particles from low to high concentration','Net movement of particles from high to low concentration','Movement of particles in a straight line only','Random motion of particles with no net direction'],ans:1,skill:'Particulate',fb:'Diffusion = NET movement of particles from HIGHER concentration to LOWER concentration, continuing until concentration is uniform throughout.'},
+        {q:'Using the particulate model, which correctly explains why ice melts when heated?',opts:['New particles are created during melting','Particles gain energy, vibrate faster, and overcome forces of attraction to become liquid','Particles lose energy and become liquid','Particles are destroyed during melting'],ans:1,skill:'Particulate',fb:'During melting, particles gain heat energy, vibrate more vigorously, eventually overcome the strong forces of attraction and become free to slide — a liquid. Mass is conserved.'},
+        {q:'When a substance expands on heating, what happens to the NUMBER of particles?',opts:['Number increases','Number decreases','Number stays the same','Number doubles'],ans:2,skill:'Particulate',fb:'Conservation of mass: the NUMBER and SIZE of particles NEVER change during expansion, contraction, or state changes. Only the distances between particles change.'},
+        {q:'Which is an example of diffusion in a liquid?',opts:['Air rushing from a punctured tyre','A tea bag releasing colour into water','Steam rising from boiling water','Ice melting in a drink'],ans:1,skill:'Particulate',fb:'Tea bag in water: tea particles move from high concentration (inside the bag) to low concentration (surrounding water) until evenly distributed — diffusion in a liquid.'}
+      ],
+      secB:[
+        {stmt:'A gas can be compressed because its particles are very far apart with large spaces between them.',ans:true,reason:'In a gas, particles are very far apart with a lot of empty space between them. When compressed, particles can be pushed closer together into those spaces — that is why gases are compressible.'},
+        {stmt:'During expansion of a metal rod when heated, new particles are formed to fill the extra space.',ans:false,reason:'No new particles are formed during expansion. When heated, existing particles vibrate more vigorously and the DISTANCES between particles increase. The number and size of particles remain the same — conservation of mass.'},
+        {stmt:'Diffusion occurs in liquids but not in gases.',ans:false,reason:'Diffusion occurs in BOTH liquids AND gases. Example in gas: smell of perfume spreading across a room. Example in liquid: tea bag releasing colour in water.'},
+        {stmt:'Brownian motion provides evidence that matter is made up of tiny particles in constant random motion.',ans:true,reason:'Brownian motion (e.g. pollen grains moving randomly in water) is caused by invisible water molecules bombarding the pollen grains from all sides — proving matter consists of tiny particles in constant random motion.'},
+        {stmt:'When water boils and becomes steam, the number of water particles decreases because some are destroyed by the heat.',ans:false,reason:'Particles are NEVER created or destroyed during state changes. During boiling, the SAME number of water particles gain energy, overcome forces of attraction, and simply move further apart as gas. Mass is conserved.'}
+      ],
+      secC:[
+        {type:'str',q:'(a) State what is meant by diffusion. [1]\\n(b) A student adds a drop of red ink to a beaker of still water. After 10 minutes, the water is uniformly red.\\n    (i) Explain this observation using the particulate nature of matter. [3]\\n    (ii) State ONE factor that would cause diffusion to occur more quickly. [1]',marks:5,scheme:'(a) Diffusion is the net movement of particles from a region of higher concentration to a region of lower concentration [1]\\n(b)(i) Ink particles are in constant random motion [1]. They move from the region of high concentration (where the drop was added) to regions of lower concentration [1]. This continues until the concentration of ink particles is uniform throughout the water [1]\\n(b)(ii) Any ONE of: increase temperature / stir the water [1]'},
+        {type:'str',q:'A metal ball just passes through a metal ring at room temperature. After heating the ball strongly, it can no longer pass through the ring.\\n(a) Explain, using the particulate model, why the ball no longer fits through the ring after heating. [3]\\n(b) What will happen if the ball is left to cool? Explain your answer. [2]',marks:5,scheme:'(a) When heated, particles in the metal ball gain energy [1] and vibrate more vigorously about their fixed positions [1]. Distances between particles increase, so the ball expands and is now too large to pass through the ring [1]\\n(b) The ball will pass through the ring again [1] because when cooled, particles lose energy, vibrate less vigorously, distances between particles decrease, the ball contracts to its original size [1]'},
+        {type:'str',q:'Compare the arrangement and movement of particles in a solid, a liquid, and a gas. [6]',marks:6,scheme:'Solid: particles very closely packed in orderly/regular arrangement [1]; particles vibrate about fixed positions [1]\\nLiquid: particles closely packed but in disorderly arrangement [1]; particles move randomly and slide past one another [1]\\nGas: particles very far apart in disorderly arrangement [1]; particles move rapidly and randomly in all directions [1]'}
+      ]
+    },
+    {
+      num:23, title:'Ch6+7 Practice — Cells & Particulate',
+      secA:[
+        {q:'Which cell organelle is the site of photosynthesis?',opts:['Mitochondria','Nucleus','Chloroplast','Vacuole'],ans:2,skill:'Cells',fb:'Chloroplasts contain chlorophyll and are the site of photosynthesis in plant cells. Mitochondria release energy through respiration — a completely different process.'},
+        {q:'What does the cytoplasm do in a cell?',opts:['Controls substances moving in and out','Contains genetic material (DNA)','Is a jelly-like fluid where chemical reactions take place','Provides rigid structural support'],ans:2,skill:'Cells',fb:'Cytoplasm is the jelly-like substance filling the cell and the site where most chemical reactions occur.'},
+        {q:'Which process is the REVERSE of melting?',opts:['Boiling','Condensation','Freezing','Sublimation'],ans:2,skill:'Particulate',fb:'Freezing is the reverse of melting. A liquid loses energy, particles slow down and are pulled into fixed positions — becomes a solid.'},
+        {q:'Sublimation is when a substance changes directly from ___.',opts:['Solid to liquid','Liquid to gas','Solid to gas without becoming liquid','Gas to solid'],ans:2,skill:'Particulate',fb:'Sublimation: a solid changes DIRECTLY to a gas, skipping the liquid state. Dry ice (solid CO2) sublimates at room temperature.'},
+        {q:'Why does a mask reduce virus spread when an infected person coughs?',opts:['It filters all air particles','It prevents most virus particles from dispersing into air where they could diffuse to others','It increases the concentration of virus particles','It neutralises virus particles'],ans:1,skill:'Particulate',fb:'Virus particles remain suspended in air and spread by Brownian motion and diffusion. A mask prevents most virus particles being released, reducing the chance of diffusion to and infection of others.'},
+        {q:'Red blood cells have no nucleus. What does this best tell you?',opts:['They are plant cells','They are specialised animal cells — absence of nucleus leaves more space for haemoglobin to carry oxygen','They perform photosynthesis','They are unicellular organisms'],ans:1,skill:'Cells',fb:'Red blood cells lack a nucleus (exception to typical animal cell model). The space normally used by the nucleus is available for haemoglobin, maximising oxygen-carrying capacity — specialisation/division of labour.'},
+        {q:'During boiling, what happens to water particles?',opts:['They gain energy, move faster and further apart, overcoming forces of attraction to become gas','They lose energy and become solid','They vibrate faster about fixed positions','They become liquid from solid'],ans:0,skill:'Particulate',fb:'During boiling, liquid particles gain energy, move faster and further apart, eventually overcoming forces of attraction and escaping as gas (steam/water vapour).'},
+        {q:'Different tissues working together form a(n) ___.',opts:['Cell','Tissue','Organ','System'],ans:2,skill:'Cells',fb:'An organ is made of DIFFERENT tissues working together for a specific function. The stomach (organ) has muscle tissue and lining tissue — together they form the organ.'}
+      ],
+      secB:[
+        {stmt:'A solid has a definite shape and volume because its particles are closely packed in an orderly arrangement and vibrate about fixed positions.',ans:true,reason:'In a solid, particles are very closely packed in an orderly/regular arrangement and vibrate about fixed positions. This is why solids have both a definite shape and a definite volume.'},
+        {stmt:'When water vapour cools and becomes liquid water, new particles are created.',ans:false,reason:'No new particles are created during condensation or any state change. The same water particles slow down, lose energy, and are pulled closer together by forces of attraction to form liquid. Number and size of particles are unchanged — conservation of mass.'},
+        {stmt:'The chloroplast is found in both animal cells and plant cells because all cells need energy.',ans:false,reason:'Chloroplasts are found ONLY in plant cells. Animal cells do NOT have chloroplasts. Animal cells get energy through respiration (in mitochondria), not photosynthesis.'},
+        {stmt:'Diffusion in gases is faster than diffusion in liquids.',ans:true,reason:'Gas particles are further apart, lighter, and move faster than particles in liquids. Therefore gas particles can diffuse more quickly through the large spaces in gases compared to the more closely packed particles in liquids.'},
+        {stmt:'A unicellular organism must have all cell organelles including nucleus, chloroplast, and cell wall.',ans:false,reason:'Not all unicellular organisms have all organelles. For example, bacteria have no nucleus. Red blood cells have no nucleus. Euglena is unicellular with chloroplasts but animal-like features too. Organelles depend on the type and function of the cell.'}
+      ],
+      secC:[
+        {type:'str',q:'A student says: "When a solid expands on heating, new particles are formed to fill the extra space."\\n(a) State whether the student is correct. [1]\\n(b) Explain what actually happens to the particles when the solid is heated. [3]',marks:4,scheme:'(a) The student is INCORRECT [1]\\n(b) When a solid is heated, the particles gain energy [1] and vibrate more vigorously about their fixed positions [1]. The distances between the particles increase, causing the solid to expand in volume [1]. The number and size of particles do NOT change — mass is conserved.'},
+        {type:'str',q:'(a) State TWO differences between a typical plant cell and a typical animal cell. [2]\\n(b) State the function of the cell membrane. [1]\\n(c) A student says the cell wall and cell membrane both control what enters and leaves the cell. Is the student correct? Explain. [2]',marks:5,scheme:'(a) Any TWO of: plant cell has cell wall / animal does not [1]; plant cell has chloroplasts / animal does not [1]; plant cell has large central vacuole / animal cell has small vacuoles or none [1]\\n(b) Controls the movement of substances into and out of the cell [1]\\n(c) Student is INCORRECT [1]. Only the cell MEMBRANE controls what enters and exits (it is partially permeable). The cell wall is fully permeable and only provides structural support [1].'},
+        {type:'str',q:'(a) A drop of ink is placed in still water. Describe and explain what you observe after 30 minutes. Use the term diffusion. [3]\\n(b) The same experiment is repeated with warmer water. State what difference you would observe and explain why. [2]',marks:5,scheme:'(a) The ink spreads throughout the water until the colour is uniform/evenly distributed [1]. Ink particles move from high concentration (where the drop was placed) to lower concentration by diffusion [1], continuing until concentration is the same throughout [1]\\n(b) The ink would spread more quickly [1] because at higher temperature, particles have more energy and move faster, so diffusion occurs at a faster rate [1]'}
+      ]
+    }
+
+
+
+    ,{
+      num:24,title:'Ch9 Practice — Human Body Systems (I)',
+      secA:[
+        {q:'Which system transports blood, nutrients, and oxygen to all cells?',opts:['Respiratory system','Digestive system','Circulatory system','Nervous system'],ans:2,skill:'Human Body Systems',fb:'The circulatory system (heart, blood vessels, blood) transports oxygen and nutrients to cells and removes waste products like CO2.'},
+        {q:'Which organ pumps blood around the body?',opts:['Lungs','Liver','Kidneys','Heart'],ans:3,skill:'Human Body Systems',fb:'The heart is the muscular pump that drives blood through the circulatory system. It has four chambers: left/right atria and left/right ventricles.'},
+        {q:'Which blood vessel carries oxygenated blood AWAY from the heart?',opts:['Vein','Artery','Capillary','Lymph vessel'],ans:1,skill:'Human Body Systems',fb:'Arteries carry blood AWAY from the heart (usually oxygenated, except the pulmonary artery). Veins carry blood TO the heart. Capillaries exchange substances with tissues.'},
+        {q:'Where does gas exchange (O2 in, CO2 out) occur?',opts:['Heart','Stomach','Alveoli in the lungs','Small intestine'],ans:2,skill:'Human Body Systems',fb:'Gas exchange occurs in alveoli — tiny air sacs with thin walls, large surface area, and rich blood supply. O2 diffuses in; CO2 diffuses out.'},
+        {q:'Which organ mainly digests proteins?',opts:['Mouth','Stomach','Large intestine','Liver'],ans:1,skill:'Human Body Systems',fb:'The stomach produces HCl and pepsin (protein-digesting enzyme). The mouth begins starch digestion with amylase.'},
+        {q:'Where are most nutrients absorbed into the blood?',opts:['Stomach','Large intestine','Small intestine','Oesophagus'],ans:2,skill:'Human Body Systems',fb:'The small intestine is lined with villi and microvilli that greatly increase surface area for absorption of digested nutrients.'},
+        {q:'What is the role of the large intestine?',opts:['Digest proteins','Absorb nutrients','Absorb water and form faeces','Produce enzymes'],ans:2,skill:'Human Body Systems',fb:'The large intestine absorbs water from undigested material and compacts it into faeces for excretion.'},
+        {q:'Which part filters, warms and moistens incoming air?',opts:['Trachea','Alveoli','Nasal cavity','Bronchi'],ans:2,skill:'Human Body Systems',fb:'The nasal cavity filters dust and microbes, warms air, and moistens it before it reaches the lungs.'},
+        {q:'What is the function of the respiratory system?',opts:['Break down food','Exchange O2 and CO2 between blood and air','Pump blood to organs','Remove waste from blood'],ans:1,skill:'Human Body Systems',fb:'The respiratory system brings O2 into the body and removes CO2. Gas exchange happens at the alveoli.'},
+        {q:'What does the diaphragm do during inhalation?',opts:['Relaxes, moves up, decreases chest volume','Contracts, flattens, increases chest volume','Stays still','Pumps blood'],ans:1,skill:'Human Body Systems',fb:'During inhalation the diaphragm contracts and flattens, increasing chest volume, lowering pressure inside, so air rushes in.'}
+      ],
+      secB:[
+        {stmt:'Arteries always carry oxygenated blood and veins always carry deoxygenated blood.',ans:false,reason:'The pulmonary ARTERY carries deoxygenated blood to the lungs; the pulmonary VEIN carries oxygenated blood back. Arteries = away from heart; veins = toward heart.',skill:'Human Body Systems'},
+        {stmt:'Villi in the small intestine increase surface area for nutrient absorption.',ans:true,reason:'Villi are finger-like projections lining the small intestine, greatly increasing surface area for absorption of amino acids, glucose, and fatty acids.',skill:'Human Body Systems'},
+        {stmt:'Alveoli have thick walls to protect the gas exchange surface.',ans:false,reason:'Alveoli have very THIN walls (one cell thick) to minimise diffusion distance. They also have a rich blood supply and large surface area.',skill:'Human Body Systems'},
+        {stmt:'The digestive and circulatory systems work together to supply nutrients to cells.',ans:true,reason:'The digestive system absorbs nutrients into blood; the circulatory system transports them via blood to every cell — an example of organ systems working together.',skill:'Human Body Systems'},
+        {stmt:'CO2 is a waste product of cellular respiration and is removed via the lungs.',ans:true,reason:'Cells produce CO2 during respiration. CO2 diffuses into blood, is carried to the lungs, and diffuses into alveoli where it is breathed out.',skill:'Human Body Systems'}
+      ],
+      secC:[
+        {type:'str',q:'(a) Name the organ system that transports O2 and nutrients to body cells. [1]\\n(b) State TWO features of alveoli that make them well-suited for gas exchange. [2]\\n(c) Explain how the circulatory and respiratory systems work together to supply oxygen to body cells. [3]',marks:6,scheme:'(a) Circulatory system [1]\\n(b) Any TWO: thin walls / large surface area / rich blood supply / moist surface [1 each]\\n(c) Air enters lungs; O2 diffuses from alveoli into blood [1]. Heart pumps oxygenated blood via arteries to body cells [1]. O2 released to cells; CO2 diffuses into blood, returned to lungs to be breathed out [1].'},
+        {type:'str',q:'Describe the journey of a glucose molecule from bread to a leg muscle cell. Include digestion, absorption, and transport. [4]',marks:4,scheme:'Starch digested to glucose in the small intestine [1]. Glucose absorbed through villi into blood [1]. Circulatory system carries glucose via blood/arteries to the leg [1]. Glucose passes from capillaries into the muscle cell [1].'}
+      ]
+    },
+    {
+      num:25,title:'Ch9 Practice — Human Body Systems (II)',
+      secA:[
+        {q:'Which organ removes urea and excess water from the blood?',opts:['Liver','Kidneys','Lungs','Stomach'],ans:1,skill:'Human Body Systems',fb:'The kidneys filter blood, removing urea (from protein breakdown), excess water and salts, excreted as urine.'},
+        {q:'What produces urea?',opts:['Breaking down glucose','Breaking down excess amino acids in the liver','O2 reacting with CO2','Digesting starch'],ans:1,skill:'Human Body Systems',fb:'The liver breaks down excess amino acids (deamination), producing urea transported to the kidneys for excretion.'},
+        {q:'Which system removes metabolic waste from the blood?',opts:['Digestive','Respiratory','Excretory (kidneys)','Circulatory'],ans:2,skill:'Human Body Systems',fb:'The excretory system (kidneys) filters urea, excess water, and salts. Lungs also excrete CO2.'},
+        {q:'Correct pathway of air during inhalation?',opts:['Mouth → Alveoli → Trachea → Bronchi','Mouth → Trachea → Bronchi → Alveoli','Alveoli → Bronchi → Trachea → Mouth','Mouth → Bronchi → Trachea → Alveoli'],ans:1,skill:'Human Body Systems',fb:'Mouth/Nose → Trachea → Bronchi → Bronchioles → Alveoli. Air travels from large to small passages deep into lungs.'},
+        {q:'Capillaries main role is:',opts:['Pump blood at high pressure','Carry blood long distances','Exchange substances between blood and cells','Store blood'],ans:2,skill:'Human Body Systems',fb:'Capillaries have very thin walls (one cell thick). Nutrients, O2, and waste exchange between blood and tissues across these walls.'},
+        {q:'Function of red blood cells?',opts:['Fight infection','Carry O2 using haemoglobin','Clot blood','Carry nutrients to liver'],ans:1,skill:'Human Body Systems',fb:'Red blood cells contain haemoglobin, which binds O2 in lungs and releases it to body cells. They have no nucleus, maximising space for haemoglobin.'},
+        {q:'Which cells fight infections?',opts:['Red blood cells','Platelets','White blood cells','Plasma cells'],ans:2,skill:'Human Body Systems',fb:'White blood cells destroy pathogens by engulfing them (phagocytosis) or producing antibodies.'},
+        {q:'ONE function of the liver?',opts:['Absorb water from faeces','Produce urea from excess amino acids','Pump blood','Produce enzymes for small intestine'],ans:1,skill:'Human Body Systems',fb:'The liver: produces urea (deamination), produces bile for fat digestion, stores glycogen, detoxifies harmful substances.'},
+        {q:'Where does carbohydrate digestion BEGIN?',opts:['Stomach','Small intestine','Large intestine','Mouth'],ans:3,skill:'Human Body Systems',fb:'Carbohydrate digestion begins in the mouth. Salivary amylase breaks starch into maltose. Continues in the small intestine.'},
+        {q:'Function of bile produced by the liver?',opts:['Digest proteins','Neutralise stomach acid and emulsify fats','Kill bacteria','Absorb water'],ans:1,skill:'Human Body Systems',fb:'Bile emulsifies fats (breaks large droplets into smaller ones, increasing surface area for lipase). Bile also neutralises acid from the stomach.'}
+      ],
+      secB:[
+        {stmt:'The kidneys filter all waste including CO2.',ans:false,reason:'Kidneys filter urea, excess water, and salts. CO2 is removed by the LUNGS. Different organs handle different waste products.',skill:'Human Body Systems'},
+        {stmt:'Red blood cells have no nucleus to maximise space for haemoglobin.',ans:true,reason:'Red blood cells lack a nucleus — more space for haemoglobin molecules to carry oxygen. An example of specialisation for function.',skill:'Human Body Systems'},
+        {stmt:'Digestion is only a physical process.',ans:false,reason:'Digestion includes BOTH physical (chewing, churning) AND chemical processes (enzymes breaking bonds). Both are essential to produce molecules small enough to absorb.',skill:'Human Body Systems'},
+        {stmt:'The circulatory system connects the digestive and respiratory systems by transporting their products.',ans:true,reason:'The circulatory system picks up nutrients from digestion and O2 from respiration, then delivers both to all body cells — the transport network connecting organ systems.',skill:'Human Body Systems'},
+        {stmt:'Bile is an enzyme that digests fats.',ans:false,reason:'Bile is NOT an enzyme. It emulsifies fats (breaks into smaller droplets) to increase surface area for lipase. Lipase is the actual fat-digesting enzyme.',skill:'Human Body Systems'}
+      ],
+      secC:[
+        {type:'str',q:'(a) State the function of the stomach in digestion. [2]\\n(b) Explain why the small intestine is well-adapted for nutrient absorption. [3]\\n(c) State ONE difference between the roles of the small intestine and large intestine. [1]',marks:6,scheme:'(a) Digests proteins using pepsin [1] and HCl [1]; churns food into paste [accept 2 of 3]\\n(b) Villi increase surface area [1]; thin walls for short diffusion distance [1]; rich blood supply to carry nutrients away [1]\\n(c) Small intestine absorbs nutrients; large intestine absorbs water and forms faeces [1]'},
+        {type:'str',q:'Explain how the body maintains constant internal temperature. What happens when (a) temperature rises [3] (b) temperature drops [3]?',marks:6,scheme:'(a) Too high: vasodilation — blood vessels widen, more blood near surface [1]; sweat evaporates removing heat [1]; hair lies flat [1]\\n(b) Too low: vasoconstriction — less blood near surface, less heat lost [1]; muscles shiver producing heat [1]; hairs stand up trapping air as insulation [1]'}
+      ]
+    },
+    {
+      num:26,title:'Ch10 Practice — Diversity of Living Things (I)',
+      secA:[
+        {q:'Which organisms produce food through photosynthesis?',opts:['Animals','Fungi','Plants','Bacteria'],ans:2,skill:'Diversity of Life',fb:'Plants (and algae) are autotrophs — they make food using sunlight: CO2 + water → glucose + oxygen.'},
+        {q:'Which is a key characteristic of ALL living organisms?',opts:['All have a nucleus','All photosynthesise','All carry out the 7 life processes (MRS NERG)','All have a cell wall'],ans:2,skill:'Diversity of Life',fb:'All living organisms carry out 7 life processes: Movement, Reproduction, Sensitivity, Nutrition, Excretion, Respiration, Growth.'},
+        {q:'Main purpose of classification?',opts:['Make biology harder','Organise organisms based on shared features and predict characteristics','Count organisms','Make animals easier to catch'],ans:1,skill:'Diversity of Life',fb:'Classification organises biodiversity, helps identify organisms, and allows scientists to predict characteristics of related organisms.'},
+        {q:'Correct hierarchy from LARGEST to SMALLEST?',opts:['Species→Genus→Family→Order→Class→Phylum→Kingdom','Kingdom→Phylum→Class→Order→Family→Genus→Species','Species→Family→Kingdom→Class→Order→Genus→Phylum','Kingdom→Class→Phylum→Order→Family→Genus→Species'],ans:1,skill:'Diversity of Life',fb:'Kingdom → Phylum → Class → Order → Family → Genus → Species (King Philip Came Over For Good Soup). Species is most specific.'},
+        {q:'Which feature distinguishes mammals from other vertebrates?',opts:['They breathe air','They are warm-blooded','They have hair and feed young with milk','They can move'],ans:2,skill:'Diversity of Life',fb:'Mammals: hair/fur, mammary glands (milk), most give birth to live young. Birds also breathe air and are warm-blooded.'},
+        {q:'What makes viruses different from bacteria?',opts:['Viruses are larger','Viruses have a nucleus','Viruses are not cells and cannot reproduce alone','Viruses photosynthesise'],ans:2,skill:'Diversity of Life',fb:'Viruses are NOT cells — no membrane, cytoplasm or organelles. They reproduce only inside a host cell. Bacteria ARE cells (prokaryotic) that reproduce independently.'},
+        {q:'Which kingdom includes multicellular organisms that absorb nutrients from dead matter?',opts:['Plant','Animal','Fungi','Protist'],ans:2,skill:'Diversity of Life',fb:'Fungi (mushrooms, moulds, yeasts) secrete enzymes to break down dead matter externally and absorb nutrients — they are decomposers.'},
+        {q:'A dichotomous key is used to:',opts:['Draw organisms to scale','Identify organisms by yes/no questions based on features','Count organisms in an area','Measure organism size'],ans:1,skill:'Diversity of Life',fb:'A dichotomous key identifies organisms step-by-step using yes/no questions about features, narrowing down until identified.'},
+        {q:'Insects differ from arachnids in having:',opts:['Six legs','Eight legs','Exoskeleton','Jointed legs'],ans:0,skill:'Diversity of Life',fb:'Insects: 6 legs, 3 body segments. Arachnids (spiders, scorpions): 8 legs, 2 body segments. Both have exoskeletons and jointed legs.'},
+        {q:'A species is:',opts:['Any similar-looking organisms','Organisms that interbreed and produce fertile offspring','All animals in one country','The largest classification group'],ans:1,skill:'Diversity of Life',fb:'A species: organisms that can interbreed naturally to produce fertile offspring. Different species produce sterile offspring or cannot interbreed.'}
+      ],
+      secB:[
+        {stmt:'A virus is living because it can reproduce.',ans:false,reason:'Viruses cannot reproduce alone — they use a host cell. They lack cells, do not respire, grow, or carry out most life processes. Most scientists consider them non-living.',skill:'Diversity of Life'},
+        {stmt:'All plants have leaves, roots and stems.',ans:false,reason:'Not all plants have all three structures. Mosses have no roots or stems. Classification includes mosses, ferns, conifers, and flowering plants — each with different structures.',skill:'Diversity of Life'},
+        {stmt:'Bacteria are prokaryotes because their cells have no membrane-bound nucleus.',ans:true,reason:'Prokaryotes (bacteria) have no nuclear membrane — DNA is free in the cytoplasm. Eukaryotes (plants, animals, fungi) have a membrane-bound nucleus.',skill:'Diversity of Life'},
+        {stmt:'A shark and dolphin belong to the same class because both live in the sea.',ans:false,reason:'Sharks are fish; dolphins are mammals. Classification is based on biology (breathing, reproduction, body temperature), not habitat or appearance.',skill:'Diversity of Life'},
+        {stmt:'Biodiversity refers to the variety of living organisms in an ecosystem.',ans:true,reason:'Biodiversity = variety of life: number of species, genetic diversity within species, and variety of ecosystems. High biodiversity indicates a healthy ecosystem.',skill:'Diversity of Life'}
+      ],
+      secC:[
+        {type:'str',q:'A student finds a single-celled organism with a nucleus, chloroplasts, and a flagellum.\\n(a) Prokaryote or eukaryote? Give a reason. [2]\\n(b) Which kingdom? [1]\\n(c) One similarity to plants and one to animals. [2]',marks:5,scheme:'(a) Eukaryote [1]; has a nucleus (membrane-bound) [1]\\n(b) Protist [1]\\n(c) Plant: has chloroplasts and can photosynthesise [1]; Animal: can move (flagellum) [1]'},
+        {type:'str',q:'Use the key: 1a Wings→2; 1b No wings→Spider. 2a 6 legs→3; 2b 4 legs→Bird. 3a Scales→Butterfly; 3b No scales→Fly.\\nOrg A: wings, 6 legs, no scales. Org B: no wings. Org C: wings, 4 legs.\\n(a) Identify A, B, C. [3] (b) State TWO features to distinguish bee from fly. [2]',marks:5,scheme:'(a) A=Fly [1]; B=Spider [1]; C=Bird [1]\\n(b) Any TWO: number of wings (bee 4, fly 2) [1]; presence of stripes [1]; pollen baskets [1]'}
+      ]
+    }
+
+    ,{
+      num:27,title:'Ch10 Practice — Diversity of Living Things (II)',
+      secA:[
+        {q:'Which vertebrate has moist smooth skin and lays eggs in water?',opts:['Reptiles','Amphibians','Fish','Mammals'],ans:1,skill:'Diversity of Life',fb:'Amphibians (frogs, toads) have moist smooth skin, live in water and on land, and must lay eggs in water. Reptiles have dry scaly skin.'},
+        {q:'Flowering plants differ from non-flowering because they:',opts:['Have leaves','Photosynthesise','Produce seeds enclosed in fruit','Have roots'],ans:2,skill:'Diversity of Life',fb:'Angiosperms (flowering plants) produce seeds enclosed within fruit. Conifers produce seeds in cones (non-enclosed).'},
+        {q:'Which organism is a producer in a food chain?',opts:['Grasshopper','Frog','Grass','Snake'],ans:2,skill:'Diversity of Life',fb:'Producers (plants/algae) make their own food via photosynthesis. They are the base of all food chains.'},
+        {q:'Which is a decomposer?',opts:['Oak tree','Fox','Mushroom (fungus)','Rabbit'],ans:2,skill:'Diversity of Life',fb:'Decomposers (bacteria and fungi) break down dead organisms and recycle nutrients back into the ecosystem.'},
+        {q:'Vertebrate evolution order (simplest to most complex)?',opts:['Fish → Amphibians → Reptiles → Birds → Mammals','Mammals → Birds → Reptiles → Amphibians → Fish','Fish → Mammals → Reptiles → Amphibians → Birds','Amphibians → Fish → Birds → Reptiles → Mammals'],ans:0,skill:'Diversity of Life',fb:'Fish (fully aquatic) → Amphibians (partially terrestrial) → Reptiles (fully terrestrial) → Birds/Mammals.'},
+        {q:'Ferns differ from mosses because ferns:',opts:['Cannot photosynthesise','Have no roots','Have vascular tissue (xylem and phloem)','Cannot reproduce'],ans:2,skill:'Diversity of Life',fb:'Ferns have vascular tissue to transport water, enabling larger growth. Mosses lack vascular tissue and must stay small and moist.'},
+        {q:'An adaptation is:',opts:['Changing species in one generation','A feature helping an organism survive in its environment','Ability to learn new skills','Choosing a new habitat'],ans:1,skill:'Diversity of Life',fb:'An adaptation is a structural, physiological, or behavioural feature helping an organism survive and reproduce in its environment.'},
+        {q:'Which statement about food webs is correct?',opts:['Energy flows from consumer to producer','All energy is recycled perfectly','Energy flows from producer to consumer, lost as heat at each level','All organisms get equal energy'],ans:2,skill:'Diversity of Life',fb:'Energy flows FROM producers TO consumers. At each trophic level, energy is lost as heat during respiration. Food chains rarely exceed 4-5 levels.'},
+        {q:'Which helps a cactus survive in desert?',opts:['Large leaves for photosynthesis','Shallow roots to absorb rain; thick stem stores water','No roots to avoid water loss','Dropping leaves in summer'],ans:1,skill:'Diversity of Life',fb:'Cactus adaptations: shallow widespread roots quickly absorb rain; thick stems store water; reduced leaves (spines) minimise water loss; waxy coating reduces evaporation.'},
+        {q:'What do all arthropods have in common?',opts:['Six legs','Eight legs','Exoskeleton and jointed legs','Wings and antennae'],ans:2,skill:'Diversity of Life',fb:'Arthropods (insects, arachnids, crustaceans) all have: exoskeleton and jointed legs. Number of legs differs by group.'}
+      ],
+      secB:[
+        {stmt:'Warm-blooded birds have the same body temperature as mammals.',ans:false,reason:'Both birds and mammals are warm-blooded (endothermic) but may have different body temperatures. Birds typically have higher temperatures (~40-42°C) than humans (37°C).',skill:'Diversity of Life'},
+        {stmt:'Decomposers play an important role in recycling nutrients in ecosystems.',ans:true,reason:'Decomposers break down dead organisms, releasing nutrients back into the soil for plants to use — completing the nutrient cycle.',skill:'Diversity of Life'},
+        {stmt:'A virus, a bacterium, and a fern are all in the same kingdom.',ans:false,reason:'Viruses are not in any kingdom. Bacteria: Kingdom Bacteria. Ferns: Kingdom Plantae. Fundamentally different types of organism.',skill:'Diversity of Life'},
+        {stmt:'All fungi are harmful to humans.',ans:false,reason:'Many fungi are beneficial: yeast in bread/brewing, Penicillium producing antibiotics, edible mushrooms. Fungi are also vital decomposers.',skill:'Diversity of Life'},
+        {stmt:'A food chain always begins with a producer.',ans:true,reason:'All food chains begin with a PRODUCER (plant or alga) converting light to chemical energy via photosynthesis. All other organisms depend on this.',skill:'Diversity of Life'}
+      ],
+      secC:[
+        {type:'str',q:'Food chain: Grass → Grasshopper → Frog → Snake → Eagle\\n(a) Name the producer. [1] (b) Role of eagle? [1]\\n(c) If frogs decrease: (i) grasshopper population? [1] (ii) snake population? [1]\\n(d) Why does little energy reach the eagle? [2]',marks:6,scheme:'(a) Grass [1]\\n(b) Tertiary consumer / apex predator [1]\\n(c)(i) Increase [1] — fewer frogs eating them\\n(c)(ii) Decrease [1] — less food available\\n(d) Energy lost as heat during respiration at each level [1]; only ~10% passed to next level, very little remains by eagle [1]'},
+        {type:'str',q:'(a) State THREE differences between a plant cell and a bacterial cell. [3]\\n(b) Why are bacteria called prokaryotes? [1]\\n(c) Give ONE beneficial use of bacteria. [1]',marks:5,scheme:'(a) Any THREE: plant cell has nuclear membrane / bacteria have no nucleus [1]; plant cell has mitochondria and chloroplasts [1]; plant cell is larger [1]; plant cell has membrane-bound organelles [1]\\n(b) No membrane-bound nucleus — DNA free in cytoplasm [1]\\n(c) Any ONE: nitrogen fixation / making yoghurt or cheese / decomposing dead matter / probiotics [1]'}
+      ]
+    },
+    {
+      num:28,title:'Ch11 Practice — Thermal Energy (I)',
+      secA:[
+        {q:'Which heat transfer requires NO medium?',opts:['Conduction','Convection','Radiation','All require matter'],ans:2,skill:'Thermal Energy',fb:'Radiation (infrared waves) can travel through vacuum — how Sun\\'s heat reaches Earth. Conduction requires contact; convection requires fluid.'},
+        {q:'Heat flows from 80°C to 20°C object. Direction?',opts:['20°C to 80°C','80°C to 20°C','Both directions equally','No transfer'],ans:1,skill:'Thermal Energy',fb:'Heat always flows from HIGHER to LOWER temperature until thermal equilibrium. The 80°C object loses heat; the 20°C object gains heat.'},
+        {q:'Metals conduct heat well because:',opts:['Metal atoms are very hot','Metals have free electrons that transfer energy quickly','Metals are shiny','Metal atoms do not vibrate'],ans:1,skill:'Thermal Energy',fb:'Metals contain free electrons that move rapidly and collide with atoms, transferring kinetic energy quickly — excellent conductors of heat and electricity.'},
+        {q:'In convection, heat is transferred by:',opts:['Direct contact between particles','Waves through vacuum','Bulk movement of fluid carrying energy','Radiation from hot atoms'],ans:2,skill:'Thermal Energy',fb:'Convection: hot fluid becomes less dense and rises; cool fluid sinks to replace it. Creates convection currents transferring heat. Cannot occur in solids.'},
+        {q:'Best absorber AND emitter of radiation?',opts:['White','Silver','Black','Yellow'],ans:2,skill:'Thermal Energy',fb:'Dull black surfaces best absorb AND emit radiation. Shiny silver/white surfaces are worst absorbers/emitters. Solar panels are black.'},
+        {q:'Metal spoon in hot soup transfers heat to your hand by:',opts:['Convection','Radiation','Conduction','All three equally'],ans:2,skill:'Thermal Energy',fb:'Conduction: heat travels through metal spoon by particle-to-particle energy transfer from hot end to cooler hand.'},
+        {q:'A refrigerator removes heat from inside. This tells us:',opts:['Heat flows cold to hot (artificially forced)','Heat naturally flows warm to cold','Fridge creates cold','No heat flow inside fridge'],ans:0,skill:'Thermal Energy',fb:'Normally heat flows warm to cold. A fridge uses a compressor to artificially move heat from cold inside to warm outside — against natural direction, requiring electricity.'},
+        {q:'Sea breezes during daytime are caused by:',opts:['Conduction in air','Convection — land heats faster, hot air rises, cool sea air moves in','Radiation from sea','Conduction from sea to land'],ans:1,skill:'Thermal Energy',fb:'Land heats faster than sea. Hot air over land rises. Cooler sea air moves in — creating sea breeze. A large-scale convection current.'},
+        {q:'Thermal equilibrium means:',opts:['One object much hotter','Two objects reach same temperature and transfer stops','Substance cannot absorb more heat','Water boils'],ans:1,skill:'Thermal Energy',fb:'Thermal equilibrium: two objects reach the same temperature, no net heat transfer. Heat still flows both ways but rates are equal.'},
+        {q:'Thermos flask silver walls prevent heat loss by:',opts:['Preventing conduction','Preventing convection','Reflecting radiation back in','Stopping evaporation'],ans:2,skill:'Thermal Energy',fb:'Silver walls reflect radiation back in, reducing heat loss by radiation. Vacuum prevents conduction and convection. Stopper prevents convection from top.'}
+      ],
+      secB:[
+        {stmt:'Conduction occurs only in solids.',ans:false,reason:'Conduction occurs in ALL states but is most effective in solids (particles closest together). Liquids and gases are poor conductors.',skill:'Thermal Energy'},
+        {stmt:'A shiny silver surface loses heat by radiation more slowly than dull black at same temperature.',ans:true,reason:'Dull black surfaces are the best emitters of radiation. Shiny silver surfaces are poor emitters — they reflect most radiation and lose heat by radiation more slowly.',skill:'Thermal Energy'},
+        {stmt:'Convection can occur in solid metals.',ans:false,reason:'Convection requires a fluid that can flow. In solids, particles vibrate at fixed positions — no bulk movement possible. Solids transfer heat by conduction only.',skill:'Thermal Energy'},
+        {stmt:'Vacuum in a thermos flask prevents heat loss by both conduction and convection.',ans:true,reason:'Vacuum has no particles — heat cannot be conducted or convected. The vacuum layer prevents both conduction and convection.',skill:'Thermal Energy'},
+        {stmt:'Land and sea warm up at the same rate in sunlight.',ans:false,reason:'Land heats faster than sea (lower specific heat capacity). This temperature difference drives sea breezes (daytime) and land breezes (night).',skill:'Thermal Energy'}
+      ],
+      secC:[
+        {type:'str',q:'(a) Name the THREE methods of heat transfer. [1]\\n(b) A student holds a metal rod heated at the other end. After 2 min they feel warmth.\\n(i) Name the method. [1] (ii) Explain how heat reaches the hand. [2]\\n(c) Why would glass rod NOT work? [2]',marks:6,scheme:'(a) Conduction, convection, radiation [1]\\n(b)(i) Conduction [1]\\n(ii) Hot particles vibrate with more energy [1]; collide with adjacent particles, transferring energy along rod to hand [1]\\n(c) Glass is a poor conductor/insulator [1]; particles less closely packed and no free electrons to transfer energy efficiently [1]'},
+        {type:'str',q:'Explain how a convection current forms when water in a kettle is heated from the bottom. Use ideas about density, temperature, and movement. [4]',marks:4,scheme:'Water at bottom is heated and gains energy [1]; expands and becomes less dense [1]; less dense hot water rises [1]; cooler denser water sinks to take its place, cycle repeats — convection current forms [1]'}
+      ]
+    }
+
+    ,{
+      num:29,title:'Ch11 Practice — Thermal Energy (II)',
+      secA:[
+        {q:'Best application of a good thermal insulator?',opts:['Cooking pan base','Computer heat sink','Handle of a cooking pot','Radiator fins'],ans:2,skill:'Thermal Energy',fb:'Pot handles should be insulators (wood/plastic) to protect users. Pan base and radiator fins need good conductors.'},
+        {q:'What happens to temperature of water as it boils at 100°C?',opts:['Rises above 100°C','Stays constant at 100°C while evaporating','Drops during evaporation','Oscillates'],ans:1,skill:'Thermal Energy',fb:'During a state change, temperature remains CONSTANT. Energy goes into breaking forces of attraction, not raising temperature.'},
+        {q:'Why do houses in hot countries have white outer walls?',opts:['White paint is cheapest','White reflects more radiation, keeping building cooler','White conducts heat better','White allows convection currents'],ans:1,skill:'Thermal Energy',fb:'White surfaces are poor absorbers of radiation — they reflect most. This reduces heat entering the building.'},
+        {q:'Correct direction of heat when a hot cup is placed on a cold table?',opts:['Table to cup','Cup to table','Both ways then stops','No transfer'],ans:1,skill:'Thermal Energy',fb:'Heat flows from HOT (cup) to COLD (table). Cup cools; table warms slightly. Continues until thermal equilibrium.'},
+        {q:'Why is expanded polystyrene a good insulator?',opts:['It is white','It contains many tiny air pockets which are poor conductors','It is rigid','It reflects radiation like a mirror'],ans:1,skill:'Thermal Energy',fb:'Polystyrene traps millions of tiny air pockets. Air is a very poor conductor, so heat cannot easily transfer through the foam.'},
+        {q:'Infrared thermometer uses which method to detect temperature?',opts:['Conduction','Convection','Radiation','Diffusion'],ans:2,skill:'Thermal Energy',fb:'All objects emit infrared radiation. An infrared thermometer detects emitted radiation and calculates temperature. No contact required.'},
+        {q:'Which change INCREASES heat loss from a building?',opts:['Adding thick curtains','Installing double-glazed windows','Removing loft insulation','Painting walls white'],ans:2,skill:'Thermal Energy',fb:'Loft insulation traps air, reducing heat loss. Removing it allows more heat to escape from the house.'},
+        {q:'Land breezes occur at night when:',opts:['Sea is cooler than land','Land is cooler — hot sea air rises, cool land air blows out to sea','Wind always blows from sea to land','Radiation from land heats sea'],ans:1,skill:'Thermal Energy',fb:'At night, land cools faster. Sea is warmer — air above sea rises. Cooler land air blows out to sea — land breeze. Opposite of daytime sea breeze.'},
+        {q:'Which factor does NOT affect conduction rate through a rod?',opts:['Temperature difference between ends','Material (metal vs wood)','Thickness of rod','Colour of rod'],ans:3,skill:'Thermal Energy',fb:'Conduction rate depends on: temperature difference, material, thickness, length. COLOUR does not affect conduction — colour affects radiation.'},
+        {q:'Why does tile feel colder than carpet when both are at room temperature?',opts:['Tiles are always colder','Tile conducts heat away from your feet faster — carpet is an insulator','Carpet radiates heat to feet','Tiles are dirty'],ans:1,skill:'Thermal Energy',fb:'Both are at room temperature (below body temperature). Tiles conduct heat away from warm feet fast — you lose heat quickly, feel cold. Carpet insulates — conducts slowly — feels warmer.'}
+      ],
+      secB:[
+        {stmt:'Heat and temperature mean the same thing.',ans:false,reason:'Heat is total thermal energy transferred (Joules). Temperature is average kinetic energy of particles (°C or K). A large bucket of warm water has more heat than a small cup of boiling water, even though the cup is hotter.',skill:'Thermal Energy'},
+        {stmt:'In conduction, particles move from hot end to cold end.',ans:false,reason:'Particles do NOT move in conduction — they vibrate at fixed positions. Energy is passed particle-to-particle by collisions. Energy moves, not the particles.',skill:'Thermal Energy'},
+        {stmt:'Placing a lid on a hot drink reduces heat loss mainly by reducing convection.',ans:true,reason:'Hot liquid surfaces lose heat by evaporation and convection (hot air rising). A lid prevents vapour and air from escaping, significantly reducing convection and evaporation.',skill:'Thermal Energy'},
+        {stmt:'Rate of radiation emitted by an object increases with temperature.',ans:true,reason:'Hotter objects emit radiation at a much faster rate. A red-hot metal emits far more than the same metal at room temperature — why infrared cameras detect body heat.',skill:'Thermal Energy'},
+        {stmt:'Vacuum flasks keep things hot AND cold effectively.',ans:true,reason:'A vacuum flask prevents heat transfer in BOTH directions — prevents heat entering (keeping cold) AND prevents heat escaping (keeping hot). The vacuum, silver walls, and stopper work regardless of temperature direction.',skill:'Thermal Energy'}
+      ],
+      secC:[
+        {type:'str',q:'(a) Explain why a saucepan has a metal base but a wooden handle. [3]\\n(b) Explain using ideas about thermal conduction why the base gets hot but the handle stays cool. [3]',marks:6,scheme:'(a) Metal base conducts heat from source to food [1]; wooden handle is a poor conductor (insulator) [1]; prevents heat being conducted to user\\'s hand, preventing burns [1]\\n(b) Metal has free electrons and closely-packed atoms that transfer energy efficiently [1]; wood has no free electrons and its particles are poor at transferring vibrational energy [1]; very little heat conducted through wood — handle stays cool [1]'},
+        {type:'str',q:'Solar panels have a black surface and are tilted toward the sun.\\n(a) Why is the surface black? [2] (b) Why does tilting increase absorption? [2] (c) Why are panels more effective in Singapore? [1]',marks:5,scheme:'(a) Black surfaces are best absorbers of radiation [1]; they absorb most incident infrared and light from the sun [1]\\n(b) When panel faces sun directly, radiation strikes at 90° — maximum energy per unit area [1]; tilting maximises incident energy intercepted [1]\\n(c) Singapore near equator with more sunlight hours / higher solar intensity / more direct sunlight angle [1]'}
+      ]
+    },
+    {
+      num:30,title:'Ch12 Practice — Electricity & Circuits (I)',
+      secA:[
+        {q:'What is electric current?',opts:['Energy used by a circuit','Rate of flow of electric charge (coulombs per second)','Resistance of a component','Voltage across a battery'],ans:1,skill:'Electricity & Circuits',fb:'Current (I) = rate of flow of charge. Unit: ampere (A). Measured with ammeter in SERIES. 1A = 1 coulomb of charge per second.'},
+        {q:'Which component measures voltage across a component?',opts:['Ammeter','Voltmeter','Ohmmeter','Galvanometer'],ans:1,skill:'Electricity & Circuits',fb:'Voltmeter measures potential difference (voltage), connected in PARALLEL. Unit: volt (V). Ammeter measures current, connected in series.'},
+        {q:'In a series circuit, if one bulb is removed, what happens to the other?',opts:['Burns brighter','Stays the same','Goes out (circuit broken)','Flickers'],ans:2,skill:'Electricity & Circuits',fb:'Series circuit has ONE path. If one component is removed, circuit breaks, no current flows — all other components go out.'},
+        {q:'In a parallel circuit, if one branch disconnects, what happens to the other?',opts:['Goes out too','Stays lit (current still flows in other branches)','Burns twice as bright','Flickers'],ans:1,skill:'Electricity & Circuits',fb:'Parallel circuits: each branch has an independent path. If one fails, current still flows through other branches. Used in household wiring.'},
+        {q:'Which formula correctly relates V, I and R?',opts:['V = I / R','I = V x R','V = I x R','R = V x I'],ans:2,skill:'Electricity & Circuits',fb:'Ohm\\'s Law: V = I x R. Rearranged: I = V/R and R = V/I.'},
+        {q:'Resistance 5 ohm, current 2A. Voltage?',opts:['2.5 V','7 V','10 V','0.4 V'],ans:2,skill:'Electricity & Circuits',fb:'V = I x R = 2 x 5 = 10 V'},
+        {q:'Which symbol represents a battery in a circuit diagram?',opts:['Circle with X inside','Long and short parallel lines (long = positive)','Arrow through a circle','Zigzag line'],ans:1,skill:'Electricity & Circuits',fb:'Battery: long and short parallel lines. Long = positive terminal, short = negative terminal. Single cell = one long and one short line.'},
+        {q:'What does an ammeter measure and how is it connected?',opts:['Voltage; parallel','Current; series','Resistance; parallel','Power; series'],ans:1,skill:'Electricity & Circuits',fb:'Ammeter: measures current (A), connected in SERIES. Very low resistance so it does not affect the circuit.'},
+        {q:'Which material is a good electrical conductor?',opts:['Glass','Rubber','Copper','Wood'],ans:2,skill:'Electricity & Circuits',fb:'Copper is an excellent conductor (used in wires) due to free electrons. Glass, rubber, and wood are insulators.'},
+        {q:'Unit of electrical resistance?',opts:['Ampere (A)','Volt (V)','Watt (W)','Ohm (omega)'],ans:3,skill:'Electricity & Circuits',fb:'Resistance: Ohms (omega). Current: Amperes (A). Voltage: Volts (V). Power: Watts (W). Energy: Joules (J).'}
+      ],
+      secB:[
+        {stmt:'In a series circuit, adding more bulbs makes each bulb dimmer.',ans:true,reason:'More bulbs in series = more resistance = less current (I=V/R). Each bulb gets less current and less voltage, so each is dimmer.',skill:'Electricity & Circuits'},
+        {stmt:'Voltage is the same at every point in a series circuit.',ans:false,reason:'In SERIES, CURRENT is the same at every point. VOLTAGE is shared between components. Two equal bulbs in 6V series each get 3V.',skill:'Electricity & Circuits'},
+        {stmt:'Household appliances are in parallel so each operates independently.',ans:true,reason:'Parallel: each appliance gets full voltage (240V in Singapore) and can be switched on/off independently. Series would mean all on at once and sharing voltage.',skill:'Electricity & Circuits'},
+        {stmt:'A voltmeter has very low resistance so it does not affect the circuit.',ans:false,reason:'A VOLTMETER must have VERY HIGH resistance so it draws virtually no current in parallel. An AMMETER has very low resistance.',skill:'Electricity & Circuits'},
+        {stmt:'A longer wire has more resistance than a shorter wire of same material and thickness.',ans:true,reason:'Resistance increases with length (R proportional to L). More obstacles for electrons. Doubling length doubles resistance.',skill:'Electricity & Circuits'}
+      ],
+      secC:[
+        {type:'str',q:'12V battery, bulb 4 ohm, resistor 2 ohm in SERIES.\\n(a) Total resistance. [1] (b) Current. [2] (c) Voltage across bulb. [2] (d) Why would bulb be brighter without the resistor? [2]',marks:7,scheme:'(a) Total R = 4+2 = 6 ohm [1]\\n(b) I = V/R = 12/6 = 2A [2]\\n(c) V = I x R = 2 x 4 = 8V [2]\\n(d) Without resistor R=4 ohm; I=12/4=3A (more current) [1]; more current = more power to bulb = brighter [1]'},
+        {type:'str',q:'(a) Draw a circuit: battery, switch, two bulbs in PARALLEL, ammeter measuring total current. [3]\\n(b) If one parallel bulb removed, what happens to the other\\'s brightness? Explain. [2]',marks:5,scheme:'(a) Battery [1], switch in main line [1], two parallel branches each with a bulb [1], ammeter in main line\\n(b) Other bulb stays same brightness [1]; parallel = each bulb has independent path with same voltage — removing one branch does not affect the other [1]'}
+      ]
+    },
+    {
+      num:31,title:'Ch12 Practice — Electricity & Circuits (II)',
+      secA:[
+        {q:'6V battery, bulb 2 ohm. Current?',opts:['3 A','12 A','0.33 A','4 A'],ans:0,skill:'Electricity & Circuits',fb:'I = V/R = 6/2 = 3 A'},
+        {q:'Parallel circuit: two 6 ohm bulbs, 12V battery. Current through EACH bulb?',opts:['1 A','2 A','4 A','0.5 A'],ans:1,skill:'Electricity & Circuits',fb:'Each bulb gets full 12V in parallel. I = V/R = 12/6 = 2A per bulb. Total from battery = 4A.'},
+        {q:'Which converts electrical energy to light?',opts:['Resistor','Switch','Bulb (lamp)','Wire'],ans:2,skill:'Electricity & Circuits',fb:'Lamp converts electrical energy to light (and some heat). Resistor converts to heat. Motor converts to kinetic energy.'},
+        {q:'What does a switch do?',opts:['Increases voltage','Measures current','Opens or closes circuit to control current flow','Stores electrical energy'],ans:2,skill:'Electricity & Circuits',fb:'Switch: open = no current; closed = current flows. Open circuit = circuit broken.'},
+        {q:'Voltage 6V, current 0.5A. Resistance?',opts:['3 ohm','12 ohm','0.083 ohm','6.5 ohm'],ans:1,skill:'Electricity & Circuits',fb:'R = V/I = 6/0.5 = 12 ohm'},
+        {q:'Why should electrical wires be covered with plastic insulation?',opts:['Appearance','Conduct better','Prevent electric shock and short circuits','Make them flexible'],ans:2,skill:'Electricity & Circuits',fb:'Plastic is an insulator — prevents accidental contact with live wire (electric shock) and prevents wires touching each other (short circuits).'},
+        {q:'Conventional current flows from:',opts:['Negative to positive','Positive to negative terminal; electrons flow negative to positive','Only electrons, not charge','When battery is full'],ans:1,skill:'Electricity & Circuits',fb:'Conventional current: + to - terminal. Electrons actually flow - to + (opposite direction). Both conventions are valid in their context.'},
+        {q:'An LDR has HIGH resistance in dim light. In bright light, resistance:',opts:['Increases further','Stays the same','Decreases','Becomes zero'],ans:2,skill:'Electricity & Circuits',fb:'LDR: dim light = high resistance; bright light = low resistance. Used in automatic street lighting.'},
+        {q:'In which circuit is current the same through all components?',opts:['Parallel','Series','Short circuit','Open circuit'],ans:1,skill:'Electricity & Circuits',fb:'SERIES circuit: one path, same current through every component. Parallel: current splits between branches.'},
+        {q:'Why is a fuse important?',opts:['Makes appliances faster','Prevents overheating and fires from excessive current','Increases resistance','Acts as on/off switch'],ans:1,skill:'Electricity & Circuits',fb:'Fuse: thin wire that melts if current exceeds safe level, breaking circuit before it can overheat wires or cause fire.'}
+      ],
+      secB:[
+        {stmt:'Greater resistance means greater current for a fixed voltage.',ans:false,reason:'Ohm\\'s Law: I = V/R. Greater resistance = LESS current. Resistance and current are inversely proportional (at constant voltage).',skill:'Electricity & Circuits'},
+        {stmt:'Adding more parallel branches decreases total resistance.',ans:true,reason:'Each additional parallel branch gives current another path. 1/R_total = 1/R1 + 1/R2 + ... Total resistance decreases with more branches.',skill:'Electricity & Circuits'},
+        {stmt:'A battery stores chemical energy and converts it to electrical energy when circuit is complete.',ans:true,reason:'Battery stores chemical energy. When circuit connects, chemical reaction drives electrons, converting chemical to electrical energy. Flat when chemicals are used up.',skill:'Electricity & Circuits'},
+        {stmt:'An open circuit allows current to flow.',ans:false,reason:'OPEN circuit has a break — no complete path, no current. CLOSED circuit has complete path — current flows. This is how switches work.',skill:'Electricity & Circuits'},
+        {stmt:'Connecting a voltmeter in series gives correct readings.',ans:false,reason:'Voltmeter must be in PARALLEL. If in series, its very high resistance drastically reduces circuit current, giving meaningless readings. Always: voltmeter = parallel; ammeter = series.',skill:'Electricity & Circuits'}
+      ],
+      secC:[
+        {type:'str',q:'Series circuit: 9V battery, bulb 2 ohm, fan 1 ohm.\\n(a) Total resistance. [1] (b) Current. [2] (c) Voltage across fan. [2] (d) How to make fan spin faster? [2]',marks:7,scheme:'(a) R = 2+1 = 3 ohm [1]\\n(b) I = 9/3 = 3A [2]\\n(c) V = 3x1 = 3V [2]\\n(d) Use higher voltage battery [1]; more voltage increases current which increases power to fan motor [1]'},
+        {type:'str',q:'(a) ONE advantage of parallel over series for household wiring. [1]\\n(b) Current and voltage in each circuit type. [4]\\n(c) In which type would a fuse be most useful? Explain. [2]',marks:7,scheme:'(a) Components operate independently / each gets full voltage / if one fails others continue [1]\\n(b) Series: same current throughout [1]; voltage shared between components [1]. Parallel: same voltage across all branches [1]; current splits between branches [1]\\n(c) Fuse in series in main line [1]; if total current too high (many parallel appliances on), fuse melts and breaks circuit, protecting from overheating/fire [1]'}
+      ]
+    },
+    {
+      num:32,title:'Ch13 Practice — Forces & Motion (I)',
+      secA:[
+        {q:'SI unit of force?',opts:['Kilogram (kg)','Joule (J)','Newton (N)','Metre per second (m/s)'],ans:2,skill:'Forces & Motion',fb:'Force is measured in Newtons (N). Named after Isaac Newton. Weight is also measured in Newtons.'},
+        {q:'What is weight?',opts:['Same as mass','Amount of matter','Gravitational force on its mass','Force it exerts on surface'],ans:2,skill:'Forces & Motion',fb:'Weight = mass x gravitational field strength (W = mg). Weight is a force (N). Mass (kg) is constant; weight changes with gravity.'},
+        {q:'Gravitational field strength on Earth?',opts:['10 m/s (speed)','10 N/kg','10 kg/N','1 N/kg'],ans:1,skill:'Forces & Motion',fb:'Earth g = 10 N/kg. Every 1 kg of mass experiences 10 N gravitational force. Moon g = 1.6 N/kg.'},
+        {q:'5 kg object on Earth (g=10 N/kg). Weight?',opts:['5 N','0.5 N','50 N','500 N'],ans:2,skill:'Forces & Motion',fb:'W = mg = 5 x 10 = 50 N'},
+        {q:'Which force always opposes motion?',opts:['Gravity','Normal force','Friction','Applied force'],ans:2,skill:'Forces & Motion',fb:'Friction always acts OPPOSITE to direction of motion. Opposes sliding between surfaces. Essential for walking and grip.'},
+        {q:'When net force is ZERO, object will:',opts:['Always remain stationary','Move in a circle','Stay at rest OR continue at constant speed in straight line','Accelerate'],ans:2,skill:'Forces & Motion',fb:'Newton\\'s 1st Law: net force=0 means object at rest stays at rest OR object moving continues at CONSTANT speed in a STRAIGHT LINE.'},
+        {q:'Speed formula?',opts:['Speed = distance x time','Speed = distance / time','Speed = time / distance','Speed = mass x velocity'],ans:1,skill:'Forces & Motion',fb:'Speed = distance / time. Units: m/s or km/h. Average speed = total distance / total time.'},
+        {q:'Car travels 150 km in 3 hours. Average speed?',opts:['450 km/h','50 km/h','75 km/h','53 km/h'],ans:1,skill:'Forces & Motion',fb:'Average speed = 150/3 = 50 km/h'},
+        {q:'Difference between speed and velocity?',opts:['They are the same','Velocity includes direction; speed does not','Speed includes direction; velocity does not','Velocity is always greater'],ans:1,skill:'Forces & Motion',fb:'Speed is scalar (magnitude only). Velocity is vector (magnitude AND direction). 60 km/h north has speed 60 km/h and velocity 60 km/h north.'},
+        {q:'Which force keeps planets in orbit around the Sun?',opts:['Friction','Magnetic force','Gravity','Normal force'],ans:2,skill:'Forces & Motion',fb:'Gravity (attractive force between masses) provides the centripetal force keeping planets in orbit. Same force gives us weight on Earth.'}
+      ],
+      secB:[
+        {stmt:'Mass and weight are the same quantity.',ans:false,reason:'Mass = amount of matter (kg), constant everywhere. Weight = gravitational force on mass (N), changes with location. 60 kg person: 600 N on Earth, 100 N on Moon.',skill:'Forces & Motion'},
+        {stmt:'A moving object on frictionless surface eventually stops due to inertia.',ans:false,reason:'Without friction, a moving object continues at constant speed forever (Newton\\'s 1st Law). Inertia RESISTS change in motion — it does not stop objects. Objects stop because of friction or other forces.',skill:'Forces & Motion'},
+        {stmt:'Friction is always harmful and should be reduced.',ans:false,reason:'Friction is essential: walking (friction between feet and ground), brakes (friction stops cars), writing (pen on paper), grip. Reducing friction is beneficial only in certain contexts (engine parts).',skill:'Forces & Motion'},
+        {stmt:'When two equal and opposite forces act on an object, it is in equilibrium.',ans:true,reason:'Equal and opposite forces: net force = 0. Object in equilibrium — at rest or constant velocity. Example: book on table (weight down = normal force up).',skill:'Forces & Motion'},
+        {stmt:'A car accelerates when driving force equals friction.',ans:false,reason:'Acceleration requires a NET force. If driving force = friction, net force = 0 and car moves at constant speed. For acceleration, driving force must be GREATER than friction.',skill:'Forces & Motion'}
+      ],
+      secC:[
+        {type:'str',q:'(a) Difference between mass and weight. [2]\\n(b) Student mass 40 kg. Weight on Earth (g=10 N/kg)? [2]\\n(c) On Moon (g=1.6 N/kg): (i) mass? [1] (ii) weight? [2]',marks:7,scheme:'(a) Mass: amount of matter, kg, constant [1]; Weight: gravitational force, N, changes with g [1]\\n(b) W = 40 x 10 = 400 N [2]\\n(c)(i) Mass = 40 kg (unchanged) [1]\\n(c)(ii) W = 40 x 1.6 = 64 N [2]'},
+        {type:'str',q:'Cyclist travels 5 km in 20 minutes.\\n(a) Average speed in km/h. [3]\\n(b) Is this speed or velocity? Explain. [2]',marks:5,scheme:'(a) Time = 20/60 = 1/3 h [1]; speed = 5 / (1/3) = 15 km/h [2]\\n(b) Speed [1]; direction not specified. Velocity requires direction (e.g. 15 km/h northward) [1]'}
+      ]
+    },
+    {
+      num:33,title:'Ch13 Practice — Forces & Motion (II)',
+      secA:[
+        {q:'Horizontal line at zero on force-time graph means:',opts:['Object accelerating','No net force; object at rest or constant velocity','Object decelerating rapidly','Force increasing'],ans:1,skill:'Forces & Motion',fb:'Horizontal at zero = no net force = constant speed or stationary. Newton\\'s 1st Law.'},
+        {q:'Which increases friction between two surfaces?',opts:['Lubricating with oil','Using smoother surfaces','Increasing weight pushing surfaces together','Reducing surface area'],ans:2,skill:'Forces & Motion',fb:'Friction depends on: roughness (rougher = more) and normal force (heavier = more). Lubricating and smoothing reduce friction.'},
+        {q:'Distance-time graph: straight line with steeper gradient means:',opts:['Slower speed','Object stopped','Faster (constant) speed','Decreasing speed'],ans:2,skill:'Forces & Motion',fb:'On distance-time graph: gradient = speed. Steeper = greater speed. Straight line = constant speed. Curved = changing speed.'},
+        {q:'2 kg ball dropped from rest. Weight? (g=10)',opts:['2 N','20 N','0.2 N','10 N'],ans:1,skill:'Forces & Motion',fb:'W = mg = 2 x 10 = 20 N'},
+        {q:'In free fall (ignoring air resistance), acceleration of all objects?',opts:['Depends on mass','Depends on size','Same for all (g = 10 m/s2)','Zero'],ans:2,skill:'Forces & Motion',fb:'Ignoring air resistance, all objects fall with same acceleration g = 10 m/s2, regardless of mass. Galileo demonstrated this.'},
+        {q:'Why does a feather fall slower than a brick in air but same rate in vacuum?',opts:['Feather is less heavy','In air, air resistance affects feather more (larger surface:weight ratio)','Brick is magnetic','Vacuum has more gravity'],ans:1,skill:'Forces & Motion',fb:'In air: feather experiences significant air resistance relative to its tiny weight. In vacuum (no air), both accelerate at g = 10 m/s2.'},
+        {q:'Which is a CONTACT force?',opts:['Gravity','Magnetic attraction','Electrostatic attraction','Friction'],ans:3,skill:'Forces & Motion',fb:'Contact forces need physical contact: friction, normal force, tension, air resistance. Non-contact: gravity, magnetic, electrostatic.'},
+        {q:'60 kg person on scales in lift reads 600 N. What is happening?',opts:['Lift accelerating upward','Lift stationary or constant speed','Lift decelerating downward','Person losing weight'],ans:1,skill:'Forces & Motion',fb:'Weight = 60 x 10 = 600 N. Scale reads = Weight. Net force = 0, so lift is stationary or at constant speed.'},
+        {q:'Which statement about gravity is correct?',opts:['Gravity only acts on heavy objects','Gravity acts between any two objects with mass','Gravity only exists on Earth','Gravity pushes objects apart'],ans:1,skill:'Forces & Motion',fb:'Gravity is universal attraction between ANY two objects with mass. Larger mass = greater gravitational force.'},
+        {q:'Skydiver at terminal velocity. At this point:',opts:['Still accelerating','Net force zero; air resistance = weight','They speed up rapidly','Gravity stops'],ans:1,skill:'Forces & Motion',fb:'Terminal velocity: air resistance = weight. Net force = 0. No acceleration — constant (maximum) speed.'}
+      ],
+      secB:[
+        {stmt:'On a distance-time graph, a horizontal line means constant speed.',ans:false,reason:'A HORIZONTAL line means distance NOT changing — object is STATIONARY. Constant speed = straight line with positive gradient.',skill:'Forces & Motion'},
+        {stmt:'Weight of an object on Moon is less than on Earth.',ans:true,reason:'Weight = mg. Moon g = 1.6 N/kg vs Earth g = 10 N/kg. Weight is about 6 times less on Moon. Mass stays the same.',skill:'Forces & Motion'},
+        {stmt:'When a car brakes, friction is the acting force.',ans:true,reason:'Car brakes apply friction between brake pads and wheel discs. This friction opposes wheel rotation, slowing the car.',skill:'Forces & Motion'},
+        {stmt:'A heavy object always falls faster than a lighter one from same height.',ans:false,reason:'Ignoring air resistance, ALL objects fall with same acceleration g = 10 m/s2, regardless of mass. Air resistance causes different fall rates in practice.',skill:'Forces & Motion'},
+        {stmt:'Increasing force applied to an object always increases its speed.',ans:false,reason:'More force increases ACCELERATION (rate of change of speed). If friction also increases equally (e.g. terminal velocity), speed stays constant. More force = more acceleration, not necessarily more speed.',skill:'Forces & Motion'}
+      ],
+      secC:[
+        {type:'str',q:'Parachutist jumps from aeroplane.\\n(a) Forces before opening parachute (ignore air resistance). [1]\\n(b) Draw force diagram at terminal velocity. [2]\\n(c) When parachute opens: what happens to air resistance? How does this affect speed? [3]',marks:6,scheme:'(a) Weight/gravity downward [1]\\n(b) Weight (down) and air resistance (up) of EQUAL length/magnitude [2]\\n(c) Air resistance increases greatly [1]; air resistance > weight so net force acts upward, slowing parachutist [1]; reaches new lower terminal velocity [1]'},
+        {type:'str',q:'Student measures toy car speed over 4 m. Times: Trial 1: 8s, Trial 2: 7.5s, Trial 3: 8.5s.\\n(a) Average time. [1] (b) Average speed with units. [2] (c) ONE way to improve accuracy. [1] (d) ONE source of error and how it affects result. [2]',marks:6,scheme:'(a) (8+7.5+8.5)/3 = 8 s [1]\\n(b) Speed = 4/8 = 0.5 m/s [2]\\n(c) Use light gates for automated timing / more trials / longer distance / electronic sensors [1]\\n(d) Human reaction time: starts/stops timer late, making time too large and calculated speed too small [1] [accept: friction slowing car, measured speed less than true speed [1]]'}
+      ]
+    }
+
+  ];
+}
+
+function buildPaperTabs() {
+  var btns=document.getElementById('paperTabsBtns'), cont=document.getElementById('paperContents');
+  if (!btns || !cont) return;
+  btns.innerHTML=''; cont.innerHTML='';
+  var d=loadData();
+  // Filter papers by active chapter filter
+  var filteredPapers = PAPERS.filter(function(p){ return paperMatchesFilter(p.num); });
+  if (filteredPapers.length === 0) {
+    cont.innerHTML='<div style="text-align:center;padding:2rem;color:var(--muted);font-size:.85rem">No papers match the selected chapters. <button onclick="applyChapPreset('core');buildPaperTabs()" style="color:#166534;background:none;border:none;cursor:pointer;font-weight:700;font-family:inherit">Reset to Core</button></div>';
+    return;
+  }
+  // Update badge count
+  var badge = document.getElementById('papersBadge');
+  if (badge) badge.textContent = filteredPapers.length;
+  filteredPapers.forEach(function(p,i){
+    var done = d.history.some(function(h){return h.paper===p.num;});
+    var btn=document.createElement('button');
+    var isExt = p.num >= 24;
+    btn.className='ptab'+(done?' done':'')+(i===0?' active':'');
+    btn.textContent='Paper '+p.num+(isExt?' ★':'');
+    btn.onclick=(function(pi){return function(){switchPaper(pi);};})(i);
+    btn.id='ptab_'+i;
+    btns.appendChild(btn);
+    var div=document.createElement('div');
+    div.id='paper_'+i;
+    div.style.display=i===0?'block':'none';
+    div.innerHTML=buildPaperHTML(p,i);
+    cont.appendChild(div);
+  });
+}
+
+function switchPaper(i) {
+  document.querySelectorAll('.ptab').forEach(function(b,j){b.classList.toggle('active',j===i);});
+  document.querySelectorAll('[id^="paper_"]').forEach(function(d,j){d.style.display=j===i?'block':'none';});
+}
+
+function buildPaperHTML(p, pidx) {
+  var d=loadData(), prevAttempt=d.history.filter(function(h){return h.paper===p.num;}).pop();
+  var html='<div style="margin-bottom:.75rem"><div style="font-family:\\'Libre Baskerville\\',serif;font-size:1.05rem;font-weight:700;color:var(--ink)">'+p.title+'</div>';
+  html+='<div class="paper-meta"><span>📋 G2 Format</span><span>Sec A: 10 marks</span><span>Sec B: 10 marks</span><span>Sec C: 20 marks</span><span>Total: 40 marks</span></div>';
+  if (prevAttempt) {
+    html+='<div style="background:var(--greenl);border:1px solid #86efac;border-radius:7px;padding:.4rem .75rem;font-size:.78rem;margin-bottom:.5rem;color:var(--green)">✓ Previously scored: <strong>'+prevAttempt.score+'/40</strong>'+(prevAttempt.secBreakdown?' (A:'+prevAttempt.secBreakdown.a+' B:'+prevAttempt.secBreakdown.b+' C:'+prevAttempt.secBreakdown.c+')':'')+'</div>';
+  }
+  html+='</div>';
+
+  // ── SECTION A ──
+  html+='<div class="card"><div class="card-head"><div class="card-letter">A</div><div class="card-title">Section A — Multiple Choice Questions</div><span class="card-marks">10 marks (1 each)</span></div>';
+  html+='<div class="card-instr">Answer ALL 10 questions. Each question = 1 mark. Select one option per question.</div><div class="card-body">';
+  p.secA.forEach(function(q,qi){
+    html+='<div class="qrow"><span class="qn">'+(qi+1)+'.</span><div class="qc">'+q.q;
+    html+='<div class="mc-opts">';
+    ['A','B','C','D'].forEach(function(l,li){
+      html+='<button class="mcopt" onclick="pickMC(this,'+pidx+','+qi+','+li+')" id="mcopt_'+pidx+'_'+qi+'_'+li+'">'+(l+'. '+q.opts[li])+'</button>';
+    });
+    html+='</div>';
+    // Answer reveal — PARENT/TEACHER ONLY view (visible only after submission for all)
+    html+='<div class="reveal info" id="fb_'+pidx+'_A_'+qi+'"><div class="rlabel">Explanation</div><div class="rans">'+(['A','B','C','D'][q.ans]+'. '+q.opts[q.ans])+'</div><div class="rreason">'+q.fb+'</div></div>';
+    html+='</div></div>';
+  });
+  html+='</div></div>';
+
+  // ── SECTION B ──
+  html+='<div class="card"><div class="card-head"><div class="card-letter">B</div><div class="card-title">Section B — True or False + Reason</div><span class="card-marks">10 marks (2 each)</span></div>';
+  html+='<div class="card-instr">Each question: 1 mark for correct T/F + 1 mark for correct reason. Write your reason in the box, then self-rate after revealing the answer.</div><div class="card-body">';
+  p.secB.forEach(function(q,qi){
+    html+='<div class="qrow"><span class="qn">'+(qi+1)+'.</span><div class="qc">';
+    html+='<div style="margin-bottom:.4rem;font-weight:500">'+q.stmt+'</div>';
+    html+='<div class="mc-opts" id="tfbtns_'+pidx+'_'+qi+'">';
+    html+='<button class="mcopt" onclick="pickTF(this,'+pidx+','+qi+',true)" id="tf_t_'+pidx+'_'+qi+'">✓ True</button>';
+    html+='<button class="mcopt" onclick="pickTF(this,'+pidx+','+qi+',false)" id="tf_f_'+pidx+'_'+qi+'">✗ False</button>';
+    html+='</div>';
+    html+='<div style="margin-top:.4rem"><div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:.2rem">Your Reason:</div>';
+    html+='<textarea class="txtarea" id="tf_reason_'+pidx+'_'+qi+'" placeholder="Write your reason here (required for marks)..." style="min-height:45px" oninput="checkReadyB('+pidx+')"></textarea></div>';
+    // Model answer (hidden until submission)
+    html+='<div class="reveal info" id="fb_'+pidx+'_B_'+qi+'" style="display:none"><div class="rlabel">Model Answer</div><div class="rans">'+(q.ans?'TRUE':'FALSE')+'</div><div class="rreason">'+q.reason+'</div></div>';
+    // Self-rate reason (shown after reveal)
+    html+='<div class="self-mark-row" id="smrow_'+pidx+'_B_'+qi+'" style="display:none">';
+    html+='<label>Rate your reason: <span style="color:var(--red);font-size:.7rem">Did your reason match the key concept?</span></label>';
+    html+='<div class="mark-btns">';
+    html+='<button class="mark-btn" onclick="setSelfMark('+pidx+',\\'B\\','+qi+',1,this)" title="Full credit — reason matches model answer">✓ 1</button>';
+    html+='<button class="mark-btn" onclick="setSelfMark('+pidx+',\\'B\\','+qi+',0,this)" title="No credit — reason incorrect or missing">✗ 0</button>';
+    html+='</div></div>';
+    html+='</div></div>';
+  });
+  // Section B answers revealed automatically on submit — no gate button needed
+  html+='</div></div>';
+
+  // ── SECTION C ──
+  html+='<div class="card"><div class="card-head"><div class="card-letter">C</div><div class="card-title">Section C — Structured Questions</div><span class="card-marks">20 marks</span></div>';
+  html+='<div class="card-instr">Answer all questions. Show working for calculations. Rate yourself against the mark scheme after checking.</div><div class="card-body">';
+  var cTotal = 0;
+  p.secC.forEach(function(q,qi){
+    cTotal += q.marks;
+    html+='<div class="qrow"><span class="qn">'+(qi+1)+'.</span><div class="qc">';
+    html+='<div style="margin-bottom:.4rem;font-weight:500;white-space:pre-line">'+q.q+'</div>';
+    html+='<span style="font-size:.72rem;color:var(--muted)">['+q.marks+' marks]</span>';
+    html+='<div id="sc_ans_label_'+pidx+'_'+qi+'" style="display:none;font-size:.72rem;font-weight:700;color:var(--green);margin-bottom:.2rem;text-transform:uppercase;letter-spacing:.04em">📝 Your Answer:</div>';
+    html+='<textarea class="txtarea" id="sc_ans_'+pidx+'_'+qi+'" placeholder="Write your answer here. Show all working for calculations." oninput="checkReadyC('+pidx+')"></textarea>';
+    // Mark scheme (hidden until submission)
+    html+='<div class="reveal info" id="fb_'+pidx+'_C_'+qi+'" style="display:none"><div class="rlabel">Mark Scheme</div><div class="rans" style="white-space:pre-line">'+q.scheme+'</div></div>';
+    // Self-mark with granular mark buttons
+    // Auto-marked — no self-rating buttons needed for Section C
+    html+='</div></div>';
+  });
+  // Section C mark scheme revealed automatically on submit
+  html+='</div></div>';
+
+  // ── SUBMIT BUTTON ──
+  html+='<div style="background:var(--bluel);border:1px solid #bfdbfe;border-radius:8px;padding:.65rem .9rem;font-size:.8rem;margin-bottom:.8rem;color:var(--blue)">';
+  html+='ℹ️ <strong>Honest marking matters.</strong> Section B reason mark + Section C marks are self-assessed. Only mark yourself correct if your answer matches the key concept. Your teacher/parent can see your scores.';
+  html+='</div>';
+  html+='<button class="submit-paper-btn" id="subbtn_'+pidx+'" onclick="submitPaper('+pidx+')" disabled>📤 Submit Paper '+p.num+' — Complete all sections first</button>';
+  return html;
+}
+
+// ── MC PICK ──
+function pickMC(btn, pidx, qi, li) {
+  var p=PAPERS[pidx], q=p.secA[qi], ps=getPS(pidx);
+  var opts=btn.parentElement.querySelectorAll('.mcopt');
+  opts.forEach(function(o){o.classList.remove('ok','bad'); o.disabled=false;});
+  var isRight = li===q.ans;
+  btn.classList.add(isRight?'ok':'bad');
+  if (!isRight) opts[q.ans].classList.add('ok');
+  // Show feedback immediately on click
+  var fb=document.getElementById('fb_'+pidx+'_A_'+qi);
+  if (fb) fb.style.display='block', fb.classList.add('show');
+  ps.secA[qi] = isRight ? 1 : 0;
+  checkSubmitReady(pidx);
+}
+
+// ── TF PICK ──
+function pickTF(btn, pidx, qi, val) {
+  var ps=getPS(pidx);
+  var siblings=btn.parentElement.querySelectorAll('.mcopt');
+  siblings.forEach(function(b){b.classList.remove('ok','bad');});
+  btn.classList.add('ok');
+  ps.secATF[qi] = val;
+  checkReadyB(pidx);
+  checkSubmitReady(pidx);
+}
+
+function checkReadyB(pidx) {
+  var p=PAPERS[pidx], ps=getPS(pidx);
+  var allTF = Object.keys(ps.secATF).length >= p.secB.length;
+  var allReasons = p.secB.every(function(q,qi){
+    var ta=document.getElementById('tf_reason_'+pidx+'_'+qi);
+    return ta && ta.value.trim().length > 2;
+  });
+  var btn=document.getElementById('csb_'+pidx+'_B');
+  if (btn) btn.classList.toggle('ready', allTF && allReasons);
+  checkSubmitReady(pidx);
+}
+
+function checkReadyC(pidx) {
+  var p=PAPERS[pidx];
+  var allFilled = p.secC.every(function(q,qi){
+    var ta=document.getElementById('sc_ans_'+pidx+'_'+qi);
+    return ta && ta.value.trim().length > 3;
+  });
+  var btn=document.getElementById('csb_'+pidx+'_C');
+  if (btn) btn.classList.toggle('ready', allFilled);
+  checkSubmitReady(pidx);
+}
+
+// ── REVEAL SECTIONS ──
+function revealSection(pidx, sec) {
+  var p=PAPERS[pidx], ps=getPS(pidx);
+  if (sec === 'B') {
+    p.secB.forEach(function(q,qi){
+      var fb=document.getElementById('fb_'+pidx+'_B_'+qi);
+      if (fb) {fb.style.display='block'; fb.classList.add('show');}
+      // Mark TF auto
+      var tfCorrect = ps.secATF[qi] === q.ans;
+      ps.secBReasonScore[qi] = ps.secBReasonScore[qi] !== undefined ? ps.secBReasonScore[qi] : undefined;
+      // Colour the TF buttons
+      var tBtn=document.getElementById('tf_t_'+pidx+'_'+qi);
+      var fBtn=document.getElementById('tf_f_'+pidx+'_'+qi);
+      if (tBtn && fBtn) {
+        if (q.ans) { tBtn.classList.add('ok'); fBtn.classList.add(ps.secATF[qi]===false?'bad':''); }
+        else { fBtn.classList.add('ok'); tBtn.classList.add(ps.secATF[qi]===true?'bad':''); }
+      }
+      // Show self-mark row
+      var smrow=document.getElementById('smrow_'+pidx+'_B_'+qi);
+      if (smrow) smrow.style.display='flex';
+    });
+  } else {
+    p.secC.forEach(function(q,qi){
+      var fb=document.getElementById('fb_'+pidx+'_C_'+qi);
+      if (fb) {fb.style.display='block'; fb.classList.add('show');}
+      var smrow=document.getElementById('smrow_'+pidx+'_C_'+qi);
+      if (smrow) smrow.style.display='flex';
+    });
+  }
+  checkSubmitReady(pidx);
+}
+
+// ── SELF-MARK ──
+function setSelfMark(pidx, sec, qi, marks, btn) {
+  var ps=getPS(pidx);
+  var container=btn.parentElement.querySelectorAll('.mark-btn');
+  container.forEach(function(b){b.classList.remove('sel-full','sel-partial','sel-zero');});
+  if (sec === 'B') {
+    ps.secBReasonScore[qi] = marks;
+    btn.classList.add(marks===1?'sel-full':'sel-zero');
+  } else {
+    var p=PAPERS[pidx], maxM=p.secC[qi].marks;
+    ps.secCScore[qi] = marks;
+    btn.classList.add(marks===maxM?'sel-full':marks>0?'sel-partial':'sel-zero');
+  }
+  checkSubmitReady(pidx);
+}
+
+// ── CHECK SUBMIT READY — v10 ──
+function checkSubmitReady(pidx) {
+  var p=PAPERS[pidx], ps=getPS(pidx);
+  if (ps.submitted) return;
+  var aCount  = Object.keys(ps.secA).length;
+  var bCount  = Object.keys(ps.secATF).length;
+  var bWritten = 0;
+  p.secB.forEach(function(q,qi){
+    var ta=document.getElementById('tf_reason_'+pidx+'_'+qi);
+    if (ta && ta.value.trim().length >= 3) bWritten++;
+  });
+  var cWritten = 0;
+  p.secC.forEach(function(q,qi){
+    var ta=document.getElementById('sc_ans_'+pidx+'_'+qi);
+    if (ta && ta.value.trim().length >= 3) cWritten++;
+  });
+  var ready = (aCount  >= p.secA.length)
+           && (bCount  >= p.secB.length)
+           && (bWritten>= p.secB.length)
+           && (cWritten>= p.secC.length);
+  var btn=document.getElementById('subbtn_'+pidx);
+  if (btn) {
+    btn.disabled = !ready;
+    btn.style.opacity = ready ? '1' : '0.5';
+    btn.textContent = ready
+      ? '📤 Submit Paper '+p.num+' — Get Results'
+      : '📤 Submit  A:'+aCount+'/'+p.secA.length
+        +' · B-TF:'+bCount+'/'+p.secB.length
+        +' · Reasons:'+bWritten+'/'+p.secB.length
+        +' · C:'+cWritten+'/'+p.secC.length;
+  }
+}
+
+// ── SUBMIT PAPER — v10: reveal answers, then Finalise saves score ──
+function submitPaper(pidx) {
+  var p=PAPERS[pidx], ps=getPS(pidx);
+  if (ps.submitted) return;
+  ps.submitted = true;
+
+  // Disable submit button
+  var subbtn = document.getElementById('subbtn_'+pidx);
+  if (subbtn) { subbtn.disabled=true; subbtn.textContent='✅ Submitted — rate Section C below then Finalise'; }
+
+  // Reveal Section A: show correct answers
+  p.secA.forEach(function(q,qi){
+    // Show explanation feedback div
+    var fb=document.getElementById('fb_'+pidx+'_A_'+qi);
+    if (fb) { fb.style.display='block'; fb.classList.add('show'); }
+  });
+  // Also lock MCQ options
+  document.querySelectorAll('#paper_'+pidx+' .mcopt').forEach(function(o){ o.disabled=true; o.style.cursor='default'; });
+
+  // Reveal Section B: show correct T/F, keyword-grade reasons, show self-assess rows
+  p.secB.forEach(function(q,qi){
+    var tBtn=document.getElementById('tf_t_'+pidx+'_'+qi);
+    var fBtn=document.getElementById('tf_f_'+pidx+'_'+qi);
+    if (tBtn) { tBtn.disabled=true; tBtn.style.cursor='default'; }
+    if (fBtn) { fBtn.disabled=true; fBtn.style.cursor='default'; }
+    if (q.ans===true  && tBtn) tBtn.classList.add('ok');
+    if (q.ans===false && fBtn) fBtn.classList.add('ok');
+    if (ps.secATF[qi]===true  && q.ans!==true  && tBtn) tBtn.classList.add('bad');
+    if (ps.secATF[qi]===false && q.ans!==false && fBtn) fBtn.classList.add('bad');
+    var fb=document.getElementById('fb_'+pidx+'_B_'+qi);
+    if (fb) { fb.style.display='block'; fb.classList.add('show'); }
+    // Keyword-grade reason automatically
+    var ta=document.getElementById('tf_reason_'+pidx+'_'+qi);
+    var ans=ta?ta.value.trim().toLowerCase():'';
+    // Keyword grading — strict: must match critical science keywords
+    var criticalKws=['chemically combined','fixed proportion','fixed ratio','insoluble','soluble',
+      'residue','filtrate','filter paper','evaporation','distillation','chromatography',
+      'boiling point','melting point','density','thermal','electrical','conductivity',
+      'hardness','solubility','rate of dissolving','parallax','zero error','meniscus',
+      'element','compound','mixture','atom','molecule','ion','pure substance',
+      'saturated','unsaturated','concentration','temperature','capillary','rf value',
+      'sublimation','crystallisation','magnetic','immiscible'];
+    var modelKws=q.reason.toLowerCase().split(/\\W+/).filter(function(w){return w.length>5;});
+    // Check critical keyword match
+    var critMatch=criticalKws.some(function(kw){return ans.indexOf(kw)!==-1;});
+    // Check model keyword match (at least 2)
+    var modelMatches=0;modelKws.forEach(function(w){if(ans.indexOf(w)!==-1)modelMatches++;});
+    // Score: 1 if (critical keyword match OR 3+ model keywords) AND answer is meaningful (>10 chars)
+    var meaningful=(ans.length>10 && ans!=='true' && ans!=='false' && ans!=='yes' && ans!=='no');
+    ps.secBReasonScore[qi]=(meaningful&&(critMatch||(modelMatches>=3)))?1:0;
+    var smrow=document.getElementById('smrow_'+pidx+'_B_'+qi);
+    if (smrow) smrow.style.display='flex';
+  });
+
+  // Reveal Section C: lock textarea, show mark scheme, AUTO-GRADE
+  p.secC.forEach(function(q,qi){
+    var ta=document.getElementById('sc_ans_'+pidx+'_'+qi);
+    var ans=ta?ta.value.trim().toLowerCase():'';
+    if (ta) { ta.disabled=true; ta.style.background='#f9f7f2'; ta.style.color='var(--ink)'; }
+    var label=document.getElementById('sc_ans_label_'+pidx+'_'+qi);
+    if (label) label.style.display='block';
+    var fb=document.getElementById('fb_'+pidx+'_C_'+qi);
+    if (fb) { fb.style.display='block'; fb.classList.add('show'); }
+    // AUTO-GRADE Section C using keyword matching
+    ps.secCScore[qi] = autoGradeSectionC(ans, q);
+  });
+
+  // Add Save button — now instant (no Finalise step needed)
+  var finBtn=document.createElement('button');
+  finBtn.id='finalbtn_'+pidx;
+  finBtn.className='submit-paper-btn';
+  finBtn.style.cssText='margin-top:.5rem;background:var(--green)';
+  finBtn.textContent='✅ Save Score';
+  finBtn.onclick=function(){ finaliseScore(pidx); };
+  if (subbtn && subbtn.parentNode) subbtn.parentNode.appendChild(finBtn);
+
+  // Calculate preliminary scores (C=0 until finalised)
+  var secAScore = 0;
+  p.secA.forEach(function(q,qi){ secAScore+=(ps.secA[qi]===1?1:0); });
+  var secBScore = 0;
+  p.secB.forEach(function(q,qi){
+    secBScore+=(ps.secATF[qi]===q.ans?1:0)+(ps.secBReasonScore[qi]||0);
+  });
+  var secCScore = 0; // will be updated on Finalise
+  var totalScore = secAScore + secBScore + secCScore;
+  var pct = Math.round(totalScore / 40 * 100);
+
+  // Build breakdown for display
+  var breakdown = {a: secAScore, b: secBScore, c: secCScore};
+
+  showResult(p.num, totalScore, secAScore, secBScore, secCScore, pct, breakdown);
+
+  // Save data
+  var d = loadData();
+  d.history.push({
+    paper: p.num,
+    score: totalScore,
+    secBreakdown: breakdown,
+    date: new Date().toISOString(),
+    uid: getUID()
+  });
+  // Update skills from Section A
+  p.secA.forEach(function(q,qi){
+    var sk=q.skill;
+    if (!d.skills[sk]) d.skills[sk]=[0,0];
+    d.skills[sk][0]++;
+    if (ps.secA[qi]===1) d.skills[sk][1]++;
+  });
+  saveData(d);
+
+  // Save detailed attempt to Firestore
+  if (USE_FIREBASE && db) {
+    db.collection('attempts').add({
+      uid: getUID(),
+      paper: p.num,
+      score: totalScore,
+      secA: secAScore, secB: secBScore, secC: secCScore,
+      secAAnswers: ps.secA,
+      secBTF: Object.fromEntries ? Object.fromEntries(Object.entries(ps.secATF).map(function(e){return [e[0], e[1]];})) : ps.secATF,
+      secBReasonScores: ps.secBReasonScore,
+      secCScores: ps.secCScore,
+      date: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(function(e){console.warn('Attempt save error:',e);});
+  }
+
+  var ptab=document.getElementById('ptab_'+pidx);
+  if (ptab) ptab.classList.add('done');
+}
+
+function showResult(num, total, sa, sb, sc, pct, breakdown, isPartial) {
+  var msg = isPartial ? '⚠️ Partial submission — unanswered = 0 marks.'
+    : pct>=90 ? '🎉 Excellent! On track for A1.'
+    : pct>=70 ? '👍 Good effort! Review weak areas.'
+    : '📚 Keep practising — go through each mark scheme carefully.';
+  var html = '<div style="text-align:center;margin-bottom:1rem">';
+  html += '<div class="result-score-big">'+total+'/40</div>';
+  html += '<div class="result-score-max">Paper '+num+'  ·  '+pct+'%</div>';
+  html += '<div class="result-msg">'+msg+'</div></div>';
+  html += '<div class="result-breakdown">';
+  html += '<div class="result-row"><span class="result-row-name">Section A — MCQ (auto-graded)</span><span class="result-row-score '+(sa>=8?'full':sa>=5?'partial':'zero')+'">'+sa+'/10</span></div>';
+  html += '<div class="result-row"><span class="result-row-name">Section B — T/F + Reason</span><span class="result-row-score '+(sb>=8?'full':sb>=5?'partial':'zero')+'">'+sb+'/10</span></div>';
+  html += '<div class="result-row"><span class="result-row-name">Section C — Structured (self-marked)</span><span class="result-row-score '+(sc>=16?'full':sc>=10?'partial':'zero')+'">'+sc+'/20</span></div>';
+  html += '<div class="result-row" style="border-top:2px solid rgba(255,255,255,.15);margin-top:.3rem;padding-top:.5rem"><span class="result-row-name" style="font-weight:700">Total Score</span><span class="result-row-score '+(pct>=75?'full':pct>=50?'partial':'zero')+'"><strong>'+total+'/40 ('+pct+'%)</strong></span></div>';
+  html += '</div>';
+  if (pct < 75) {
+    html += '<div class="result-weak" style="background:rgba(185,28,28,.15);border:1px solid rgba(248,113,113,.3);border-radius:8px;padding:.55rem .8rem;margin-bottom:.9rem;font-size:.8rem;color:rgba(255,255,255,.75)">⚠️ <strong style="color:#f87171">Below target.</strong> Focus on re-reading the mark schemes for questions you got wrong. Use AI Practice to drill your weakest topics.</div>';
+  }
+  html += '<div class="result-actions"><button class="result-btn result-btn-close" onclick="document.getElementById(\\'resultOverlay\\').classList.remove(\\'show\\')">Close</button><button class="result-btn result-btn-retry" onclick="document.getElementById(\\'resultOverlay\\').classList.remove(\\'show\\');showTab(\\'dashTab\\',document.querySelector(\\'.mtab\\'))">View Dashboard</button></div>';
+  document.getElementById('resultBox').innerHTML = html;
+  document.getElementById('resultOverlay').classList.add('show');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// AI PRACTICE
+// ══════════════════════════════════════════════════════════════════
+function generateAIPaper() {
+  var btn=document.getElementById('genBtn'), status=document.getElementById('genStatus');
+  var diff=document.getElementById('cfgDiff').value;
+  var section=document.getElementById('cfgSection').value;
+  var d=loadData(), weakAreas=getWeakAreas(d);
+  
+  var topic = 'auto';
+  if (typeof aiSelectedTopics !== 'undefined' && aiSelectedTopics.length > 0) {
+    topic = aiSelectedTopics.includes('auto') ? 'auto' : aiSelectedTopics.join(', ');
+  } else if (document.getElementById('cfgTopic')) {
+    topic = document.getElementById('cfgTopic').value;
+  }
+  
+  var overrideTopic = document.getElementById('cfgTopic') ? document.getElementById('cfgTopic').getAttribute('data-override') : null;
+  var focusTopic = overrideTopic || (topic === 'auto' && weakAreas.length ? weakAreas[0].name : topic);
+  if (topic === 'auto' && !weakAreas.length && !overrideTopic) focusTopic = 'Mixed (all topics)';
+  if (document.getElementById('cfgTopic')) document.getElementById('cfgTopic').removeAttribute('data-override');
+
+  btn.disabled=true; btn.classList.add('loading');
+  status.textContent='Generating your practice paper...';
+  document.getElementById('aiPaperOut').innerHTML='';
+
+  var prompt='You are a Singapore Secondary 1 G2 Science teacher creating a practice paper.\\n\\n';
+  prompt+='STUDENT: Mokshith (G2/Normal Academic, 13 years old)\\n';
+  prompt+='TOPIC FOCUS: '+focusTopic+'\\nDIFFICULTY: '+diff+'\\nSECTION: '+section+'\\n\\n';
+  prompt+='Create a full 40-mark practice paper. Format EXACTLY:\\n\\n';
+  if(section==='all'||section==='mcq') prompt+='SECTION_A_START\\nQ1. [question]\\nA. [opt] B. [opt] C. [opt] D. [opt]\\nANS: [A/B/C/D]\\nEXP: [one sentence explanation]\\nQ2. ...(10 MCQ total)\\nSECTION_A_END\\n\\n';
+  if(section==='all'||section==='tf') prompt+='SECTION_B_START\\nSTMT1: [statement]\\nANS1: [True/False]\\nREASON1: [reason]\\nSTMT2: ...(10 T/F total)\\nSECTION_B_END\\n\\n';
+  if(section==='all'||section==='structured') prompt+='SECTION_C_START\\nQS1: [structured question, multi-part, 5 marks]\\nANS1: [full model answer]\\nSCHEME1: [mark scheme breakdown]\\nQS2: ...(4 structured questions total, approx 5 marks each)\\nSECTION_C_END\\n\\n';
+  prompt+='Keep language simple (G2 level). Focus on '+focusTopic+'. Include Singapore context where relevant.';
+
+  var conf = getApiConfig();
+  var p = conf.provider;
+  var apiKey = conf.keys[p];
+  
+  if (!apiKey && p !== 'local') {
+    btn.disabled=false; btn.classList.remove('loading');
+    status.textContent='Please set your ' + p + ' API Key first.';
+    return;
+  }
+
+  var url, headers, body, extractContent;
+
+  if (p === 'anthropic') {
+    url = 'https://api.anthropic.com/v1/messages';
+    headers = {
+      'Content-Type':'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    };
+    body = JSON.stringify({model:'claude-3-5-sonnet-20241022',max_tokens:4000,messages:[{role:'user',content:prompt}]});
+    extractContent = function(d) { return d.content && d.content[0] ? d.content[0].text : null; };
+  } 
+  else if (p === 'openai') {
+    url = 'https://api.openai.com/v1/chat/completions';
+    headers = {
+      'Content-Type':'application/json',
+      'Authorization': 'Bearer ' + apiKey
+    };
+    body = JSON.stringify({model:'gpt-4o-mini',max_tokens:4000,messages:[{role:'user',content:prompt}]});
+    extractContent = function(d) { return d.choices && d.choices[0] ? d.choices[0].message.content : null; };
+  }
+  else if (p === 'gemini') {
+    url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=' + apiKey;
+    headers = {
+      'Content-Type':'application/json'
+    };
+    body = JSON.stringify({contents:[{parts:[{text:prompt}]}], generationConfig:{maxOutputTokens:4000}});
+    extractContent = function(d) { return d.candidates && d.candidates[0] && d.candidates[0].content ? d.candidates[0].content.parts[0].text : null; };
+  }
+  else if (p === 'groq') {
+    url = 'https://api.groq.com/openai/v1/chat/completions';
+    headers = {
+      'Content-Type':'application/json',
+      'Authorization': 'Bearer ' + apiKey
+    };
+    body = JSON.stringify({model:'llama-3.1-8b-instant',max_tokens:4000,messages:[{role:'user',content:prompt}]});
+    extractContent = function(d) { return d.choices && d.choices[0] ? d.choices[0].message.content : null; };
+  }
+  else if (p === 'local') {
+    url = conf.localUrl || 'http://localhost:11434/v1/chat/completions';
+    headers = {
+      'Content-Type':'application/json'
+    };
+    if (apiKey) headers['Authorization'] = 'Bearer ' + apiKey;
+    body = JSON.stringify({model: conf.localModel || 'llama-3.1-8b-instant', max_tokens:4000, messages:[{role:'user',content:prompt}]});
+    extractContent = function(d) { return d.choices && d.choices[0] ? d.choices[0].message.content : null; };
+  }
+
+  fetch(url, {
+    method:'POST',
+    headers: headers,
+    body: body
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    btn.disabled=false; btn.classList.remove('loading');
+    if (data.error) {
+      status.textContent = 'API Error: ' + (data.error.message || JSON.stringify(data.error));
+      return;
+    }
+    var text = extractContent(data) || 'No response received.';
+    renderAIPaper(text, focusTopic);
+    status.textContent='';
+  })
+  .catch(function(e){
+    btn.disabled=false; btn.classList.remove('loading');
+    status.textContent='Error: '+e.message;
+  });
+}
+
+function renderAIPaper(text, topic) {
+  var out=document.getElementById('aiPaperOut');
+  var html='<div class="ai-paper-header"><div class="ai-paper-title">AI Practice — '+topic+'</div><div class="ai-paper-meta"><span>Generated by Claude</span><span>G2 Level</span><span>'+new Date().toLocaleDateString('en-SG')+'</span></div></div>';
+  var saMatch=text.match(/SECTION_A_START([\\s\\S]*?)SECTION_A_END/);
+  if(saMatch){
+    html+='<div class="sec-label">Section A — Multiple Choice</div>';
+    var qBlocks=saMatch[1].split(/Q\\d+\\./).filter(function(b){return b.trim();});
+    qBlocks.forEach(function(block,i){
+      var lines=block.trim().split('\\n').filter(function(l){return l.trim();});
+      var qText=lines[0]||'';
+      var opts=lines.filter(function(l){return /^[A-D]\\./.test(l.trim());});
+      var ansLine=lines.find(function(l){return l.startsWith('ANS:');});
+      var expLine=lines.find(function(l){return l.startsWith('EXP:');});
+      var ansLetter=ansLine?ansLine.replace('ANS:','').trim():'A';
+      var ansIdx=['A','B','C','D'].indexOf(ansLetter);
+      html+='<div class="ai-q"><div class="ai-q-head"><div class="ai-qn">Q'+(i+1)+'.</div>';
+      html+='<div class="ai-pass">'+qText+'</div>';
+      html+='<div class="wb-box">';
+      opts.forEach(function(opt,li){
+        html+='<button class="wb-pill" data-idx="'+li+'" data-correct="'+ansIdx+'" data-fbid="aiexp_'+i+'" onclick="aiPickMC(this)">'+(opt.trim())+'</button>';
+      });
+      html+='</div><div class="ai-fb" id="aiexp_'+i+'" style="display:none"><strong>'+ansLetter+'</strong> — '+(expLine?expLine.replace('EXP:','').trim():'')+'</div>';
+      html+='</div></div>';
+    });
+  }
+  var sbMatch=text.match(/SECTION_B_START([\\s\\S]*?)SECTION_B_END/);
+  if(sbMatch){
+    html+='<div class="sec-label">Section B — True or False</div>';
+    var stmts=sbMatch[1].match(/STMT\\d+:([^\\n]+)/g)||[];
+    var anss=sbMatch[1].match(/ANS\\d+:([^\\n]+)/g)||[];
+    var reasons=sbMatch[1].match(/REASON\\d+:([^\\n]+)/g)||[];
+    stmts.forEach(function(s,i){
+      var stmt=s.replace(/STMT\\d+:/,'').trim();
+      var ans=(anss[i]||'').replace(/ANS\\d+:/,'').trim();
+      var reason=(reasons[i]||'').replace(/REASON\\d+:/,'').trim();
+      html+='<div class="ai-q"><div class="ai-q-head"><div class="ai-qn">Statement '+(i+1)+'.</div>';
+      html+='<div class="ai-pass">'+stmt+'</div>';
+      html+='<div class="mc-opts"><button class="mcopt" data-correct="'+ans.toLowerCase()+'" data-val="true" data-fbid="aitfr_'+i+'" onclick="aiPickTF(this)">True</button><button class="mcopt" data-correct="'+ans.toLowerCase()+'" data-val="false" data-fbid="aitfr_'+i+'" onclick="aiPickTF(this)">False</button></div>';
+      html+='<div class="ai-fb" id="aitfr_'+i+'" style="display:none"><strong>'+ans+'</strong> — '+reason+'</div>';
+      html+='</div></div>';
+    });
+  }
+  var scMatch=text.match(/SECTION_C_START([\\s\\S]*?)SECTION_C_END/);
+  if(scMatch){
+    html+='<div class="sec-label">Section C — Structured</div>';
+    var cBlocks = scMatch[1].split(/QS\\d+:/).filter(function(b){return b.trim();});
+    cBlocks.forEach(function(block, i) {
+      var qText = '', ansText = '', schemeText = '';
+      
+      var schemeSplit = block.split(/SCHEME\\d+:/);
+      if (schemeSplit.length > 1) {
+        schemeText = schemeSplit[1].trim();
+        block = schemeSplit[0];
+      }
+      
+      var ansSplit = block.split(/ANS\\d+:/);
+      if (ansSplit.length > 1) {
+        ansText = ansSplit[1].trim();
+        qText = ansSplit[0].trim().replace(/\\n/g,'<br>');
+      } else {
+        qText = block.trim().replace(/\\n/g,'<br>');
+      }
+
+      if(qText) {
+        html+='<div class="ai-q"><div class="ai-q-head"><div class="ai-qn">Structured Q'+(i+1)+'.</div>';
+        html+='<div class="ai-pass">'+qText+'</div>';
+        html+='<textarea class="txtarea" placeholder="Write your answer here..."></textarea>';
+        if(ansText || schemeText) {
+          html+='<button class="tbtn tbtn-outline ai-reveal-btn" style="margin-top:10px;padding:6px 12px;font-size:0.8rem;cursor:pointer;border-radius:6px" onclick="this.nextElementSibling.style.display=\\'block\\';this.style.display=\\'none\\'">👁️ Reveal Answer & Mark Scheme</button>';
+          html+='<div class="reveal info ai-scheme-fb" style="display:none;margin-top:.5rem">';
+          if(ansText) html+='<div class="rlabel" style="color:var(--blue)">Model Answer</div><div class="rans" style="white-space:pre-line;margin-bottom:12px">'+ansText+'</div>';
+          if(schemeText) html+='<div class="rlabel" style="border-top:1px solid #bfdbfe;padding-top:12px;margin-top:4px">Mark Scheme</div><div class="rans" style="white-space:pre-line;color:var(--muted)">'+schemeText+'</div>';
+          html+='</div>';
+        }
+        html+='</div></div>';
+      }
+    });
+  }
+  if(!saMatch&&!sbMatch&&!scMatch) html+='<div class="ai-q"><div class="ai-q-head"><div class="ai-pass" style="white-space:pre-line">'+text+'</div></div></div>';
+  
+  if(saMatch||sbMatch||scMatch) {
+    html+='<div style="margin-top:1.5rem;display:flex;gap:10px;align-items:center">';
+    html+='<button class="submit-paper-btn" id="aiSubmitBtn" onclick="submitAIPaper()" style="flex:1;background:var(--ink);color:white;border:none;padding:12px;border-radius:8px;font-weight:700;cursor:pointer">📤 Submit AI Paper</button>';
+    if(currentRole==='parent'||currentRole==='teacher') {
+      html+='<button class="tbtn tbtn-outline" onclick="submitAIPaper(true)" style="padding:0 15px; height:43px; border-radius:8px; border:2px solid var(--border); background:white; cursor:pointer; font-weight:600; font-size:.85rem; color:var(--muted)">👁️ Reveal Answers (Parent)</button>';
+    }
+    html+='</div>';
+  }
+
+  out.innerHTML=html;
+}
+
+function aiPickMC(btn){
+  if(document.getElementById('aiSubmitBtn') && document.getElementById('aiSubmitBtn').disabled) return;
+  var fbid = btn.getAttribute('data-fbid');
+  document.querySelectorAll('.wb-pill[data-fbid="'+fbid+'"]').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');
+}
+function aiPickTF(btn){
+  if(document.getElementById('aiSubmitBtn') && document.getElementById('aiSubmitBtn').disabled) return;
+  var fbid = btn.getAttribute('data-fbid');
+  document.querySelectorAll('.mcopt[data-fbid="'+fbid+'"]').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');
+}
+function submitAIPaper(isParentBypass){
+  var btn = document.getElementById('aiSubmitBtn');
+  if(btn) { btn.disabled = true; btn.innerHTML = '✅ Paper Submitted & Marked'; btn.style.background = 'var(--green)'; }
+  var out = document.getElementById('aiPaperOut');
+  
+  var aiScore = 0;
+  out.querySelectorAll('.wb-pill').forEach(function(b) {
+    b.classList.add('used');
+    var isCorrectOpt = b.getAttribute('data-correct') === b.getAttribute('data-idx');
+    var isSelected = b.classList.contains('sel');
+    
+    if (isCorrectOpt) {
+      b.style.background = 'var(--greenl)';
+      b.style.borderColor = 'var(--green)';
+      b.style.color = 'var(--green)';
+    } else if (isSelected) {
+      b.style.background = 'var(--redl)';
+      b.style.borderColor = 'var(--red)';
+      b.style.color = 'var(--red)';
+    }
+    
+    if (isSelected && isCorrectOpt) aiScore += 1;
+  });
+  
+  out.querySelectorAll('.mcopt').forEach(function(b) {
+    var isCorrectOpt = b.getAttribute('data-correct') === b.getAttribute('data-val');
+    var isSelected = b.classList.contains('sel');
+    
+    if (isCorrectOpt) {
+      b.classList.add('ok');
+    } else if (isSelected) {
+      b.classList.add('bad');
+    }
+    
+    if (isSelected && isCorrectOpt) aiScore += 1;
+  });
+
+  out.querySelectorAll('.ai-fb').forEach(function(fb) {
+    fb.style.display = 'block'; 
+    setTimeout(function(){fb.classList.add('show');},10);
+  });
+
+  out.querySelectorAll('.ai-reveal-btn').forEach(function(b) {
+    b.style.display = 'none';
+    if(b.nextElementSibling) b.nextElementSibling.style.display = 'block';
+  });
+
+  if (isParentBypass) return;
+
+  // Build answers map
+  var aiAnswers = {}, aiTotal = 0;
+  out.querySelectorAll('.ai-q').forEach(function(qEl, qi) {
+    var sel = qEl.querySelector('.wb-pill.sel, .mcopt.sel');
+    aiAnswers['q'+qi] = sel ? (sel.textContent.trim() || sel.getAttribute('data-val') || '?') : 'unanswered';
+    aiTotal++;
+  });
+
+  var uid  = (typeof getUID !== 'undefined') ? getUID() : 'anon';
+  var ts   = Date.now();
+  var key  = uid + '_ai_' + ts;
+
+  var titleEl   = out.querySelector('.ai-paper-title');
+  var topicName = titleEl ? titleEl.textContent.replace('AI Practice — ','').replace('AI Practice - ','') : 'Mixed';
+
+  // Save to localStorage
+  var d = loadData();
+  if (!d.aiHistory) d.aiHistory = [];
+  d.aiHistory.push({ key:key, topic:topicName, score:aiScore, total:aiTotal, answers:aiAnswers, date:new Date().toISOString(), uid:uid });
+  saveData(d);
+
+  // Save to Firestore collection 'ai_attempts'
+  if (typeof USE_FIREBASE !== 'undefined' && USE_FIREBASE && typeof db !== 'undefined' && db) {
+    db.collection('ai_attempts').doc(key).set({
+      uid:uid, studentEmail:currentUser?currentUser.email:'unknown', key:key,
+      topic:topicName, score:aiScore, totalQs:aiTotal, answers:aiAnswers,
+      date:firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(){
+      console.log('AI attempt saved:', key);
+      var msg = document.createElement('div');
+      msg.style.cssText = 'margin-top:.5rem;padding:.4rem .75rem;background:var(--greenl);border-radius:6px;font-size:.78rem;color:var(--green);font-weight:600';
+      msg.textContent = '✅ AI Paper saved  (ref: '+ts+')';
+      out.appendChild(msg);
+    }).catch(function(e){ console.warn('AI save error:',e); });
+  }
+
+  renderDashboard();
+}
+
+function getWeakAreas(d){
+  var sk=d.skills||{}, result=[];
+  Object.keys(sk).forEach(function(name){var v=sk[name];if(v[0]>0){var pct=Math.round(v[1]/v[0]*100);result.push({name:name,pct:pct});}});
+  result.sort(function(a,b){return a.pct-b.pct;});
+  return result.slice(0,3);
+}
+
+function showAIBrief() { openTeacherBriefModal(); } // legacy alias
+
+function resetAll() {
+  if(confirm('Reset ALL progress for this account? This cannot be undone.')){
+    localStorage.removeItem(STORAGE_KEY+'_'+getUID());
+    if(USE_FIREBASE && db && currentUser){
+      db.collection('progress').doc(getUID()).delete();
+    }
+    paperState={};
+    buildPaperTabs();
+    renderDashboard();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// INIT — Only after auth
+// ══════════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function(){
+  // Don't init papers until auth completes (onAuthSuccess handles it)
+  // If Firebase not configured, show auth overlay but allow demo login
+  if (!USE_FIREBASE) {
+    // Auth overlay is already visible — user must log in
+    document.getElementById('authSubmitBtn').disabled = false;
+  }
+});
+
+// ── FINALISE SCORE — called after student rates Section C ──
+
+// ── AUTO-GRADE SECTION C ──────────────────────────────────────
+// Grades student's answer against mark scheme using keyword matching
+// Returns score (0 to q.marks)
+function autoGradeSectionC(ans, q) {
+  if (!ans || ans.length < 3) return 0;
+  var maxM = q.marks || 6;
+  var scheme = (q.scheme || '').toLowerCase();
+  var ansL = ans.toLowerCase();
+
+  // Extract individual mark points from scheme — each [1] or [2] is a point
+  // Split scheme on newlines and look for [N] markers
+  var points = scheme.split(/\\n/).filter(function(l){ return l.trim().length > 0; });
+
+  // Science keywords bank — grouped by concept
+  var KWBANK = {
+    density:      ['density','ρ','rho','mass/vol','mass / vol','m/v','g/cm','kg/m'],
+    float_sink:   ['float','sink','less dense','more dense','greater than','less than','denser'],
+    separation:   ['filter','filtrat','residue','evaporat','distill','chromatograph','magnetic','sieve','crystallis'],
+    compound:     ['chemically combined','fixed proportion','fixed ratio','chemical bond','cannot be separated physically'],
+    mixture:      ['physically combined','variable proportion','can be separated','no fixed','mixture'],
+    element:      ['one type of atom','single element','pure element','cannot be broken down'],
+    solution:     ['soluble','dissolve','solvent','solute','saturat','aqueous'],
+    rf_value:     ['rf','retention factor','distance moved','solvent front'],
+    hypothesis:   ['hypothesis','independent variable','dependent variable','controlled variable','fair test'],
+    calculation:  ['formula','substitut','working','unit','cm³','g/cm','kg/m³','g/ml'],
+    heat:         ['thermal','conduct','insul','temperature','heat transfer','convect','radiat'],
+    cell:         ['cell','nucleus','membrane','cytoplasm','organelle','mitochond'],
+    light:        ['reflect','refract','incident','normal','angle','ray','medium'],
+    pressure:     ['pressure','force/area','p=f/a','pascal','atmosphere'],
+    safety:       ['hazard','safety','goggle','fume','precaution','handle'],
+  };
+
+  // Count matching mark points
+  var earned = 0;
+
+  // For each mark point in scheme, check if student addressed it
+  points.forEach(function(point) {
+    var ptL = point.trim();
+    if (!ptL) return;
+    // How many marks does this point carry?
+    var ptMarks = 1;
+    var m2 = ptL.match(/\\[(\\.?\\d+)\\]/g);
+    if (m2) {
+      var sum=0;
+      m2.forEach(function(mm){ sum+=parseFloat(mm.replace(/[\\[\\]]/g,'')); });
+      ptMarks = Math.round(sum) || 1;
+    }
+    // Extract key terms from this point (>4 chars, not stopwords)
+    var stopwords = ['this','that','with','from','they','have','been','will','also','when','then','into','each','some','more','less','than','must','should','using','which','where','what','their','there','these','those','could','would'];
+    var ptWords = ptL.split(/\\W+/).filter(function(w){
+      return w.length > 4 && stopwords.indexOf(w) === -1;
+    });
+    if (ptWords.length === 0) return;
+    // Check if student answer contains the key terms
+    var matchCount = 0;
+    ptWords.forEach(function(w){ if (ansL.indexOf(w) !== -1) matchCount++; });
+    // Need at least 30% of point's keywords to match, min 1
+    var threshold = Math.max(1, Math.floor(ptWords.length * 0.3));
+    if (matchCount >= threshold) earned += ptMarks;
+  });
+
+  // Also check keyword bank for topic coverage
+  var kwScore = 0;
+  Object.keys(KWBANK).forEach(function(topic) {
+    var topicKws = KWBANK[topic];
+    var topicHit = topicKws.some(function(kw){ return ansL.indexOf(kw) !== -1; });
+    var schemeHit = topicKws.some(function(kw){ return scheme.indexOf(kw) !== -1; });
+    if (topicHit && schemeHit) kwScore++;
+  });
+
+  // Blend: take MAX of point-matching score vs keyword coverage estimate
+  var kwEstimate = Math.min(maxM, Math.round(kwScore * maxM / Math.max(1, points.length) * 1.5));
+  var finalScore = Math.max(earned, kwEstimate);
+
+  // Cap and ensure minimum 0
+  return Math.min(maxM, Math.max(0, finalScore));
+}
+
+function finaliseScore(pidx) {
+  var p=PAPERS[pidx], ps=getPS(pidx);
+  var secAScore=0, secBScore=0, secCScore=0;
+  p.secA.forEach(function(q,qi){ secAScore+=(ps.secA[qi]===1?1:0); });
+  p.secB.forEach(function(q,qi){
+    secBScore+=(ps.secATF[qi]===q.ans?1:0)+(ps.secBReasonScore[qi]||0);
+  });
+  p.secC.forEach(function(q,qi){ secCScore+=(ps.secCScore[qi]||0); });
+  var totalScore=secAScore+secBScore+secCScore;
+  var pct=Math.round(totalScore/40*100);
+  var breakdown={a:secAScore,b:secBScore,c:secCScore};
+
+  showResult(p.num,totalScore,secAScore,secBScore,secCScore,pct,breakdown);
+
+  var finBtn=document.getElementById('finalbtn_'+pidx);
+  if (finBtn) { finBtn.disabled=true; finBtn.textContent='✅ Score Saved!'; }
+
+  // Save to localStorage
+  var d=loadData();
+  d.history.push({
+    paper:p.num, paperLabel:'Paper '+p.num,
+    score:totalScore, secBreakdown:breakdown,
+    secAAnswers: (function(){var o={};Object.keys(ps.secA).forEach(function(k){o[k]=ps.secA[k];});return o;})(),
+    secBTF: (function(){var o={};Object.keys(ps.secATF).forEach(function(k){o[k]=ps.secATF[k];});return o;})(),
+    secCScores:(function(){var o={};Object.keys(ps.secCScore||{}).forEach(function(k){o[k]=ps.secCScore[k];});return o;})(),
+    date:new Date().toISOString(), uid:getUID()
+  });
+  p.secA.forEach(function(q,qi){
+    var sk=q.skill; if(!d.skills[sk])d.skills[sk]=[0,0];
+    d.skills[sk][0]++; if(ps.secA[qi]===1)d.skills[sk][1]++;
+  });
+  p.secB.forEach(function(q,qi){
+    if(ps.secATF[qi]===undefined)return;
+    var sk=q.skill||'General'; if(!d.skills[sk])d.skills[sk]=[0,0];
+    d.skills[sk][0]++; if(ps.secATF[qi]===q.ans)d.skills[sk][1]++;
+  });
+  saveData(d);
+
+  // Save to Firestore
+  if (USE_FIREBASE && db) {
+    var safeA={},safeTF={},safeR={},safeC={},bTexts={},cTexts={};
+    Object.keys(ps.secA).forEach(function(k){safeA[k]=ps.secA[k];});
+    Object.keys(ps.secATF).forEach(function(k){safeTF[k]=ps.secATF[k];});
+    Object.keys(ps.secBReasonScore||{}).forEach(function(k){safeR[k]=ps.secBReasonScore[k];});
+    Object.keys(ps.secCScore||{}).forEach(function(k){safeC[k]=ps.secCScore[k];});
+    p.secB.forEach(function(q,qi){var ta=document.getElementById('tf_reason_'+pidx+'_'+qi);bTexts[qi]=ta?ta.value:'';});
+    p.secC.forEach(function(q,qi){var ta=document.getElementById('sc_ans_'+pidx+'_'+qi);cTexts[qi]=ta?ta.value:'';});
+    db.collection('attempts').add({
+      uid:getUID(),
+      studentName:currentUser?(currentUser.displayName||currentUser.email):'unknown',
+      paper:p.num, paperLabel:'Paper '+p.num,
+      score:totalScore, pct:pct,
+      secA:secAScore, secB:secBScore, secC:secCScore,
+      secAAnswers:safeA, secBTF:safeTF,
+      secBReasonTexts:bTexts, secBReasonScores:safeR,
+      secCTexts:cTexts, secCScores:safeC,
+      date:firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(){
+      console.log('Paper '+p.num+' saved to Firestore');
+      flash('saved');
+    }).catch(function(e){ console.warn('Firestore error:',e); flash('error'); });
+  }
+
+  var ptab=document.getElementById('ptab_'+pidx);
+  if (ptab) ptab.classList.add('done');
+}
+
+
+function quickLogin(email, pwd) {
+  document.getElementById('authEmail').value = email;
+  document.getElementById('authPwd').value = pwd;
+  doAuth();
+}
+
+
+// ══ ANSWER KEY ══
+function openAnswerKeyModal() {
+  if (currentRole!=='parent'&&currentRole!=='teacher'){alert('Parent/Teacher only.');return;}
+  document.getElementById('answerKeyModal').style.display='block';
+  buildAKPaperBtns(); renderAnswerKey(0);
+}
+function buildAKPaperBtns(){
+  var el=document.getElementById('akPaperBtns');if(!el)return;
+  var d=loadData();
+  el.innerHTML=PAPERS.map(function(p,i){
+    var done=d.history.some(function(h){return h.paper===p.num;});
+    return '<button onclick="renderAnswerKey('+i+')" id="akbtn_'+i+'" style="padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:'+(i===0?'var(--ink)':'white')+';color:'+(i===0?'white':'var(--muted)')+';font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;min-height:34px">Paper '+p.num+(done?' ✓':'')+'</button>';
+  }).join('');
+}
+function renderAnswerKey(pidx){
+  PAPERS.forEach(function(p,i){var b=document.getElementById('akbtn_'+i);if(!b)return;b.style.background=i===pidx?'var(--ink)':'white';b.style.color=i===pidx?'white':'var(--muted)';b.style.borderColor=i===pidx?'var(--ink)':'var(--border)';});
+  var p=PAPERS[pidx],d=loadData(),L=['A','B','C','D'],att=d.history.filter(function(h){return h.paper===p.num;}).pop();
+  var el=document.getElementById('akContent');if(!el)return;
+  var html='<div style="font-family:\\'Libre Baskerville\\',serif;font-weight:700;font-size:.98rem;padding-bottom:.45rem;border-bottom:2px solid #e5e7eb;margin-bottom:.7rem">'+p.title+'</div>';
+  if(att){var pct=Math.round(att.score/40*100),col=pct>=90?'#065f46':pct>=70?'#92400e':'#991b1b',bg=pct>=90?'#d1fae5':pct>=70?'#fef3c7':'#fee2e2';html+='<div style="background:'+bg+';border-radius:8px;padding:.45rem .75rem;margin-bottom:.7rem;font-size:.79rem;display:flex;gap:.65rem;align-items:center;flex-wrap:wrap"><span style="font-family:\\'Libre Baskerville\\',serif;font-size:1.25rem;font-weight:700;color:'+col+'">'+att.score+'/40</span><span><b>Last attempt</b> · '+pct+'% · '+new Date(att.date).toLocaleDateString('en-SG',{day:'numeric',month:'short'})+'</span>'+(att.secBreakdown?'<span style="color:#6b7280;font-size:.75rem">A:'+att.secBreakdown.a+' B:'+att.secBreakdown.b+' C:'+att.secBreakdown.c+'</span>':'')+'</div>';}
+  else{html+='<div style="background:#f9f7f2;border-radius:6px;padding:.35rem .65rem;margin-bottom:.7rem;font-size:.77rem;color:#6b7280">Not yet attempted</div>';}
+  html+='<div style="font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--green);border-left:3px solid var(--green);padding-left:.45rem;margin-bottom:.4rem">Sec A — Correct Answers</div>';
+  html+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.28rem;margin-bottom:.75rem">';
+  p.secA.forEach(function(q,qi){var ans=L[q.ans]+'. '+q.opts[q.ans],got=att&&att.secAAnswers?att.secAAnswers[qi]:undefined;html+='<div style="padding:.35rem .5rem;border-radius:6px;border:1px solid #e5e7eb;background:white;font-size:.77rem"><div style="color:#9ca3af;font-size:.64rem">Q'+(qi+1)+' · '+q.skill+'</div><div style="font-weight:700;color:var(--green)">'+ans+'</div>'+(got!==undefined?'<div style="font-size:.66rem;color:'+(got===1?'var(--green)':'var(--red)')+'">Mokshith: '+(got===1?'✓':'✗')+'</div>':'')+'</div>';});
+  html+='</div>';
+  html+='<div style="font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--amber);border-left:3px solid var(--amber);padding-left:.45rem;margin:.55rem 0 .38rem">Sec B — Answers &amp; Reasons</div>';
+  p.secB.forEach(function(q,qi){var got=att&&att.secBTF?att.secBTF[qi]:undefined,correct=got===q.ans;html+='<div style="padding:.42rem .55rem;border-radius:6px;border:1px solid #e5e7eb;background:white;margin-bottom:.28rem"><div style="font-size:.79rem;font-weight:500;margin-bottom:.2rem">'+q.stmt+'</div><div style="display:flex;gap:.35rem;align-items:center;margin-bottom:.22rem"><span style="background:'+(q.ans?'#d1fae5':'#fee2e2')+';border-radius:20px;padding:1px 9px;font-size:.73rem;font-weight:700;color:'+(q.ans?'var(--green)':'var(--red)')+'">'+( q.ans?'TRUE':'FALSE')+'</span>'+(got!==undefined?'<span style="font-size:.7rem;color:'+(correct?'var(--green)':'var(--red)')+'">Mokshith: '+(correct?'✓':'✗')+'</span>':'')+'</div><div style="font-size:.77rem;background:#f9f7f2;padding:.27rem .48rem;border-radius:4px"><b>Model:</b> '+q.reason+'</div></div>';});
+  html+='<div style="font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);border-left:3px solid var(--blue);padding-left:.45rem;margin:.55rem 0 .38rem">Sec C — Mark Scheme</div>';
+  p.secC.forEach(function(q,qi){var got=att&&att.secCScores?att.secCScores[qi]:undefined;html+='<div style="padding:.48rem .55rem;border-radius:6px;border:1px solid #e5e7eb;background:white;margin-bottom:.28rem"><div style="display:flex;justify-content:space-between;margin-bottom:.2rem"><span style="font-size:.69rem;color:#9ca3af">Q'+(qi+1)+'</span><span style="font-size:.7rem;font-weight:700;background:#eff6ff;color:var(--blue);border-radius:20px;padding:1px 7px">['+q.marks+' marks]</span></div><div style="font-size:.79rem;font-weight:500;margin-bottom:.25rem;white-space:pre-line">'+q.q+'</div><div style="background:#eff6ff;border-left:3px solid var(--blue);padding:.32rem .52rem;font-size:.76rem;border-radius:0 5px 5px 0;white-space:pre-line">'+q.scheme+'</div>'+(got!==undefined?'<div style="font-size:.7rem;color:#6b7280;margin-top:.2rem">Self-rated: <b>'+got+'/'+q.marks+'</b></div>':'')+'</div>';});
+  el.innerHTML=html;
+}
+
+// ══ TOPIC PILLS ══
+var aiSelectedTopics=['auto'];
+function toggleAITopic(btn){
+  var t=btn.getAttribute('data-topic');
+  if(t==='auto'){
+    aiSelectedTopics=['auto'];
+    document.querySelectorAll('.ai-topic-pill').forEach(function(b){var ia=b.getAttribute('data-topic')==='auto';b.style.background=ia?'var(--amberl)':'white';b.style.borderColor=ia?'var(--amber)':'var(--border)';b.style.color=ia?'var(--amber)':'var(--muted)';});
+    return;
+  }
+  aiSelectedTopics=aiSelectedTopics.filter(function(x){return x!=='auto';});
+  var ab=document.querySelector('.ai-topic-pill[data-topic="auto"]');
+  if(ab){ab.style.background='white';ab.style.borderColor='var(--border)';ab.style.color='var(--muted)';}
+  var idx=aiSelectedTopics.indexOf(t);
+  if(idx!==-1){aiSelectedTopics.splice(idx,1);btn.style.background='white';btn.style.borderColor='var(--border)';btn.style.color='var(--muted)';}
+  else{aiSelectedTopics.push(t);btn.style.background='var(--greenl)';btn.style.borderColor='var(--green)';btn.style.color='var(--green)';}
+  if(!aiSelectedTopics.length){aiSelectedTopics=['auto'];if(ab){ab.style.background='var(--amberl)';ab.style.borderColor='var(--amber)';ab.style.color='var(--amber)';}}
+}
+function initAITopicPills(){
+  var d=loadData(),weak=getWeakAreas(d).map(function(w){return w.name;});
+  document.querySelectorAll('.ai-topic-pill').forEach(function(b){
+    var t=b.getAttribute('data-topic');
+    if(weak.indexOf(t)!==-1&&t!=='auto'){b.textContent='⚠️ '+t;b.style.borderColor='var(--amber)';b.style.color='var(--amber)';b.style.background='var(--amberl)';}
+  });
+}
+
+// ══ API CONFIG ══
+function getApiConfig() {
+  var def = { provider: 'anthropic', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant' };
+  try {
+    var stored = localStorage.getItem('aiConfig');
+    if (stored) return Object.assign(def, JSON.parse(stored));
+    var oldAnt = localStorage.getItem('anthropicApiKey');
+    if (oldAnt) { def.keys.anthropic = oldAnt; localStorage.removeItem('anthropicApiKey'); localStorage.setItem('aiConfig', JSON.stringify(def)); }
+  } catch(e){}
+  return def;
+}
+
+function openApiConfigModal() {
+  var conf = getApiConfig();
+  document.getElementById('apiProviderSel').value = conf.provider;
+  document.getElementById('apiKeyInp').value = conf.keys[conf.provider] || '';
+  document.getElementById('localUrlInp').value = conf.localUrl || '';
+  document.getElementById('localModelInp').value = conf.localModel || '';
+  handleProviderChange();
+  document.getElementById('apiConfigModal').style.display='block';
+}
+
+function handleProviderChange() {
+  var p = document.getElementById('apiProviderSel').value;
+  var conf = getApiConfig();
+  document.getElementById('apiKeyInp').value = conf.keys[p] || '';
+  document.getElementById('localUrlContainer').style.display = p === 'local' ? 'block' : 'none';
+  document.getElementById('localModelContainer').style.display = p === 'local' ? 'block' : 'none';
+}
+
+function saveApiConfig() {
+  var conf = getApiConfig();
+  var p = document.getElementById('apiProviderSel').value;
+  conf.provider = p;
+  conf.keys[p] = document.getElementById('apiKeyInp').value.trim();
+  if (p === 'local') {
+    conf.localUrl = document.getElementById('localUrlInp').value.trim();
+    conf.localModel = document.getElementById('localModelInp').value.trim();
+  }
+  localStorage.setItem('aiConfig', JSON.stringify(conf));
+  document.getElementById('apiConfigModal').style.display='none';
+}
+
+
+</script>
+
+<!-- ANSWER KEY MODAL -->
+<div id="answerKeyModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:10001;overflow-y:auto;padding:1rem" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:white;border-radius:14px;padding:1.4rem;max-width:660px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid #e5e7eb">
+      <b style="font-family:'Libre Baskerville',serif">🔐 Answer Key — All Papers</b>
+      <button onclick="document.getElementById('answerKeyModal').style.display='none'" style="padding:4px 12px;border:1px solid #e5e7eb;border-radius:6px;background:white;cursor:pointer;font-size:.8rem;color:#6b7280">✕ Close</button>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.85rem" id="akPaperBtns"></div>
+    <div id="akContent"></div>
+  </div>
+</div>
+<!-- API CONFIG MODAL -->
+<div id="apiConfigModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:10001;overflow-y:auto;padding:1rem" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:white;border-radius:14px;padding:1.4rem;max-width:500px;margin:10vh auto;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid #e5e7eb">
+      <b style="font-family:'Libre Baskerville',serif;font-size:1.1rem">⚙️ AI Provider Settings</b>
+      <button onclick="document.getElementById('apiConfigModal').style.display='none'" style="padding:4px 12px;border:1px solid #e5e7eb;border-radius:6px;background:white;cursor:pointer;font-size:.8rem;color:#6b7280">✕ Close</button>
+    </div>
+    <div style="margin-bottom:1rem">
+      <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">Provider</label>
+      <select id="apiProviderSel" onchange="handleProviderChange()" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem">
+        <option value="anthropic">Anthropic (Claude)</option>
+        <option value="openai">OpenAI (ChatGPT)</option>
+        <option value="gemini">Google Gemini</option>
+        <option value="groq">Groq (Llama 3)</option>
+        <option value="local">Local LLM / Custom URL</option>
+      </select>
+    </div>
+    <div style="margin-bottom:1rem">
+      <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">API Key</label>
+      <input type="password" id="apiKeyInp" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem" placeholder="Enter API Key">
+    </div>
+    <div style="margin-bottom:1rem;display:none" id="localUrlContainer">
+      <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">Local Model Base URL</label>
+      <input type="text" id="localUrlInp" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem" placeholder="http://localhost:11434/v1/chat/completions">
+      <div style="font-size:.75rem;color:var(--muted);margin-top:.4rem">Must be an OpenAI-compatible /v1/chat/completions endpoint.</div>
+    </div>
+    <div style="margin-bottom:1rem;display:none" id="localModelContainer">
+      <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">Model Name</label>
+      <input type="text" id="localModelInp" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem" placeholder="llama-3.1-8b-instant">
+    </div>
+    <button onclick="saveApiConfig()" style="width:100%;padding:12px;background:var(--ink);color:white;border:none;border-radius:8px;font-family:inherit;font-weight:700;cursor:pointer">Save Settings</button>
+  </div>
+</div>
+
+
+<div class="tab-content" id="histTab">
+  <div style="margin-bottom:1.2rem">
+    <h2 style="font-family:'Libre Baskerville',serif;font-size:1.2rem;margin:0 0 .3rem">📋 Attempt History</h2>
+    <p style="font-size:.82rem;color:var(--muted);margin:0">All submitted papers from Firebase — filter and tap any card to review.</p>
+  </div>
+  <div style="background:#f9fafb;border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:1.2rem">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:.7rem;align-items:end">
+      <div>
+        <label style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.3rem">Paper</label>
+        <select id="histFilterPaper" onchange="applyHistFilters()" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none;background:white">
+          <option value="">All Papers</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.3rem">From Date</label>
+        <input type="date" id="histDateFrom" onchange="applyHistFilters()" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.3rem">To Date</label>
+        <input type="date" id="histDateTo" onchange="applyHistFilters()" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none;box-sizing:border-box">
+      </div>
+      <div>
+        <button onclick="clearHistFilters()" style="padding:8px 14px;background:white;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.8rem;cursor:pointer;color:var(--muted)">Clear</button>
+      </div>
+    </div>
+    <div style="margin-top:.7rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+      <span style="font-size:.72rem;color:var(--muted);font-weight:600;text-transform:uppercase">Sort:</span>
+      <button class="hist-sort-btn active" id="histSortNewest" onclick="setHistSort('date','desc',this)">Newest</button>
+      <button class="hist-sort-btn" onclick="setHistSort('date','asc',this)">Oldest</button>
+      <button class="hist-sort-btn" onclick="setHistSort('score','desc',this)">Highest Score</button>
+      <button class="hist-sort-btn" onclick="setHistSort('score','asc',this)">Lowest Score</button>
+      <span id="histCount" style="margin-left:auto;font-size:.78rem;color:var(--muted);font-weight:600"></span>
+    </div>
+  </div>
+  <div id="histSummaryStrip" style="display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1.2rem"></div>
+  <div id="histLoading" style="text-align:center;padding:3rem;color:var(--muted);font-size:.88rem"><div style="font-size:2.5rem;margin-bottom:.7rem">⏳</div>Loading from Firebase...</div>
+  <div id="histEmpty" style="display:none;text-align:center;padding:3rem;color:var(--muted);font-size:.88rem"><div style="font-size:2.5rem;margin-bottom:.5rem">📭</div><div id="histEmptyMsg">No attempts yet. Submit a paper to see it here!</div></div>
+  <div id="histCards" style="display:none;flex-direction:column;gap:.75rem"></div>
+</div>
+
+<!-- ═══ DAILY DRILL TAB ═══ -->
+<div id="drillTab" class="tab-content">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">
+    <div>
+      <h2 style="font-size:1.05rem;font-weight:700;margin-bottom:.2rem">🏋 Daily Drill</h2>
+      <p style="font-size:.82rem;color:var(--muted)">10 adaptive questions weighted to your weakest G3 topics. Updates after each session.</p>
+    </div>
+    <button onclick="startDrill()" id="drillStartBtn" style="padding:9px 20px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer">▶ Start Drill</button>
+  </div>
+
+  <!-- EMA Skill Radar (simple bar version) -->
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-head"><div class="card-letter">📊</div><div class="card-title">Topic Mastery (EMA)</div></div>
+    <div class="card-body" id="drillSkillBars">
+      <div class="empty-state"><div class="es-icon">📊</div><p>Complete a drill to see your mastery levels</p></div>
+    </div>
+  </div>
+
+  <!-- Drill Session Area -->
+  <div id="drillSession" style="display:none">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-letter" id="drillQNum">1</div>
+        <div class="card-title" id="drillTopic">Topic</div>
+        <span id="drillProgress" style="font-size:.75rem;color:rgba(255,255,255,.6)">1/10</span>
+      </div>
+      <div class="card-body">
+        <p id="drillQuestion" style="font-size:.95rem;font-weight:500;margin-bottom:1rem;line-height:1.7"></p>
+        <div id="drillOptions" style="display:flex;flex-direction:column;gap:.5rem"></div>
+        <div id="drillFeedback" style="display:none;margin-top:.8rem;padding:.65rem .9rem;border-radius:8px;font-size:.85rem;line-height:1.5"></div>
+        <button id="drillNextBtn" onclick="drillNext()" style="display:none;margin-top:.75rem;padding:8px 20px;background:var(--green);color:white;border:none;border-radius:7px;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drill Results -->
+  <div id="drillResults" style="display:none">
+    <div class="card">
+      <div class="card-head"><div class="card-letter">🏆</div><div class="card-title">Drill Complete!</div></div>
+      <div class="card-body">
+        <div style="text-align:center;padding:1rem 0">
+          <div style="font-size:2.5rem;font-weight:800;font-family:'Libre Baskerville',serif;color:var(--green)" id="drillScore">0/10</div>
+          <div style="font-size:.85rem;color:var(--muted);margin-top:.3rem">Keep drilling weak topics to push them above 70%!</div>
+        </div>
+        <div id="drillResultSkills" style="margin-top:.8rem"></div>
+        <button onclick="startDrill()" style="display:block;width:100%;padding:10px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;margin-top:.9rem">🔄 Drill Again</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FORMULA SHEET TAB ═══ -->
+<div id="formulaTab" class="tab-content">
+  <div style="margin-bottom:1rem">
+    <h2 style="font-size:1.05rem;font-weight:700;margin-bottom:.2rem">📐 G3 Science Formula Sheet</h2>
+    <p style="font-size:.82rem;color:var(--muted)">All formulas and key relationships for the G3 EOY exam. Print or screenshot for quick revision.</p>
+  </div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">⚖️</div><div class="card-title">Chapter 2 — Physical Properties & Density</div></div>
+  <div class="card-body">
+    <div class="callout" style="text-align:center;font-size:1rem;letter-spacing:.05em;margin-bottom:.65rem"><strong>Density = Mass ÷ Volume</strong> &nbsp;|&nbsp; ρ = m/V &nbsp;|&nbsp; Unit: g/cm³ or kg/m³</div>
+    <table class="rt"><tr><th>Symbol</th><th>Quantity</th><th>SI Unit</th></tr>
+      <tr><td>ρ (rho)</td><td>Density</td><td>kg/m³ (g/cm³ for solids/liquids)</td></tr>
+      <tr><td>m</td><td>Mass</td><td>kg (or g)</td></tr>
+      <tr><td>V</td><td>Volume</td><td>m³ (or cm³)</td></tr>
+    </table>
+    <div class="pills" style="margin-top:.5rem">
+      <span class="pill">Floating: object density &lt; liquid density</span>
+      <span class="pill am">Sinking: object density &gt; liquid density</span>
+    </div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">💡</div><div class="card-title">Chapter 5 — Ray Model of Light</div></div>
+  <div class="card-body">
+    <table class="rt"><tr><th>Law / Formula</th><th>Statement</th></tr>
+      <tr><td><strong>Law of Reflection</strong></td><td>Angle of incidence (i) = Angle of reflection (r)<br><em>Both angles measured from the NORMAL</em></td></tr>
+      <tr><td><strong>Refraction</strong></td><td>Light bends towards normal when entering denser medium (lower speed); bends away when leaving denser medium</td></tr>
+      <tr><td><strong>Critical angle</strong></td><td>Angle of incidence at which refracted ray is 90° (travels along boundary). Beyond = Total Internal Reflection (TIR)</td></tr>
+      <tr><td><strong>Speed of light</strong></td><td>3 × 10⁸ m/s in vacuum/air</td></tr>
+    </table>
+    <div class="callout warn" style="margin-top:.5rem"><strong>⚠️ Normal line</strong> Normal is perpendicular (90°) to the mirror/boundary surface at the point of incidence. ALWAYS draw the normal first when drawing ray diagrams!</div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">🧬</div><div class="card-title">Chapter 6 — Cells</div></div>
+  <div class="card-body">
+    <table class="rt"><tr><th>Organelle</th><th>Function</th><th>Plant?</th><th>Animal?</th></tr>
+      <tr><td>Cell membrane</td><td>Controls what enters/leaves the cell</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Cytoplasm</td><td>Jelly-like fluid; site of chemical reactions</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Nucleus</td><td>Controls cell activities; contains DNA</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Mitochondria</td><td>Releases energy (respiration)</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Cell wall</td><td>Rigid support; made of cellulose</td><td>✓</td><td>✗</td></tr>
+      <tr><td>Chloroplast</td><td>Photosynthesis; contains chlorophyll</td><td>✓</td><td>✗</td></tr>
+      <tr><td>Large vacuole</td><td>Stores cell sap; maintains turgor</td><td>✓</td><td>✗ (tiny)</td></tr>
+    </table>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">⚛️</div><div class="card-title">Chapter 7 — Particulate Nature of Matter</div></div>
+  <div class="card-body">
+    <table class="rt"><tr><th>State</th><th>Particle Arrangement</th><th>Movement</th><th>Energy</th></tr>
+      <tr><td>Solid</td><td>Regular, tightly packed, fixed positions</td><td>Vibrate only</td><td>Lowest</td></tr>
+      <tr><td>Liquid</td><td>Random, close together, no fixed positions</td><td>Move around each other</td><td>Medium</td></tr>
+      <tr><td>Gas</td><td>Random, far apart</td><td>Move rapidly in all directions</td><td>Highest</td></tr>
+    </table>
+    <div class="callout" style="margin-top:.5rem"><strong>Key terms:</strong> Melting point = solid→liquid. Boiling point = liquid→gas. Sublimation = solid→gas directly. During a change of state, temperature stays CONSTANT (energy used to break/form bonds, not heat).</div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">🔬</div><div class="card-title">Chapter 8 — Atoms & Molecules</div></div>
+  <div class="card-body">
+    <table class="rt"><tr><th>Term</th><th>Symbol</th><th>Definition</th></tr>
+      <tr><td>Proton number (Z)</td><td>Z</td><td>Number of protons in nucleus = number of electrons (neutral atom)</td></tr>
+      <tr><td>Nucleon number (A)</td><td>A</td><td>Total number of protons + neutrons in nucleus</td></tr>
+      <tr><td>Number of neutrons</td><td>A − Z</td><td>Nucleon number minus proton number</td></tr>
+    </table>
+    <div class="callout warn" style="margin-top:.5rem"><strong>Electron configuration rules:</strong> Shell 1 max 2e⁻; Shell 2 max 8e⁻; Shell 3 max 8e⁻ (for Sec 1). Write as 2.8.x for elements beyond Ne.</div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">🧪</div><div class="card-title">Chapter 4 — Separation Techniques</div></div>
+  <div class="card-body">
+    <table class="rt"><tr><th>Technique</th><th>Separates</th><th>Basis</th></tr>
+      <tr><td>Filtration</td><td>Insoluble solid from liquid</td><td>Particle size (solid too big to pass through filter)</td></tr>
+      <tr><td>Evaporation</td><td>Soluble solid from solution</td><td>Differences in boiling points</td></tr>
+      <tr><td>Distillation</td><td>Liquids with different boiling points / solvent from solution</td><td>Differences in boiling points</td></tr>
+      <tr><td>Fractional distillation</td><td>Miscible liquids with close boiling points</td><td>Differences in boiling points (fractionating column)</td></tr>
+      <tr><td>Chromatography</td><td>Mixtures of solutes in solution</td><td>Different affinities for stationary/mobile phase</td></tr>
+      <tr><td>Magnetic attraction</td><td>Magnetic from non-magnetic</td><td>Magnetism (iron, nickel, cobalt)</td></tr>
+    </table>
+    <div class="callout"><strong>Rf value (chromatography):</strong> Rf = distance travelled by spot ÷ distance travelled by solvent. Range: 0 to 1. Same Rf = same substance.</div>
+  </div></div>
+</div>
+
+<div id="resourcesTab" class="tab-content">
+  <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:1.2rem;color:var(--ink)">📖 Reference Materials — Sec 1 G3 Science</h2>
+
+  <!-- SEAB Syllabus -->
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-head"><div class="card-letter">🏫</div><div class="card-title">Official Syllabus (SEAB)</div></div>
+    <div class="card-body">
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .8rem">The official Singapore Examinations and Assessment Board syllabuses that this app is aligned to:</p>
+      <div style="display:flex;flex-direction:column;gap:.5rem">
+        <a href="https://www.seab.gov.sg/docs/default-source/national-examinations/syllabus/olevel/2027syllabus/6092_y27_sy.pdf" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.6rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.82rem;font-weight:600;transition:border-color .18s">
+          <span style="font-size:1.2rem">📄</span>
+          <div><div>O-Level Science (Physics/Chemistry) — Syllabus 6092 (2027)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">seab.gov.sg — official PDF</div></div>
+        </a>
+        <a href="https://www.seab.gov.sg/docs/default-source/national-examinations/syllabus/olevel/2027syllabus/6093_y27_sy.pdf" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.6rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.82rem;font-weight:600;transition:border-color .18s">
+          <span style="font-size:1.2rem">📄</span>
+          <div><div>O-Level Science (Physics/Biology) — Syllabus 6093 (2027)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">seab.gov.sg — official PDF</div></div>
+        </a>
+        <a href="https://www.seab.gov.sg/docs/default-source/national-examinations/syllabus/olevel/2027syllabus/6094_y27_sy.pdf" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.6rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.82rem;font-weight:600;transition:border-color .18s">
+          <span style="font-size:1.2rem">📄</span>
+          <div><div>O-Level Science (Chemistry/Biology) — Syllabus 6094 (2027)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">seab.gov.sg — official PDF</div></div>
+        </a>
+        <a href="https://www.seab.gov.sg/docs/default-source/national-examinations/syllabus/ntlevel/2027syllabus/5105_y27_sy.pdf" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.6rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.82rem;font-weight:600;transition:border-color .18s">
+          <span style="font-size:1.2rem">📄</span>
+          <div><div>N(T)-Level Science — Syllabus 5105 (2027)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">seab.gov.sg — official PDF</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chapter-by-chapter textbook references -->
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-head"><div class="card-letter">📚</div><div class="card-title">Textbook Chapter Reference</div></div>
+    <div class="card-body">
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .8rem">Marshall Cavendish / Star Publishing Lower Secondary Science (approved by MOE). Chapter alignment:</p>
+      <table style="width:100%;border-collapse:collapse;font-size:.8rem">
+        <thead>
+          <tr style="background:var(--paper)">
+            <th style="text-align:left;padding:.4rem .5rem;border-bottom:2px solid var(--border);color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em">Chapter</th>
+            <th style="text-align:left;padding:.4rem .5rem;border-bottom:2px solid var(--border);color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em">Topic</th>
+            <th style="text-align:left;padding:.4rem .5rem;border-bottom:2px solid var(--border);color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em">Key Concepts</th>
+            <th style="text-align:center;padding:.4rem .5rem;border-bottom:2px solid var(--border);color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em">Scope</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 1</td><td style="padding:.38rem .5rem">Scientific Endeavour</td><td style="padding:.38rem .5rem;color:var(--muted)">Fair test, variables, hypothesis, safety</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 2</td><td style="padding:.38rem .5rem">Physical Properties</td><td style="padding:.38rem .5rem;color:var(--muted)">States of matter, density, melting/boiling pts</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 3</td><td style="padding:.38rem .5rem">Chemical Properties</td><td style="padding:.38rem .5rem;color:var(--muted)">Elements, compounds, mixtures, particle model</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 4</td><td style="padding:.38rem .5rem">Separation Techniques</td><td style="padding:.38rem .5rem;color:var(--muted)">Filtration, evaporation, distillation, chromatography</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 5</td><td style="padding:.38rem .5rem">Ray Model of Light</td><td style="padding:.38rem .5rem;color:var(--muted)">Reflection, refraction, mirrors, lenses</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 6</td><td style="padding:.38rem .5rem">Cells</td><td style="padding:.38rem .5rem;color:var(--muted)">Cell structure, plant vs animal, organelles</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 7</td><td style="padding:.38rem .5rem">Particulate Matter</td><td style="padding:.38rem .5rem;color:var(--muted)">Kinetic model, diffusion, Brownian motion</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:var(--gold)">Ch 8</td><td style="padding:.38rem .5rem">Atoms & Molecules</td><td style="padding:.38rem .5rem;color:var(--muted)">Atomic structure, periodic table, electron shells</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">CORE</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:#6b7280">Ch 9</td><td style="padding:.38rem .5rem">Human Body Systems</td><td style="padding:.38rem .5rem;color:var(--muted)">Digestive, circulatory, respiratory systems</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#f0f9ff;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">EXT</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:#6b7280">Ch 10</td><td style="padding:.38rem .5rem">Diversity of Life</td><td style="padding:.38rem .5rem;color:var(--muted)">Classification, ecosystems, food chains</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#f0f9ff;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">EXT</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:.38rem .5rem;font-weight:700;color:#6b7280">Ch 11</td><td style="padding:.38rem .5rem">Thermal Energy</td><td style="padding:.38rem .5rem;color:var(--muted)">Heat transfer: conduction, convection, radiation</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#f0f9ff;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">EXT</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border);background:var(--paper)"><td style="padding:.38rem .5rem;font-weight:700;color:#6b7280">Ch 12</td><td style="padding:.38rem .5rem">Electricity & Circuits</td><td style="padding:.38rem .5rem;color:var(--muted)">Current, voltage, resistance, series/parallel</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#f0f9ff;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">EXT</span></td></tr>
+          <tr><td style="padding:.38rem .5rem;font-weight:700;color:#6b7280">Ch 13</td><td style="padding:.38rem .5rem">Forces & Motion</td><td style="padding:.38rem .5rem;color:var(--muted)">Speed, forces, Newton's laws, friction</td><td style="padding:.38rem .5rem;text-align:center"><span style="background:#f0f9ff;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">EXT</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Online Resources -->
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-head"><div class="card-letter">🌐</div><div class="card-title">Useful Study Websites</div></div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.6rem">
+        <a href="https://www.bbc.co.uk/bitesize/subjects/zng4d2p" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">📺</span>
+          <div><div style="font-weight:700;font-size:.82rem">BBC Bitesize — Science</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">Clear explanations, videos and quizzes for every topic</div></div>
+        </a>
+        <a href="https://www.khanacademy.org/science" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">🎓</span>
+          <div><div style="font-weight:700;font-size:.82rem">Khan Academy — Science</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">Free lessons on physics, chemistry and biology</div></div>
+        </a>
+        <a href="https://www.physicsclassroom.com" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">⚡</span>
+          <div><div style="font-weight:700;font-size:.82rem">The Physics Classroom</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">In-depth physics explanations and interactive simulations</div></div>
+        </a>
+        <a href="https://www.chemguide.co.uk" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">🧪</span>
+          <div><div style="font-weight:700;font-size:.82rem">Chemguide</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">Clear chemistry notes — elements, compounds, reactions</div></div>
+        </a>
+        <a href="https://phet.colorado.edu/en/simulations/filter?subjects=biology,chemistry,physics" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">🔬</span>
+          <div><div style="font-weight:700;font-size:.82rem">PhET Simulations (Colorado)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">Interactive science simulations — states of matter, circuits, optics</div></div>
+        </a>
+        <a href="https://www.youtube.com/@CrashCourse/playlists" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink)">
+          <span style="font-size:1.3rem;flex-shrink:0">▶️</span>
+          <div><div style="font-weight:700;font-size:.82rem">Crash Course Science (YouTube)</div><div style="font-size:.72rem;color:var(--muted);margin-top:2px">Engaging 10–15 min videos on biology, chemistry and physics</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Past Paper links -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">📝</div><div class="card-title">Past Papers & School Resources</div></div>
+    <div class="card-body">
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .8rem">Resources for additional past paper practice beyond this app:</p>
+      <div style="display:flex;flex-direction:column;gap:.45rem">
+        <a href="https://www.singaporeolevels.com/science" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.5rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.8rem;font-weight:600">
+          📄 Singapore O-Levels — Science Past Papers Archive
+        </a>
+        <a href="https://www.10yearsseries.com.sg" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;padding:.5rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--ink);font-size:.8rem;font-weight:600">
+          📄 10-Year Series Online — O-Level Science
+        </a>
+        <div style="padding:.5rem .8rem;background:var(--paper);border:1px solid var(--border);border-radius:8px;font-size:.78rem;color:var(--muted)">
+          💡 <strong>Tip:</strong> Upload your school's CA/SA papers as a new Practice Papers set — ask Claude to add them using the paper JSON format shown in the app blueprint.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="histModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9000;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)closeHistModal()">
+  <div style="background:white;border-radius:16px;max-width:720px;width:100%;max-height:92vh;overflow-y:auto;padding:1.6rem 1.8rem;position:relative">
+    <button onclick="closeHistModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted)">✕</button>
+    <div id="histModalContent"></div>
+  </div>
+</div>
+
+
+<script>
+var _hAll=[],_hFil=[],_hSortK='date',_hSortD='desc',_hDone=false;
+
+function loadHistoryTab(){
+  if(_hDone){applyHistFilters();return;}
+  var lo=document.getElementById('histLoading');
+  var em=document.getElementById('histEmpty');
+  var ca=document.getElementById('histCards');
+  if(lo)lo.style.display='block';
+  if(em)em.style.display='none';
+  if(ca)ca.style.display='none';
+  if(!USE_FIREBASE||!db||!currentUser){_hLoadLocal();return;}
+  db.collection('attempts').where('uid','==',getUID()).orderBy('date','desc').limit(200).get()
+    .then(function(s){_hProcess(s);})
+    .catch(function(){
+      db.collection('attempts').where('uid','==',getUID()).limit(200).get()
+        .then(function(s){_hProcess(s,true);})
+        .catch(function(e){
+          if(lo)lo.style.display='none';
+          if(em){em.style.display='block';document.getElementById('histEmptyMsg').textContent='Firebase error: '+e.message;}
+        });
+    });
+}
+
+function _hProcess(snap,sort){
+  _hAll=[];
+  snap.forEach(function(doc){
+    var d=doc.data();d._id=doc.id;
+    d._ts=d.date?(d.date.toDate?d.date.toDate().getTime():d.date.seconds*1000):Date.now();
+    _hAll.push(d);
+  });
+  if(sort)_hAll.sort(function(a,b){return b._ts-a._ts;});
+  _hDone=true;_hPopFilter();applyHistFilters();
+}
+
+function _hLoadLocal(){
+  var raw=localStorage.getItem(STORAGE_KEY+'_'+getUID());
+  _hAll=[];
+  if(raw){try{
+    var d=JSON.parse(raw);
+    (d.history||[]).forEach(function(h,i){
+      _hAll.push({_id:'l'+i,paper:h.p||h.paper,paperLabel:'Paper '+(h.p||h.paper),
+        score:h.score,secA:h.secA||0,secB:h.secB||0,secC:h.secC||0,
+        pct:h.pct||Math.round((h.score||0)/40*100),_ts:h.ts||(Date.now()-i*86400000)});
+    });
+    _hAll.sort(function(a,b){return b._ts-a._ts;});
+  }catch(e){}}
+  _hDone=true;_hPopFilter();applyHistFilters();
+}
+
+function _hPopFilter(){
+  var sel=document.getElementById('histFilterPaper');if(!sel)return;
+  var pp=[];_hAll.forEach(function(a){if(a.paper&&pp.indexOf(a.paper)===-1)pp.push(a.paper);});
+  pp.sort(function(a,b){return a-b;});
+  sel.innerHTML='<option value="">All Papers</option>';
+  pp.forEach(function(p){sel.innerHTML+='<option value="'+p+'">Paper '+p+''+'</option>';});
+}
+
+function setHistSort(k,d,btn){
+  _hSortK=k;_hSortD=d;
+  document.querySelectorAll('.hist-sort-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  applyHistFilters();
+}
+
+function clearHistFilters(){
+  document.getElementById('histFilterPaper').value='';
+  document.getElementById('histDateFrom').value='';
+  document.getElementById('histDateTo').value='';
+  applyHistFilters();
+}
+
+function applyHistFilters(){
+  var pv=document.getElementById('histFilterPaper').value;
+  var fv=document.getElementById('histDateFrom').value;
+  var tv=document.getElementById('histDateTo').value;
+  var fTs=fv?new Date(fv).getTime():0;
+  var tTs=tv?new Date(tv).getTime()+86399999:Infinity;
+  _hFil=_hAll.filter(function(a){
+    if(pv&&String(a.paper)!==String(pv))return false;
+    if(a._ts<fTs||a._ts>tTs)return false;
+    return true;
+  });
+  _hFil.sort(function(a,b){
+    return _hSortK==='date'?(_hSortD==='desc'?b._ts-a._ts:a._ts-b._ts):
+      (_hSortD==='desc'?(b.score||0)-(a.score||0):(a.score||0)-(b.score||0));
+  });
+  _hRenderSummary();_hRenderCards();
+}
+
+function _hSc(p){return p>=90?'#16a34a':p>=75?'#ca8a04':p>=60?'#ea580c':'#dc2626';}
+function _hTag(p){
+  if(p>=90)return{l:'Excellent',e:'🌟',bg:'#d1fae5',c:'#065f46'};
+  if(p>=75)return{l:'Good',e:'👍',bg:'#fef3c7',c:'#92400e'};
+  if(p>=60)return{l:'OK',e:'📚',bg:'#ffedd5',c:'#9a3412'};
+  return{l:'Needs Work',e:'💪',bg:'#fee2e2',c:'#991b1b'};
+}
+
+function _hRenderSummary(){
+  var el=document.getElementById('histSummaryStrip');if(!el)return;
+  if(!_hFil.length){el.innerHTML='';return;}
+  var t=_hFil.length,avg=_hFil.reduce(function(s,a){return s+(a.score||0);},0)/t;
+  var best=Math.max.apply(null,_hFil.map(function(a){return a.score||0;}));
+  var ab=_hFil.filter(function(a){return(a.pct||Math.round((a.score||0)/40*100))>=90;}).length;
+  el.innerHTML=[
+    {v:t,l:'Papers Done',c:'#1e4d8c',bg:'#dbeafe'},
+    {v:Math.round(avg*10)/10+'/40',l:'Avg Score',c:'#065f46',bg:'#d1fae5'},
+    {v:best+'/40',l:'Best Score',c:'#92400e',bg:'#fef3c7'},
+    {v:ab,l:'90%+ Papers',c:'#7e22ce',bg:'#f3e8ff'},
+  ].map(function(s){return '<div class="hist-summary-stat" style="border-color:'+s.bg+';background:'+s.bg+'">'
+    +'<div class="hist-summary-val" style="color:'+s.c+'">'+s.v+'</div>'
+    +'<div class="hist-summary-lbl" style="color:'+s.c+'">'+s.l+'</div></div>';}).join('');
+}
+
+function _hBar(lbl,v,mx){
+  var p=Math.round(v/mx*100);
+  return '<div class="hist-bar-row"><div class="hist-bar-label">'+lbl+'</div>'
+    +'<div class="hist-bar-track"><div class="hist-bar-fill" style="width:'+p+'%;background:'+_hSc(p)+'"></div></div>'
+    +'<div class="hist-bar-val">'+v+'/'+mx+'</div></div>';
+}
+
+function _hRenderCards(){
+  var lo=document.getElementById('histLoading');
+  var em=document.getElementById('histEmpty');
+  var ca=document.getElementById('histCards');
+  var cnt=document.getElementById('histCount');
+  if(lo)lo.style.display='none';
+  if(!_hFil.length){
+    if(em){em.style.display='block';
+      document.getElementById('histEmptyMsg').textContent=_hAll.length?'No results match filters.':'No attempts yet — submit a paper!';}
+    if(ca)ca.style.display='none';if(cnt)cnt.textContent='';return;
+  }
+  if(em)em.style.display='none';if(ca)ca.style.display='flex';
+  if(cnt)cnt.textContent=_hFil.length+' result'+(_hFil.length!==1?'s':'');
+  ca.innerHTML=_hFil.map(function(a,i){
+    var pct=a.pct||Math.round((a.score||0)/40*100);
+    var sc=_hSc(pct),tag=_hTag(pct);
+    var dt=a._ts?new Date(a._ts).toLocaleDateString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+    var isW=(a.paper>=11);
+    return '<div class="hist-card" onclick="openHistDetail('+i+')">'
+      +'<div style="display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.65rem">'
+        +'<div style="flex:1">'
+          +'<div style="font-weight:700;font-size:.9rem">'+(a.paperLabel||'Paper '+a.paper)+'</div>'
+          +'<span class="hist-tag" style="background:'+tag.bg+';color:'+tag.c+';margin-top:.25rem;display:inline-block">'+tag.e+' '+tag.l+'</span>'
+        +'</div>'
+        +'<div style="text-align:right;flex-shrink:0">'
+          +'<div style="font-size:.72rem;color:var(--muted)">'+dt+'</div>'
+          +'<div style="font-size:1.55rem;font-weight:700;color:'+sc+';line-height:1.1;margin-top:.1rem">'+(a.score||0)+'/40</div>'
+          +'<div style="font-size:.72rem;font-weight:700;color:'+sc+'">'+pct+'%</div>'
+        +'</div>'
+      +'</div>'
+      +_hBar('Sec A',a.secA||0,10)+_hBar('Sec B',a.secB||0,10)+_hBar('Sec C',a.secC||0,(typeof PAPERS!=='undefined'&&PAPERS.find(function(p){return p.num==a.paper;}))?PAPERS.find(function(p){return p.num==a.paper;}).secC.reduce(function(s,q){return s+(q.marks||0);},0):20)
+      +'<div style="font-size:.68rem;color:var(--muted);text-align:right;margin-top:.35rem">Tap to review ></div>'
+    +'</div>';
+  }).join('');
+}
+
+
+// ── VISUAL ILLUSTRATIONS ─────────────────────────────────────
+function getQuestionVisual(qText, type) {
+  var q = (qText||'').toLowerCase();
+  // Density / float / sink
+  if (q.indexOf('density')!==-1||q.indexOf('float')!==-1||q.indexOf('sink')!==-1||q.indexOf('ρ')!==-1) {
+    return '<svg viewBox="0 0 280 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;display:block;margin:.5rem auto">'
+      +'<rect x="10" y="50" width="260" height="60" rx="4" fill="#bfdbfe" opacity=".7"/>'
+      +'<text x="140" y="90" font-size="10" fill="#1e40af" text-anchor="middle" font-family="sans-serif">Water (ρ = 1.0 g/cm³)</text>'
+      +'<rect x="30" y="30" width="50" height="50" rx="3" fill="#dc2626"/>'
+      +'<text x="55" y="20" font-size="9" fill="#dc2626" text-anchor="middle" font-family="sans-serif">Sinks (ρ &gt; 1.0)</text>'
+      +'<rect x="110" y="15" width="50" height="30" rx="3" fill="#16a34a" opacity=".9"/>'
+      +'<text x="135" y="12" font-size="9" fill="#16a34a" text-anchor="middle" font-family="sans-serif">Floats (ρ &lt; 1.0)</text>'
+      +'<text x="30" y="62" font-size="8" fill="white" font-family="sans-serif">ρ = m/V</text>'
+      +'<text x="190" y="32" font-size="8" fill="#374151" font-family="sans-serif">Formula:</text>'
+      +'<text x="190" y="44" font-size="10" fill="#1e4d8c" font-weight="bold" font-family="sans-serif">ρ = m ÷ V</text>'
+      +'<text x="190" y="56" font-size="8" fill="#374151" font-family="sans-serif">Units: g/cm³</text>'
+    +'</svg>';
+  }
+  // Filtration
+  if (q.indexOf('filtrat')!==-1||q.indexOf('residue')!==-1||q.indexOf('filter')!==-1) {
+    return '<svg viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;display:block;margin:.5rem auto">'
+      +'<polygon points="80,10 200,10 155,70 125,70" fill="#fbbf24" opacity=".7" stroke="#92400e" stroke-width="1.5"/>'
+      +'<text x="140" y="35" font-size="9" fill="#92400e" text-anchor="middle" font-family="sans-serif">Filter paper</text>'
+      +'<ellipse cx="140" cy="65" rx="28" ry="8" fill="#dc2626" opacity=".8"/>'
+      +'<text x="140" y="55" font-size="9" fill="#dc2626" text-anchor="middle" font-family="sans-serif">RESIDUE (solid)</text>'
+      +'<line x1="140" y1="72" x2="140" y2="100" stroke="#60a5fa" stroke-width="2" stroke-dasharray="3,2"/>'
+      +'<ellipse cx="140" cy="108" rx="30" ry="10" fill="#bfdbfe" opacity=".8"/>'
+      +'<text x="140" y="112" font-size="9" fill="#1e40af" text-anchor="middle" font-family="sans-serif">FILTRATE (liquid)</text>'
+      +'<text x="10" y="125" font-size="8" fill="#374151" font-family="sans-serif">Mixture → filter → residue on paper, filtrate through</text>'
+    +'</svg>';
+  }
+  // Chromatography / Rf
+  if (q.indexOf('chromatograph')!==-1||q.indexOf(' rf ')!==-1||q.indexOf('rf =')!==-1||q.indexOf('rf value')!==-1) {
+    return '<svg viewBox="0 0 280 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;display:block;margin:.5rem auto">'
+      +'<rect x="20" y="10" width="18" height="130" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1"/>'
+      +'<line x1="29" y1="120" x2="29" y2="120" stroke="transparent"/>'
+      +'<line x1="20" y1="120" x2="38" y2="120" stroke="#374151" stroke-width="1.5" stroke-dasharray="2,2"/>'
+      +'<text x="42" y="123" font-size="8" fill="#374151" font-family="sans-serif">Baseline (start)</text>'
+      +'<line x1="20" y1="20" x2="38" y2="20" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="3,2"/>'
+      +'<text x="42" y="23" font-size="8" fill="#2563eb" font-family="sans-serif">Solvent front</text>'
+      +'<circle cx="29" cy="80" r="6" fill="#dc2626" opacity=".9"/>'
+      +'<circle cx="29" cy="55" r="6" fill="#16a34a" opacity=".9"/>'
+      +'<circle cx="29" cy="35" r="6" fill="#8b5cf6" opacity=".9"/>'
+      +'<line x1="38" y1="80" x2="120" y2="80" stroke="#dc2626" stroke-width=".8" stroke-dasharray="2,2"/>'
+      +'<text x="122" y="83" font-size="8" fill="#dc2626" font-family="sans-serif">Spot A: Rf=dist_A/dist_S</text>'
+      +'<text x="38" y="18" font-size="9" fill="#1e40af" font-family="sans-serif" font-weight="bold">Rf = dist. spot ÷ dist. solvent front</text>'
+      +'<text x="150" y="110" font-size="9" fill="#374151" font-family="sans-serif">Higher Rf = more soluble</text>'
+      +'<text x="150" y="122" font-size="9" fill="#374151" font-family="sans-serif">= travels further up paper</text>'
+    +'</svg>';
+  }
+  // Element / Compound / Mixture particle diagrams
+  if (q.indexOf('element')!==-1||q.indexOf('compound')!==-1||q.indexOf('mixture')!==-1) {
+    return '<svg viewBox="0 0 280 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;display:block;margin:.5rem auto">'
+      +'<text x="46" y="12" font-size="9" fill="#1e4d8c" text-anchor="middle" font-family="sans-serif" font-weight="bold">Element</text>'
+      +'<circle cx="25" cy="35" r="10" fill="#60a5fa"/><circle cx="48" cy="35" r="10" fill="#60a5fa"/>'
+      +'<circle cx="36" cy="55" r="10" fill="#60a5fa"/><circle cx="60" cy="55" r="10" fill="#60a5fa"/>'
+      +'<text x="46" y="78" font-size="8" fill="#374151" text-anchor="middle" font-family="sans-serif">1 type of atom</text>'
+      +'<text x="140" y="12" font-size="9" fill="#065f46" text-anchor="middle" font-family="sans-serif" font-weight="bold">Compound</text>'
+      +'<circle cx="110" cy="35" r="9" fill="#60a5fa"/><circle cx="126" cy="35" r="9" fill="#f87171"/>'
+      +'<circle cx="118" cy="52" r="9" fill="#60a5fa"/><circle cx="155" cy="38" r="9" fill="#f87171"/>'
+      +'<circle cx="145" cy="55" r="9" fill="#60a5fa"/>'
+      +'<text x="140" y="78" font-size="8" fill="#374151" text-anchor="middle" font-family="sans-serif">Fixed ratio, chem. combined</text>'
+      +'<text x="232" y="12" font-size="9" fill="#92400e" text-anchor="middle" font-family="sans-serif" font-weight="bold">Mixture</text>'
+      +'<circle cx="200" cy="28" r="9" fill="#60a5fa"/><circle cx="225" cy="40" r="9" fill="#f87171"/>'
+      +'<circle cx="215" cy="25" r="9" fill="#4ade80"/><circle cx="245" cy="30" r="9" fill="#60a5fa"/>'
+      +'<circle cx="235" cy="55" r="9" fill="#f87171"/><circle cx="205" cy="55" r="9" fill="#4ade80"/>'
+      +'<text x="232" y="78" font-size="8" fill="#374151" text-anchor="middle" font-family="sans-serif">Variable ratio, physical</text>'
+    +'</svg>';
+  }
+  // Separation techniques
+  if (q.indexOf('separat')!==-1||q.indexOf('evaporat')!==-1||q.indexOf('distill')!==-1||q.indexOf('sublim')!==-1) {
+    return '<svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;display:block;margin:.5rem auto">'
+      +'<rect x="5" y="5" width="60" height="40" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>'
+      +'<text x="35" y="20" font-size="8" text-anchor="middle" fill="#92400e" font-family="sans-serif" font-weight="bold">Filtration</text>'
+      +'<text x="35" y="32" font-size="7" text-anchor="middle" fill="#92400e" font-family="sans-serif">insoluble solid</text>'
+      +'<text x="35" y="42" font-size="7" text-anchor="middle" fill="#92400e" font-family="sans-serif">+ liquid</text>'
+      +'<rect x="75" y="5" width="60" height="40" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>'
+      +'<text x="105" y="20" font-size="8" text-anchor="middle" fill="#065f46" font-family="sans-serif" font-weight="bold">Evaporation</text>'
+      +'<text x="105" y="32" font-size="7" text-anchor="middle" fill="#065f46" font-family="sans-serif">soluble solid</text>'
+      +'<text x="105" y="42" font-size="7" text-anchor="middle" fill="#065f46" font-family="sans-serif">in solution</text>'
+      +'<rect x="145" y="5" width="60" height="40" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>'
+      +'<text x="175" y="20" font-size="8" text-anchor="middle" fill="#1e40af" font-family="sans-serif" font-weight="bold">Distillation</text>'
+      +'<text x="175" y="32" font-size="7" text-anchor="middle" fill="#1e40af" font-family="sans-serif">miscible liquids</text>'
+      +'<text x="175" y="42" font-size="7" text-anchor="middle" fill="#1e40af" font-family="sans-serif">diff. b.p.</text>'
+      +'<rect x="215" y="5" width="60" height="40" rx="4" fill="#f3e8ff" stroke="#7e22ce" stroke-width="1.5"/>'
+      +'<text x="245" y="16" font-size="8" text-anchor="middle" fill="#6b21a8" font-family="sans-serif" font-weight="bold">Chromato</text>'
+      +'<text x="245" y="27" font-size="7" text-anchor="middle" fill="#6b21a8" font-family="sans-serif">-graphy</text>'
+      +'<text x="245" y="38" font-size="7" text-anchor="middle" fill="#6b21a8" font-family="sans-serif">coloured mix</text>'
+      +'<text x="140" y="75" font-size="8" text-anchor="middle" fill="#374151" font-family="sans-serif">Choose method based on properties of substances to separate</text>'
+    +'</svg>';
+  }
+  // Variables / Hypothesis / Scientific method
+  if (q.indexOf('variable')!==-1||q.indexOf('hypothesis')!==-1||q.indexOf('experiment')!==-1||q.indexOf('fair test')!==-1) {
+    return '<svg viewBox="0 0 280 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;display:block;margin:.5rem auto">'
+      +'<rect x="5" y="10" width="80" height="40" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>'
+      +'<text x="45" y="27" font-size="9" text-anchor="middle" fill="#991b1b" font-family="sans-serif" font-weight="bold">Independent</text>'
+      +'<text x="45" y="40" font-size="8" text-anchor="middle" fill="#991b1b" font-family="sans-serif">What you CHANGE</text>'
+      +'<rect x="100" y="10" width="80" height="40" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>'
+      +'<text x="140" y="27" font-size="9" text-anchor="middle" fill="#1e40af" font-family="sans-serif" font-weight="bold">Dependent</text>'
+      +'<text x="140" y="40" font-size="8" text-anchor="middle" fill="#1e40af" font-family="sans-serif">What you MEASURE</text>'
+      +'<rect x="195" y="10" width="80" height="40" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>'
+      +'<text x="235" y="27" font-size="9" text-anchor="middle" fill="#065f46" font-family="sans-serif" font-weight="bold">Controlled</text>'
+      +'<text x="235" y="40" font-size="8" text-anchor="middle" fill="#065f46" font-family="sans-serif">What you KEEP SAME</text>'
+      +'<text x="140" y="80" font-size="8" text-anchor="middle" fill="#374151" font-family="sans-serif">Only change 1 variable at a time for a fair test!</text>'
+    +'</svg>';
+  }
+  // Measurement / SI units / Parallax
+  if (q.indexOf('measur')!==-1||q.indexOf('si unit')!==-1||q.indexOf('parallax')!==-1||q.indexOf('meniscus')!==-1||q.indexOf('zero error')!==-1) {
+    return '<svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;display:block;margin:.5rem auto">'
+      +'<rect x="10" y="10" width="115" height="75" rx="4" fill="#f9fafb" stroke="#d1d5db" stroke-width="1.5"/>'
+      +'<text x="67" y="25" font-size="9" text-anchor="middle" fill="#374151" font-family="sans-serif" font-weight="bold">Read at eye level!</text>'
+      +'<ellipse cx="67" cy="55" rx="20" ry="12" fill="none" stroke="#2563eb" stroke-width="2"/>'
+      +'<ellipse cx="67" cy="55" rx="20" ry="5" fill="#bfdbfe" opacity=".6"/>'
+      +'<line x1="47" y1="55" x2="87" y2="55" stroke="#2563eb" stroke-width="1.5"/>'
+      +'<text x="67" y="78" font-size="8" text-anchor="middle" fill="#1e40af" font-family="sans-serif">Read from BOTTOM of meniscus</text>'
+      +'<rect x="140" y="10" width="130" height="75" rx="4" fill="#f9fafb" stroke="#d1d5db" stroke-width="1.5"/>'
+      +'<text x="205" y="25" font-size="9" text-anchor="middle" fill="#374151" font-family="sans-serif" font-weight="bold">SI Base Units</text>'
+      +'<text x="150" y="40" font-size="8" fill="#374151" font-family="sans-serif">Mass: kg</text>'
+      +'<text x="150" y="52" font-size="8" fill="#374151" font-family="sans-serif">Length: m</text>'
+      +'<text x="150" y="64" font-size="8" fill="#374151" font-family="sans-serif">Time: s</text>'
+      +'<text x="220" y="40" font-size="8" fill="#374151" font-family="sans-serif">Temp: K (°C+273)</text>'
+      +'<text x="220" y="52" font-size="8" fill="#374151" font-family="sans-serif">Current: A</text>'
+      +'<text x="220" y="64" font-size="8" fill="#374151" font-family="sans-serif">Amount: mol</text>'
+    +'</svg>';
+  }
+  // Heat / Thermal energy
+  if (q.indexOf('heat')!==-1||q.indexOf('thermal')!==-1||q.indexOf('conduct')!==-1||q.indexOf('convect')!==-1||q.indexOf('radiat')!==-1) {
+    return '<svg viewBox="0 0 280 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;display:block;margin:.5rem auto">'
+      +'<rect x="5" y="10" width="80" height="50" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>'
+      +'<text x="45" y="28" font-size="9" text-anchor="middle" fill="#92400e" font-family="sans-serif" font-weight="bold">Conduction</text>'
+      +'<text x="45" y="40" font-size="7.5" text-anchor="middle" fill="#92400e" font-family="sans-serif">Solids — vibrating</text>'
+      +'<text x="45" y="52" font-size="7.5" text-anchor="middle" fill="#92400e" font-family="sans-serif">particles pass energy</text>'
+      +'<rect x="100" y="10" width="80" height="50" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>'
+      +'<text x="140" y="28" font-size="9" text-anchor="middle" fill="#1e40af" font-family="sans-serif" font-weight="bold">Convection</text>'
+      +'<text x="140" y="40" font-size="7.5" text-anchor="middle" fill="#1e40af" font-family="sans-serif">Liquids/gases —</text>'
+      +'<text x="140" y="52" font-size="7.5" text-anchor="middle" fill="#1e40af" font-family="sans-serif">hot rises, cool sinks</text>'
+      +'<rect x="195" y="10" width="80" height="50" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>'
+      +'<text x="235" y="28" font-size="9" text-anchor="middle" fill="#991b1b" font-family="sans-serif" font-weight="bold">Radiation</text>'
+      +'<text x="235" y="40" font-size="7.5" text-anchor="middle" fill="#991b1b" font-family="sans-serif">No medium needed</text>'
+      +'<text x="235" y="52" font-size="7.5" text-anchor="middle" fill="#991b1b" font-family="sans-serif">EM waves (IR)</text>'
+    +'</svg>';
+  }
+  // Pressure
+  if (q.indexOf('pressure')!==-1||q.indexOf('pascal')!==-1||q.indexOf('p = f')!==-1) {
+    return '<svg viewBox="0 0 280 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;display:block;margin:.5rem auto">'
+      +'<rect x="10" y="5" width="260" height="80" rx="8" fill="#f3e8ff" stroke="#7e22ce" stroke-width="1.5"/>'
+      +'<text x="140" y="25" font-size="12" text-anchor="middle" fill="#6b21a8" font-family="sans-serif" font-weight="bold">P = F ÷ A</text>'
+      +'<text x="140" y="42" font-size="9" text-anchor="middle" fill="#374151" font-family="sans-serif">Pressure = Force ÷ Area</text>'
+      +'<text x="140" y="57" font-size="8.5" text-anchor="middle" fill="#374151" font-family="sans-serif">Units: Pascal (Pa) = N/m²</text>'
+      +'<text x="140" y="72" font-size="8" text-anchor="middle" fill="#6b21a8" font-family="sans-serif">Smaller area → HIGHER pressure (same force)</text>'
+    +'</svg>';
+  }
+  // Light / Reflection / Refraction
+  if (q.indexOf('light')!==-1||q.indexOf('reflect')!==-1||q.indexOf('refract')!==-1||q.indexOf('ray')!==-1||q.indexOf('angle')!==-1) {
+    return '<svg viewBox="0 0 280 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;display:block;margin:.5rem auto">'
+      +'<line x1="10" y1="50" x2="270" y2="50" stroke="#d1d5db" stroke-width="1.5"/>'
+      +'<text x="140" y="48" font-size="8" fill="#6b7280" text-anchor="middle" font-family="sans-serif">Mirror / Surface</text>'
+      +'<line x1="140" y1="50" x2="140" y2="10" stroke="#d1d5db" stroke-width="1" stroke-dasharray="4,3"/>'
+      +'<text x="143" y="15" font-size="8" fill="#6b7280" font-family="sans-serif">Normal</text>'
+      +'<line x1="50" y1="10" x2="140" y2="50" stroke="#f59e0b" stroke-width="2"/>'
+      +'<text x="70" y="22" font-size="8" fill="#92400e" font-family="sans-serif">Incident ray</text>'
+      +'<line x1="140" y1="50" x2="230" y2="10" stroke="#2563eb" stroke-width="2"/>'
+      +'<text x="200" y="22" font-size="8" fill="#1e40af" font-family="sans-serif">Reflected ray</text>'
+      +'<text x="113" y="43" font-size="8" fill="#dc2626" font-family="sans-serif">i</text>'
+      +'<text x="150" y="43" font-size="8" fill="#dc2626" font-family="sans-serif">r</text>'
+      +'<text x="140" y="80" font-size="9" text-anchor="middle" fill="#374151" font-family="sans-serif">Angle of incidence = Angle of reflection</text>'
+      +'<text x="140" y="95" font-size="8" text-anchor="middle" fill="#374151" font-family="sans-serif">Both measured from the NORMAL</text>'
+    +'</svg>';
+  }
+  return null; // no visual for this question
+}
+
+function openHistDetail(i){
+  var a=_hFil[i]; if(!a) return;
+  var pct=a.pct||Math.round((a.score||0)/40*100);
+  var sc=_hSc(pct), tag=_hTag(pct);
+  var dt=a._ts?new Date(a._ts).toLocaleDateString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+  var pidx=(typeof PAPERS!=='undefined')?PAPERS.findIndex(function(p){return p.num==a.paper;}):-1;
+  var paper=pidx!==-1?PAPERS[pidx]:null;
+
+  /* ── tip engine: returns coaching tip based on context ── */
+  function getTip(type, ctx){
+    var t=ctx||{};
+    if(type==='mcq_wrong'){
+      var q=(t.q||'').toLowerCase();
+      if(q.indexOf('density')!==-1||q.indexOf('float')!==-1||q.indexOf('sink')!==-1)
+        return 'Density tip: always compare object density to liquid density. Object sinks if denser than liquid, floats if less dense. Write the formula first: ρ = m/V.';
+      if(q.indexOf('residue')!==-1||q.indexOf('filtrate')!==-1)
+        return 'Filtration tip: RESIDUE = solid left ON the filter paper. FILTRATE = liquid that passes THROUGH. Draw it out if unsure.';
+      if(q.indexOf('compound')!==-1||q.indexOf('element')!==-1||q.indexOf('mixture')!==-1)
+        return 'Classification tip: Element = one type of atom. Compound = two or more elements CHEMICALLY combined in fixed ratio. Mixture = physically combined, variable ratio, can be separated physically.';
+      if(q.indexOf('solub')!==-1||q.indexOf('dissolv')!==-1)
+        return 'Solubility tip: Solubility = MAX amount that dissolves at a specific temperature. Rate of dissolving = HOW FAST it dissolves. These are different concepts!';
+      if(q.indexOf('rf')!==-1||q.indexOf('chromatograph')!==-1)
+        return 'Chromatography tip: Rf = distance moved by spot ÷ distance moved by solvent. Always <1. Higher Rf = more soluble in solvent = travels further.';
+      if(q.indexOf('si unit')!==-1||q.indexOf('unit')!==-1)
+        return 'SI units tip: mass=kg, length=m, time=s, temperature=K, volume=m³ (but cm³ also accepted in calculations). Always include units in your answer.';
+      return 'Read carefully: eliminate obviously wrong options first. Re-read the question stem after choosing to confirm your answer makes sense.';
+    }
+    if(type==='tf_wrong'){
+      return 'True/False tip: look for absolute words like "always", "never", "only" — these are often FALSE. Re-read the statement substituting the opposite to check logic.';
+    }
+    if(type==='reason_zero'){
+      var r=(t.reason||'').toLowerCase();
+      if(r.length<10) return 'Your reason was too short. Always write: [True/False] BECAUSE [scientific principle] — minimum 1 complete sentence with a key science word.';
+      if(r.indexOf('because')===-1&&r.indexOf('since')===-1&&r.indexOf('as ')===-1)
+        return 'Missing linking word. Start with the T/F answer then use "because" + the scientific reason. E.g. "True, because compounds have fixed proportions by mass."';
+      return 'Reason needs a specific science keyword. Check the mark scheme — look for words like: chemically combined, fixed proportions, insoluble, residue, filtrate, parallax error.';
+    }
+    if(type==='reason_partial'){
+      return 'Partially correct! You had the right idea but missed a key term or explanation. Compare your reason to the model answer — find the missing scientific keyword.';
+    }
+    if(type==='secC_zero'){
+      var q=(t.q||'').toLowerCase();
+      if(q.indexOf('calculat')!==-1||q.indexOf('density')!==-1)
+        return 'Calculation tip: always write FORMULA first (ρ = m/V), then SUBSTITUTION, then ANSWER with UNITS. Each step can earn marks even if final answer is wrong.';
+      if(q.indexOf('explain')!==-1||q.indexOf('why')!==-1)
+        return 'Explain questions need TWO parts: (1) state what happens, (2) give the scientific reason WHY using a key term from the topic.';
+      if(q.indexOf('describe')!==-1||q.indexOf('method')!==-1||q.indexOf('how')!==-1)
+        return 'Method questions: write steps in ORDER. Include: what you do, what you observe, and the name of the technique. Each distinct step = 1 mark.';
+      if(q.indexOf('variable')!==-1||q.indexOf('hypothesis')!==-1)
+        return 'Variables: Independent = what you change. Dependent = what you measure. Controlled = what you keep the same. State them precisely.';
+      return 'For zero marks: re-read the question and identify the key command word (State, Explain, Describe, Calculate). Your answer must directly address that command.';
+    }
+    if(type==='secC_partial'){
+      return 'Partially correct — you are on the right track! Look at what marks you lost: each [1] in the mark scheme is a separate point. Check if you missed units, a comparison, or a key scientific term.';
+    }
+    return '';
+  }
+
+  /* ── Section A: full question + all options shown ── */
+  var saH='<div class="hm-sec-title">Section A — MCQ ('+( a.secA||0)+'/10)</div>';
+  if(paper&&paper.secA&&a.secAAnswers){
+    paper.secA.forEach(function(q,qi){
+      var given=a.secAAnswers[qi], ok=(given===q.ans);
+      var tip=ok?'':getTip('mcq_wrong',{q:q.q});
+      saH+='<div style="margin-bottom:.75rem;border:1.5px solid '+(ok?'#bbf7d0':'#fecaca')+';border-radius:10px;padding:.75rem;background:'+(ok?'#f0fdf4':'#fff5f5')+'">'
+        /* question number + result badge */
+        +'<div style="display:flex;align-items:flex-start;gap:.5rem;margin-bottom:.55rem">'
+          +'<span style="font-size:.85rem;margin-top:1px">'+(ok?'✅':'❌')+'</span>'
+          +'<div style="flex:1"><b style="font-size:.85rem">Q'+(qi+1)+'.</b> '
+            +'<span style="font-size:.85rem;line-height:1.5">'+q.q+'</span>'
+          +'</div>'
+        +'</div>'
+        /* visual illustration if relevant */
+        +(getQuestionVisual(q.q,'mcq')?'<div style="margin-left:1.4rem;margin-bottom:.4rem">'+getQuestionVisual(q.q,'mcq')+'</div>':'')
+        /* all 4 options */
+        +'<div style="display:flex;flex-direction:column;gap:.3rem;margin-left:1.4rem;margin-bottom:.4rem">'
+        +(q.opts||[]).map(function(opt,oi){
+          var isGiven=(oi===given);
+          var isCorrect=(oi===q.ans);
+          var bg='transparent', border='1.5px solid #e5e7eb', weight='normal', badge='';
+          if(isCorrect){bg='#dcfce7';border='1.5px solid #16a34a';weight='700';badge='<span style="font-size:.68rem;background:#16a34a;color:white;padding:1px 6px;border-radius:8px;margin-left:.4rem">✓ Correct</span>';}
+          if(isGiven&&!isCorrect){bg='#fee2e2';border='1.5px solid #dc2626';weight='600';badge='<span style="font-size:.68rem;background:#dc2626;color:white;padding:1px 6px;border-radius:8px;margin-left:.4rem">✗ Your answer</span>';}
+          if(isGiven&&isCorrect){badge='<span style="font-size:.68rem;background:#16a34a;color:white;padding:1px 6px;border-radius:8px;margin-left:.4rem">✓ Correct</span>';}
+          return '<div style="padding:5px 10px;border-radius:6px;border:'+border+';background:'+bg+';font-size:.8rem;font-weight:'+weight+'">'
+            +'<b>'+'ABCD'[oi]+'.</b> '+opt+badge+'</div>';
+        }).join('')
+        +'</div>'
+        /* tip if wrong */
+        +(tip?'<div style="margin-left:1.4rem;margin-top:.35rem;padding:.5rem .7rem;background:#fff7ed;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;font-size:.76rem;color:#92400e"><b>💡 Tip:</b> '+tip+'</div>':'')
+      +'</div>';
+    });
+  } else {
+    saH+='<div style="color:var(--muted);font-size:.8rem;padding:.4rem">Answer data not stored — submit a paper with the new app version to see details.</div>';
+  }
+
+  /* ── Section B: full statement + model reason + coaching ── */
+  var sbH='<div class="hm-sec-title">Section B — True/False ('+(a.secB||0)+'/10)</div>';
+  if(a.secBTF&&paper&&paper.secB){
+    paper.secB.forEach(function(q,ki){
+      var k=String(ki);
+      var given=a.secBTF[k]||a.secBTF[ki];
+      var correct=(given!==undefined)?q.ans:undefined;
+      // ans stored as true/false boolean, given as 'T'/'F' string
+      var givenBool=(given==='T'||given===true||given==='true');
+      var ok=(correct!==undefined)?(givenBool===q.ans):null;
+      var reason=(a.secBReasonTexts&&(a.secBReasonTexts[k]||a.secBReasonTexts[ki]))||'';
+      var rScore=(a.secBReasonScores&&(a.secBReasonScores[k]!==undefined?a.secBReasonScores[k]:a.secBReasonScores[ki]));
+      rScore=(rScore!==undefined&&rScore!==null)?Number(rScore):null;
+      var tfCorrect=ok===true, tfWrong=ok===false;
+      var reasonCorrect=(rScore===1||rScore>=1), reasonPartial=(rScore>0&&rScore<1), reasonWrong=(rScore===0);
+      var tip='';
+      if(tfWrong) tip=getTip('tf_wrong',{stmt:q.stmt});
+      else if(reasonWrong) tip=getTip('reason_zero',{reason:reason,stmt:q.stmt});
+      else if(reasonPartial) tip=getTip('reason_partial',{reason:reason});
+
+      sbH+='<div style="margin-bottom:.85rem;border:1.5px solid '+(tfCorrect&&reasonCorrect?'#bbf7d0':tfWrong?'#fecaca':'#fde68a')+';border-radius:10px;padding:.8rem;background:'+(tfCorrect&&reasonCorrect?'#f0fdf4':tfWrong?'#fff5f5':'#fffbeb')+'">'
+        /* statement */
+        +'<div style="font-size:.84rem;font-weight:600;margin-bottom:.5rem;line-height:1.5">'
+          +'<span style="font-size:.85rem;margin-right:.4rem">'+(tfCorrect?'✅':tfWrong?'❌':'⬜')+'</span>'
+          +'<b>Q'+(ki+1)+'.</b> '+q.stmt
+        +'</div>'
+        /* visual illustration */
+        +(getQuestionVisual(q.stmt,'tf')?'<div style="margin-left:1.4rem;margin-bottom:.35rem">'+getQuestionVisual(q.stmt,'tf')+'</div>':'')
+        /* T/F result row */
+        +'<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-left:1.4rem;margin-bottom:.45rem">'
+          +'<span style="font-size:.78rem;padding:3px 10px;border-radius:10px;font-weight:700;background:'+(tfCorrect?'#dcfce7':'#fee2e2')+';color:'+(tfCorrect?'#15803d':'#b91c1c')+'">'
+            +'Your answer: '+(given==='T'||given===true?'TRUE':'FALSE')
+          +'</span>'
+          +(ok===false?'<span style="font-size:.78rem;padding:3px 10px;border-radius:10px;font-weight:700;background:#dcfce7;color:#15803d">Correct: '+(q.ans?'TRUE':'FALSE')+'</span>':'')
+        +'</div>'
+        /* student's reason */
+        +'<div style="margin-left:1.4rem;margin-bottom:.4rem">'
+          +'<div style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem">Mokshith\\'s Reason '+(rScore!==null?'<span style="background:'+(reasonCorrect?'#dcfce7':reasonWrong?'#fee2e2':'#fef3c7')+';color:'+(reasonCorrect?'#15803d':reasonWrong?'#b91c1c':'#92400e')+';padding:1px 8px;border-radius:8px;font-weight:700">'+rScore+'/1</span>':'')+'</div>'
+          +'<div style="font-size:.82rem;background:#f9fafb;border:1px solid var(--border);border-radius:6px;padding:.5rem .65rem;font-style:italic;min-height:28px;line-height:1.5">'+(reason||'<span style="color:var(--muted)">No reason written</span>')+'</div>'
+        +'</div>'
+        /* model reason */
+        +(!reasonCorrect?'<div style="margin-left:1.4rem;margin-bottom:.4rem">'
+          +'<div style="font-size:.72rem;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem">Model Answer</div>'
+          +'<div style="font-size:.82rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:.5rem .65rem;line-height:1.5">'+q.reason+'</div>'
+        +'</div>':'')
+        /* tip */
+        +(tip?'<div style="margin-left:1.4rem;margin-top:.35rem;padding:.5rem .7rem;background:#fff7ed;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;font-size:.76rem;color:#92400e"><b>💡 Tip for Mokshith:</b> '+tip+'</div>':'')
+      +'</div>';
+    });
+  } else {
+    sbH+='<div style="color:var(--muted);font-size:.8rem;padding:.4rem">No answer data stored.</div>';
+  }
+
+  /* ── Section C: full question + student answer + mark scheme + tip ── */
+  var scH='<div class="hm-sec-title">Section C — Structured ('+(a.secC||0)+'/20)</div>';
+  if(a.secCScores&&paper&&paper.secC){
+    paper.secC.forEach(function(q,ki){
+      var k=String(ki);
+      var score=(a.secCScores[k]!==undefined)?a.secCScores[k]:(a.secCScores[ki]||0);
+      var text=(a.secCTexts&&(a.secCTexts[k]||a.secCTexts[ki]))||'';
+      var maxM=q.marks||0;
+      var perfect=(maxM>0&&Number(score)>=maxM), zero=(Number(score)===0);
+      var partial=!perfect&&!zero;
+      var tip='';
+      if(zero) tip=getTip('secC_zero',{q:q.q,score:score,maxM:maxM});
+      else if(partial) tip=getTip('secC_partial',{q:q.q,score:score,maxM:maxM});
+
+      scH+='<div style="margin-bottom:.9rem;border:1.5px solid '+(perfect?'#bbf7d0':zero?'#fecaca':'#fde68a')+';border-radius:10px;padding:.8rem;background:'+(perfect?'#f0fdf4':zero?'#fff5f5':'#fffbeb')+'">'
+        /* question text — FULL, with whitespace preserved */
+        +'<div style="margin-bottom:.55rem">'
+          +'<div style="display:flex;align-items:flex-start;gap:.4rem;margin-bottom:.4rem">'
+            +'<span style="font-size:.85rem;margin-top:1px">'+(perfect?'✅':zero?'❌':'🔶')+'</span>'
+            +'<b style="font-size:.84rem">Q'+(ki+1)+'</b>'
+            +'<span style="font-size:.78rem;font-weight:700;padding:2px 8px;border-radius:8px;background:'+(perfect?'#dcfce7':zero?'#fee2e2':'#fef3c7')+';color:'+(perfect?'#15803d':zero?'#b91c1c':'#92400e')+'">'+score+'/'+maxM+' marks</span>'
+          +'</div>'
+          +'<div style="font-size:.83rem;line-height:1.6;margin-left:1.5rem;white-space:pre-wrap;background:#f9fafb;border-radius:6px;padding:.6rem .75rem;border:1px solid var(--border)">'+q.q+'</div>'
+        +'</div>'
+        /* visual illustration */
+        +(getQuestionVisual(q.q,'secC')?'<div style="margin-left:1.5rem;margin-bottom:.4rem">'+getQuestionVisual(q.q,'secC')+'</div>':'')
+        /* student's written answer */
+        +'<div style="margin-left:1.5rem;margin-bottom:.45rem">'
+          +'<div style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem">Mokshith\\'s Answer</div>'
+          +'<div style="font-size:.82rem;background:white;border:1.5px solid '+(perfect?'#86efac':zero?'#fca5a5':'#fcd34d')+';border-radius:6px;padding:.55rem .7rem;line-height:1.6;white-space:pre-wrap;min-height:36px">'+(text||'<span style="color:var(--muted);font-style:italic">No answer written</span>')+'</div>'
+        +'</div>'
+        /* mark scheme — always shown */
+        +((!perfect||true)?'<div style="margin-left:1.5rem;margin-bottom:'+(tip?'.4rem':'0')+'">'
+          +'<div style="font-size:.72rem;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem">Mark Scheme</div>'
+          +'<div style="font-size:.8rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:.55rem .7rem;line-height:1.7;white-space:pre-wrap">'+(q.scheme||'Not available')+'</div>'
+        +'</div>':'')
+        /* tip */
+        +(tip?'<div style="margin-left:1.5rem;margin-top:.4rem;padding:.55rem .75rem;background:#fff7ed;border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;font-size:.76rem;color:#92400e;line-height:1.55"><b>💡 Tip for Mokshith:</b> '+tip+'</div>':'')
+      +'</div>';
+    });
+  } else {
+    scH+='<div style="color:var(--muted);font-size:.8rem;padding:.4rem">No answer data stored.</div>';
+  }
+
+  /* ── Modal header ── */
+  document.getElementById('histModalContent').innerHTML=
+    '<div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)">'
+      +'<div style="text-align:center;min-width:66px"><div style="font-size:2.5rem;font-weight:700;color:'+sc+';line-height:1">'+(a.score||0)+'</div><div style="font-size:.78rem;color:'+sc+';font-weight:700">/40</div></div>'
+      +'<div style="flex:1">'
+        +'<div style="font-weight:700;font-size:1rem">'+(a.paperLabel||'Paper '+a.paper)+'</div>'
+        +'<div style="font-size:.77rem;color:var(--muted);margin:.15rem 0">'+dt+'</div>'
+        +'<span class="hist-tag" style="background:'+tag.bg+';color:'+tag.c+'">'+tag.e+' '+tag.l+' · '+pct+'%</span>'
+      +'</div>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)">'
+      +(function(){
+        var cMax=(paper&&paper.secC)?paper.secC.reduce(function(s,q){return s+(q.marks||0);},0):20;
+        return ['Sec A','Sec B','Sec C'].map(function(l,li){
+          var vals=[a.secA||0,a.secB||0,a.secC||0],mx=[10,10,cMax];
+          var p2=Math.round(vals[li]/mx[li]*100);
+          return '<div style="text-align:center;background:#f9fafb;border-radius:8px;padding:.55rem">'
+            +'<div style="font-weight:700;font-size:1.05rem;color:'+_hSc(p2)+'">'+vals[li]+'/'+mx[li]+'</div>'
+            +'<div style="font-size:.7rem;color:var(--muted)">'+l+'</div>'
+            +'<div style="font-size:.7rem;font-weight:700;color:'+_hSc(p2)+'">'+p2+'%</div>'
+          +'</div>';
+        }).join('');
+      })()
+    +'</div>'
+    +saH+sbH+scH
+    +'<div style="text-align:center;margin-top:1.2rem">'
+      +'<button onclick="closeHistModal()" style="padding:9px 30px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer">Close</button>'
+    +'</div>';
+  document.getElementById('histModal').style.display='flex';
+}
+
+
+function closeHistModal(){document.getElementById('histModal').style.display='none';}
+</script>
+
+
+<!-- ══ QUICK FIRE TAB ══ -->
+<div class="tab-content" id="qfTab">
+  <!-- Header + controls -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.7rem;margin-bottom:1.1rem">
+    <div>
+      <h2 style="font-family:'Libre Baskerville',serif;font-size:1.2rem;margin:0 0 .2rem">⚡ Quick Fire Practice</h2>
+      <p style="font-size:.8rem;color:var(--muted);margin:0">One question at a time — answer instantly, learn from every mistake.</p>
+    </div>
+    <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+      <select id="qfTopicSel" style="padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.8rem;outline:none;background:white">
+        <option value="weak">🎯 Focus Weak Areas</option>
+        <option value="all">🔀 All Topics</option>
+        <option value="Measurement">Measurement</option>
+        <option value="Physical Properties">Physical Properties</option>
+        <option value="Density">Density</option>
+        <option value="Elements/Mixtures">Elements/Mixtures</option>
+        <option value="Separation">Separation</option>
+        <option value="Scientific Method">Scientific Method</option>
+        <option value="Cells">Cells</option>
+        <option value="Particulate Matter">Particulate Matter</option>
+        <option value="Light">Light</option>
+        <option value="Energy/Forces">Energy/Forces</option>
+      </select>
+      <select id="qfTypeSel" style="padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.8rem;outline:none;background:white">
+        <option value="mixed">🎲 Mixed (MCQ + T/F)</option>
+        <option value="mcq">📝 MCQ only</option>
+        <option value="tf">✅ True/False only</option>
+      </select>
+      <select id="qfTimerSel" class="csel" style="font-size:.82rem">
+  <option value="0">⏱ No Timer</option>
+  <option value="30">30 sec</option>
+  <option value="60">60 sec</option>
+  <option value="90">90 sec</option>
+  <option value="120">2 min</option>
+</select>
+      <button onclick="startQFSession()" id="qfStartBtn" style="padding:8px 18px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer">▶ Start</button>
+      <button onclick="endQFSession()" id="qfEndBtn" style="display:none;padding:8px 14px;background:#f3f4f6;color:var(--ink);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer">⏹ End</button>
+    </div>
+  </div>
+
+  <!-- Session scoreboard -->
+  <div id="qfScoreboard" style="display:none;background:#f9fafb;border:1px solid var(--border);border-radius:12px;padding:.75rem 1rem;margin-bottom:1rem;display:none">
+    <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap">
+      <div style="text-align:center"><div id="qfQNum" style="font-size:1.4rem;font-weight:700;color:var(--ink)">0</div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;font-weight:600">Question</div></div>
+      <div style="text-align:center"><div id="qfCorrect" style="font-size:1.4rem;font-weight:700;color:#16a34a">0</div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;font-weight:600">Correct</div></div>
+      <div style="text-align:center"><div id="qfWrong" style="font-size:1.4rem;font-weight:700;color:#dc2626">0</div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;font-weight:600">Wrong</div></div>
+      <div style="text-align:center"><div id="qfStreak" style="font-size:1.4rem;font-weight:700;color:#f59e0b">0</div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;font-weight:600">🔥 Streak</div></div>
+      <div id="qfPctBadge" style="margin-left:auto;font-size:1.5rem;font-weight:700;padding:6px 14px;border-radius:10px;background:#f1f5f9;color:var(--ink)">—%</div>
+    </div>
+  </div>
+
+  <!-- Idle screen -->
+  <div id="qfIdle" style="text-align:center;padding:3.5rem 1rem;background:white;border:2px dashed var(--border);border-radius:16px">
+    <div style="font-size:3rem;margin-bottom:.75rem">⚡</div>
+    <div style="font-size:1rem;font-weight:700;margin-bottom:.4rem">Ready to drill?</div>
+    <div style="font-size:.83rem;color:var(--muted);margin-bottom:1.2rem;max-width:360px;margin-left:auto;margin-right:auto">Select a topic and question type, then hit <strong>Start</strong>. Questions are pulled from your papers and AI-generated to target your weak areas.</div>
+    <div id="qfWeakPreview" style="display:inline-block;background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:.5rem 1rem;font-size:.78rem;color:#92400e;font-weight:600"></div>
+  </div>
+
+  <!-- Loading screen -->
+  <div id="qfLoading" style="display:none;text-align:center;padding:3rem">
+    <div style="font-size:2rem;margin-bottom:.6rem;animation:spin 1s linear infinite;display:inline-block">⚡</div>
+    <div style="font-size:.88rem;color:var(--muted)" id="qfLoadMsg">Generating question…</div>
+  </div>
+
+  <!-- Question card -->
+  <div id="qfCard" style="display:none">
+    <!-- Topic + type badge -->
+    <div style="display:flex;gap:.5rem;margin-bottom:.75rem;align-items:center">
+      <span id="qfTypeBadge" style="font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:10px;background:#dbeafe;color:#1e40af"></span>
+      <span id="qfTopicBadge" style="font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:10px;background:#f3e8ff;color:#6b21a8"></span>
+      <span id="qfSrcBadge" style="font-size:.7rem;padding:3px 9px;border-radius:10px;background:#f1f5f9;color:var(--muted)"></span>
+    </div>
+
+    <!-- Timer display -->
+    <div id="qfTimerDisplay" style="display:none;font-size:1.1rem;font-weight:700;color:var(--red);font-family:'Libre Baskerville',serif;text-align:right;margin-bottom:.3rem"></div>
+
+    <!-- Question text + visual -->
+    <div style="background:white;border:2px solid var(--border);border-radius:14px;padding:1.1rem 1.2rem;margin-bottom:.9rem">
+      <div id="qfVisual" style="margin-bottom:.6rem"></div>
+      <div id="qfQText" style="font-size:.95rem;line-height:1.6;font-weight:600;white-space:pre-wrap"></div>
+    </div>
+
+    <!-- MCQ options -->
+    <div id="qfMCQOpts" style="display:none;flex-direction:column;gap:.45rem;margin-bottom:.8rem"></div>
+
+    <!-- T/F buttons -->
+    <div id="qfTFBtns" style="display:none;gap:.7rem;margin-bottom:.8rem;justify-content:center">
+      <button onclick="submitQFAnswer('T')" class="qf-tf-btn" id="qfTrueBtn">✅ TRUE</button>
+      <button onclick="submitQFAnswer('F')" class="qf-tf-btn" id="qfFalseBtn">❌ FALSE</button>
+    </div>
+
+    <!-- Reason input (T/F only, shown before answer) -->
+    <div id="qfReasonWrap" style="display:none;margin-bottom:.8rem">
+      <div style="font-size:.78rem;font-weight:700;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.04em">Your reason (optional — earns bonus point!):</div>
+      <textarea id="qfReasonInp" rows="2" placeholder="Write the scientific reason why..." style="width:100%;padding:.6rem .8rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.83rem;outline:none;resize:vertical;box-sizing:border-box"></textarea>
+    </div>
+
+    <!-- Feedback panel (shown after answer) -->
+    <div id="qfFeedback" style="display:none;border-radius:12px;padding:1rem 1.1rem;margin-bottom:.9rem">
+      <div id="qfFeedbackIcon" style="font-size:1.6rem;margin-bottom:.4rem"></div>
+      <div id="qfFeedbackText" style="font-size:.85rem;line-height:1.55;margin-bottom:.5rem"></div>
+      <div id="qfModelAnswer" style="display:none;margin-top:.5rem;padding:.6rem .8rem;border-radius:8px;background:rgba(0,0,0,.04);font-size:.82rem;line-height:1.55"></div>
+      <div id="qfTip" style="display:none;margin-top:.5rem;padding:.5rem .75rem;background:#fff7ed;border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;font-size:.78rem;color:#92400e"></div>
+    </div>
+
+    <!-- Next button -->
+    <div style="display:flex;gap:.6rem;justify-content:flex-end">
+      <button id="qfNextBtn" onclick="nextQFQuestion()" style="display:none;padding:10px 28px;background:var(--green);color:white;border:none;border-radius:9px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer">Next Question →</button>
+    </div>
+  </div>
+
+  <!-- Session summary (shown on End) -->
+  <div id="qfSummary" style="display:none;text-align:center;padding:2rem 1rem;background:white;border:2px solid var(--border);border-radius:16px">
+    <div style="font-size:2.5rem;margin-bottom:.5rem" id="qfSummaryEmoji">🎯</div>
+    <div style="font-size:1.3rem;font-weight:700;margin-bottom:.3rem" id="qfSummaryScore"></div>
+    <div style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem" id="qfSummaryMsg"></div>
+    <div id="qfSummaryBreakdown" style="margin-bottom:1.2rem"></div>
+    <button onclick="startQFSession()" style="padding:10px 28px;background:var(--green);color:white;border:none;border-radius:9px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;margin-right:.5rem">▶ Play Again</button>
+    <button onclick="endQFSession()" style="padding:10px 20px;background:#f3f4f6;color:var(--ink);border:1.5px solid var(--border);border-radius:9px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer">Done</button>
+  </div>
+</div>
+
+<!-- ══ TEACHER BRIEF MODAL ══ -->
+<div id="teacherBriefModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9500;align-items:flex-start;justify-content:center;padding:1.5rem;overflow-y:auto" onclick="if(event.target===this)closeTeacherBrief()">
+  <div style="background:white;border-radius:16px;max-width:680px;width:100%;padding:1.6rem;position:relative;margin:auto">
+    <button onclick="closeTeacherBrief()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted)">✕</button>
+    <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.1rem">
+      <div style="font-size:1.5rem">📋</div>
+      <div>
+        <div style="font-size:1rem;font-weight:700">Teacher's Briefing</div>
+        <div style="font-size:.77rem;color:var(--muted)">Live analysis · updated on every refresh · saved to Firebase</div>
+      </div>
+      <button onclick="refreshTeacherBrief()" id="refreshBriefBtn" style="margin-left:auto;padding:8px 16px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;flex-shrink:0">🔄 Refresh</button>
+    </div>
+    <div id="teacherBriefContent" style="font-size:.84rem;line-height:1.7;max-height:72vh;overflow-y:auto"></div>
+  </div>
+</div>
+
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// QUICK FIRE ENGINE
+// ══════════════════════════════════════════════════════════════════
+var QF = {
+  active: false,
+  qNum: 0, correct: 0, wrong: 0, streak: 0, bestStreak: 0,
+  topic: 'weak', type: 'mixed',
+  currentQ: null,        // {type,q,opts,ans,reason,skill,source}
+  queue: [],             // prefetched questions
+  aiBuffer: [],          // AI-generated questions ready to use
+  aiPending: false,
+  paperPool: [],         // questions extracted from PAPERS
+  sessionLog: []         // [{skill,correct}] for post-session
+};
+
+// ══════════════════════════════════════════════════════════════════
+// DAILY DRILL — EMA adaptive 10-question drill
+// ══════════════════════════════════════════════════════════════════
+var DRILL_BANK = {
+  'Scientific Endeavour':[
+    {q:'Which type of error is caused by an instrument reading non-zero when the true value is zero?',opts:['Parallax error','Zero error','Random error','Human error'],ans:1,fb:'Zero error is a systematic error — the instrument is miscalibrated. Subtract the zero reading from all measurements.'},
+    {q:'A student measures the volume of a liquid in a measuring cylinder. Where should the eye be positioned?',opts:['Above the meniscus','Below the meniscus','Level with the bottom of the meniscus','Level with the top of the meniscus'],ans:2,fb:'Read at eye level with the BOTTOM of the meniscus to avoid parallax error.'},
+    {q:'Which statement about qualitative data is correct?',opts:['It always includes a unit','It is always expressed as a number','It describes properties such as colour, smell or texture','It is more accurate than quantitative data'],ans:2,fb:'Qualitative data = descriptive (colour, smell, texture). Quantitative data = numerical with units.'},
+    {q:'A student repeats an experiment 5 times and averages the results. This reduces which type of error?',opts:['Zero error','Systematic error','Random/unpredictable error','Parallax error'],ans:2,fb:'Repeating and averaging reduces RANDOM (unpredictable) errors. Zero error is systematic — averaging does NOT fix it.'},
+    {q:'Which of the following is quantitative data?',opts:['The solution turns blue','The liquid smells sweet','The temperature is 37.5°C','The reaction produces gas bubbles'],ans:2,fb:'Quantitative data has a numerical value with a unit: 37.5°C is a number with a unit (°C).'}
+  ],
+  'Physical Properties':[
+    {q:'Which property allows a material to be drawn into thin wires without breaking?',opts:['Hardness','Malleability','Ductility','Brittleness'],ans:2,fb:'Ductility = ability to be drawn into wires. Malleability = ability to be flattened into sheets.'},
+    {q:'A material is shiny, conducts electricity, and has a high melting point. It is most likely a:',opts:['Plastic','Ceramic','Metal','Glass'],ans:2,fb:'Metals are shiny (lustrous), good conductors of heat and electricity, and have high melting points.'},
+    {q:'Which of the following properties is a PHYSICAL property?',opts:['Reacts with acid to produce gas','Burns in oxygen','Density of 2.7 g/cm³','Turns litmus red'],ans:2,fb:'Density is a physical property — it can be observed without changing the substance chemically.'},
+    {q:'Iron and copper are both metals. What property makes copper better for electrical wiring?',opts:['Copper has a higher melting point','Copper has a lower density','Copper is a better conductor of electricity','Copper is harder than iron'],ans:2,fb:'Copper has very high electrical conductivity — it allows electrons to flow easily, making it ideal for wiring.'},
+    {q:'A ceramic tile is brittle. This means it:',opts:['Conducts heat well','Bends easily without breaking','Breaks when a force is applied without deforming first','Has a low melting point'],ans:2,fb:'Brittle = breaks suddenly when force applied, without significant deformation first. Ceramics are hard but brittle.'}
+  ],
+  'Chemical Properties':[
+    {q:'Which indicator turns RED in acidic solution?',opts:['Litmus — turns blue','Litmus — turns red','Universal indicator — turns purple','Phenolphthalein — turns pink'],ans:1,fb:'Litmus turns RED in acid and BLUE in alkali. Universal indicator shows a range of colours for different pH values.'},
+    {q:'The pH of a solution is 2. This solution is:',opts:['Strongly alkaline','Weakly alkaline','Neutral','Strongly acidic'],ans:3,fb:'pH scale: 1-6 = acidic (lower = more acidic), 7 = neutral, 8-14 = alkaline. pH 2 is strongly acidic.'},
+    {q:'Calcium carbonate reacts with hydrochloric acid. Which gas is produced?',opts:['Oxygen','Hydrogen','Carbon dioxide','Nitrogen'],ans:2,fb:'Carbonate + acid → salt + water + carbon dioxide. CO₂ turns limewater milky — key test for CO₂.'},
+    {q:'Which pair of substances would produce a SALT and WATER when mixed?',opts:['Acid + acid','Acid + alkali','Alkali + alkali','Salt + water'],ans:1,fb:'Neutralisation: acid + alkali → salt + water. The H⁺ from acid reacts with OH⁻ from alkali.'},
+    {q:'A student adds universal indicator to an unknown solution and it turns green. The solution is:',opts:['Strongly acidic (pH 2)','Weakly acidic (pH 5)','Neutral (pH 7)','Weakly alkaline (pH 9)'],ans:2,fb:'Universal indicator: green = pH 7 = neutral. Yellow/orange = mildly acidic. Blue/purple = alkaline.'}
+  ],
+  'Separation Techniques':[
+    {q:'Which technique is used to separate ink into its component dyes?',opts:['Filtration','Distillation','Chromatography','Magnetic attraction'],ans:2,fb:'Chromatography separates mixtures of solutes based on their different affinities for the stationary and mobile phases.'},
+    {q:'Salt is dissolved in water. Which technique recovers the salt as a solid?',opts:['Filtration','Evaporation to dryness','Distillation','Chromatography'],ans:1,fb:'Evaporation removes the water (solvent), leaving behind the dissolved solid (salt). Filtration only removes insoluble solids.'},
+    {q:'What is the Rf value of a spot that travels 3 cm when the solvent travels 12 cm?',opts:['0.25','0.33','4','36'],ans:0,fb:'Rf = distance by spot ÷ distance by solvent = 3/12 = 0.25. Rf values are always between 0 and 1.'},
+    {q:'A mixture of iron filings and sand can be separated by:',opts:['Filtration then evaporation','Magnetic attraction then filtration','Distillation','Chromatography'],ans:1,fb:'Iron is magnetic; sand is not. Pass a magnet through to remove iron filings. Sand can be separated from any remaining liquid by filtration.'},
+    {q:'Fractional distillation differs from simple distillation because it:',opts:['Uses a filter to separate particles','Separates two liquids with very different boiling points','Uses a fractionating column to separate liquids with close boiling points','Does not require heat'],ans:2,fb:'Fractional distillation uses a fractionating column — the column creates a temperature gradient, separating liquids with close boiling points more efficiently.'}
+  ],
+  'Ray Model of Light':[
+    {q:'The angle of incidence is 35°. What is the angle of reflection?',opts:['35°','55°','70°','90°'],ans:0,fb:'Law of Reflection: angle of incidence = angle of reflection. Both angles measured from the NORMAL to the surface. So reflection angle = 35°.'},
+    {q:'Light travels from air into glass. What happens?',opts:['Light speeds up and bends away from the normal','Light slows down and bends towards the normal','Light speeds up and bends towards the normal','Light maintains the same speed and direction'],ans:1,fb:'When light enters a denser medium (glass has higher refractive index than air), it slows down and bends TOWARDS the normal.'},
+    {q:'What is Total Internal Reflection?',opts:['When light passes through a boundary without bending','When all light is reflected back into the original medium at angles above the critical angle','When light refracts completely as it leaves glass','When a mirror reflects 100% of light'],ans:1,fb:'TIR occurs when the angle of incidence EXCEEDS the critical angle in a denser medium — all light reflects back inside, no refraction occurs.'},
+    {q:'An incident ray hits a plane mirror. The normal is drawn at the point of incidence. The incident ray makes 40° with the mirror surface. What is the angle of incidence?',opts:['40°','50°','80°','90°'],ans:1,fb:'Angle with mirror = 40°. Angle of incidence (with NORMAL) = 90° − 40° = 50°. Always measure angles from the NORMAL, not the surface.'},
+    {q:'Which phenomenon explains why an optical fibre can carry light signals around bends?',opts:['Reflection','Diffraction','Total Internal Reflection','Refraction'],ans:2,fb:'Optical fibres use TIR — light hits the glass-air boundary at angles above the critical angle, so it stays trapped inside the fibre and travels around bends.'}
+  ],
+  'Cells':[
+    {q:'Which structure is found in plant cells but NOT animal cells?',opts:['Nucleus','Mitochondria','Cell membrane','Chloroplast'],ans:3,fb:'Chloroplasts contain chlorophyll for photosynthesis — only in plant cells. Nucleus, mitochondria, and cell membrane are found in both.'},
+    {q:'What is the function of the mitochondria?',opts:['Controls all cell activities and contains DNA','Carries out photosynthesis','Releases energy through respiration','Stores water and food'],ans:2,fb:'Mitochondria = powerhouse of the cell. Releases energy from glucose through cellular respiration (not photosynthesis — that\\'s chloroplasts).'},
+    {q:'The cell wall of a plant cell is made of:',opts:['Protein','Starch','Cellulose','Chitin'],ans:2,fb:'Plant cell walls are made of CELLULOSE fibres — these provide rigidity and structural support. Chitin is found in fungal cell walls and insect exoskeletons.'},
+    {q:'Which cell organelle controls what enters and exits the cell?',opts:['Cell wall','Cell membrane','Vacuole','Nucleus'],ans:1,fb:'The cell membrane is selectively permeable — it controls which substances move in and out of the cell. The cell wall is present in plants but it is fully permeable.'},
+    {q:'Red blood cells have no nucleus. What advantage does this give them?',opts:['They can reproduce faster','They have more space for haemoglobin to carry oxygen','They are more rigid','They can carry out photosynthesis'],ans:1,fb:'Without a nucleus, more cytoplasm space is available for haemoglobin, maximising oxygen-carrying capacity. This is a specialisation for their transport function.'}
+  ],
+  'Particulate Matter':[
+    {q:'During melting, the temperature of a pure substance:',opts:['Increases steadily','Decreases steadily','Stays constant','Increases then decreases'],ans:2,fb:'During a change of state (melting/boiling), temperature remains CONSTANT — all energy absorbed is used to overcome intermolecular forces, not to increase kinetic energy.'},
+    {q:'Which state of matter has particles that are closely packed but can move past each other?',opts:['Solid','Liquid','Gas','Plasma'],ans:1,fb:'Liquid: particles close together (no fixed positions), can flow and move past each other. Solid: fixed positions, only vibrate. Gas: far apart, rapid random movement.'},
+    {q:'What happens to the density of water when it is heated from 25°C to 80°C?',opts:['Density increases','Density decreases','Density remains the same','Density first increases then decreases'],ans:1,fb:'When heated, particles gain more energy and move faster/further apart → volume increases → density (m/V) decreases. Less dense = same mass in larger volume.'},
+    {q:'Which process describes a solid turning directly into a gas without passing through the liquid state?',opts:['Evaporation','Condensation','Sublimation','Melting'],ans:2,fb:'Sublimation = solid → gas directly. Examples: dry ice (solid CO₂), iodine, and naphthalene (mothballs) at room temperature.'},
+    {q:'In a sealed container, liquid water and water vapour coexist at 100°C. The rate of evaporation equals the rate of condensation. This is called:',opts:['Boiling','Dynamic equilibrium','Sublimation','Diffusion'],ans:1,fb:'Dynamic equilibrium = when forward and reverse processes occur at the same rate. At the boiling point in a closed system, evaporation rate = condensation rate.'}
+  ],
+  'Atoms & Molecules':[
+    {q:'An atom of carbon-12 has a proton number of 6. How many neutrons does it have?',opts:['6','12','18','2'],ans:0,fb:'Neutrons = Nucleon number (A) − Proton number (Z) = 12 − 6 = 6 neutrons.'},
+    {q:'Which statement about isotopes is correct?',opts:['They have the same nucleon number but different proton numbers','They have the same proton number but different neutron numbers','They are atoms of different elements','They have different numbers of electrons in neutral form'],ans:1,fb:'Isotopes: same element (same proton number = same number of electrons), but different numbers of neutrons → different nucleon numbers.'},
+    {q:'An element has proton number 11 and nucleon number 23. Its electron configuration is:',opts:['2.8.1','2.9.2','2.8.3','2.11'],ans:0,fb:'Sodium (Na): Z=11, so 11 electrons. Shells fill: 2, 8, 1. Configuration: 2.8.1. (Shell 1 max 2, Shell 2 max 8, Shell 3 gets the remaining 1.)'},
+    {q:'An atom of oxygen has the electron configuration 2.6. How many electrons does it need to achieve a stable (full outer shell) configuration?',opts:['2','6','8','14'],ans:0,fb:'Oxygen has 6 electrons in its outer shell. Shell 2 can hold maximum 8. So oxygen needs 8 − 6 = 2 more electrons to fill its outer shell.'},
+    {q:'Which of the following represents a molecule (not a mixture or single atom)?',opts:['Fe','NaCl (ionic compound)','O₂','Ar'],ans:2,fb:'O₂ is a diatomic molecule — two oxygen atoms covalently bonded. Fe is a single metal atom. Ar is a noble gas (single atom). NaCl is an ionic compound (not a covalent molecule).'}
+  ]
+};
+
+var drillState = {};
+
+function initDrill() {
+  var d = loadData();
+  renderDrillSkillBars(d);
+}
+
+function renderDrillSkillBars(d) {
+  var c = document.getElementById('drillSkillBars');
+  if (!c) return;
+  var html = '';
+  SKILL_KEYS.forEach(function(sk) {
+    var v = getEmaSkill(d, sk);
+    var cls = v>=70?'fill-green':v>=45?'fill-amber':'fill-red';
+    html += '<div class="skill-bar-wrap"><div class="skill-label"><span class="skill-name">'+sk+'</span><span class="skill-pct">'+Math.round(v)+'%</span></div><div class="skill-track"><div class="skill-fill '+cls+'" style="width:'+v+'%"></div></div></div>';
+  });
+  c.innerHTML = html || '<div class="empty-state"><p>No drill data yet. Start your first drill!</p></div>';
+}
+
+function startDrill() {
+  var d = loadData();
+  // Pick 10 questions weighted to weak areas
+  var weakOrder = getWeakSkillsEma(d);
+  var pool = [];
+  // 4 from weakest 2, 2 from next 2, 1 each from remaining
+  var allqs = [];
+  weakOrder.forEach(function(sk, i) {
+    var bank = DRILL_BANK[sk] || [];
+    var weight = i < 2 ? 4 : i < 4 ? 2 : 1;
+    for (var j = 0; j < weight; j++) {
+      bank.forEach(function(q) { allqs.push({sk:sk, q:q}); });
+    }
+  });
+  // Shuffle and take 10
+  allqs.sort(function(){ return Math.random()-.5; });
+  drillState = {
+    qs: allqs.slice(0, 10),
+    idx: 0,
+    score: 0,
+    answered: false
+  };
+  document.getElementById('drillSession').style.display = 'block';
+  document.getElementById('drillResults').style.display = 'none';
+  showDrillQ();
+}
+
+function showDrillQ() {
+  if (drillState.idx >= drillState.qs.length) { endDrill(); return; }
+  var item = drillState.qs[drillState.idx];
+  document.getElementById('drillQNum').textContent = drillState.idx + 1;
+  document.getElementById('drillTopic').textContent = item.sk;
+  document.getElementById('drillProgress').textContent = (drillState.idx+1) + '/10';
+  document.getElementById('drillQuestion').textContent = item.q.q;
+  document.getElementById('drillFeedback').style.display = 'none';
+  document.getElementById('drillNextBtn').style.display = 'none';
+  drillState.answered = false;
+  var opts = document.getElementById('drillOptions');
+  opts.innerHTML = '';
+  item.q.opts.forEach(function(opt, i) {
+    var btn = document.createElement('button');
+    btn.className = 'qf-mcq-opt';
+    btn.innerHTML = '<span style="font-weight:700;min-width:18px">'+'ABCD'[i]+'.</span><span>'+opt+'</span>';
+    btn.onclick = function() { drillAnswer(i); };
+    opts.appendChild(btn);
+  });
+}
+
+function drillAnswer(chosen) {
+  if (drillState.answered) return;
+  drillState.answered = true;
+  var item = drillState.qs[drillState.idx];
+  var correct = chosen === item.q.ans;
+  if (correct) drillState.score++;
+  // Update EMA
+  var d = loadData();
+  d = emaUpdate(d, item.sk, correct);
+  saveData(d);
+  // Highlight buttons
+  var btns = document.getElementById('drillOptions').querySelectorAll('button');
+  btns.forEach(function(b, i) {
+    b.disabled = true;
+    if (i === item.q.ans) b.classList.add('opt-correct');
+    else if (i === chosen && !correct) b.classList.add('opt-wrong');
+  });
+  var fb = document.getElementById('drillFeedback');
+  fb.style.display = 'block';
+  fb.className = correct ? 'qf-feedback-correct' : 'qf-feedback-wrong';
+  fb.innerHTML = (correct ? '<strong>✅ Correct!</strong> ' : '<strong>❌ Wrong.</strong> ') + item.q.fb;
+  document.getElementById('drillNextBtn').style.display = 'block';
+}
+
+function drillNext() {
+  drillState.idx++;
+  if (drillState.idx >= drillState.qs.length) { endDrill(); } else { showDrillQ(); }
+}
+
+function endDrill() {
+  document.getElementById('drillSession').style.display = 'none';
+  document.getElementById('drillResults').style.display = 'block';
+  document.getElementById('drillScore').textContent = drillState.score + '/10';
+  var d = loadData();
+  renderDrillSkillBars(d);
+  var rsEl = document.getElementById('drillResultSkills');
+  var html = '<div style="font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem">Updated Mastery:</div>';
+  drillState.qs.forEach(function(item) {
+    var v = getEmaSkill(d, item.sk);
+    var cls = v>=70?'var(--green)':v>=45?'var(--amber)':'var(--red)';
+    html += '<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;font-size:.8rem"><span style="flex:1">'+item.sk+'</span><span style="font-weight:700;color:'+cls+'">'+Math.round(v)+'%</span></div>';
+  });
+  rsEl.innerHTML = html;
+}
+
+// ── Init: called when Quick Fire tab opened ──────────────────────
+function initQuickFire() {
+  buildPaperPool();
+  showWeakPreview();
+}
+
+var _qfTimer = null, _qfTimeLeft = 0;
+function startQfTimer(secs) {
+  clearInterval(_qfTimer);
+  if (!secs) { document.getElementById('qfTimerDisplay').style.display='none'; return; }
+  _qfTimeLeft = secs;
+  var el = document.getElementById('qfTimerDisplay');
+  if (el) { el.style.display='block'; el.textContent='⏱ '+secs+'s'; }
+  _qfTimer = setInterval(function(){
+    _qfTimeLeft--;
+    if (el) el.textContent = '⏱ '+_qfTimeLeft+'s';
+    if (_qfTimeLeft <= 0) { clearInterval(_qfTimer); el.textContent='⏱ Time!'; }
+  }, 1000);
+}
+function stopQfTimer() { clearInterval(_qfTimer); var el=document.getElementById('qfTimerDisplay'); if(el) el.style.display='none'; }
+
+function buildPaperPool() {
+  QF.paperPool = { mcq: [], tf: [] };
+  if (typeof PAPERS === 'undefined') return;
+  PAPERS.forEach(function(paper) {
+    (paper.secA || []).forEach(function(q) {
+      QF.paperPool.mcq.push({
+        type: 'mcq', q: q.q, opts: q.opts, ans: q.ans,
+        skill: q.skill || 'General', source: 'Paper ' + paper.num,
+        fb: q.fb || ''
+      });
+    });
+    (paper.secB || []).forEach(function(q) {
+      QF.paperPool.tf.push({
+        type: 'tf', q: q.stmt,
+        ans: (q.ans === true || q.ans === 'true') ? 'T' : 'F',
+        reason: q.reason || '', skill: q.skill || 'General',
+        source: 'Paper ' + paper.num
+      });
+    });
+  });
+}
+
+function showWeakPreview() {
+  var el = document.getElementById('qfWeakPreview');
+  if (!el) return;
+  var d = loadData(), weak = getWeakAreas(d);
+  if (weak.length) {
+    el.style.display = 'inline-block';
+    el.textContent = '⚠️ Weak areas: ' + weak.slice(0,3).map(function(w){ return w.name + ' (' + w.pct + '%)'; }).join(' · ');
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+// ── Session start ─────────────────────────────────────────────────
+function startQFSession() {
+  QF.active = true;
+  QF.qNum = 0; QF.correct = 0; QF.wrong = 0;
+  QF.streak = 0; QF.bestStreak = 0;
+  QF.sessionLog = [];
+  QF.aiBuffer = [];
+  QF.queue = [];
+  QF.topic = document.getElementById('qfTopicSel').value;
+  QF.type  = document.getElementById('qfTypeSel').value;
+
+  _qfShow('qfScoreboard', true);
+  _qfShow('qfIdle', false);
+  _qfShow('qfSummary', false);
+  _qfShow('qfEndBtn', true);
+  _qfShow('qfStartBtn', false);
+  updateQFScoreboard();
+  nextQFQuestion();
+  // Prefetch AI questions in background
+  prefetchAIQuestions();
+}
+
+function endQFSession() {
+  QF.active = false;
+  _qfShow('qfCard', false);
+  _qfShow('qfLoading', false);
+  _qfShow('qfScoreboard', false);
+  _qfShow('qfEndBtn', false);
+  _qfShow('qfStartBtn', true);
+
+  if (QF.qNum === 0) {
+    _qfShow('qfIdle', true);
+    return;
+  }
+  // Show summary
+  var pct = Math.round(QF.correct / QF.qNum * 100);
+  var emoji = pct >= 90 ? '🌟' : pct >= 75 ? '👍' : pct >= 60 ? '📚' : '💪';
+  document.getElementById('qfSummaryEmoji').textContent = emoji;
+  document.getElementById('qfSummaryScore').textContent = QF.correct + '/' + QF.qNum + ' correct (' + pct + '%)';
+  document.getElementById('qfSummaryMsg').textContent = '🔥 Best streak: ' + QF.bestStreak + '  |  Session: ' + QF.qNum + ' questions';
+
+  // Breakdown by skill
+  var skillTally = {};
+  QF.sessionLog.forEach(function(e) {
+    if (!skillTally[e.skill]) skillTally[e.skill] = [0,0];
+    skillTally[e.skill][0]++;
+    if (e.correct) skillTally[e.skill][1]++;
+  });
+  var bHTML = '<div style="display:flex;flex-direction:column;gap:.35rem;text-align:left;max-width:340px;margin:0 auto">';
+  Object.keys(skillTally).forEach(function(sk) {
+    var t=skillTally[sk][0], r=skillTally[sk][1];
+    var p2=Math.round(r/t*100);
+    var col=p2>=80?'#16a34a':p2>=60?'#ca8a04':'#dc2626';
+    bHTML += '<div style="display:flex;align-items:center;gap:.5rem;font-size:.8rem">'
+      +'<span style="flex:1;color:var(--ink)">'+sk+'</span>'
+      +'<div style="width:80px;height:7px;background:#f1f5f9;border-radius:4px;overflow:hidden"><div style="height:100%;width:'+p2+'%;background:'+col+';border-radius:4px"></div></div>'
+      +'<span style="font-weight:700;color:'+col+';width:36px;text-align:right">'+r+'/'+t+'</span></div>';
+  });
+  bHTML += '</div>';
+  document.getElementById('qfSummaryBreakdown').innerHTML = bHTML;
+  _qfShow('qfSummary', true);
+  saveQFSession(pct, skillTally);
+}
+
+// ── Question flow ─────────────────────────────────────────────────
+function nextQFQuestion() {
+  _qfShow('qfFeedback', false);
+  _qfShow('qfCard', false);
+  _qfShow('qfNextBtn', false);
+  _qfShow('qfLoading', true);
+  document.getElementById('qfLoadMsg').textContent = 'Loading next question…';
+  document.getElementById('qfReasonInp') && (document.getElementById('qfReasonInp').value = '');
+
+  // Pick next question
+  var q = pickQuestion();
+  if (q) {
+    setTimeout(function(){ displayQFQuestion(q); }, 150);
+  } else {
+    // Try AI buffer
+    if (QF.aiBuffer.length > 0) {
+      var aq = QF.aiBuffer.shift();
+      setTimeout(function(){ displayQFQuestion(aq); }, 150);
+    } else {
+      // Generate AI question now
+      document.getElementById('qfLoadMsg').textContent = 'Generating AI question…';
+      generateOneAIQuestion(function(q2) {
+        if (q2) displayQFQuestion(q2);
+        else {
+          // Fallback to paper pool regardless
+          var fb = pickFromPaperPool(QF.topic, QF.type, true);
+          displayQFQuestion(fb || {type:'mcq',q:'What is the SI unit of mass?',opts:['Gram','Kilogram','Milligram','Tonne'],ans:1,skill:'Measurement',source:'Fallback',fb:'SI unit of mass is kilogram (kg).'});
+        }
+      });
+    }
+  }
+  // Keep buffer topped up
+  if (QF.aiBuffer.length < 3 && !QF.aiPending) prefetchAIQuestions();
+}
+
+function pickQuestion() {
+  // 40% chance AI question if buffer available, 60% paper pool
+  if (QF.aiBuffer.length > 0 && Math.random() < 0.4) {
+    return QF.aiBuffer.shift();
+  }
+  return pickFromPaperPool(QF.topic, QF.type, false);
+}
+
+function pickFromPaperPool(topic, type, forceAny) {
+  var mcq = QF.paperPool.mcq || [];
+  var tf  = QF.paperPool.tf  || [];
+
+  // Get skill weights (lower score = higher weight)
+  var d = loadData();
+  var weakSkills = {};
+  if (topic === 'weak') {
+    getWeakAreas(d).forEach(function(w){ weakSkills[w.name] = (100 - w.pct) / 100; });
+  }
+
+  function scoreQ(q) {
+    if (topic !== 'weak' && topic !== 'all' && q.skill !== topic) return 0;
+    if (topic === 'weak' && !forceAny) {
+      var w = weakSkills[q.skill];
+      return w !== undefined ? w + Math.random() * 0.3 : Math.random() * 0.2;
+    }
+    return Math.random();
+  }
+
+  var pool = [];
+  if (type === 'mcq' || type === 'mixed') pool = pool.concat(mcq.map(function(q){ return {q:q,s:scoreQ(q)}; }));
+  if (type === 'tf'  || type === 'mixed') pool = pool.concat(tf.map(function(q){ return {q:q,s:scoreQ(q)}; }));
+
+  pool = pool.filter(function(x){ return x.s > 0; });
+  if (!pool.length) return null;
+  pool.sort(function(a,b){ return b.s - a.s; });
+  // Pick from top 5 randomly to avoid repetition
+  var top = pool.slice(0, Math.min(5, pool.length));
+  return top[Math.floor(Math.random() * top.length)].q;
+}
+
+function displayQFQuestion(q) {
+  _qfShow('qfLoading', false);
+  _qfShow('qfCard', true);
+  QF.currentQ = q;
+  QF.qNum++;
+  updateQFScoreboard();
+
+  // Badges
+  document.getElementById('qfTypeBadge').textContent = q.type === 'mcq' ? '📝 MCQ' : '✅ True/False';
+  document.getElementById('qfTopicBadge').textContent = q.skill || 'General';
+  document.getElementById('qfSrcBadge').textContent = q.source || 'AI Generated';
+
+  // Visual
+  var vis = getQuestionVisual ? getQuestionVisual(q.q, q.type) : null;
+  document.getElementById('qfVisual').innerHTML = vis || '';
+
+  // Question text
+  document.getElementById('qfQText').textContent = q.q;
+
+  // Reset feedback
+  document.getElementById('qfFeedback').style.display = 'none';
+  document.getElementById('qfFeedback').className = '';
+
+  if (q.type === 'mcq') {
+    _qfShow('qfMCQOpts', true);
+    _qfShow('qfTFBtns', false);
+    _qfShow('qfReasonWrap', false);
+    var opts = document.getElementById('qfMCQOpts');
+    opts.style.display = 'flex';
+    opts.innerHTML = (q.opts || []).map(function(opt, i) {
+      return '<button class="qf-mcq-opt" onclick="submitQFAnswer(' + i + ')" id="qfOpt' + i + '">'
+        + '<span style="font-weight:700;min-width:18px">' + 'ABCD'[i] + '.</span>'
+        + '<span>' + opt + '</span></button>';
+    }).join('');
+  } else {
+    _qfShow('qfMCQOpts', false);
+    var tfDiv = document.getElementById('qfTFBtns');
+    tfDiv.style.display = 'flex';
+    document.getElementById('qfTrueBtn').disabled = false;
+    document.getElementById('qfFalseBtn').disabled = false;
+    document.getElementById('qfTrueBtn').className = 'qf-tf-btn';
+    document.getElementById('qfFalseBtn').className = 'qf-tf-btn';
+    _qfShow('qfReasonWrap', true);
+  }
+}
+
+function submitQFAnswer(answer) {
+  var q = QF.currentQ;
+  if (!q) return;
+  var correct = false;
+
+  if (q.type === 'mcq') {
+    correct = (answer === q.ans);
+    // Colour all options
+    (q.opts || []).forEach(function(_, i) {
+      var btn = document.getElementById('qfOpt' + i);
+      if (!btn) return;
+      btn.disabled = true;
+      if (i === q.ans) btn.classList.add('opt-correct');
+      else if (i === answer && !correct) btn.classList.add('opt-wrong');
+    });
+  } else {
+    // T/F
+    correct = (answer === q.ans);
+    document.getElementById('qfTrueBtn').disabled = true;
+    document.getElementById('qfFalseBtn').disabled = true;
+    if (answer === 'T') document.getElementById('qfTrueBtn').className = 'qf-tf-btn sel-true';
+    else document.getElementById('qfFalseBtn').className = 'qf-tf-btn sel-false';
+  }
+
+  if (correct) { QF.correct++; QF.streak++; if (QF.streak > QF.bestStreak) QF.bestStreak = QF.streak; }
+  else { QF.wrong++; QF.streak = 0; }
+  QF.sessionLog.push({skill: q.skill || 'General', correct: correct});
+  updateQFScoreboard();
+  showQFFeedback(q, answer, correct);
+}
+
+function showQFFeedback(q, answer, correct) {
+  var fb = document.getElementById('qfFeedback');
+  fb.style.display = 'block';
+  fb.className = correct ? 'qf-feedback-correct' : 'qf-feedback-wrong';
+  fb.style.borderRadius = '12px'; fb.style.padding = '1rem 1.1rem';
+
+  var icon = correct ? (QF.streak >= 3 ? '🔥 ' + QF.streak + ' in a row!' : '✅ Correct!') : '❌ Not quite';
+  document.getElementById('qfFeedbackIcon').textContent = icon;
+
+  var mainText = '';
+  if (q.type === 'mcq') {
+    if (!correct) mainText = 'Correct answer: <strong>' + 'ABCD'[q.ans] + '. ' + (q.opts ? q.opts[q.ans] : '') + '</strong>';
+    if (q.fb) mainText += (mainText?'<br>':'') + '<span style="color:var(--muted)">' + q.fb + '</span>';
+  } else {
+    var correctWord = (q.ans === 'T') ? 'TRUE' : 'FALSE';
+    var ansWord = (answer === 'T') ? 'TRUE' : 'FALSE';
+    if (!correct) mainText = 'You said <strong>' + ansWord + '</strong> — correct answer is <strong>' + correctWord + '</strong>';
+  }
+  document.getElementById('qfFeedbackText').innerHTML = mainText || '&nbsp;';
+
+  // Model answer for T/F
+  var ma = document.getElementById('qfModelAnswer');
+  if (q.type === 'tf' && q.reason) {
+    ma.style.display = 'block';
+    ma.innerHTML = '<span style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.05em">Model Reason:</span><br>' + q.reason;
+    // Check student's reason
+    var reasonEl = document.getElementById('qfReasonInp');
+    var studentReason = reasonEl ? reasonEl.value.trim() : '';
+    if (studentReason.length > 5) {
+      var critKws = ['chemically combined','fixed proportion','insoluble','soluble','residue','filtrate',
+        'density','boiling point','melting point','electrical','thermal','conductivity','rf','chromatograph',
+        'element','compound','mixture','fixed ratio','parallax','zero error'];
+      var hit = critKws.some(function(kw){ return studentReason.toLowerCase().indexOf(kw) !== -1; });
+      ma.innerHTML += '<br><br><span style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--muted)">Your Reason:</span><br>'
+        + studentReason
+        + '<br><span style="font-size:.78rem;font-weight:700;color:' + (hit?'#16a34a':'#ca8a04') + '">'
+        + (hit ? '✅ Good use of science keyword!' : '⚠️ Try to include a specific science keyword') + '</span>';
+    }
+  } else {
+    ma.style.display = 'none';
+  }
+
+  // Tip
+  var tipEl = document.getElementById('qfTip');
+  var tip = typeof getTip === 'function' ? getTip(q.type === 'mcq' ? 'mcq_wrong' : (!correct ? 'tf_wrong' : ''), {q:q.q}) : '';
+  if (!correct && tip) {
+    tipEl.style.display = 'block';
+    tipEl.innerHTML = '<b>💡 Tip:</b> ' + tip;
+  } else {
+    tipEl.style.display = 'none';
+  }
+
+  document.getElementById('qfNextBtn').style.display = 'inline-block';
+}
+
+function updateQFScoreboard() {
+  document.getElementById('qfQNum').textContent = QF.qNum;
+  document.getElementById('qfCorrect').textContent = QF.correct;
+  document.getElementById('qfWrong').textContent = QF.wrong;
+  document.getElementById('qfStreak').textContent = QF.streak;
+  if (QF.qNum > 0) {
+    var pct = Math.round(QF.correct / QF.qNum * 100);
+    var badge = document.getElementById('qfPctBadge');
+    badge.textContent = pct + '%';
+    badge.style.color = pct>=80?'#16a34a':pct>=60?'#ca8a04':'#dc2626';
+    badge.style.background = pct>=80?'#dcfce7':pct>=60?'#fef3c7':'#fee2e2';
+  }
+}
+
+// ── AI Question Generation ────────────────────────────────────────
+function prefetchAIQuestions() {
+  if (QF.aiPending || QF.aiBuffer.length >= 5) return;
+  var conf = getApiConfig();
+  if (!conf.keys[conf.provider] && conf.provider !== 'local') return;
+  QF.aiPending = true;
+  var topic = QF.topic === 'weak' ? _getWeakTopicName() : (QF.topic === 'all' ? 'Mixed topics' : QF.topic);
+  var qType = QF.type === 'mcq' ? 'MCQ' : QF.type === 'tf' ? 'True/False' : (Math.random()>0.5?'MCQ':'True/False');
+  generateOneAIQuestion(function(q) {
+    QF.aiPending = false;
+    if (q) QF.aiBuffer.push(q);
+  }, topic, qType);
+}
+
+function _getWeakTopicName() {
+  var weak = getWeakAreas(loadData());
+  if (weak.length) return weak[0].name;
+  return 'Elements/Mixtures';
+}
+
+function generateOneAIQuestion(cb, topicOverride, typeOverride) {
+  var conf = getApiConfig();
+  var p = conf.provider;
+  var apiKey = conf.keys[p];
+  if (!apiKey && p !== 'local') { cb(null); return; }
+
+  var topic = topicOverride || (QF.topic === 'weak' ? _getWeakTopicName() : QF.topic === 'all' ? 'Mixed S1 science' : QF.topic);
+  var qType = typeOverride || (QF.type === 'mcq' ? 'MCQ' : QF.type === 'tf' ? 'TF' : (Math.random()>0.5?'MCQ':'TF'));
+
+  // Build a prompt that includes context from Mokshith's weak areas
+  var d = loadData();
+  var weakStr = getWeakAreas(d).map(function(w){ return w.name+'('+w.pct+'%)'; }).join(', ') || 'none identified yet';
+
+  var prompt = 'You are a Singapore Secondary 1 G2 Science teacher. Generate ONE ' + qType + ' question on the topic: ' + topic + '.\\n'
+    + 'Mokshith\\'s current weak areas: ' + weakStr + '\\n'
+    + 'Rules:\\n'
+    + '- G2/NA stream level, Singapore O-level style\\n'
+    + '- If MCQ: exactly 4 options, one correct\\n'
+    + '- If TF: a True/False statement with scientific reason\\n\\n'
+    + 'Respond in EXACTLY this JSON format (no markdown, no extra text):\\n'
+    + (qType === 'MCQ' ?
+      '{"type":"mcq","q":"[question text]","opts":["A text","B text","C text","D text"],"ans":[0-3],"reason":"[explanation of correct answer]","skill":"[topic name]"}' :
+      '{"type":"tf","q":"[statement]","ans":"[T or F]","reason":"[full scientific reason]","skill":"[topic name]"}');
+
+  var url, headers, body, extract;
+  if (p === 'anthropic') {
+    url = 'https://api.anthropic.com/v1/messages';
+    headers = {'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+    body = JSON.stringify({model:'claude-3-5-sonnet-20241022',max_tokens:600,messages:[{role:'user',content:prompt}]});
+    extract = function(d){ return d.content&&d.content[0]?d.content[0].text:null; };
+  } else if (p === 'openai') {
+    url = 'https://api.openai.com/v1/chat/completions';
+    headers = {'Content-Type':'application/json','Authorization':'Bearer '+apiKey};
+    body = JSON.stringify({model:'gpt-4o-mini',max_tokens:600,messages:[{role:'user',content:prompt}]});
+    extract = function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
+  } else if (p === 'gemini') {
+    url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+apiKey;
+    headers = {'Content-Type':'application/json'};
+    body = JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:600,temperature:0.7}});
+    extract = function(d){ return d.candidates&&d.candidates[0]?d.candidates[0].content.parts[0].text:null; };
+  } else {
+    cb(null); return;
+  }
+
+  fetch(url, {method:'POST', headers:headers, body:body})
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      var raw = extract(data);
+      if (!raw) { cb(null); return; }
+      try {
+        var clean = raw.replace(/\`\`\`json|\`\`\`/g,'').trim();
+        var q = JSON.parse(clean);
+        q.source = 'AI Generated';
+        if (q.type === 'tf') { q.ans = String(q.ans).toUpperCase() === 'TRUE' ? 'T' : q.ans === 'T' ? 'T' : 'F'; }
+        cb(q);
+      } catch(e) { cb(null); }
+    })
+    .catch(function(){ cb(null); });
+}
+
+// ── Save QF session to Firebase ──────────────────────────────────
+function saveQFSession(pct, skillTally) {
+  // Update local skill data
+  var d = loadData();
+  Object.keys(skillTally).forEach(function(sk) {
+    if (!d.skills[sk]) d.skills[sk] = [0,0];
+    d.skills[sk][0] += skillTally[sk][0];
+    d.skills[sk][1] += skillTally[sk][1];
+  });
+  saveData(d);
+
+  if (USE_FIREBASE && db && currentUser) {
+    db.collection('qf_sessions').add({
+      uid: getUID(),
+      date: firebase.firestore.FieldValue.serverTimestamp(),
+      questions: QF.qNum, correct: QF.correct, wrong: QF.wrong,
+      pct: pct, bestStreak: QF.bestStreak,
+      topic: QF.topic, type: QF.type,
+      skillTally: skillTally
+    }).catch(function(e){ console.warn('QF save error:', e); });
+  }
+}
+
+// ── Helper ────────────────────────────────────────────────────────
+function _qfShow(id, show) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  if (show) { el.style.display = (id === 'qfMCQOpts') ? 'flex' : id === 'qfTFBtns' ? 'flex' : 'block'; }
+  else el.style.display = 'none';
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// TEACHER BRIEF MODAL
+// ══════════════════════════════════════════════════════════════════
+function openTeacherBriefModal() {
+  document.getElementById('teacherBriefModal').style.display = 'flex';
+  loadTeacherBrief();
+}
+
+function closeTeacherBrief() {
+  document.getElementById('teacherBriefModal').style.display = 'none';
+}
+
+function loadTeacherBrief() {
+  var el = document.getElementById('teacherBriefContent');
+  el.innerHTML = '<div style="color:var(--muted);padding:1rem;text-align:center">⏳ Loading briefing history…</div>';
+
+  if (USE_FIREBASE && db && currentUser) {
+    db.collection('teacher_briefs').where('uid','==',getUID())
+      .orderBy('date','desc').limit(10).get()
+      .then(function(snap) {
+        var entries = [];
+        snap.forEach(function(doc) { entries.push(doc.data()); });
+        renderTeacherBriefEntries(entries);
+      })
+      .catch(function() {
+        // Fallback: render from local data only
+        renderTeacherBriefEntries([]);
+      });
+  } else {
+    renderTeacherBriefEntries([]);
+  }
+}
+
+function renderTeacherBriefEntries(firestoreEntries) {
+  var el = document.getElementById('teacherBriefContent');
+  // Always show a live generated brief at top
+  var liveHTML = generateBriefHTML(true);
+  var histHTML = '';
+  firestoreEntries.forEach(function(e) {
+    if (e.html) {
+      var dt = e.date ? new Date(e.date.seconds * 1000).toLocaleDateString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : 'Earlier';
+      histHTML += '<div class="brief-entry" style="opacity:.75;margin-top:1rem">'
+        + '<div class="brief-entry-date">' + dt + ' (archived)</div>'
+        + e.html + '</div>';
+    }
+  });
+  el.innerHTML = liveHTML + (histHTML ? '<hr style="margin:1.2rem 0;border:none;border-top:1px solid var(--border)">' + histHTML : '');
+}
+
+function refreshTeacherBrief() {
+  var btn = document.getElementById('refreshBriefBtn');
+  btn.textContent = '⏳ Refreshing…'; btn.disabled = true;
+  var el = document.getElementById('teacherBriefContent');
+  var liveHTML = generateBriefHTML(true);
+  el.innerHTML = liveHTML;
+
+  // Save to Firebase as new entry (incremental)
+  if (USE_FIREBASE && db && currentUser) {
+    db.collection('teacher_briefs').add({
+      uid: getUID(),
+      date: firebase.firestore.FieldValue.serverTimestamp(),
+      html: liveHTML
+    }).then(function() {
+      btn.textContent = '✅ Refreshed'; btn.disabled = false;
+      setTimeout(function(){ btn.textContent = '🔄 Refresh'; }, 2000);
+    }).catch(function() {
+      btn.textContent = '🔄 Refresh'; btn.disabled = false;
+    });
+  } else {
+    btn.textContent = '🔄 Refresh'; btn.disabled = false;
+  }
+}
+
+function generateBriefHTML(isNew) {
+  var d = loadData();
+  var now = new Date().toLocaleDateString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  var weak = getWeakAreas(d);
+  var strong = getStrongAreas(d);
+  var hist = d.history || [];
+  var totalPapers = hist.length;
+  var avgScore = totalPapers ? Math.round(hist.reduce(function(s,h){ return s+(h.score||0); },0) / totalPapers) : 0;
+  var recent3 = hist.slice(-3);
+  var trend = recent3.length >= 2 ? (recent3[recent3.length-1].score > recent3[0].score ? '📈 Improving' : '📉 Declining') : '—';
+
+  var skillRows = '';
+  var sk = d.skills || {};
+  var allSkills = Object.keys(sk).filter(function(k){ return sk[k][0] > 0; });
+  allSkills.sort(function(a,b){ return (sk[a][1]/sk[a][0]) - (sk[b][1]/sk[b][0]); }); // weakest first
+  allSkills.forEach(function(name) {
+    var v = sk[name], pct = Math.round(v[1]/v[0]*100);
+    var col = pct>=80?'#16a34a':pct>=60?'#ca8a04':'#dc2626';
+    skillRows += '<div class="brief-skill-bar">'
+      + '<span class="brief-skill-name">' + name + '</span>'
+      + '<div class="brief-skill-track"><div class="brief-skill-fill" style="width:'+pct+'%;background:'+col+'"></div></div>'
+      + '<span class="brief-skill-pct" style="color:'+col+'">'+pct+'%</span></div>';
+  });
+
+  var weakList = weak.map(function(w){ return '<li style="margin-bottom:.2rem"><b>'+w.name+'</b> — '+w.pct+'% (needs targeted practice)</li>'; }).join('') || '<li>All skills performing well!</li>';
+  var strongList = strong.map(function(s){ return '<li style="margin-bottom:.2rem"><b>'+s.name+'</b> — '+s.pct+'% ✓</li>'; }).join('') || '<li>Keep building — keep practicing</li>';
+
+  // Recommended actions
+  var actions = '';
+  if (weak.length > 0) actions += '<li>Assign Quick Fire practice session focused on <b>' + weak[0].name + '</b></li>';
+  if (weak.length > 1) actions += '<li>Review Study Notes for <b>' + weak[1].name + '</b> — especially definitions and keywords</li>';
+  actions += '<li>Attempt ' + (totalPapers < 5 ? 'Paper ' + (totalPapers+1) : 'a mixed review paper') + ' next for comprehensive practice</li>';
+  if (trend.indexOf('Declining') !== -1) actions += '<li>⚠️ Recent scores declining — check if Mokshith understands mark scheme requirements</li>';
+
+  return '<div class="brief-entry '+(isNew?'brief-entry-new':'')+'">'
+    + '<div class="brief-entry-date">📅 ' + now + (isNew ? ' — Latest' : '') + '</div>'
+    + '<div class="brief-section"><h4>📊 Overall Progress</h4>'
+      + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.5rem">'
+      + '<div style="background:#f9fafb;border-radius:8px;padding:.5rem;text-align:center"><div style="font-weight:700;font-size:1.1rem">'+totalPapers+'</div><div style="font-size:.68rem;color:var(--muted)">Papers Done</div></div>'
+      + '<div style="background:#f9fafb;border-radius:8px;padding:.5rem;text-align:center"><div style="font-weight:700;font-size:1.1rem">'+avgScore+'/40</div><div style="font-size:.68rem;color:var(--muted)">Avg Score</div></div>'
+      + '<div style="background:#f9fafb;border-radius:8px;padding:.5rem;text-align:center"><div style="font-weight:700;font-size:.85rem">'+trend+'</div><div style="font-size:.68rem;color:var(--muted)">Recent Trend</div></div>'
+      + '</div></div>'
+    + '<div class="brief-section"><h4>📉 Areas Needing Attention</h4><ul style="margin:.25rem 0;padding-left:1.2rem;font-size:.82rem;line-height:1.7">'+weakList+'</ul></div>'
+    + '<div class="brief-section"><h4>💪 Strengths</h4><ul style="margin:.25rem 0;padding-left:1.2rem;font-size:.82rem;line-height:1.7">'+strongList+'</ul></div>'
+    + (skillRows ? '<div class="brief-section"><h4>📈 Skill Breakdown</h4>' + skillRows + '</div>' : '')
+    + '<div class="brief-section"><h4>✅ Recommended Actions</h4><ul style="margin:.25rem 0;padding-left:1.2rem;font-size:.82rem;line-height:1.7">'+actions+'</ul></div>'
+  + '</div>';
+}
+
+function getStrongAreas(d) {
+  var sk = d.skills || {}, result = [];
+  Object.keys(sk).forEach(function(name) {
+    var v = sk[name]; if (!v[0]) return;
+    var pct = Math.round(v[1]/v[0]*100);
+    if (pct >= 75) result.push({name:name, pct:pct});
+  });
+  result.sort(function(a,b){ return b.pct - a.pct; });
+  return result.slice(0,4);
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// STUDY NOTES REFRESH
+// ══════════════════════════════════════════════════════════════════
+function refreshStudyNotes() {
+  var btn = document.getElementById('refreshNotesBtn');
+  btn.textContent = '⏳ Analysing…'; btn.disabled = true;
+
+  var d = loadData();
+  var weak = getWeakAreas(d);
+  var el = document.getElementById('dynamicNotesArea');
+
+  if (!weak.length) {
+    el.innerHTML = '<div style="padding:.75rem;background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:10px;font-size:.83rem;color:#15803d;margin-bottom:.75rem">✅ No weak areas detected. All skills performing well — keep practising!</div>';
+    btn.textContent = '🔄 Refresh Notes'; btn.disabled = false;
+    return;
+  }
+
+  var now = new Date().toLocaleDateString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  var TOPIC_NOTES = {
+    'Density': {
+      key: 'ρ = m ÷ V (g/cm³ or kg/m³). Object floats if ρ < liquid; sinks if ρ > liquid.',
+      mistakes: 'Common errors: forgetting units, wrong formula rearrangement, comparing wrong densities.',
+      keywords: 'density, mass, volume, float, sink, g/cm³, less dense, more dense'
+    },
+    'Elements/Mixtures': {
+      key: 'Element: 1 type of atom, cannot be broken down. Compound: 2+ elements chemically combined in fixed ratio, different properties. Mixture: physically combined, variable ratio, separable.',
+      mistakes: 'Common errors: confusing compound with mixture, saying alloy is a compound (it\\'s a mixture).',
+      keywords: 'chemically combined, fixed proportion, variable ratio, element, compound, mixture, alloy'
+    },
+    'Separation': {
+      key: 'Filtration: separate insoluble solid from liquid. Evaporation: obtain soluble solid. Distillation: separate liquids with different b.p. Chromatography: separate dissolved substances.',
+      mistakes: 'Common errors: residue vs filtrate confusion, using wrong technique for the mixture.',
+      keywords: 'residue, filtrate, solubility, boiling point, Rf value, solvent front, chromatogram'
+    },
+    'Measurement': {
+      key: 'Read from bottom of meniscus, at eye level. Zero error: subtract from all readings. SI units: mass=kg, length=m, time=s.',
+      mistakes: 'Common errors: parallax error, reading top of meniscus, forgetting to account for zero error.',
+      keywords: 'meniscus, parallax, zero error, SI unit, significant figures, precision'
+    },
+    'Physical Properties': {
+      key: 'Hardness, elasticity, ductility, malleability, thermal/electrical conductivity, solubility, density, melting/boiling point.',
+      mistakes: 'Common errors: confusing solubility with rate of dissolving, not naming the specific property tested.',
+      keywords: 'hardness, conductivity, solubility, malleability, ductility, elasticity, boiling point, melting point'
+    },
+    'Scientific Method': {
+      key: 'IV: what you change. DV: what you measure. CV: what you keep same. Hypothesis: testable prediction. Fair test: change only 1 variable.',
+      mistakes: 'Common errors: not naming variables precisely, hypothesis without testable prediction.',
+      keywords: 'independent variable, dependent variable, controlled variable, hypothesis, fair test, reliability'
+    },
+    'Light': {
+      key: 'Law of reflection: angle of incidence = angle of reflection (both from normal). Refraction: light bends when entering different medium — towards normal when slowing down.',
+      mistakes: 'Common errors: measuring angles from surface not normal, confusing incident and reflected rays.',
+      keywords: 'normal, angle of incidence, angle of reflection, refraction, medium, ray diagram'
+    },
+    'Cells': {
+      key: 'Animal cell: cell membrane, nucleus, cytoplasm, mitochondria. Plant cell: adds cell wall, chloroplasts, vacuole. Nucleus controls cell, mitochondria = energy.',
+      mistakes: 'Common errors: saying animal cells have cell walls, forgetting vacuole in plant cells.',
+      keywords: 'cell membrane, cell wall, nucleus, cytoplasm, mitochondria, chloroplast, vacuole'
+    },
+    'Particulate Matter': {
+      key: 'All matter made of tiny particles. Solid: close, fixed; liquid: close, moving; gas: far, fast. Diffusion = mixing of particles.',
+      mistakes: 'Common errors: saying particles are destroyed, not explaining movement increases with temperature.',
+      keywords: 'particles, diffusion, kinetic theory, solid liquid gas, vibrate, freely moving'
+    },
+    'Energy/Forces': {
+      key: 'Energy forms: kinetic, potential (gravitational, elastic), thermal, light, sound, chemical, electrical, nuclear. Energy conserved, not destroyed.',
+      mistakes: 'Common errors: saying energy is "used up", confusing force with energy.',
+      keywords: 'kinetic, potential, conservation of energy, work done, force, joule, newton'
+    }
+  };
+
+  // Save to Firebase
+  var notesHTML = '';
+  var timestamp = '<div style="font-size:.7rem;color:var(--muted);margin-bottom:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em">🔄 Updated: ' + now + '</div>';
+
+  // Show weak topics first with "NEW" tag
+  weak.forEach(function(w, i) {
+    var info = TOPIC_NOTES[w.name];
+    if (!info) return;
+    var urgency = w.pct < 50 ? {col:'#dc2626',bg:'#fee2e2',label:'🚨 Critical'} : w.pct < 65 ? {col:'#d97706',bg:'#fef3c7',label:'⚠️ Needs Work'} : {col:'#ca8a04',bg:'#fffbeb',label:'📚 Review'};
+    notesHTML += '<div class="dynamic-note-card note-new">'
+      + '<span class="dynamic-note-tag" style="background:'+urgency.bg+';color:'+urgency.col+'">'+urgency.label+'</span>'
+      + '<span class="dynamic-note-tag" style="background:#f3e8ff;color:#6b21a8;margin-left:.3rem">'+w.name+'</span>'
+      + '<span class="dynamic-note-tag" style="background:#f1f5f9;color:var(--muted);float:right">'+w.pct+'% mastery</span>'
+      + '<div style="clear:both;margin-bottom:.4rem"></div>'
+      + '<div style="font-size:.83rem;font-weight:700;color:var(--ink);margin-bottom:.3rem">Key concept:</div>'
+      + '<div style="font-size:.82rem;line-height:1.6;background:#f9fafb;border-radius:6px;padding:.5rem .7rem;margin-bottom:.4rem">'+info.key+'</div>'
+      + '<div style="font-size:.78rem;color:#dc2626;margin-bottom:.3rem"><b>Watch out:</b> '+info.mistakes+'</div>'
+      + '<div style="font-size:.76rem;color:#6b21a8"><b>Keywords to use in answers:</b> '+info.keywords+'</div>'
+      + '</div>';
+  });
+
+  el.innerHTML = timestamp + notesHTML;
+  btn.textContent = '🔄 Refresh Notes'; btn.disabled = false;
+
+  // Save to Firebase
+  if (USE_FIREBASE && db && currentUser) {
+    db.collection('study_notes_refresh').add({
+      uid: getUID(),
+      date: firebase.firestore.FieldValue.serverTimestamp(),
+      weakTopics: weak.map(function(w){ return w.name; }),
+      html: notesHTML
+    }).catch(function(e){ console.warn('Notes save error:', e); });
+  }
+}
+</script>
+
+<div id="hmTooltip" style="display:none"></div>
+</body>
+</html>
+`;
+
+export default {
+  async fetch(request, env) {
+    return new Response(HTML, {
+      headers: {
+        'Content-Type': 'text/html;charset=UTF-8',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+      }
+    });
+  }
+};
