@@ -375,8 +375,8 @@ p.body{font-size:.84rem;margin-bottom:.35rem}
 @media(max-width:480px){.dash-grid{grid-template-columns:1fr 1fr}.strat-grid{grid-template-columns:1fr}.cfg-grid{flex-direction:column}}
 
 /* ══ AUTH OVERLAY ══ */
-.auth-overlay{position:fixed;inset:0;background:rgba(28,28,30,.97);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;font-family:'Source Sans 3',sans-serif}
-.auth-box{background:white;border-radius:16px;padding:2rem 1.5rem;max-width:400px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.5);animation:modalIn .25s ease}
+.auth-overlay{position:fixed;inset:0;background:rgba(28,28,30,.97);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto;font-family:'Source Sans 3',sans-serif}
+.auth-box{background:white;border-radius:16px;padding:1.5rem 1.5rem;max-width:400px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.5);animation:modalIn .25s ease;margin:auto}
 .auth-logo{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;text-align:center;margin-bottom:.3rem}
 .auth-logo span{color:var(--gold)}
 .auth-sub{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:1.5rem}
@@ -511,36 +511,37 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 <!-- ══ AUTH OVERLAY ══ -->
 <div class="auth-overlay" id="authOverlay">
   <div class="auth-box" style="max-width:360px">
-    <div class="auth-logo">S1 Science <span>Mastery</span> · G3</div>
-    <div class="auth-sub" style="margin-bottom:1.2rem">Enter your name and PIN to start</div>
+    <div class="auth-logo" style="font-size:1.3rem;margin-bottom:.3rem">S1 Science <span>Mastery</span> · G3</div>
+    <div class="auth-sub" style="margin-bottom:.8rem;font-size:.82rem">Enter your name and PIN to continue</div>
 
-    <div style="margin-bottom:.8rem">
-      <label style="font-size:.78rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.3rem">YOUR NAME</label>
-      <input id="authName" type="text" placeholder="e.g. Mokshith"
-        style="width:100%;padding:.6rem .8rem;border:1.5px solid #d1d5db;border-radius:8px;font-size:.95rem;box-sizing:border-box;font-family:inherit"
-        onkeydown="if(event.key==='Enter')document.getElementById('authPwd').focus()">
+    <div style="display:flex;gap:.5rem;margin-bottom:.6rem">
+      <div style="flex:1">
+        <label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.25rem">NAME</label>
+        <input id="authName" type="text" placeholder="e.g. Mokshith"
+          style="width:100%;padding:.5rem .7rem;border:1.5px solid #d1d5db;border-radius:8px;font-size:.9rem;box-sizing:border-box;font-family:inherit"
+          onkeydown="if(event.key==='Enter')document.getElementById('authPwd').focus()">
+      </div>
+      <div style="flex:1">
+        <label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.25rem">PIN</label>
+        <input id="authPwd" type="password" placeholder="PIN"
+          style="width:100%;padding:.5rem .7rem;border:1.5px solid #d1d5db;border-radius:8px;font-size:.9rem;box-sizing:border-box;font-family:inherit"
+          onkeydown="if(event.key==='Enter')doSimpleLogin()">
+      </div>
     </div>
 
-    <div style="margin-bottom:.8rem">
-      <label style="font-size:.78rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.3rem">PIN / PASSWORD</label>
-      <input id="authPwd" type="password" placeholder="Enter PIN"
-        style="width:100%;padding:.6rem .8rem;border:1.5px solid #d1d5db;border-radius:8px;font-size:.95rem;box-sizing:border-box;font-family:inherit"
-        onkeydown="if(event.key==='Enter')doSimpleLogin()">
-    </div>
-
-    <div id="authErr" style="color:#dc2626;font-size:.78rem;min-height:1.2rem;margin-bottom:.5rem;text-align:center"></div>
+    <div id="authErr" style="color:#dc2626;font-size:.75rem;min-height:1rem;margin-bottom:.4rem;text-align:center"></div>
 
     <button id="authSubmitBtn" onclick="doSimpleLogin()"
-      style="width:100%;padding:.7rem;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit">
+      style="width:100%;padding:.65rem;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit">
       Sign In →
     </button>
 
-    <div style="margin-top:.9rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.6rem .8rem;font-size:.75rem;color:#166534">
-      <strong>Accounts:</strong><br>
-      👦 Mokshith → PIN: <code>1234</code><br>
-      👨‍👩‍👦 Parent → PIN: <code>parent</code><br>
-      👩‍🏫 Teacher → PIN: <code>teacher</code><br>
-      <span style="color:#6b7280">Or enter any name + any PIN to start as guest</span>
+    <div style="margin-top:.7rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem .7rem;font-size:.73rem;color:#166534;line-height:1.6">
+      <strong>Accounts:</strong> &nbsp;
+      👦 Mokshith / <code>1234</code> &nbsp;·&nbsp;
+      👨‍👩‍👦 Parent / <code>parent</code> &nbsp;·&nbsp;
+      👩‍🏫 Teacher / <code>teacher</code><br>
+      <span style="color:#9ca3af">Any other name + any PIN = guest student</span>
     </div>
   </div>
 </div>
