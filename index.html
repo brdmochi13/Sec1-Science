@@ -375,8 +375,8 @@ p.body{font-size:.84rem;margin-bottom:.35rem}
 @media(max-width:480px){.dash-grid{grid-template-columns:1fr 1fr}.strat-grid{grid-template-columns:1fr}.cfg-grid{flex-direction:column}}
 
 /* ══ AUTH OVERLAY ══ */
-.auth-overlay{position:fixed;inset:0;background:rgba(28,28,30,.97);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto;font-family:'Source Sans 3',sans-serif}
-.auth-box{background:white;border-radius:16px;padding:1.5rem 1.5rem;max-width:400px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.5);animation:modalIn .25s ease;margin:auto}
+.auth-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#1c1c1e;z-index:999999;display:flex;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow-y:auto;font-family:'Source Sans 3',sans-serif}
+.auth-box{background:#ffffff;border-radius:16px;padding:1.5rem;max-width:420px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.6);margin:auto}
 .auth-logo{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;text-align:center;margin-bottom:.3rem}
 .auth-logo span{color:var(--gold)}
 .auth-sub{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:1.5rem}
@@ -532,9 +532,15 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
     <div id="authErr" style="color:#dc2626;font-size:.75rem;min-height:1rem;margin-bottom:.4rem;text-align:center"></div>
 
     <button id="authSubmitBtn" onclick="doSimpleLogin()"
-      style="width:100%;padding:.65rem;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit">
+      style="width:100%;padding:.65rem;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:.2rem">
       Sign In →
     </button>
+    <div style="text-align:center;margin-top:.3rem">
+      <span onclick="doSimpleLoginAs('Guest','student')"
+        style="font-size:.75rem;color:#6b7280;cursor:pointer;text-decoration:underline">
+        Continue as Guest (no progress saved)
+      </span>
+    </div>
 
     <div style="margin-top:.7rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem .7rem;font-size:.73rem;color:#166534;line-height:1.6">
       <strong>Accounts:</strong> &nbsp;
