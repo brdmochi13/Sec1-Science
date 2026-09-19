@@ -585,12 +585,11 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 </div>
 
 <div class="topbar">
-  <div class="logo">S1 Science <span>Mastery</span> · G3 EOY <span id="roleBadge" class="role-badge role-student" style="display:none">Student</span></div>
+  <div class="logo">S1 Science <span>Mastery</span> · G3 <span id="roleBadge" class="role-badge role-student" style="display:none">Student</span></div>
   <div class="top-btns" id="topBtns">
-    <span id="userDisplayName" style="color:rgba(255,255,255,.5);font-size:.75rem;display:none"></span>
-    <button class="tbtn tbtn-outline" id="btnAnswerKey" onclick="openAnswerKeyModal()" style="display:none">🔐 Answer Key</button>
-    <button class="tbtn tbtn-outline" id="btnBrief" onclick="openTeacherBriefModal()" style="display:none">📋 Teacher Brief</button>
-    <button class="tbtn tbtn-outline" onclick="document.getElementById('pwdModal').classList.add('show')">🔑 Change Pwd</button>
+    <span id="userDisplayName" style="color:rgba(255,255,255,.7);font-size:.78rem;display:none"></span>
+    <button class="tbtn tbtn-outline" id="btnAnswerKey" onclick="openAnswerKeyModal()" style="display:none">🔐 Keys</button>
+    <button class="tbtn tbtn-outline" id="btnBrief" onclick="openTeacherBriefModal()" style="display:none">📋 Brief</button>
     <button class="tbtn tbtn-gold" onclick="signOutUser()">Sign Out</button>
   </div>
 </div>
@@ -1822,7 +1821,8 @@ function doSimpleLoginAs(name, role) {
   var uid = 'local_' + name.toLowerCase().replace(/\s+/g,'_');
   currentUser  = { uid: uid, displayName: name, email: uid + '@local' };
   currentRole  = role;
-  // Try Firebase sign-in silently in background for data sync
+  onAuthSuccess();
+  // Try Firebase sign-in silently in background — if succeeds, reload data with real UID
   if (USE_FIREBASE && auth) {
     var emailMap = {
       'mokshith': 'mokshith@sci.sg',
@@ -1834,13 +1834,14 @@ function doSimpleLoginAs(name, role) {
     if (fbEmail && pwdMap[fbEmail]) {
       auth.signInWithEmailAndPassword(fbEmail, pwdMap[fbEmail])
         .then(function(uc) {
+          // Update to real Firebase user — getUID() will now return real UID
           currentUser = uc.user;
-          if (USE_FIREBASE) loadDataFromFirebase();
+          // Reload data from Firebase with correct UID
+          loadDataFromFirebase();
         })
-        .catch(function() { /* silent — local data already loaded */ });
+        .catch(function(e) { console.warn('Background Firebase login failed:', e.message); });
     }
   }
-  onAuthSuccess();
 }
 
 function doAuth() { doSimpleLogin(); }
@@ -2165,7 +2166,16 @@ function getWeakSkillsEma(d) {
   return SKILL_KEYS.slice().sort(function(a,b){ return getEmaSkill(d,a)-getEmaSkill(d,b); });
 }
 
-function getUID() { return currentUser ? (currentUser.uid || currentUser.email) : 'anon'; }
+function getUID() {
+  if (!currentUser) return 'anon';
+  // Map local simple-login names to real Firebase UIDs for data continuity
+  var UID_MAP = {
+    'local_mokshith': 'wyq8YMBKDaVWD0hhfkpoQ396gN63',
+    'local_parent':   'TwmeCWdktHQToxQxboyPdSp0unE3',
+    'local_teacher':  'J90pH8Acq0PBaJsfHXOAvxgx38h1'
+  };
+  return UID_MAP[currentUser.uid] || currentUser.uid || currentUser.email || 'anon';
+}
 
 function loadData() {
   try {
@@ -2194,13 +2204,28 @@ function saveDataToFirebase(d) {
 
 function loadDataFromFirebase() {
   if (!db || !currentUser) return;
-  db.collection('progress').doc(getUID()).get().then(function(doc) {
+  var uid = getUID();
+  db.collection('progress').doc(uid).get().then(function(doc) {
     if (doc.exists) {
       var d = doc.data();
-      localStorage.setItem(STORAGE_KEY + '_' + getUID(), JSON.stringify(d));
+      // Merge with any local data (take the one with more history)
+      var local = loadData();
+      var fbHist = d.history || [];
+      var locHist = local.history || [];
+      if (fbHist.length >= locHist.length) {
+        localStorage.setItem(STORAGE_KEY + '_' + uid, JSON.stringify(d));
+      }
+      renderDashboard();
+    } else {
+      // No Firebase doc yet — push local data up to Firebase
+      var local = loadData();
+      if (local.history && local.history.length > 0) {
+        db.collection('progress').doc(uid).set(local)
+          .catch(function(e){ console.warn('Firebase push error:', e); });
+      }
       renderDashboard();
     }
-  }).catch(function(e) { console.warn('Firebase load error:', e); });
+  }).catch(function(e) { console.warn('Firebase load error:', e.message); renderDashboard(); });
 }
 
 function flash(cls) {
@@ -2252,11 +2277,7 @@ function renderDashboard() {
 function renderRadar(d){
   var el=document.getElementById('radarChart');
   if(!el) return;
-  var hasData = d.history && d.history.length > 0;
-  if(!hasData){
-    el.innerHTML='<div style="text-align:center;color:#9ca3af;padding:1rem"><div style="font-size:2rem;margin-bottom:.5rem">📡</div><div style="font-size:.85rem;font-weight:600">Complete a practice paper<br>to see your Skill Radar</div></div>';
-    return;
-  }
+  // Always render radar — shows 0% baseline when no history yet
   var N=CH_META.length;
   var size=380, cx=size/2, cy=size/2, R=130;
   var pts=[], labelPts=[];
