@@ -2033,19 +2033,19 @@ function renderEOYBanner() {
 }
 
 var CH_META=[
-  {id:'ch1', num:1, title:'Scientific Endeavour', skill:'Scientific Endeavour'},
-  {id:'ch2', num:2, title:'Physical Properties',  skill:'Physical Properties'},
-  {id:'ch3', num:3, title:'Chemical Properties',  skill:'Chemical Properties'},
-  {id:'ch4', num:4, title:'Separation Techniques',skill:'Separation Techniques'},
-  {id:'ch5', num:5, title:'Ray Model of Light',   skill:'Ray Model of Light'},
-  {id:'ch6', num:6, title:'Cells',                skill:'Cells'},
-  {id:'ch7', num:7, title:'Particulate Matter',   skill:'Particulate Matter'},
-  {id:'ch8', num:8, title:'Atoms & Molecules',    skill:'Atoms & Molecules'},
-  {id:'ch9', num:9, title:'Human Body Systems',   skill:'Human Body Systems'},
-  {id:'ch10',num:10,title:'Diversity of Life',    skill:'Diversity of Life'},
-  {id:'ch11',num:11,title:'Thermal Energy',        skill:'Thermal Energy'},
-  {id:'ch12',num:12,title:'Electricity & Circuits',skill:'Electricity & Circuits'},
-  {id:'ch13',num:13,title:'Forces & Motion',       skill:'Forces & Motion'}
+  {id:'ch1', num:1, title:'Scientific Endeavour', short:'Sci Method',   skill:'Scientific Endeavour'},
+  {id:'ch2', num:2, title:'Physical Properties',  short:'Phys Prop',    skill:'Physical Properties'},
+  {id:'ch3', num:3, title:'Chemical Properties',  short:'Chem Prop',    skill:'Chemical Properties'},
+  {id:'ch4', num:4, title:'Separation Techniques',short:'Separation',   skill:'Separation Techniques'},
+  {id:'ch5', num:5, title:'Ray Model of Light',   short:'Light',        skill:'Ray Model of Light'},
+  {id:'ch6', num:6, title:'Cells',                short:'Cells',        skill:'Cells'},
+  {id:'ch7', num:7, title:'Particulate Matter',   short:'Particles',    skill:'Particulate Matter'},
+  {id:'ch8', num:8, title:'Atoms & Molecules',    short:'Atoms',        skill:'Atoms & Molecules'},
+  {id:'ch9', num:9, title:'Human Body Systems',   short:'Body Sys',     skill:'Human Body Systems'},
+  {id:'ch10',num:10,title:'Diversity of Life',    short:'Diversity',    skill:'Diversity of Life'},
+  {id:'ch11',num:11,title:'Thermal Energy',        short:'Thermal',      skill:'Thermal Energy'},
+  {id:'ch12',num:12,title:'Electricity & Circuits',short:'Electricity', skill:'Electricity & Circuits'},
+  {id:'ch13',num:13,title:'Forces & Motion',       short:'Forces',       skill:'Forces & Motion'}
 ];
 function chapterAvg(d, chapId){
   var m=CH_META.find(function(c){return c.id===chapId;});
@@ -2186,7 +2186,7 @@ function renderRadar(d){
     pts.push([cx+r*Math.cos(ang), cy+r*Math.sin(ang)]);
     rings.forEach(function(rv,ri){ringGrids[ri].push([cx+R*rv*Math.cos(ang), cy+R*rv*Math.sin(ang)]);});
     var lr=R+28;
-    labelPts.push({x:cx+lr*Math.cos(ang), y:cy+lr*Math.sin(ang), num:filteredMeta[i].num, title:filteredMeta[i].title||'', val:Math.round(val)});
+    labelPts.push({x:cx+lr*Math.cos(ang), y:cy+lr*Math.sin(ang), num:filteredMeta[i].num, title:filteredMeta[i].title||'', short:filteredMeta[i].short||filteredMeta[i].title||'', val:Math.round(val)});
   }
   function poly(arr){return arr.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ');}
   var svg='<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="max-width:100%;overflow:visible">';
@@ -2211,10 +2211,11 @@ function renderRadar(d){
     svg+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.5" fill="'+col+'"/>';
   });
   labelPts.forEach(function(p){
-    var abbr=p.title.length>9?p.title.slice(0,8)+'…':p.title;
     var col=p.val>=75?'#1a6b3c':p.val>=55?'#b5590a':'#b91c1c';
-    svg+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y-4).toFixed(1)+'" font-size="9.5" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="'+col+'">Ch'+p.num+'</text>';
-    svg+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y+7).toFixed(1)+'" font-size="8" text-anchor="middle" dominant-baseline="middle" fill="#6b7280">'+p.val+'%</text>';
+    var valLabel = p.val > 0 ? p.val+'%' : '—';
+    svg+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y-8).toFixed(1)+'" font-size="9" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="'+col+'">Ch'+p.num+'</text>';
+    svg+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y+3).toFixed(1)+'" font-size="7.5" text-anchor="middle" dominant-baseline="middle" fill="#6b7280">'+p.short+'</text>';
+    svg+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y+13).toFixed(1)+'" font-size="8.5" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="'+col+'">'+valLabel+'</text>';
   });
   var avg=Math.round(pts.reduce(function(s,p,i){return s+labelPts[i].val;},0)/N);
   var hasAnyData = labelPts.some(function(p){ return p.val > 0; });
@@ -2236,9 +2237,11 @@ function renderChapterChips(d){
     var v=chapterAvg(d,c.id);
     var col=v>=75?'#1a6b3c':v>=55?'#b5590a':'#b91c1c';
     var bg=v>=75?'rgba(26,107,60,.10)':v>=55?'rgba(181,89,10,.10)':'rgba(185,28,28,.10)';
-    html+='<div style="display:flex;align-items:center;gap:.3rem;padding:.25rem .55rem;border-radius:99px;border:1.5px solid '+col+';background:'+bg+'">'+
+    var vLabel = v > 0 ? Math.round(v)+'%' : '—';
+    html+='<div style="display:flex;align-items:center;gap:.3rem;padding:.25rem .6rem;border-radius:99px;border:1.5px solid '+col+';background:'+bg+'">'+
       '<span style="font-size:.7rem;font-weight:700;color:'+col+'">Ch'+c.num+'</span>'+
-      '<span style="font-size:.68rem;color:'+col+'">'+Math.round(v)+'%</span>'+
+      '<span style="font-size:.68rem;color:var(--muted)">'+c.short+'</span>'+
+      '<span style="font-size:.7rem;font-weight:700;color:'+col+'">'+vLabel+'</span>'+
       '</div>';
   });
   el.innerHTML=html;
@@ -5882,7 +5885,10 @@ function displayQFQuestion(q) {
 
   // Badges
   document.getElementById('qfTypeBadge').textContent = q.type === 'mcq' ? '📝 MCQ' : '✅ True/False';
-  document.getElementById('qfTopicBadge').textContent = q.skill || 'General';
+  // Show Ch#: ShortName in topic badge
+  var _chMeta = CH_META.find(function(c){ return c.skill === q.skill; });
+  var _topicLabel = _chMeta ? ('Ch'+_chMeta.num+': '+_chMeta.short) : (q.skill || 'General');
+  document.getElementById('qfTopicBadge').textContent = _topicLabel;
   document.getElementById('qfSrcBadge').textContent = q.source || 'AI Generated';
 
   // Visual
