@@ -510,43 +510,37 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 
 <!-- ══ AUTH OVERLAY ══ -->
 <div class="auth-overlay" id="authOverlay">
-  <div class="auth-box">
+  <div class="auth-box" style="max-width:360px">
     <div class="auth-logo">S1 Science <span>Mastery</span> · G3</div>
-    <div class="auth-sub">Sign in to track progress across devices</div>
-    <div style="background:#fff8e1;border:1px solid #f9a825;border-radius:8px;padding:.6rem .9rem;margin:.5rem 0;font-size:.8rem;color:#5d4037">
-      <strong>🔑 Demo login:</strong> <code>mokshith@sci.sg</code> / <code>Abcd1234</code><br>
-      <span style="color:#666;font-size:.72rem">Or register a new account above. If login is slow, wait 10 seconds.</span>
+    <div class="auth-sub" style="margin-bottom:1.2rem">Enter your name and PIN to start</div>
+
+    <div style="margin-bottom:.8rem">
+      <label style="font-size:.78rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.3rem">YOUR NAME</label>
+      <input id="authName" type="text" placeholder="e.g. Mokshith"
+        style="width:100%;padding:.6rem .8rem;border:1.5px solid #d1d5db;border-radius:8px;font-size:.95rem;box-sizing:border-box;font-family:inherit"
+        onkeydown="if(event.key==='Enter')document.getElementById('authPwd').focus()">
     </div>
-    <div id="authForm">
-      <div class="auth-tabs">
-        <button class="auth-tab active" onclick="authSwitchTab('login',this)">Sign In</button>
-        <button class="auth-tab" onclick="authSwitchTab('signup',this)">Register</button>
-      </div>
-      <div id="signupRoleRow" style="display:none">
-        <div style="font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem">Select Role</div>
-        <div class="auth-role-btns">
-          <button class="auth-role-btn sel" onclick="selectRole('student',this)">🎓 Student</button>
-          <button class="auth-role-btn" onclick="selectRole('parent',this)">👨‍👩‍👦 Parent</button>
-          <button class="auth-role-btn" onclick="selectRole('teacher',this)">📋 Teacher</button>
-        </div>
-      </div>
-      <div class="auth-field"><label>Email</label><input class="auth-inp" id="authEmail" type="email" placeholder="you@email.com" autocomplete="email"></div>
-      <div class="auth-field"><label>Password</label><input class="auth-inp" id="authPwd" type="password" placeholder="Password (min 6 chars)" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAuth()"></div>
-      <div id="signupNameRow" class="auth-field" style="display:none"><label>Display Name</label><input class="auth-inp" id="authName" type="text" placeholder="e.g. Mokshith"></div>
-      <button class="auth-btn" id="authSubmitBtn" onclick="doAuth()">Sign In</button>
-      <div class="auth-err" id="authErr"></div>
-      <div class="auth-switch" id="authSwitch">Don't have an account? <a onclick="authSwitchTab('signup',null)">Register</a></div>
-      <div style="text-align:center;margin-top:.8rem;font-size:.74rem;color:var(--muted)">
-        Accounts: mokshith@sci.sg / parent@sci.sg / teacher@sci.sg · Password: <strong>Abcd1234</strong>
-      </div>
-      <div style="margin-top:.6rem;padding-top:.6rem;border-top:1px solid #e5e7eb">
-        <div style="font-size:.7rem;color:var(--muted);text-align:center;margin-bottom:.4rem">Quick sign-in:</div>
-        <div style="display:flex;gap:.35rem;justify-content:center">
-          <button onclick="quickLogin('mokshith@sci.sg','Abcd1234')" style="flex:1;padding:7px 4px;border:1.5px solid #1e4d8c;border-radius:8px;background:#dbeafe;font-family:inherit;font-size:.75rem;font-weight:700;cursor:pointer;color:#1e4d8c;min-height:38px">🎓 Student</button>
-          <button onclick="quickLogin('parent@sci.sg','Abcd1234')" style="flex:1;padding:7px 4px;border:1.5px solid #92400e;border-radius:8px;background:#fef3c7;font-family:inherit;font-size:.75rem;font-weight:700;cursor:pointer;color:#92400e;min-height:38px">👨‍👩‍👦 Parent</button>
-          <button onclick="quickLogin('teacher@sci.sg','Abcd1234')" style="flex:1;padding:7px 4px;border:1.5px solid #065f46;border-radius:8px;background:#d1fae5;font-family:inherit;font-size:.75rem;font-weight:700;cursor:pointer;color:#065f46;min-height:38px">📋 Teacher</button>
-        </div>
-      </div>
+
+    <div style="margin-bottom:.8rem">
+      <label style="font-size:.78rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.3rem">PIN / PASSWORD</label>
+      <input id="authPwd" type="password" placeholder="Enter PIN"
+        style="width:100%;padding:.6rem .8rem;border:1.5px solid #d1d5db;border-radius:8px;font-size:.95rem;box-sizing:border-box;font-family:inherit"
+        onkeydown="if(event.key==='Enter')doSimpleLogin()">
+    </div>
+
+    <div id="authErr" style="color:#dc2626;font-size:.78rem;min-height:1.2rem;margin-bottom:.5rem;text-align:center"></div>
+
+    <button id="authSubmitBtn" onclick="doSimpleLogin()"
+      style="width:100%;padding:.7rem;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit">
+      Sign In →
+    </button>
+
+    <div style="margin-top:.9rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.6rem .8rem;font-size:.75rem;color:#166534">
+      <strong>Accounts:</strong><br>
+      👦 Mokshith → PIN: <code>1234</code><br>
+      👨‍👩‍👦 Parent → PIN: <code>parent</code><br>
+      👩‍🏫 Teacher → PIN: <code>teacher</code><br>
+      <span style="color:#6b7280">Or enter any name + any PIN to start as guest</span>
     </div>
   </div>
 </div>
@@ -1773,76 +1767,52 @@ function selectRole(role, btn) {
 }
 
 function guestLogin() {
-  currentUser = {uid:'guest', displayName:'Guest', email:'guest@local'};
-  currentRole = 'student';
+  doSimpleLoginAs('Guest', 'student');
+}
+
+function doSimpleLogin() {
+  var name = (document.getElementById('authName').value.trim()) || 'Student';
+  var pin  = document.getElementById('authPwd').value.trim();
+  var errEl = document.getElementById('authErr');
+  errEl.textContent = '';
+
+  if (!pin) { errEl.textContent = 'Please enter your PIN.'; return; }
+
+  // PIN-based role detection
+  var role = 'student';
+  if (pin === 'parent')  { role = 'parent';  if (name === 'Student') name = 'Parent'; }
+  if (pin === 'teacher') { role = 'teacher'; if (name === 'Student') name = 'Teacher'; }
+  if (name === 'Mokshith' && pin === '1234') role = 'student';
+
+  doSimpleLoginAs(name, role);
+}
+
+function doSimpleLoginAs(name, role) {
+  var uid = 'local_' + name.toLowerCase().replace(/\s+/g,'_');
+  currentUser  = { uid: uid, displayName: name, email: uid + '@local' };
+  currentRole  = role;
+  // Try Firebase sign-in silently in background for data sync
+  if (USE_FIREBASE && auth) {
+    var emailMap = {
+      'mokshith': 'mokshith@sci.sg',
+      'parent':   'parent@sci.sg',
+      'teacher':  'teacher@sci.sg'
+    };
+    var fbEmail = emailMap[name.toLowerCase()];
+    var pwdMap  = { 'mokshith@sci.sg': 'Abcd1234', 'parent@sci.sg': 'Abcd1234', 'teacher@sci.sg': 'Abcd1234' };
+    if (fbEmail && pwdMap[fbEmail]) {
+      auth.signInWithEmailAndPassword(fbEmail, pwdMap[fbEmail])
+        .then(function(uc) {
+          currentUser = uc.user;
+          if (USE_FIREBASE) loadDataFromFirebase();
+        })
+        .catch(function() { /* silent — local data already loaded */ });
+    }
+  }
   onAuthSuccess();
 }
 
-function doAuth() {
-  var email = document.getElementById('authEmail').value.trim().toLowerCase();
-  var pwd   = document.getElementById('authPwd').value;
-  var errEl = document.getElementById('authErr');
-  errEl.textContent = '';
-  if (!email || !pwd) { errEl.textContent = 'Please enter email and password.'; return; }
-
-  document.getElementById('authSubmitBtn').disabled = true;
-  document.getElementById('authSubmitBtn').textContent = 'Please wait...';
-
-  if (USE_FIREBASE) {
-    if (authMode === 'login') {
-      auth.signInWithEmailAndPassword(email, pwd)
-        .then(function(uc) {
-          currentUser = uc.user;
-          currentRole = 'student';
-          // onAuthStateChanged will also fire — guard against double call
-          if (document.getElementById('authOverlay').style.display !== 'none') {
-            onAuthSuccess();
-          }
-        })
-        .catch(function(e) {
-          // ── DEMO ACCOUNT FALLBACK ──
-          // Firebase accounts may not exist yet — check DEMO_ACCOUNTS first
-          if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password') {
-            var demo = DEMO_ACCOUNTS[email];
-            if (demo && demo.password === pwd) {
-              currentUser = {uid: 'demo_' + email, displayName: demo.name, email: email};
-              currentRole = demo.role;
-              onAuthSuccess();
-              return;
-            }
-          }
-          var msg = e.message;
-          if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential')
-            msg = 'Email or password incorrect. Check and try again.';
-          if (e.code === 'auth/wrong-password')
-            msg = 'Incorrect password.';
-          if (e.code === 'auth/too-many-requests')
-            msg = 'Too many failed attempts — wait a few minutes and try again.';
-          errEl.textContent = msg;
-          document.getElementById('authSubmitBtn').disabled=false;
-          document.getElementById('authSubmitBtn').textContent='Sign In';
-        });
-    } else {
-      var name = document.getElementById('authName').value.trim() || 'User';
-      auth.createUserWithEmailAndPassword(email, pwd)
-        .then(function(uc) {
-          return Promise.all([
-            uc.user.updateProfile({displayName: name}),
-            db.collection('users').doc(uc.user.uid).set({role: selectedRole, name: name, email: email, createdAt: firebase.firestore.FieldValue.serverTimestamp()})
-          ]);
-        })
-        .catch(function(e) { errEl.textContent = e.message; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent='Create Account'; });
-    }
-  } else {
-    // Local mode — demo accounts
-    var acct = DEMO_ACCOUNTS[email];
-    if (!acct) { errEl.textContent = 'Email not found. Use demo accounts shown below.'; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent=authMode==='login'?'Sign In':'Create Account'; return; }
-    if (acct.password !== pwd) { errEl.textContent = 'Incorrect password.'; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent='Sign In'; return; }
-    currentUser = {uid: email, email: email, displayName: acct.name};
-    currentRole = acct.role;
-    onAuthSuccess();
-  }
-}
+function doAuth() { doSimpleLogin(); }
 
 function onAuthSuccess() {
   document.getElementById('authOverlay').style.display = 'none';
