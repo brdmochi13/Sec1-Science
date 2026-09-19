@@ -531,12 +531,30 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 
     <div id="authErr" style="color:#dc2626;font-size:.75rem;min-height:1rem;margin-bottom:.4rem;text-align:center"></div>
 
-    <button id="authSubmitBtn" onclick="doSimpleLogin()"
+    <button id="authSubmitBtn"
+      onclick="
+        var n=document.getElementById('authName').value.trim()||'Student';
+        var p=document.getElementById('authPwd').value.trim();
+        if(!p){document.getElementById('authErr').textContent='Please enter your PIN.';return;}
+        var r='student';
+        if(p==='parent'){r='parent';if(n==='Student')n='Parent';}
+        if(p==='teacher'){r='teacher';if(n==='Student')n='Teacher';}
+        window._authName=n; window._authRole=r;
+        document.getElementById('authOverlay').style.display='none';
+        if(typeof onAuthSuccess==='function'){
+          window.currentUser={uid:'local_'+n.toLowerCase(),displayName:n,email:n+'@local'};
+          window.currentRole=r;
+          onAuthSuccess();
+        } else {
+          document.getElementById('authOverlay').style.display='none';
+          document.body.style.overflow='auto';
+        }
+      "
       style="width:100%;padding:.65rem;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:.2rem">
       Sign In →
     </button>
     <div style="text-align:center;margin-top:.3rem">
-      <span onclick="doSimpleLoginAs('Guest','student')"
+      <span onclick="document.getElementById('authOverlay').style.display='none';if(typeof onAuthSuccess==='function'){window.currentUser={uid:'guest',displayName:'Guest',email:'guest@local'};window.currentRole='student';onAuthSuccess();}"
         style="font-size:.75rem;color:#6b7280;cursor:pointer;text-decoration:underline">
         Continue as Guest (no progress saved)
       </span>
@@ -1736,9 +1754,15 @@ var USE_FIREBASE = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
 var db = null, auth = null, currentUser = null, currentRole = null;
 
 if (USE_FIREBASE) {
-  firebase.initializeApp(FIREBASE_CONFIG);
-  db = firebase.firestore();
-  auth = firebase.auth();
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    db = firebase.firestore();
+    auth = firebase.auth();
+  } catch(e) {
+    console.warn('Firebase init failed:', e.message, '— running in local mode');
+    USE_FIREBASE = false;
+    db = null; auth = null;
+  }
 }
 
 // ─── DEMO ACCOUNTS (pre-created if using local mode) ───
