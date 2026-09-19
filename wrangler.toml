@@ -1,6 +1,7 @@
 name = "sec1-science"
 main = "worker.js"
 compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
 
-[env.test]
-name = "sec1-science-test"
+[build]
+command = ""
