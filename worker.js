@@ -6368,7 +6368,7 @@ export default {
     return new Response(HTML, {
       headers: {
         'Content-Type': 'text/html;charset=UTF-8',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Cache-Control': 'no-cache',
       }
     });
   }
