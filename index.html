@@ -1669,15 +1669,14 @@ function doAuth() {
     if (authMode === 'login') {
       auth.signInWithEmailAndPassword(email, pwd)
         .then(function(uc) {
-          // onAuthStateChanged will fire, but set a 5s fallback
           currentUser = uc.user;
-          setTimeout(function() {
-            if (document.getElementById('authOverlay').style.display !== 'none') {
-              // onAuthStateChanged hasn't fired yet — force it
-              currentRole = 'student';
-              onAuthSuccess();
-            }
-          }, 5000);
+          // Fetch role from Firestore then enter app immediately
+          db.collection('users').doc(uc.user.uid).get()
+            .then(function(doc) {
+              currentRole = doc.exists ? (doc.data().role || 'student') : 'student';
+            })
+            .catch(function() { currentRole = 'student'; })
+            .finally(function() { onAuthSuccess(); });
         })
         .catch(function(e) {
           var msg = e.message;
