@@ -2049,7 +2049,7 @@ var CH_META=[
 ];
 function chapterAvg(d, chapId){
   var m=CH_META.find(function(c){return c.id===chapId;});
-  if(!m) return 50;
+  if(!m) return 0;
   return Math.round(getEmaSkill(d, m.skill));
 }
 // EMA adaptive skill tracking (same engine as Maths app)
@@ -2061,7 +2061,19 @@ function emaUpdate(d, skill, correct) {
   d.ema[skill] = Math.round(s*10)/10;
   return d;
 }
-function getEmaSkill(d, skill) { return (d.ema && d.ema[skill]) || 50; }
+function getEmaSkill(d, skill) {
+  // First try d.ema (pre-calculated EMA)
+  if (d.ema && d.ema[skill] !== undefined) return d.ema[skill];
+  // Fall back to calculating from d.skills [attempts, correct]
+  if (d.skills && d.skills[skill]) {
+    var s = d.skills[skill];
+    var attempts = s[0] || 0;
+    var correct  = s[1] || 0;
+    if (attempts > 0) return Math.round((correct / attempts) * 100);
+  }
+  // No data at all for this chapter — return 0 (not 50, which is misleading)
+  return 0;
+}
 function getWeakSkillsEma(d) {
   return SKILL_KEYS.slice().sort(function(a,b){ return getEmaSkill(d,a)-getEmaSkill(d,b); });
 }
@@ -2205,9 +2217,11 @@ function renderRadar(d){
     svg+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y+7).toFixed(1)+'" font-size="8" text-anchor="middle" dominant-baseline="middle" fill="#6b7280">'+p.val+'%</text>';
   });
   var avg=Math.round(pts.reduce(function(s,p,i){return s+labelPts[i].val;},0)/N);
+  var hasAnyData = labelPts.some(function(p){ return p.val > 0; });
   var avgCol=avg>=75?'#1a6b3c':avg>=55?'#b5590a':'#b91c1c';
+  var avgLabel = hasAnyData ? avg+'%' : '--';
   svg+='<circle cx="'+cx+'" cy="'+cy+'" r="24" fill="white" stroke="#e8e2d8" stroke-width="1.5"/>';
-  svg+='<text x="'+cx+'" y="'+(cy-4)+'" font-size="13" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="'+avgCol+'">'+avg+'%</text>';
+  svg+='<text x="'+cx+'" y="'+(cy-4)+'" font-size="13" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="'+avgCol+'">'+avgLabel+'</text>';
   svg+='<text x="'+cx+'" y="'+(cy+10)+'" font-size="7.5" text-anchor="middle" fill="#9ca3af">avg</text>';
   svg+='</svg>';
   el.innerHTML=svg;
