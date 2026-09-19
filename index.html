@@ -1793,17 +1793,11 @@ function doAuth() {
       auth.signInWithEmailAndPassword(email, pwd)
         .then(function(uc) {
           currentUser = uc.user;
-          // Immediately fetch role from Firestore, then show app — no waiting for onAuthStateChanged
-          db.collection('users').doc(uc.user.uid).get()
-            .then(function(doc) {
-              currentRole = doc.exists ? (doc.data().role || 'student') : 'student';
-              onAuthSuccess();
-            })
-            .catch(function() {
-              // Firestore read failed — still log in as student
-              currentRole = 'student';
-              onAuthSuccess();
-            });
+          currentRole = 'student';
+          // onAuthStateChanged will also fire — guard against double call
+          if (document.getElementById('authOverlay').style.display !== 'none') {
+            onAuthSuccess();
+          }
         })
         .catch(function(e) {
           // ── DEMO ACCOUNT FALLBACK ──
@@ -1891,13 +1885,13 @@ if (USE_FIREBASE) {
       db.collection('users').doc(user.uid).get()
         .then(function(doc) {
           currentRole = doc.exists ? (doc.data().role || 'student') : 'student';
-          onAuthSuccess();
+          if (document.getElementById('authOverlay').style.display !== 'none') onAuthSuccess();
         })
         .catch(function(e) {
           // Firestore read failed (likely rules) — still log in as student
           console.warn('Firestore user read failed:', e.message, '— logging in as student');
           currentRole = 'student';
-          onAuthSuccess();
+          if (document.getElementById('authOverlay').style.display !== 'none') onAuthSuccess();
         });
     }
   });
@@ -1983,7 +1977,10 @@ var PAPER_CHAP = {
   26:['ch10'],27:['ch10'],
   28:['ch11'],29:['ch11'],
   30:['ch12'],31:['ch12'],
-  32:['ch13'],33:['ch13']
+  32:['ch13'],33:['ch13'],
+  34:['ch6'],       // Cells Deep Dive
+  35:['ch7'],       // Particulate Deep Dive
+  36:['ch6','ch7']  // Final Challenge
 };
 
 // Active chapter filter — default to Core (Ch1–8)
