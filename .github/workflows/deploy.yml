@@ -1,57 +1,24 @@
-name: Deploy — Sec1 Science
+name: Deploy to GitHub Pages and Cloudflare Workers
 
 on:
   push:
-    branches: [main, test]
+    branches: [main]
+    paths:
+      - 'index.html'
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Target environment'
-        required: true
-        default: 'test'
-        type: choice
-        options:
-          - test
-          - production
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
-  group: "deploy-${{ github.ref_name }}"
-  cancel-in-progress: true
+  group: "deploy"
+  cancel-in-progress: false
 
 jobs:
-  deploy-test:
-    if: github.ref == 'refs/heads/test' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'test')
-    name: 🧪 Deploy to Staging (sec1-science-test)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Deploy to Cloudflare Workers — Test
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          environment: test
-
-  deploy-production:
-    if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
-    name: 🚀 Deploy to Production (sec1-science)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Deploy to Cloudflare Workers — Production
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-
   deploy-pages:
-    if: github.ref == 'refs/heads/main'
-    name: 📄 Deploy to GitHub Pages
+    name: Deploy to GitHub Pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -64,3 +31,37 @@ jobs:
           path: '.'
       - uses: actions/deploy-pages@v4
         id: deployment
+
+  embed-and-deploy-cloudflare:
+    name: Embed HTML into worker and deploy to Cloudflare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build worker.js with embedded HTML
+        run: |
+          python3 << 'EOF'
+          with open('index.html', 'r', encoding='utf-8') as f:
+              html = f.read()
+          escaped = html.replace('\\', '\\\\').replace('`', '\\`').replace('${', '\\${')
+          worker = 'const HTML = `' + escaped + '`;\n\nexport default {\n  async fetch(request, env) {\n    return new Response(HTML, {\n      headers: {\n        \'Content-Type\': \'text/html;charset=UTF-8\',\n        \'Cache-Control\': \'no-cache, no-store, must-revalidate\',\n      }\n    });\n  }\n};\n'
+          with open('worker.js', 'w', encoding='utf-8') as f:
+              f.write(worker)
+          print(f'worker.js: {len(worker)} chars')
+          EOF
+
+      - name: Commit worker.js
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add worker.js
+          git diff --cached --quiet || git commit -m "ci: auto-embed index.html into worker.js [skip ci]"
+          git push
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
