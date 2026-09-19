@@ -463,7 +463,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 <div class="main-tabs">
   <button class="mtab active" onclick="showTab('dashTab',this)">📊 Dashboard</button>
   <button class="mtab" onclick="showTab('notesTab',this)">📚 Study Notes</button>
-  <button class="mtab" onclick="showTab('papersTab',this)">✏️ Practice Papers <span class="tab-badge" id="papersBadge">33</span></button>
+  <button class="mtab" onclick="showTab('papersTab',this)">✏️ Practice Papers <span class="tab-badge" id="papersBadge">36</span></button>
   <button class="mtab" onclick="showTab('aiTab',this)">🤖 AI Practice</button>
   <button class="mtab" onclick="showTab('tipsTab',this)">💡 Exam Tips</button>
   <button class="mtab" onclick="showTab('qfTab',this);initQuickFire()">⚡ Quick Fire</button>
@@ -583,6 +583,16 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
   <div class="card">
     <div class="card-head"><div class="card-letter">📡</div><div class="card-title">Chapter Mastery Radar</div><div class="card-marks" id="radarAvgBadge">—</div></div>
     <div class="card-body" style="display:flex;flex-direction:column;align-items:center;gap:.75rem">
+      <div style="width:100%;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.25rem">
+        <label style="font-size:.75rem;font-weight:600;color:var(--muted)">Show chapters:</label>
+        <select id="radarChapSelect" onchange="renderDashboard()"
+          style="font-size:.78rem;padding:.3rem .6rem;border:1.5px solid var(--border);border-radius:6px;background:white;font-family:inherit;cursor:pointer">
+          <option value="core" selected>Ch 1–8 (Core)</option>
+          <option value="ext">Ch 9–13 (Extended)</option>
+          <option value="all">All Chapters</option>
+          <option value="wa3">Ch 6–7 (WA3 Focus)</option>
+        </select>
+      </div>
       <div id="radarChart"></div>
       <div id="chapterChips" style="display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center"></div>
     </div>
@@ -1869,7 +1879,10 @@ var PAPER_CHAP = {
   26:['ch10'],27:['ch10'],
   28:['ch11'],29:['ch11'],
   30:['ch12'],31:['ch12'],
-  32:['ch13'],33:['ch13']
+  32:['ch13'],33:['ch13'],
+  34:['ch6'],       // WA3 Booster - Cells Deep Dive
+  35:['ch7'],       // WA3 Booster - Particulate Deep Dive
+  36:['ch6','ch7']  // WA3 Final Challenge
 };
 
 // Active chapter filter — default to Core (Ch1–8)
@@ -2140,19 +2153,28 @@ function renderDashboard() {
 function renderRadar(d){
   var el=document.getElementById('radarChart');
   if(!el) return;
-  var N=CH_META.length;
+  // Filter CH_META based on dropdown selection
+  var sel = document.getElementById('radarChapSelect');
+  var filter = sel ? sel.value : 'core';
+  var filteredMeta;
+  if (filter === 'core')    filteredMeta = CH_META.filter(function(c){ return c.num <= 8; });
+  else if (filter === 'ext') filteredMeta = CH_META.filter(function(c){ return c.num >= 9; });
+  else if (filter === 'wa3') filteredMeta = CH_META.filter(function(c){ return c.num === 6 || c.num === 7; });
+  else filteredMeta = CH_META;
+  var N=filteredMeta.length;
+  if(N < 2){ el.innerHTML='<div style="text-align:center;color:var(--muted);padding:1rem;font-size:.85rem">Select at least 2 chapters to show radar</div>'; return; }
   var size=380, cx=size/2, cy=size/2, R=130;
   var pts=[], labelPts=[];
   var rings=[0.2,0.4,0.6,0.8,1.0];
   var ringGrids=rings.map(function(){return [];});
   for(var i=0;i<N;i++){
     var ang=-Math.PI/2+i*2*Math.PI/N;
-    var val=chapterAvg(d,CH_META[i].id);
+    var val=chapterAvg(d,filteredMeta[i].id);
     var r=R*(val/100);
     pts.push([cx+r*Math.cos(ang), cy+r*Math.sin(ang)]);
     rings.forEach(function(rv,ri){ringGrids[ri].push([cx+R*rv*Math.cos(ang), cy+R*rv*Math.sin(ang)]);});
     var lr=R+28;
-    labelPts.push({x:cx+lr*Math.cos(ang), y:cy+lr*Math.sin(ang), num:CH_META[i].num, title:CH_META[i].title||'', val:Math.round(val)});
+    labelPts.push({x:cx+lr*Math.cos(ang), y:cy+lr*Math.sin(ang), num:filteredMeta[i].num, title:filteredMeta[i].title||'', val:Math.round(val)});
   }
   function poly(arr){return arr.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ');}
   var svg='<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="max-width:100%;overflow:visible">';
