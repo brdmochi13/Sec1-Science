@@ -2088,10 +2088,9 @@ function emaUpdate(d, skill, correct) {
 }
 function getEmaSkill(d, skill) {
   var sk = canonSkill(skill);
-  // First try d.ema (pre-calculated EMA)
+  // Prefer EMA (smooth, recent-weighted)
   if (d.ema && d.ema[sk] !== undefined) return d.ema[sk];
-  // Fall back to calculating from d.skills [attempts, correct]
-  // Also check aliased versions — e.g. 'Elements/Mixtures' stored before fix
+  // Fall back to cumulative ratio from d.skills
   var keys = [sk, skill];
   for (var ki=0; ki<keys.length; ki++) {
     if (d.skills && d.skills[keys[ki]]) {
@@ -2101,7 +2100,7 @@ function getEmaSkill(d, skill) {
       if (attempts > 0) return Math.round((correct / attempts) * 100);
     }
   }
-  return 0;
+  return 0; // no data yet
 }
 function getWeakSkillsEma(d) {
   return SKILL_KEYS.slice().sort(function(a,b){ return getEmaSkill(d,a)-getEmaSkill(d,b); });
@@ -3836,11 +3835,18 @@ function submitPaper(pidx) {
     uid: getUID()
   });
   // Update skills from Section A
+  var EMA_ALPHA = 0.4;
+  if (!d.ema) d.ema = {};
   p.secA.forEach(function(q,qi){
     var sk=canonSkill(q.skill);
     if (!d.skills[sk]) d.skills[sk]=[0,0];
     d.skills[sk][0]++;
-    if (ps.secA[qi]===1) d.skills[sk][1]++;
+    var correct = (ps.secA[qi]===1) ? 1 : 0;
+    d.skills[sk][1] += correct;
+    // Update EMA per question (each question = mini session)
+    var qPct = correct * 100;
+    if (d.ema[sk] === undefined) d.ema[sk] = qPct;
+    else d.ema[sk] = Math.round(EMA_ALPHA * qPct + (1-EMA_ALPHA) * d.ema[sk]);
   });
   saveData(d);
 
@@ -6136,14 +6142,30 @@ function generateOneAIQuestion(cb, topicOverride, typeOverride) {
 
 // ── Save QF session to Firebase ──────────────────────────────────
 function saveQFSession(pct, skillTally) {
-  // Update local skill data
+  var EMA_ALPHA = 0.4; // 40% weight to latest session, 60% to history
   var d = loadData();
+  if (!d.ema) d.ema = {};
+
   Object.keys(skillTally).forEach(function(sk) {
-    var csk = canonSkill(sk); // normalise to CH_META key
+    var csk = canonSkill(sk);
+    var t = skillTally[sk][0]; // attempts this session
+    var r = skillTally[sk][1]; // correct this session
+    if (t === 0) return;
+    var sessionPct = Math.round((r / t) * 100);
+
+    // Update cumulative skills tally (for reference)
     if (!d.skills[csk]) d.skills[csk] = [0,0];
-    d.skills[csk][0] += skillTally[sk][0];
-    d.skills[csk][1] += skillTally[sk][1];
+    d.skills[csk][0] += t;
+    d.skills[csk][1] += r;
+
+    // Update EMA — this is what the radar reads
+    if (d.ema[csk] === undefined) {
+      d.ema[csk] = sessionPct; // first session: set directly
+    } else {
+      d.ema[csk] = Math.round(EMA_ALPHA * sessionPct + (1 - EMA_ALPHA) * d.ema[csk]);
+    }
   });
+
   saveData(d);
   // Re-render dashboard so radar updates immediately
   if (typeof renderDashboard === 'function') renderDashboard();
@@ -6417,11 +6439,6 @@ function refreshStudyNotes() {
 
 export default {
   async fetch(request, env) {
-    return new Response(HTML, {
-      headers: {
-        'Content-Type': 'text/html;charset=UTF-8',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-      }
-    });
+    return new Response(HTML, {'Content-Type':'text/html;charset=UTF-8','Cache-Control':'no-cache'});
   }
 };
