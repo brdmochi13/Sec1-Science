@@ -2032,6 +2032,31 @@ function renderEOYBanner() {
   }
 }
 
+// Map all QF/paper skill tags → canonical CH_META skill key
+var SKILL_ALIAS = {
+  'Elements/Mixtures':    'Chemical Properties',
+  'Elements & Mixtures':  'Chemical Properties',
+  'Elements':             'Chemical Properties',
+  'Mixtures':             'Chemical Properties',
+  'Separation':           'Separation Techniques',
+  'Scientific Method':    'Scientific Endeavour',
+  'Sci Method':           'Scientific Endeavour',
+  'Measurement':          'Physical Properties',
+  'Density':              'Physical Properties',
+  'Light':                'Ray Model of Light',
+  'Atoms':                'Atoms & Molecules',
+  'Molecules':            'Atoms & Molecules',
+  'Particles':            'Particulate Matter',
+  'Particulate':          'Particulate Matter',
+  'Body Systems':         'Human Body Systems',
+  'Thermal':              'Thermal Energy',
+  'Electricity':          'Electricity & Circuits',
+  'Forces':               'Forces & Motion',
+  'Diversity':            'Diversity of Life'
+};
+// Canonicalise a skill tag to its CH_META key
+function canonSkill(sk) { return SKILL_ALIAS[sk] || sk; }
+
 var CH_META=[
   {id:'ch1', num:1, title:'Scientific Endeavour', short:'Sci Method',   skill:'Scientific Endeavour'},
   {id:'ch2', num:2, title:'Physical Properties',  short:'Phys Prop',    skill:'Physical Properties'},
@@ -2062,16 +2087,20 @@ function emaUpdate(d, skill, correct) {
   return d;
 }
 function getEmaSkill(d, skill) {
+  var sk = canonSkill(skill);
   // First try d.ema (pre-calculated EMA)
-  if (d.ema && d.ema[skill] !== undefined) return d.ema[skill];
+  if (d.ema && d.ema[sk] !== undefined) return d.ema[sk];
   // Fall back to calculating from d.skills [attempts, correct]
-  if (d.skills && d.skills[skill]) {
-    var s = d.skills[skill];
-    var attempts = s[0] || 0;
-    var correct  = s[1] || 0;
-    if (attempts > 0) return Math.round((correct / attempts) * 100);
+  // Also check aliased versions — e.g. 'Elements/Mixtures' stored before fix
+  var keys = [sk, skill];
+  for (var ki=0; ki<keys.length; ki++) {
+    if (d.skills && d.skills[keys[ki]]) {
+      var s = d.skills[keys[ki]];
+      var attempts = parseInt(s[0]) || 0;
+      var correct  = parseInt(s[1]) || 0;
+      if (attempts > 0) return Math.round((correct / attempts) * 100);
+    }
   }
-  // No data at all for this chapter — return 0 (not 50, which is misleading)
   return 0;
 }
 function getWeakSkillsEma(d) {
@@ -3808,7 +3837,7 @@ function submitPaper(pidx) {
   });
   // Update skills from Section A
   p.secA.forEach(function(q,qi){
-    var sk=q.skill;
+    var sk=canonSkill(q.skill);
     if (!d.skills[sk]) d.skills[sk]=[0,0];
     d.skills[sk][0]++;
     if (ps.secA[qi]===1) d.skills[sk][1]++;
@@ -6110,11 +6139,14 @@ function saveQFSession(pct, skillTally) {
   // Update local skill data
   var d = loadData();
   Object.keys(skillTally).forEach(function(sk) {
-    if (!d.skills[sk]) d.skills[sk] = [0,0];
-    d.skills[sk][0] += skillTally[sk][0];
-    d.skills[sk][1] += skillTally[sk][1];
+    var csk = canonSkill(sk); // normalise to CH_META key
+    if (!d.skills[csk]) d.skills[csk] = [0,0];
+    d.skills[csk][0] += skillTally[sk][0];
+    d.skills[csk][1] += skillTally[sk][1];
   });
   saveData(d);
+  // Re-render dashboard so radar updates immediately
+  if (typeof renderDashboard === 'function') renderDashboard();
 
   if (USE_FIREBASE && db && currentUser) {
     db.collection('qf_sessions').add({
