@@ -2127,17 +2127,17 @@ function getEmaSkill(d, skill) {
   var sk = canonSkill(skill);
   // Prefer EMA (smooth, recent-weighted)
   if (d.ema && d.ema[sk] !== undefined) return d.ema[sk];
-  // Fall back to cumulative ratio from d.skills
+  // Fall back to conservative estimate from d.skills (60% of raw ratio)
   var keys = [sk, skill];
   for (var ki=0; ki<keys.length; ki++) {
     if (d.skills && d.skills[keys[ki]]) {
       var s = d.skills[keys[ki]];
       var attempts = parseInt(s[0]) || 0;
       var correct  = parseInt(s[1]) || 0;
-      if (attempts > 0) return Math.round((correct / attempts) * 100);
+      if (attempts >= 5) return Math.round((correct / attempts) * 60);
     }
   }
-  return 0; // no data yet
+  return 0; // no data yet — chapter not attempted
 }
 function getWeakSkillsEma(d) {
   return SKILL_KEYS.slice().sort(function(a,b){ return getEmaSkill(d,a)-getEmaSkill(d,b); });
@@ -2193,15 +2193,27 @@ function loadDataFromFirebase() {
           if (merged.ema[k] === undefined) merged.ema[k] = local.ema[k];
         });
       }
+      // If all EMA values are suspiciously high (>=90%), they were set by old formula
+      // Reset them so new conservative formula starts fresh
+      var emaVals = Object.values(merged.ema || {});
+      var allHigh = emaVals.length > 0 && emaVals.every(function(v){ return parseInt(v)||0 >= 90; });
+      if (allHigh) {
+        console.log('Detected inflated EMA — resetting for recalculation');
+        merged.ema = {};
+      }
       // Bootstrap EMA from skills ratio if ema is still empty
+      // Apply 60% factor — historical data includes easy/repeated QF questions
+      // This gives a conservative starting point that requires real work to improve
       if (Object.keys(merged.ema).length === 0 && merged.skills) {
         Object.keys(merged.skills).forEach(function(sk) {
           var csk = canonSkill(sk);
           var s = merged.skills[sk];
           var a = parseInt(s[0])||0, c = parseInt(s[1])||0;
-          if (a > 0) merged.ema[csk] = Math.round(c/a*100);
+          if (a >= 5) { // only count if at least 5 questions attempted
+            merged.ema[csk] = Math.round((c/a) * 60); // 60% of raw ratio
+          }
         });
-        console.log('Bootstrapped EMA from skills data');
+        console.log('Bootstrapped EMA (conservative) from skills data');
       }
       localStorage.setItem(STORAGE_KEY + '_' + getUID(), JSON.stringify(merged));
       renderDashboard();
@@ -2323,7 +2335,8 @@ function renderRadar(d){
   });
   var avg=Math.round(pts.reduce(function(s,p,i){return s+labelPts[i].val;},0)/N);
   var hasAnyData = labelPts.some(function(p){ return p.val > 0; });
-  var avgCol=avg>=75?'#1a6b3c':avg>=55?'#b5590a':'#b91c1c';
+  // Colour thresholds match new scoring: 80%+ = strong, 60%+ = good, 40%+ = developing
+  var avgCol = avg>=80?'#1a6b3c':avg>=60?'#ca8a04':avg>=40?'#b5590a':'#b91c1c';
   var avgLabel = hasAnyData ? avg+'%' : '--';
   svg+='<circle cx="'+cx+'" cy="'+cy+'" r="24" fill="white" stroke="#e8e2d8" stroke-width="1.5"/>';
   svg+='<text x="'+cx+'" y="'+(cy-4)+'" font-size="13" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="'+avgCol+'">'+avgLabel+'</text>';
@@ -2339,8 +2352,8 @@ function renderChapterChips(d){
   var html='';
   CH_META.forEach(function(c){
     var v=chapterAvg(d,c.id);
-    var col=v>=75?'#1a6b3c':v>=55?'#b5590a':'#b91c1c';
-    var bg=v>=75?'rgba(26,107,60,.10)':v>=55?'rgba(181,89,10,.10)':'rgba(185,28,28,.10)';
+    var col=v>=80?'#1a6b3c':v>=60?'#ca8a04':v>=40?'#b5590a':'#b91c1c';
+    var bg=v>=80?'rgba(26,107,60,.10)':v>=60?'rgba(202,138,4,.10)':v>=40?'rgba(181,89,10,.10)':'rgba(185,28,28,.10)';
     var vLabel = v > 0 ? Math.round(v)+'%' : '—';
     html+='<div style="display:flex;align-items:center;gap:.3rem;padding:.25rem .6rem;border-radius:99px;border:1.5px solid '+col+';background:'+bg+'">'+
       '<span style="font-size:.7rem;font-weight:600;color:'+col+'">'+(c.short||('Ch'+c.num+': '+c.title))+'</span>'+
@@ -3918,10 +3931,15 @@ function submitPaper(pidx) {
     d.skills[sk][0]++;
     var correct = (ps.secA[qi]===1) ? 1 : 0;
     d.skills[sk][1] += correct;
-    // Update EMA per question (each question = mini session)
+    // Update EMA per question — papers are authoritative (can go above 80%)
+    // But alpha is low so it takes multiple papers to reach high scores
+    var PAPER_ALPHA = 0.3;
     var qPct = correct * 100;
-    if (d.ema[sk] === undefined) d.ema[sk] = qPct;
-    else d.ema[sk] = Math.round(EMA_ALPHA * qPct + (1-EMA_ALPHA) * d.ema[sk]);
+    if (d.ema[sk] === undefined) {
+      d.ema[sk] = Math.round(qPct * 0.5); // first question: start at 50% of score
+    } else {
+      d.ema[sk] = Math.round(PAPER_ALPHA * qPct + (1 - PAPER_ALPHA) * d.ema[sk]);
+    }
   });
   saveData(d);
 
@@ -6217,27 +6235,40 @@ function generateOneAIQuestion(cb, topicOverride, typeOverride) {
 
 // ── Save QF session to Firebase ──────────────────────────────────
 function saveQFSession(pct, skillTally) {
-  var EMA_ALPHA = 0.4; // 40% weight to latest session, 60% to history
+  // QF scoring: lower alpha (slower to climb), cap at 80%
+  // QF is practice mode — only formal papers unlock scores above 80%
+  var QF_ALPHA = 0.25;
+  var QF_CAP   = 80;
+  var MIN_QF_Q = 5; // need at least 5 questions before chapter counts
   var d = loadData();
-  if (!d.ema) d.ema = {};
+  if (!d.ema)    d.ema    = {};
+  if (!d.qfMins) d.qfMins = {}; // track minimum questions per chapter
 
   Object.keys(skillTally).forEach(function(sk) {
     var csk = canonSkill(sk);
-    var t = skillTally[sk][0]; // attempts this session
-    var r = skillTally[sk][1]; // correct this session
+    var t = skillTally[sk][0];
+    var r = skillTally[sk][1];
     if (t === 0) return;
-    var sessionPct = Math.round((r / t) * 100);
 
-    // Update cumulative skills tally (for reference)
+    // Accumulate question count
+    if (!d.qfMins[csk]) d.qfMins[csk] = 0;
+    d.qfMins[csk] += t;
+
+    // Update cumulative skills tally
     if (!d.skills[csk]) d.skills[csk] = [0,0];
     d.skills[csk][0] += t;
     d.skills[csk][1] += r;
 
-    // Update EMA — this is what the radar reads
+    // Only update EMA after minimum questions attempted
+    if (d.qfMins[csk] < MIN_QF_Q) return;
+
+    var sessionPct = Math.min(QF_CAP, Math.round((r / t) * 100));
     if (d.ema[csk] === undefined) {
-      d.ema[csk] = sessionPct; // first session: set directly
+      // First time: start conservatively at half the session score
+      d.ema[csk] = Math.round(sessionPct * 0.6);
     } else {
-      d.ema[csk] = Math.round(EMA_ALPHA * sessionPct + (1 - EMA_ALPHA) * d.ema[csk]);
+      var updated = Math.round(QF_ALPHA * sessionPct + (1 - QF_ALPHA) * d.ema[csk]);
+      d.ema[csk] = Math.min(QF_CAP, updated); // QF can never push above 80%
     }
   });
 
