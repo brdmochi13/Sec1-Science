@@ -513,6 +513,12 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
   </div>
 
   <!-- Stats Row -->
+  <div style="text-align:right;margin-bottom:.5rem">
+    <button onclick="loadDataFromFirebase();this.textContent='⟳ Syncing...';setTimeout(()=>this.textContent='☁ Sync from Cloud',3000)"
+      style="font-size:.75rem;padding:.3rem .8rem;background:none;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted);font-family:inherit">
+      ☁ Sync from Cloud
+    </button>
+  </div>
   <div class="dash-grid" id="statsGrid">
     <div class="stat-card">
       <div class="stat-label">Papers Done</div>
@@ -1747,16 +1753,31 @@ function doAuth() {
 }
 
 function migrateLegacyData() {
-  // One-time migration from old key to new key
   try {
     var uid = getUID();
     var newKey = STORAGE_KEY + '_' + uid;
     var oldKey = STORAGE_KEY_LEGACY + '_' + uid;
-    if (!localStorage.getItem(newKey) && localStorage.getItem(oldKey)) {
-      console.log('Migrating legacy localStorage data...');
-      localStorage.setItem(newKey, localStorage.getItem(oldKey));
+    var newRaw = localStorage.getItem(newKey);
+    var oldRaw = localStorage.getItem(oldKey);
+    if (!newRaw && oldRaw) {
+      // Migrate old data to new key
+      console.log('Migrating legacy data to new storage key...');
+      localStorage.setItem(newKey, oldRaw);
+    } else if (newRaw && oldRaw) {
+      // Both exist — merge, keep the richer one
+      try {
+        var nd = JSON.parse(newRaw), od = JSON.parse(oldRaw);
+        var nh = (nd.history||[]).length, oh = (od.history||[]).length;
+        if (oh > nh) {
+          // Old has more history — merge
+          nd.history = od.history;
+          Object.keys(od.skills||{}).forEach(function(k){ if(!nd.skills) nd.skills={}; if(!nd.skills[k]) nd.skills[k]=od.skills[k]; });
+          localStorage.setItem(newKey, JSON.stringify(nd));
+          console.log('Merged old history into new key');
+        }
+      } catch(e) {}
     }
-  } catch(e) {}
+  } catch(e) { console.warn('Migration error:', e); }
 }
 
 function onAuthSuccess() {
@@ -2074,19 +2095,19 @@ var SKILL_ALIAS = {
 function canonSkill(sk) { return SKILL_ALIAS[sk] || sk; }
 
 var CH_META=[
-  {id:'ch1', num:1, title:'Scientific Endeavour', short:'Sci Method',   skill:'Scientific Endeavour'},
-  {id:'ch2', num:2, title:'Physical Properties',  short:'Phys Prop',    skill:'Physical Properties'},
-  {id:'ch3', num:3, title:'Chemical Properties',  short:'Chem Prop',    skill:'Chemical Properties'},
-  {id:'ch4', num:4, title:'Separation Techniques',short:'Separation',   skill:'Separation Techniques'},
-  {id:'ch5', num:5, title:'Ray Model of Light',   short:'Light',        skill:'Ray Model of Light'},
-  {id:'ch6', num:6, title:'Cells',                short:'Cells',        skill:'Cells'},
-  {id:'ch7', num:7, title:'Particulate Matter',   short:'Particles',    skill:'Particulate Matter'},
-  {id:'ch8', num:8, title:'Atoms & Molecules',    short:'Atoms',        skill:'Atoms & Molecules'},
-  {id:'ch9', num:9, title:'Human Body Systems',   short:'Body Sys',     skill:'Human Body Systems'},
-  {id:'ch10',num:10,title:'Diversity of Life',    short:'Diversity',    skill:'Diversity of Life'},
-  {id:'ch11',num:11,title:'Thermal Energy',        short:'Thermal',      skill:'Thermal Energy'},
-  {id:'ch12',num:12,title:'Electricity & Circuits',short:'Electricity', skill:'Electricity & Circuits'},
-  {id:'ch13',num:13,title:'Forces & Motion',       short:'Forces',       skill:'Forces & Motion'}
+  {id:'ch1', num:1, title:'Scientific Endeavour',  short:'Ch1: Sci Method',   skill:'Scientific Endeavour'},
+  {id:'ch2', num:2, title:'Physical Properties',   short:'Ch2: Phys Prop',    skill:'Physical Properties'},
+  {id:'ch3', num:3, title:'Chemical Properties',   short:'Ch3: Chem Prop',    skill:'Chemical Properties'},
+  {id:'ch4', num:4, title:'Separation Techniques', short:'Ch4: Separation',   skill:'Separation Techniques'},
+  {id:'ch5', num:5, title:'Ray Model of Light',    short:'Ch5: Light',        skill:'Ray Model of Light'},
+  {id:'ch6', num:6, title:'Cells',                 short:'Ch6: Cells',        skill:'Cells'},
+  {id:'ch7', num:7, title:'Particulate Matter',    short:'Ch7: Particles',    skill:'Particulate Matter'},
+  {id:'ch8', num:8, title:'Atoms & Molecules',     short:'Ch8: Atoms',        skill:'Atoms & Molecules'},
+  {id:'ch9', num:9, title:'Human Body Systems',    short:'Ch9: Body Sys',     skill:'Human Body Systems'},
+  {id:'ch10',num:10,title:'Diversity of Life',     short:'Ch10: Diversity',   skill:'Diversity of Life'},
+  {id:'ch11',num:11,title:'Thermal Energy',         short:'Ch11: Thermal',     skill:'Thermal Energy'},
+  {id:'ch12',num:12,title:'Electricity & Circuits', short:'Ch12: Electricity', skill:'Electricity & Circuits'},
+  {id:'ch13',num:13,title:'Forces & Motion',        short:'Ch13: Forces',      skill:'Forces & Motion'}
 ];
 function chapterAvg(d, chapId){
   var m=CH_META.find(function(c){return c.id===chapId;});
@@ -2166,11 +2187,21 @@ function loadDataFromFirebase() {
         skills:  fb.skills  || local.skills  || {},
         ema:     fb.ema     || local.ema     || {}
       };
-      // If local has newer EMA keys, keep them
+      // Merge local EMA if it has newer/additional keys
       if (local.ema) {
         Object.keys(local.ema).forEach(function(k) {
           if (merged.ema[k] === undefined) merged.ema[k] = local.ema[k];
         });
+      }
+      // Bootstrap EMA from skills ratio if ema is still empty
+      if (Object.keys(merged.ema).length === 0 && merged.skills) {
+        Object.keys(merged.skills).forEach(function(sk) {
+          var csk = canonSkill(sk);
+          var s = merged.skills[sk];
+          var a = parseInt(s[0])||0, c = parseInt(s[1])||0;
+          if (a > 0) merged.ema[csk] = Math.round(c/a*100);
+        });
+        console.log('Bootstrapped EMA from skills data');
       }
       localStorage.setItem(STORAGE_KEY + '_' + getUID(), JSON.stringify(merged));
       renderDashboard();
@@ -2312,9 +2343,8 @@ function renderChapterChips(d){
     var bg=v>=75?'rgba(26,107,60,.10)':v>=55?'rgba(181,89,10,.10)':'rgba(185,28,28,.10)';
     var vLabel = v > 0 ? Math.round(v)+'%' : '—';
     html+='<div style="display:flex;align-items:center;gap:.3rem;padding:.25rem .6rem;border-radius:99px;border:1.5px solid '+col+';background:'+bg+'">'+
-      '<span style="font-size:.7rem;font-weight:700;color:'+col+'">Ch'+c.num+'</span>'+
-      '<span style="font-size:.68rem;color:var(--muted)">'+c.short+'</span>'+
-      '<span style="font-size:.7rem;font-weight:700;color:'+col+'">'+vLabel+'</span>'+
+      '<span style="font-size:.7rem;font-weight:600;color:'+col+'">'+(c.short||('Ch'+c.num+': '+c.title))+'</span>'+
+      '<span style="font-size:.7rem;font-weight:700;color:'+col+';"> '+vLabel+'</span>'+
       '</div>';
   });
   el.innerHTML=html;
