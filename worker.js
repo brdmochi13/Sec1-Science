@@ -6439,6 +6439,11 @@ function refreshStudyNotes() {
 
 export default {
   async fetch(request, env) {
-    return new Response(HTML, {'Content-Type':'text/html;charset=UTF-8','Cache-Control':'no-cache'});
+    return new Response(HTML, {
+      headers: {
+        'Content-Type': 'text/html;charset=UTF-8',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+      }
+    });
   }
 };
