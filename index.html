@@ -1746,7 +1746,22 @@ function doAuth() {
   }
 }
 
+function migrateLegacyData() {
+  // One-time migration from old key to new key
+  try {
+    var uid = getUID();
+    var newKey = STORAGE_KEY + '_' + uid;
+    var oldKey = STORAGE_KEY_LEGACY + '_' + uid;
+    if (!localStorage.getItem(newKey) && localStorage.getItem(oldKey)) {
+      console.log('Migrating legacy localStorage data...');
+      localStorage.setItem(newKey, localStorage.getItem(oldKey));
+    }
+  } catch(e) {}
+}
+
 function onAuthSuccess() {
+  migrateLegacyData();
+  if (USE_FIREBASE && db && currentUser) loadDataFromFirebase();
   document.getElementById('authOverlay').style.display = 'none';
   var role = currentRole || 'student';
   var name = currentUser.displayName || currentUser.email;
@@ -1842,7 +1857,8 @@ function doChangePwd() {
 // ══════════════════════════════════════════════════════════════════
 // DATA LAYER — Firebase + localStorage fallback
 // ══════════════════════════════════════════════════════════════════
-var STORAGE_KEY = 'sci_wa2_g2_v1';
+var STORAGE_KEY = 'sci_eoy_g3_v1'; // current key
+var STORAGE_KEY_LEGACY = 'sci_wa2_g2_v1'; // old key — migrate on load
 var SKILL_NAMES = ['Measurement','Physical Properties','Density','Elements/Mixtures','Separation','Scientific Method','Cells','Particulate Matter','Light','Energy/Forces'];
 var SKILL_KEYS = ['Scientific Endeavour','Physical Properties','Chemical Properties','Separation Techniques','Ray Model of Light','Cells','Particulate Matter','Atoms & Molecules'];
 // Chapter metadata for radar chart — 1 EMA skill per chapter
@@ -2126,22 +2142,51 @@ function saveData(d) {
 
 function saveDataToFirebase(d) {
   if (!db || !currentUser) return;
-  db.collection('progress').doc(getUID()).set({
-    history: d.history,
-    skills: d.skills,
+  var payload = {
+    history:   d.history   || [],
+    skills:    d.skills    || {},
+    ema:       d.ema       || {},
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-  }).catch(function(e) { console.error('Firebase save error:', e); });
+  };
+  db.collection('progress').doc(getUID()).set(payload)
+    .catch(function(e) { console.error('Firebase save error:', e); });
 }
 
 function loadDataFromFirebase() {
   if (!db || !currentUser) return;
   db.collection('progress').doc(getUID()).get().then(function(doc) {
     if (doc.exists) {
-      var d = doc.data();
-      localStorage.setItem(STORAGE_KEY + '_' + getUID(), JSON.stringify(d));
+      var fb = doc.data();
+      // Merge with local — take whichever has more history
+      var local = loadData();
+      var fbHist  = fb.history  || [];
+      var locHist = local.history || [];
+      var merged = {
+        history: fbHist.length >= locHist.length ? fbHist : locHist,
+        skills:  fb.skills  || local.skills  || {},
+        ema:     fb.ema     || local.ema     || {}
+      };
+      // If local has newer EMA keys, keep them
+      if (local.ema) {
+        Object.keys(local.ema).forEach(function(k) {
+          if (merged.ema[k] === undefined) merged.ema[k] = local.ema[k];
+        });
+      }
+      localStorage.setItem(STORAGE_KEY + '_' + getUID(), JSON.stringify(merged));
+      renderDashboard();
+    } else {
+      // No Firestore doc yet — push local data up
+      var local = loadData();
+      if ((local.history && local.history.length > 0) ||
+          (local.ema && Object.keys(local.ema).length > 0)) {
+        saveDataToFirebase(local);
+      }
       renderDashboard();
     }
-  }).catch(function(e) { console.warn('Firebase load error:', e); });
+  }).catch(function(e) {
+    console.warn('Firebase load error:', e.message);
+    renderDashboard(); // still render from local
+  });
 }
 
 function flash(cls) {
