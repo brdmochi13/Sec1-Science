@@ -387,7 +387,8 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 </style>
 
 <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 </head>
@@ -1716,9 +1717,9 @@ function doAuth() {
 function onAuthSuccess() {
   document.getElementById('authOverlay').style.display = 'none';
   var role = currentRole || 'student';
-  var name = currentUser.displayName || currentUser.email;
+  var name = currentUser.displayName || currentUser.demoEmail || (currentUser.email && currentUser.email.split('@')[0]) || 'Student';
   var badge = document.getElementById('roleBadge');
-  badge.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+  if (badge) badge.textContent = role.charAt(0).toUpperCase() + role.slice(1);
   badge.className = 'role-badge role-' + role;
   badge.style.display = 'inline-flex';
   document.getElementById('userDisplayName').textContent = 'Hi, ' + name;
@@ -1743,7 +1744,27 @@ function onAuthSuccess() {
     var akb=document.getElementById('btnAnswerKey');
     if(akb) akb.style.display='inline-block';
   }
-  if (USE_FIREBASE) loadDataFromFirebase();
+  if (USE_FIREBASE) {
+        loadDataFromFirebase();
+        // Sync Firestore → localStorage on login
+        setTimeout(function() {
+          if (db && currentUser && typeof loadData === 'function') {
+            db.collection('progress').doc(getUID ? getUID() : currentUser.uid).get()
+              .then(function(doc) {
+                if (!doc.exists) return;
+                var fsData = doc.data();
+                var fsLen = (fsData.history||[]).length + (fsData.emailHistory||[]).length + Object.keys(fsData.skills||{}).length;
+                if (fsLen === 0) return;
+                var local = loadData();
+                var localLen = (local.history||[]).length + (local.emailHistory||[]).length + Object.keys(local.skills||{}).length;
+                if (fsLen > localLen) {
+                  localStorage.setItem(typeof STORE_KEY !== 'undefined' ? STORE_KEY : 'app_data', JSON.stringify(fsData));
+                  setTimeout(function(){ try { renderDashboard(); } catch(e){} try { renderAdaptivePanel(); } catch(e){} }, 400);
+                }
+              }).catch(function(){});
+          }
+        }, 1500);
+      }
 }
 
 if (USE_FIREBASE) {
