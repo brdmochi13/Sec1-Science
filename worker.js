@@ -452,6 +452,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
   <div class="logo">S1 Science <span>Mastery</span> · G3 EOY <span id="roleBadge" class="role-badge role-student" style="display:none">Student</span></div>
   <div class="top-btns" id="topBtns">
     <span id="userDisplayName" style="color:rgba(255,255,255,.5);font-size:.75rem;display:none"></span>
+    <span id="syncIndicator" style="color:rgba(255,255,255,.4);font-size:.68rem;display:none">☁</span>
     <button class="tbtn tbtn-outline" id="btnAnswerKey" onclick="openAnswerKeyModal()" style="display:none">🔐 Answer Key</button>
     <button class="tbtn tbtn-outline" id="btnBrief" onclick="openTeacherBriefModal()" style="display:none">📋 Teacher Brief</button>
     <button class="tbtn tbtn-outline" onclick="document.getElementById('pwdModal').classList.add('show')">🔑 Change Pwd</button>
