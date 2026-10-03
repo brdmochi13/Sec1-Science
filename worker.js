@@ -1791,6 +1791,7 @@ function onAuthSuccess() {
   badge.className = 'role-badge role-' + role;
   badge.style.display = 'inline-flex';
   document.getElementById('userDisplayName').textContent = 'Hi, ' + name;
+  document.getElementById('syncIndicator').style.display = 'inline';
   document.getElementById('userDisplayName').style.display = 'inline';
   // Show teacher brief only for parent/teacher
   if (role === 'parent' || role === 'teacher') {
@@ -2155,22 +2156,75 @@ function loadData() {
 
 function saveData(d) {
   try {
+    // Always save locally first (instant, never fails)
     localStorage.setItem(STORAGE_KEY + '_' + getUID(), JSON.stringify(d));
-    if (USE_FIREBASE && currentUser) saveDataToFirebase(d);
+    // Always attempt Firebase sync — don't gate on currentUser timing
+    syncToFirebase(d);
     flash('saved');
-  } catch(e) { flash('error'); }
+  } catch(e) { console.error('saveData error:', e); flash('error'); }
 }
 
-function saveDataToFirebase(d) {
-  if (!db || !currentUser) return;
+// Pending sync queue — if Firebase not ready, queue and retry
+var _syncQueue = null;
+var _syncTimer = null;
+
+function syncToFirebase(d) {
+  if (!USE_FIREBASE) return;
+  // Store latest data in queue (overwrite previous pending)
+  _syncQueue = d;
+  // Clear any pending timer and set a new one (debounce 500ms)
+  if (_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(function() {
+    _flushToFirebase();
+  }, 500);
+}
+
+function _flushToFirebase() {
+  if (!_syncQueue) return;
+  var d = _syncQueue;
+  _syncQueue = null;
+
+  // If Firebase not ready yet, retry in 3 seconds
+  if (!db || !currentUser) {
+    setTimeout(function() { syncToFirebase(d); }, 3000);
+    return;
+  }
+
+  var uid = getUID();
+  if (!uid || uid === 'anon') return;
+
   var payload = {
     history:   d.history   || [],
     skills:    d.skills    || {},
     ema:       d.ema       || {},
+    qfMins:    d.qfMins    || {},
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
-  db.collection('progress').doc(getUID()).set(payload)
-    .catch(function(e) { console.error('Firebase save error:', e); });
+
+  db.collection('progress').doc(uid).set(payload)
+    .then(function() {
+      console.log('✅ Firestore synced:', uid);
+      // Show sync indicator
+      var el = document.getElementById('syncIndicator');
+      if (el) { el.textContent = '☁ Synced'; el.style.color = '#16a34a'; }
+    })
+    .catch(function(e) {
+      console.error('Firestore sync error:', e.message);
+      // Retry once after 5 seconds
+      setTimeout(function() {
+        if (db && currentUser) {
+          db.collection('progress').doc(uid).set(payload)
+            .then(function() { console.log('✅ Firestore sync retry succeeded'); })
+            .catch(function(e2) { console.error('Firestore retry failed:', e2.message); });
+        }
+      }, 5000);
+      var el = document.getElementById('syncIndicator');
+      if (el) { el.textContent = '⚠ Sync error'; el.style.color = '#dc2626'; }
+    });
+}
+
+function saveDataToFirebase(d) {
+  syncToFirebase(d); // use the new robust sync with retry
 }
 
 function loadDataFromFirebase() {
@@ -2218,11 +2272,12 @@ function loadDataFromFirebase() {
       localStorage.setItem(STORAGE_KEY + '_' + getUID(), JSON.stringify(merged));
       renderDashboard();
     } else {
-      // No Firestore doc yet — push local data up
+      // No Firestore doc yet — push local data up immediately
       var local = loadData();
       if ((local.history && local.history.length > 0) ||
-          (local.ema && Object.keys(local.ema).length > 0)) {
-        saveDataToFirebase(local);
+          (local.ema && Object.keys(local.ema).length > 0) ||
+          (local.skills && Object.keys(local.skills).length > 0)) {
+        syncToFirebase(local);
       }
       renderDashboard();
     }
