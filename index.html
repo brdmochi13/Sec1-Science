@@ -3663,7 +3663,7 @@ function buildPaperTabs() {
     var div=document.createElement('div');
     div.id='paper_'+i;
     div.style.display=i===0?'block':'none';
-    div.innerHTML=buildPaperHTML(p,i);
+    div.innerHTML=buildPaperHTML(p,p.num);
     cont.appendChild(div);
   });
 }
@@ -3754,7 +3754,7 @@ function buildPaperHTML(p, pidx) {
 
 // ── MC PICK ──
 function pickMC(btn, pidx, qi, li) {
-  var p=PAPERS[pidx], q=p.secA[qi], ps=getPS(pidx);
+  var p=PAPERS.find(function(x){return x.num===pidx;})||PAPERS[pidx], q=p.secA[qi], ps=getPS(pidx);
   var opts=btn.parentElement.querySelectorAll('.mcopt');
   opts.forEach(function(o){o.classList.remove('ok','bad'); o.disabled=false;});
   var isRight = li===q.ans;
@@ -3884,7 +3884,7 @@ function checkSubmitReady(pidx) {
 
 // ── SUBMIT PAPER — v10: reveal answers, then Finalise saves score ──
 function submitPaper(pidx) {
-  var p=PAPERS[pidx], ps=getPS(pidx);
+  var p=PAPERS.find(function(x){return x.num===pidx;})||PAPERS[pidx], ps=getPS(pidx);
   if (ps.submitted) return;
   ps.submitted = true;
 
