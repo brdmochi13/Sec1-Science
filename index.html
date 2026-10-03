@@ -3753,8 +3753,13 @@ function buildPaperHTML(p, pidx) {
 }
 
 // ── MC PICK ──
+function getPaper(pidx) {
+  // pidx is now the paper number (p.num), not array index
+  return PAPERS.find(function(x){return x.num===pidx;}) || PAPERS[pidx] || PAPERS[0];
+}
+
 function pickMC(btn, pidx, qi, li) {
-  var p=PAPERS.find(function(x){return x.num===pidx;})||PAPERS[pidx], q=p.secA[qi], ps=getPS(pidx);
+  var p=getPaper(pidx), q=p.secA[qi], ps=getPS(pidx);
   var opts=btn.parentElement.querySelectorAll('.mcopt');
   opts.forEach(function(o){o.classList.remove('ok','bad'); o.disabled=false;});
   var isRight = li===q.ans;
@@ -3779,7 +3784,7 @@ function pickTF(btn, pidx, qi, val) {
 }
 
 function checkReadyB(pidx) {
-  var p=PAPERS[pidx], ps=getPS(pidx);
+  var p=getPaper(pidx), ps=getPS(pidx);
   var allTF = Object.keys(ps.secATF).length >= p.secB.length;
   var allReasons = p.secB.every(function(q,qi){
     var ta=document.getElementById('tf_reason_'+pidx+'_'+qi);
@@ -3791,7 +3796,7 @@ function checkReadyB(pidx) {
 }
 
 function checkReadyC(pidx) {
-  var p=PAPERS[pidx];
+  var p=getPaper(pidx);
   var allFilled = p.secC.every(function(q,qi){
     var ta=document.getElementById('sc_ans_'+pidx+'_'+qi);
     return ta && ta.value.trim().length > 3;
@@ -3803,7 +3808,7 @@ function checkReadyC(pidx) {
 
 // ── REVEAL SECTIONS ──
 function revealSection(pidx, sec) {
-  var p=PAPERS[pidx], ps=getPS(pidx);
+  var p=getPaper(pidx), ps=getPS(pidx);
   if (sec === 'B') {
     p.secB.forEach(function(q,qi){
       var fb=document.getElementById('fb_'+pidx+'_B_'+qi);
@@ -3842,7 +3847,7 @@ function setSelfMark(pidx, sec, qi, marks, btn) {
     ps.secBReasonScore[qi] = marks;
     btn.classList.add(marks===1?'sel-full':'sel-zero');
   } else {
-    var p=PAPERS[pidx], maxM=p.secC[qi].marks;
+    var p=getPaper(pidx), maxM=p.secC[qi].marks;
     ps.secCScore[qi] = marks;
     btn.classList.add(marks===maxM?'sel-full':marks>0?'sel-partial':'sel-zero');
   }
@@ -3851,7 +3856,7 @@ function setSelfMark(pidx, sec, qi, marks, btn) {
 
 // ── CHECK SUBMIT READY — v10 ──
 function checkSubmitReady(pidx) {
-  var p=PAPERS[pidx], ps=getPS(pidx);
+  var p=getPaper(pidx), ps=getPS(pidx);
   if (ps.submitted) return;
   var aCount  = Object.keys(ps.secA).length;
   var bCount  = Object.keys(ps.secATF).length;
@@ -3884,7 +3889,7 @@ function checkSubmitReady(pidx) {
 
 // ── SUBMIT PAPER — v10: reveal answers, then Finalise saves score ──
 function submitPaper(pidx) {
-  var p=PAPERS.find(function(x){return x.num===pidx;})||PAPERS[pidx], ps=getPS(pidx);
+  var p=getPaper(pidx), ps=getPS(pidx);
   if (ps.submitted) return;
   ps.submitted = true;
 
@@ -4467,7 +4472,7 @@ function autoGradeSectionC(ans, q) {
 }
 
 function finaliseScore(pidx) {
-  var p=PAPERS[pidx], ps=getPS(pidx);
+  var p=getPaper(pidx), ps=getPS(pidx);
   var secAScore=0, secBScore=0, secCScore=0;
   p.secA.forEach(function(q,qi){ secAScore+=(ps.secA[qi]===1?1:0); });
   p.secB.forEach(function(q,qi){
@@ -4557,7 +4562,7 @@ function buildAKPaperBtns(){
 }
 function renderAnswerKey(pidx){
   PAPERS.forEach(function(p,i){var b=document.getElementById('akbtn_'+i);if(!b)return;b.style.background=i===pidx?'var(--ink)':'white';b.style.color=i===pidx?'white':'var(--muted)';b.style.borderColor=i===pidx?'var(--ink)':'var(--border)';});
-  var p=PAPERS[pidx],d=loadData(),L=['A','B','C','D'],att=d.history.filter(function(h){return h.paper===p.num;}).pop();
+  var p=getPaper(pidx),d=loadData(),L=['A','B','C','D'],att=d.history.filter(function(h){return h.paper===p.num;}).pop();
   var el=document.getElementById('akContent');if(!el)return;
   var html='<div style="font-family:\'Libre Baskerville\',serif;font-weight:700;font-size:.98rem;padding-bottom:.45rem;border-bottom:2px solid #e5e7eb;margin-bottom:.7rem">'+p.title+'</div>';
   if(att){var pct=Math.round(att.score/40*100),col=pct>=90?'#065f46':pct>=70?'#92400e':'#991b1b',bg=pct>=90?'#d1fae5':pct>=70?'#fef3c7':'#fee2e2';html+='<div style="background:'+bg+';border-radius:8px;padding:.45rem .75rem;margin-bottom:.7rem;font-size:.79rem;display:flex;gap:.65rem;align-items:center;flex-wrap:wrap"><span style="font-family:\'Libre Baskerville\',serif;font-size:1.25rem;font-weight:700;color:'+col+'">'+att.score+'/40</span><span><b>Last attempt</b> · '+pct+'% · '+new Date(att.date).toLocaleDateString('en-SG',{day:'numeric',month:'short'})+'</span>'+(att.secBreakdown?'<span style="color:#6b7280;font-size:.75rem">A:'+att.secBreakdown.a+' B:'+att.secBreakdown.b+' C:'+att.secBreakdown.c+'</span>':'')+'</div>';}
@@ -5319,7 +5324,7 @@ function openHistDetail(i){
   var sc=_hSc(pct), tag=_hTag(pct);
   var dt=a._ts?new Date(a._ts).toLocaleDateString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
   var pidx=(typeof PAPERS!=='undefined')?PAPERS.findIndex(function(p){return p.num==a.paper;}):-1;
-  var paper=pidx!==-1?PAPERS[pidx]:null;
+  var paper=pidx!==-1?getPaper(pidx):null;
 
   /* ── tip engine: returns coaching tip based on context ── */
   function getTip(type, ctx){
