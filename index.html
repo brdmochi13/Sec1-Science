@@ -2199,6 +2199,7 @@ function _flushToFirebase() {
     skills:    d.skills    || {},
     ema:       d.ema       || {},
     qfMins:    d.qfMins    || {},
+    qfHistory: d.qfHistory || [],
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
@@ -2237,10 +2238,14 @@ function loadDataFromFirebase() {
       var local = loadData();
       var fbHist  = fb.history  || [];
       var locHist = local.history || [];
+      var fbQfH = fb.qfHistory || [];
+      var locQfH = local.qfHistory || [];
       var merged = {
-        history: fbHist.length >= locHist.length ? fbHist : locHist,
-        skills:  fb.skills  || local.skills  || {},
-        ema:     fb.ema     || local.ema     || {}
+        history:   fbHist.length >= locHist.length ? fbHist : locHist,
+        skills:    fb.skills    || local.skills    || {},
+        ema:       fb.ema       || local.ema       || {},
+        qfMins:    fb.qfMins    || local.qfMins    || {},
+        qfHistory: fbQfH.length >= locQfH.length ? fbQfH : locQfH
       };
       // Merge local EMA if it has newer/additional keys
       if (local.ema) {
@@ -6337,6 +6342,16 @@ function saveQFSession(pct, skillTally) {
       d.ema[csk] = Math.min(QF_CAP, updated); // QF can never push above 80%
     }
   });
+
+  // Add to qfHistory for Activity panel
+  if (!d.qfHistory) d.qfHistory = [];
+  d.qfHistory.push({
+    date: new Date().toISOString(),
+    total: Object.values(skillTally).reduce(function(s,v){return s+(v[0]||0);},0),
+    correct: Object.values(skillTally).reduce(function(s,v){return s+(v[1]||0);},0),
+    skills: Object.keys(skillTally).map(function(sk){return canonSkill(sk);})
+  });
+  if (d.qfHistory.length > 200) d.qfHistory = d.qfHistory.slice(-200);
 
   saveData(d);
   // Re-render dashboard so radar updates immediately
