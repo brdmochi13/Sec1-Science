@@ -617,34 +617,30 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
     </div>
   </div>
 
-  <!-- Smart Coach Card on Dashboard -->
+  <!-- Smart Coach -->
   <div class="card" style="grid-column:1/-1">
     <div class="card-head">
       <div class="card-letter">🧠</div>
       <div class="card-title">Smart Coach</div>
-      <span style="font-size:.72rem;color:var(--muted);margin-left:auto;padding-right:.5rem">AI-powered · uses your actual data</span>
+      <span style="font-size:.7rem;color:var(--muted);margin-left:auto">AI · live data</span>
     </div>
     <div class="card-body">
-      <!-- Persona toggle -->
-      <div style="display:flex;gap:.4rem;margin-bottom:.9rem;flex-wrap:wrap">
-        <button class="sc-persona active" onclick="setCoachPersona('student',this)" id="scP_student">👦 Student</button>
-        <button class="sc-persona" onclick="setCoachPersona('parent',this)" id="scP_parent">👨‍👩‍👦 Parent</button>
-        <button class="sc-persona" onclick="setCoachPersona('teacher',this)" id="scP_teacher">👩‍🏫 Teacher</button>
+      <div style="display:flex;gap:.4rem;margin-bottom:.75rem;flex-wrap:wrap">
+        <button id="scBtn_student" class="sc-persona active" onclick="_scSetPersona('student')">👦 Student</button>
+        <button id="scBtn_parent"  class="sc-persona"        onclick="_scSetPersona('parent')">👨‍👩‍👦 Parent</button>
+        <button id="scBtn_teacher" class="sc-persona"        onclick="_scSetPersona('teacher')">👩‍🏫 Teacher</button>
       </div>
-      <!-- Quick prompt chips -->
-      <div id="scChips" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem"></div>
-      <!-- Input row -->
+      <div id="scChips" style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.7rem"></div>
       <div style="display:flex;gap:.5rem;align-items:flex-end">
-        <textarea id="scInput" placeholder="Ask anything about Mokshith's Science progress…"
-          style="flex:1;resize:none;height:56px;padding:.5rem .7rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;background:var(--card);color:var(--ink);line-height:1.4"
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();askSmartCoach();}"></textarea>
-        <button onclick="askSmartCoach()" id="scSendBtn"
-          style="padding:.55rem 1.1rem;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;height:56px">
+        <textarea id="scInput" placeholder="Ask anything about Science progress..."
+          style="flex:1;resize:none;height:52px;padding:.45rem .65rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.84rem;background:var(--card);color:var(--ink);line-height:1.4"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();_scSubmit();}"></textarea>
+        <button onclick="_scSubmit()" id="scSendBtn"
+          style="height:52px;padding:.5rem 1rem;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:.86rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">
           Ask →
         </button>
       </div>
-      <!-- Response area -->
-      <div id="scOut" style="margin-top:.75rem;min-height:2rem"></div>
+      <div id="scOut" style="margin-top:.65rem;min-height:1rem"></div>
     </div>
   </div>
 
@@ -1817,7 +1813,7 @@ function onAuthSuccess() {
   badge.style.display = 'inline-flex';
   document.getElementById('userDisplayName').textContent = 'Hi, ' + name;
   document.getElementById('syncIndicator').style.display = 'inline';
-  if (document.getElementById('scChips')) renderCoachChips();
+  if (document.getElementById('scChips')) { _scRenderChips(); }
   document.getElementById('userDisplayName').style.display = 'inline';
   // Show teacher brief only for parent/teacher
   if (role === 'parent' || role === 'teacher') {
@@ -6630,226 +6626,222 @@ function refreshStudyNotes() {
       + '<div style="font-size:.83rem;font-weight:700;color:var(--ink);margin-bottom:.3rem">Key concept:</div>'
       + '<div style="font-size:.82rem;line-height:1.6;background:#f9fafb;border-radius:6p
 // ═══════════════════════════════════════════════════════════════════
-// SMART COACH
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// SMART COACH — Clean rewrite
+// ═══════════════════════════════════════════════════════════════
 var _scPersona = 'student';
+var _scBusy = false;
 
-var SC_CHIPS = {
+var _SC_CHIPS = {
   student: [
-    {label:'📊 How am I doing?',        q:'Give me a quick summary of how I am doing in Science based on my actual scores.'},
-    {label:'😰 What should I study now?',q:'Which chapter should I study right now to improve the most before the EOY exam?'},
-    {label:'📈 +10 marks plan',          q:'Give me a specific plan to improve my Science score by 10 marks.'},
-    {label:'📈 +15 marks plan',          q:'Give me a specific plan to improve my Science score by 15 marks.'},
-    {label:'📈 +20 marks plan',          q:'Give me a specific plan to improve my Science score by 20 marks.'},
-    {label:'📈 +30 marks plan',          q:'Give me a specific plan to improve my Science score by 30 marks.'},
-    {label:'🔴 My weakest chapter',      q:'What is my weakest chapter and can you explain the key concepts I need to know?'},
-    {label:'⚡ Quick quiz me',           q:'Give me 3 quick questions on my weakest chapter right now.'},
-    {label:'🏆 Am I ready for EOY?',     q:'Based on my current scores, am I ready for the EOY exam? What is my estimated score?'}
+    ['📊 How am I doing?',        'Summarise my current Science progress. Which chapters am I strong in and which need work?'],
+    ['🎯 What to study now?',     'Which chapter should I focus on right now to improve the most before the EOY exam? Give me 3 specific things to do.'],
+    ['📈 Get 10 more marks',      'Give me a specific actionable plan to improve my Science EOY score by 10 marks.'],
+    ['📈 Get 20 more marks',      'Give me a specific actionable plan to improve my Science EOY score by 20 marks.'],
+    ['📈 Get 30 more marks',      'Give me a specific actionable plan to improve my Science EOY score by 30 marks.'],
+    ['🔴 My weakest chapter',     'What is my weakest chapter? Explain the key concepts I need to know and give me 2 practice questions.'],
+    ['⚡ Quiz me now',            'Give me 3 quick MCQ questions on my weakest chapter right now.'],
+    ['🏆 Am I ready for EOY?',    'Based on my current EMA scores and practice history, what is my estimated EOY percentage and grade? Be honest.']
   ],
   parent: [
-    {label:'📋 Progress summary',        q:'Summarise Mokshith Science progress for me as a parent. Be honest and clear.'},
-    {label:'🎯 Focus areas tonight',     q:'What specific topics should Mokshith practise tonight to make the most progress?'},
-    {label:'📅 Weekly plan',             q:'Create a 7-day study plan for Mokshith based on his weakest chapters.'},
-    {label:'⚠️ Chapters needing help',  q:'Which chapters is Mokshith struggling with the most and why?'},
-    {label:'📈 +10 marks plan',          q:'Give me a parent plan for Mokshith to improve his Science score by 10 marks.'},
-    {label:'📈 +20 marks plan',          q:'Give me a parent plan for Mokshith to improve his Science score by 20 marks.'},
-    {label:'🏆 EOY readiness',           q:'Is Mokshith on track for the EOY Science exam? What grade can he realistically achieve?'},
-    {label:'💡 How can I help?',         q:'As a parent, what are the most effective ways I can help Mokshith improve in Science?'}
+    ['📋 Progress report',        'Give me an honest parent-friendly summary of Mokshith Science progress. Include what is going well and what needs attention.'],
+    ['🎯 Focus for tonight',      'What specific topics should Mokshith practise tonight to make the most improvement?'],
+    ['📅 7-day study plan',       'Create a practical 7-day study plan for Mokshith based on his weakest Science chapters.'],
+    ['⚠️  Chapters needing help', 'Which Science chapters is Mokshith struggling with and what are the specific gaps?'],
+    ['📈 Improve by 10 marks',    'What is a realistic plan for Mokshith to improve his Science score by 10 marks before EOY?'],
+    ['📈 Improve by 20 marks',    'What is a realistic plan for Mokshith to improve his Science score by 20 marks before EOY?'],
+    ['🏆 EOY readiness',          'Is Mokshith on track for EOY Science exam? What grade is realistic and what is the main risk?'],
+    ['💡 How can I help?',        'As a parent, what are the most effective ways I can help Mokshith improve in Science at home?']
   ],
   teacher: [
-    {label:'📊 Full data report',        q:'Give me a detailed data-driven report on Mokshith's Science performance across all chapters.'},
-    {label:'📉 Chapter gap analysis',    q:'Identify the specific chapter gaps and skill deficits in Mokshith's Science performance.'},
-    {label:'🎯 Intervention priorities', q:'Which chapters need immediate intervention? Rank by priority with recommended actions.'},
-    {label:'📅 Remediation plan',        q:'Create a structured 4-week remediation plan targeting Mokshith's weakest chapters.'},
-    {label:'📈 +10 marks',               q:'From a teaching perspective, what is the most effective strategy to improve Mokshith's score by 10 marks?'},
-    {label:'📈 +20 marks',               q:'From a teaching perspective, what is the most effective strategy to improve Mokshith's score by 20 marks?'},
-    {label:'🏆 EOY prognosis',           q:'What is your prognosis for Mokshith's EOY Science exam based on current performance data?'},
-    {label:'📝 Section C weakness',      q:'Analyse Mokshith's Section C performance. What specific writing skills need development?'}
+    ['📊 Full data report',       'Give me a data-driven report on Mokshith Science performance across all 13 chapters with EMA scores.'],
+    ['📉 Chapter gap analysis',   'Identify specific chapter gaps and skill deficits in Mokshith Science performance ranked by priority.'],
+    ['🎯 Intervention needed',    'Which chapters need immediate teaching intervention? Rank by priority with recommended classroom strategies.'],
+    ['📅 Remediation plan',       'Create a structured 4-week remediation plan targeting the weakest chapters in Mokshith Science performance.'],
+    ['📈 Strategy for +10 marks', 'From a teaching perspective, what is the most effective strategy to improve Mokshith score by 10 marks?'],
+    ['📈 Strategy for +20 marks', 'From a teaching perspective, what is the most effective strategy to improve Mokshith score by 20 marks?'],
+    ['🏆 EOY prognosis',          'What is your prognosis for Mokshith EOY Science exam based on current EMA performance data?'],
+    ['📝 Section C weakness',     'Analyse Mokshith Section C readiness. What specific free-response writing skills need development?']
   ]
 };
 
-function setCoachPersona(persona, btn) {
+function _scSetPersona(persona) {
   _scPersona = persona;
-  document.querySelectorAll('.sc-persona').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-  renderCoachChips();
-  document.getElementById('scInput').placeholder =
-    persona === 'parent'  ? 'Ask about progress, study plans, or how to help...' :
-    persona === 'teacher' ? 'Ask for data reports, gap analysis, remediation plans...' :
-                            'Ask anything about your Science progress...';
-  document.getElementById('scOut').innerHTML = '';
+  ['student','parent','teacher'].forEach(function(p) {
+    var btn = document.getElementById('scBtn_' + p);
+    if (btn) btn.className = 'sc-persona' + (p === persona ? ' active' : '');
+  });
+  var inp = document.getElementById('scInput');
+  if (inp) {
+    inp.placeholder = persona === 'parent' ? 'Ask about progress, study plans, how to help at home...'
+      : persona === 'teacher' ? 'Ask for gap analysis, remediation plans, data reports...'
+      : 'Ask anything about your Science progress...';
+  }
+  _scRenderChips();
+  var out = document.getElementById('scOut');
+  if (out) out.innerHTML = '';
 }
 
-function renderCoachChips() {
-  var chips = SC_CHIPS[_scPersona] || SC_CHIPS.student;
+function _scRenderChips() {
   var container = document.getElementById('scChips');
+  if (!container) return;
   container.innerHTML = '';
-  chips.forEach(function(c) {
+  var chips = _SC_CHIPS[_scPersona] || _SC_CHIPS.student;
+  chips.forEach(function(pair) {
+    var label = pair[0], question = pair[1];
     var btn = document.createElement('button');
     btn.className = 'sc-chip';
-    btn.textContent = c.label;
-    btn.setAttribute('data-q', c.q);
-    btn.onclick = function() { askSmartCoachQ(this.getAttribute('data-q')); };
+    btn.textContent = label;
+    btn.onclick = (function(q) { return function() { _scAsk(q); }; })(question);
     container.appendChild(btn);
   });
 }
 
-function buildCoachContext() {
+function _scBuildContext() {
   var d = loadData();
-  var h = d.history || [];
   var ema = d.ema || {};
   var skills = d.skills || {};
   var qfMins = d.qfMins || {};
-  
-  // Build chapter summary
-  var chapterLines = CH_META.map(function(c) {
-    var emaScore = ema[c.skill] !== undefined ? Math.round(ema[c.skill]) : null;
+  var history = d.history || [];
+
+  var lines = CH_META.map(function(c) {
+    var e = ema[c.skill];
     var s = skills[c.skill] || [0,0];
-    var attempts = parseInt(s[0])||0;
-    var correct  = parseInt(s[1])||0;
-    var rawPct   = attempts > 0 ? Math.round(correct/attempts*100) : null;
-    var qfCount  = qfMins[c.skill] || 0;
-    var status   = emaScore !== null ? (emaScore>=80?'Strong':emaScore>=60?'Good':emaScore>=40?'Developing':'Needs Work') : 'Not started';
-    return 'Ch'+c.num+' '+c.title+': EMA='+( emaScore!==null ? emaScore+'%' : '--')+
-           (rawPct!==null?' RawAcc='+rawPct+'%':'')+(qfCount?' QF='+qfCount+'q':'')+' ['+status+']';
+    var att = parseInt(s[0])||0;
+    var cor = parseInt(s[1])||0;
+    var raw = att > 0 ? Math.round(cor/att*100) : null;
+    var qf  = qfMins[c.skill] || 0;
+    var status = e != null ? (e>=80?'Strong':e>=60?'Good':e>=40?'Developing':'Needs Work') : 'Not started';
+    return 'Ch'+c.num+' '+c.title+
+      ': EMA='+(e!=null?Math.round(e)+'%':'--')+
+      (raw!=null?' Raw='+raw+'%':'')+
+      (qf?' QF='+qf+'q':'')+' ['+status+']';
   }).join('\n');
-  
-  // Recent papers
-  var recentPapers = h.slice(-5).reverse().map(function(p){
-    return 'Paper '+p.paper+': '+p.score+'/40 on '+(p.date||'').slice(0,10);
+
+  var recent = history.slice(-5).reverse().map(function(h) {
+    return 'Paper '+h.paper+': '+(h.score||0)+' pts ('+((h.date||'').slice(0,10))+')';
   }).join(', ') || 'None yet';
-  
-  // Today QF
-  var today = new Date().toISOString().slice(0,10);
-  var todayQF = (d.qfHistory||[]).filter(function(q){ return (q.date||'').slice(0,10) === today; });
-  var todayQs = todayQF.reduce(function(s,q){return s+(q.total||0);},0);
-  var todayCorrect = todayQF.reduce(function(s,q){return s+(q.correct||0);},0);
-  
-  return 'STUDENT: Mokshith (Sec 1, G3 stream, Singapore, age 13)\n'+
-         'EXAM: G3 Science EOY — 100 marks (Sec A: 30 MCQ, Sec B: 40 Structured, Sec C: 30 Free Response)\n'+
-         'PAPERS COMPLETED: '+h.length+'\nRECENT PAPERS: '+recentPapers+'\n'+
-         'TODAY QF: '+todayQs+' questions ('+todayCorrect+' correct)\n\n'+
-         'CHAPTER MASTERY (EMA scores):\n'+chapterLines;
+
+  var todayStr = new Date().toISOString().slice(0,10);
+  var todayQF = (d.qfHistory||[]).filter(function(q){ return (q.date||'').slice(0,10)===todayStr; });
+  var todayQ = todayQF.reduce(function(s,q){return s+(q.total||0);},0);
+  var todayC = todayQF.reduce(function(s,q){return s+(q.correct||0);},0);
+
+  return 'STUDENT: Mokshith (Sec 1, G3, Singapore)\n'+
+    'EOY EXAM: 100 marks (Sec A: 30 MCQ, Sec B: 40 Structured, Sec C: 30 Free Response)\n'+
+    'PAPERS DONE: '+history.length+'\nRECENT: '+recent+'\n'+
+    'TODAY QF: '+todayQ+' questions ('+todayC+' correct)\n\n'+
+    'CHAPTER MASTERY (EMA scores):\n'+lines;
 }
 
-function getPersonaInstruction() {
-  if (_scPersona === 'parent') return 'You are speaking to Mokshith's parent. Be clear, supportive, and practical. Use simple language. Focus on actionable steps and honest assessment.';
-  if (_scPersona === 'teacher') return 'You are speaking to Mokshith's Science teacher. Be data-driven, professional, and specific. Reference chapter numbers, mark allocations, and teaching strategies.';
-  return 'You are speaking directly to Mokshith (13 years old). Be encouraging, friendly, and motivating. Use simple language. Celebrate his progress and make studying feel achievable.';
+function _scAsk(question) {
+  if (_scBusy) return;
+  var inp = document.getElementById('scInput');
+  if (inp) inp.value = question || '';
+  _scSubmit();
 }
 
-function askSmartCoachQ(question) {
-  document.getElementById('scInput').value = question;
-  askSmartCoach();
-}
-
-function askSmartCoach() {
-  var input = document.getElementById('scInput');
-  var q = input.value.trim();
-  if (!q) return;
-  
+function _scSubmit() {
+  if (_scBusy) return;
+  var inp = document.getElementById('scInput');
   var out = document.getElementById('scOut');
   var sendBtn = document.getElementById('scSendBtn');
-  
-  // Show thinking state
+  if (!inp || !out) return;
+
+  var q = (inp.value || '').trim();
+  if (!q) return;
+
+  _scBusy = true;
+  if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = '...'; }
   out.innerHTML = '<div class="sc-bubble thinking">🧠 Smart Coach is thinking...</div>';
-  sendBtn.disabled = true;
-  sendBtn.textContent = '...';
-  input.value = '';
-  
-  // Build full prompt
-  var context = buildCoachContext();
-  var personaInstr = getPersonaInstruction();
-  
+  inp.value = '';
+
+  var personaInstr = _scPersona === 'parent'
+    ? 'You are speaking to Mokshith parent. Be clear, honest and practical. Simple language.'
+    : _scPersona === 'teacher'
+    ? 'You are speaking to Mokshith Science teacher. Be data-driven and professional.'
+    : 'You are speaking directly to Mokshith (age 13). Be friendly, encouraging and motivating.';
+
   var prompt = personaInstr + '\n\n' +
-    'Here is the student's current Science performance data:\n' + context + '\n\n' +
-    'USER QUESTION: ' + q + '\n\n' +
-    'Instructions: Answer helpfully and specifically based on the actual data provided. ' +
-    'Be concise but thorough. Use bullet points for plans. ' +
-    'Reference specific chapters by name (e.g. "Ch7: Particulate Matter"). ' +
-    'If recommending study order, justify it with the data. ' +
-    'Format with bold headings where helpful. Max 300 words.';
-  
-  // Use existing AI infrastructure
+    'Student Science performance data:\n' + _scBuildContext() + '\n\n' +
+    'Question: ' + q + '\n\n' +
+    'Answer based on the actual data. Be specific and concise. Use bullet points for plans. ' +
+    'Reference chapter names (e.g. Ch7: Particulate Matter). Max 250 words.';
+
   var conf = getApiConfig();
   var p = conf.provider;
   var apiKey = conf.keys[p];
-  
+
   if (!apiKey && p !== 'local') {
-    out.innerHTML = '<div class="sc-bubble" style="border-color:#fca5a5;background:#fef2f2">⚠️ No AI key configured. Please set your API key in the <strong>AI Practice</strong> tab first, then come back.</div>';
-    sendBtn.disabled = false;
-    sendBtn.textContent = 'Ask →';
-    return;
+    out.innerHTML = '<div class="sc-bubble" style="border-left:3px solid #f87171;padding-left:.75rem">'+
+      'No AI key found. Go to the <strong>AI Practice</strong> tab, enter your API key, then return here.</div>';
+    _scDone(sendBtn); return;
   }
-  
-  var url, headers, body, extractContent;
-  
+
+  var url, headers, body, extract;
   if (p === 'anthropic') {
     url = 'https://api.anthropic.com/v1/messages';
-    headers = {'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
-    body = JSON.stringify({model:'claude-3-5-sonnet-20241022',max_tokens:1000,messages:[{role:'user',content:prompt}]});
-    extractContent = function(d){ return d.content&&d.content[0]?d.content[0].text:null; };
+    headers = {'Content-Type':'application/json','x-api-key':apiKey,
+      'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+    body = JSON.stringify({model:'claude-sonnet-4-6',max_tokens:800,
+      messages:[{role:'user',content:prompt}]});
+    extract = function(d){ return d.content&&d.content[0]?d.content[0].text:null; };
   } else if (p === 'gemini') {
     url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key='+apiKey;
     headers = {'Content-Type':'application/json'};
-    body = JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:1000}});
-    extractContent = function(d){ return d.candidates&&d.candidates[0]?d.candidates[0].content.parts[0].text:null; };
+    body = JSON.stringify({contents:[{parts:[{text:prompt}]}],
+      generationConfig:{maxOutputTokens:800}});
+    extract = function(d){ return d.candidates&&d.candidates[0]?
+      d.candidates[0].content.parts[0].text:null; };
   } else if (p === 'groq') {
     url = 'https://api.groq.com/openai/v1/chat/completions';
     headers = {'Content-Type':'application/json','Authorization':'Bearer '+apiKey};
-    body = JSON.stringify({model:'llama-3.1-8b-instant',max_tokens:1000,messages:[{role:'user',content:prompt}]});
-    extractContent = function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
+    body = JSON.stringify({model:'llama-3.1-8b-instant',max_tokens:800,
+      messages:[{role:'user',content:prompt}]});
+    extract = function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
   } else if (p === 'openai') {
     url = 'https://api.openai.com/v1/chat/completions';
     headers = {'Content-Type':'application/json','Authorization':'Bearer '+apiKey};
-    body = JSON.stringify({model:'gpt-4o-mini',max_tokens:1000,messages:[{role:'user',content:prompt}]});
-    extractContent = function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
+    body = JSON.stringify({model:'gpt-4o-mini',max_tokens:800,
+      messages:[{role:'user',content:prompt}]});
+    extract = function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
   } else {
-    out.innerHTML = '<div class="sc-bubble" style="border-color:#fca5a5;background:#fef2f2">⚠️ AI provider "'+p+'" not supported. Please select Anthropic, Gemini, Groq, or OpenAI in the AI Practice tab.</div>';
-    sendBtn.disabled = false; sendBtn.textContent = 'Ask →';
-    return;
+    out.innerHTML = '<div class="sc-bubble" style="border-left:3px solid #f87171;padding-left:.75rem">'+
+      'Provider "'+p+'" not supported. Set Anthropic, Gemini, Groq or OpenAI in AI Practice tab.</div>';
+    _scDone(sendBtn); return;
   }
-  
-  fetch(url, {method:'POST', headers:headers, body:body})
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      var text = extractContent(data);
-      if (!text) throw new Error('Empty response from AI');
-      
-      // Convert markdown to HTML
-      var html = text
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/^#{1,3} (.+)$/gm, '<h4>$1</h4>')
-        .replace(/^[-*] (.+)$/gm, '<li>$1</li>')
-        .replace(/
 
-/g, '</p><p>')
-        .replace(/
-/g, '<br>');
-      
-      out.innerHTML = '<div class="sc-bubble"><p>' + html + '</p></div>'+
-        '<div style="text-align:right;margin-top:.3rem">'+
-        '<span style="font-size:.68rem;color:var(--muted)">Smart Coach · powered by '+p+' · based on your actual data</span></div>';
+  fetch(url, {method:'POST', headers:headers, body:body})
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var text = extract(data);
+      if (!text) {
+        var errMsg = data.error ? data.error.message : 'Empty response';
+        throw new Error(errMsg);
+      }
+      var html = text
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+        .replace(/^#{1,3} (.+)$/gm,'<h4 style="margin:.5rem 0 .2rem;font-size:.85rem">$1</h4>')
+        .replace(/^[•\-] (.+)$/gm,'<li>$1</li>')
+        .replace(/(<li>[^<]*<\/li>\n?)+/g,'<ul style="margin:.3rem 0 .3rem 1rem;padding:0">$&</ul>')
+        .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+      out.innerHTML = '<div class="sc-bubble">'+html+'</div>'+
+        '<div style="text-align:right;margin-top:.25rem;font-size:.68rem;color:var(--muted)">'+
+        'Smart Coach · '+p+' · live data</div>';
     })
     .catch(function(e) {
-      out.innerHTML = '<div class="sc-bubble" style="border-color:#fca5a5;background:#fef2f2">❌ Error: ' + e.message + '. Check your API key in the AI Practice tab.</div>';
+      out.innerHTML = '<div class="sc-bubble" style="border-left:3px solid #f87171;padding-left:.75rem">'+
+        'Error: '+e.message+'</div>';
     })
-    .finally(function() {
-      sendBtn.disabled = false;
-      sendBtn.textContent = 'Ask →';
-    });
+    .finally(function() { _scDone(sendBtn); });
 }
 
-// Initialise chips when dashboard loads
-(function() {
-  var orig = window.renderDashboard;
-  if (orig) {
-    window.renderDashboard = function() {
-      orig.apply(this, arguments);
-      if (document.getElementById('scChips')) renderCoachChips();
-    };
-  }
-})();
+function _scDone(btn) {
+  _scBusy = false;
+  if (btn) { btn.disabled = false; btn.textContent = 'Ask \u2192'; }
+}
+// ═══════════════════════════════════════════════════════════════
 
 x;padding:.5rem .7rem;margin-bottom:.4rem">'+info.key+'</div>'
       + '<div style="font-size:.78rem;color:#dc2626;margin-bottom:.3rem"><b>Watch out:</b> '+info.mistakes+'</div>'
