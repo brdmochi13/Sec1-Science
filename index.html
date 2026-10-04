@@ -4620,9 +4620,7 @@ function initAITopicPills(){
 
 // ══ API CONFIG ══
 function getApiConfig() {
-  // Default: use Gemini with embedded key so Smart Coach works without setup
-  var _dk = ['AIzaSyC','PNZAoF1X','dFNPG0IQ','fdvjjTY5','RdYXMmqY','I'].join('');
-  var def = { provider: 'gemini', keys: { anthropic:'', openai:'', gemini:_dk, groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant' };
+  var def = { provider: 'gemini', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant' };
   try {
     var stored = localStorage.getItem('aiConfig');
     if (stored) return Object.assign(def, JSON.parse(stored));
@@ -6769,8 +6767,15 @@ function _scSubmit() {
   var apiKey = conf.keys[p];
 
   if (!apiKey && p !== 'local') {
-    out.innerHTML = '<div class="sc-bubble" style="border-left:3px solid #f87171;padding-left:.75rem">'+
-      'No AI key found. Go to the <strong>AI Practice</strong> tab, enter your API key, then return here.</div>';
+    out.innerHTML = '<div class="sc-bubble" style="border-left:3px solid #f59e0b;padding-left:.75rem;background:#fffbeb">'+
+      '<strong>⚙️ AI key needed</strong><br>'+
+      'To use Smart Coach, add your Gemini or Groq API key in the <strong>AI Practice</strong> tab.'+
+      '<br><button onclick="showTab('aiTab')" '+
+      'style="margin-top:.5rem;padding:.3rem .8rem;background:#166534;color:#fff;border:none;'+
+      'border-radius:6px;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer">'+
+      '→ Go to AI Practice tab</button>'+
+      '<br><span style="font-size:.72rem;color:#92400e;margin-top:.3rem;display:block">'+
+      'Tip: Groq is free — get a key at console.groq.com</span></div>';
     _scDone(sendBtn); return;
   }
 
