@@ -1,0 +1,22 @@
+name: Deploy Test Branch
+
+on:
+  push:
+    branches: [test]
+
+jobs:
+  deploy-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: test
+
+      - name: Deploy test version to Cloudflare (sec1-science-test worker)
+        run: |
+          npm install -g wrangler@latest
+          wrangler deploy --name sec1-science-test --compatibility-date 2024-01-01
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        working-directory: .
