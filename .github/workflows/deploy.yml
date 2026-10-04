@@ -40,16 +40,22 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build worker.js with embedded HTML
+      - name: Build worker.js with embedded HTML (base64 — safe against backticks)
         run: |
           python3 << 'EOF'
+          import base64
           with open('index.html', 'r', encoding='utf-8') as f:
               html = f.read()
-          escaped = html.replace('\\', '\\\\').replace('`', '\\`').replace('${', '\\${')
-          worker = 'const HTML = `' + escaped + '`;\n\nexport default {\n  async fetch(request, env) {\n    return new Response(HTML, {\n      headers: {\n        \'Content-Type\': \'text/html;charset=UTF-8\',\n        \'Cache-Control\': \'no-cache, no-store, must-revalidate\',\n      }\n    });\n  }\n};\n'
+          b64 = base64.b64encode(html.encode('utf-8')).decode('ascii')
+          worker = (
+              '// Auto-generated\n'
+              'const B64="' + b64 + '";\n'
+              'function b64decode(s){const b=atob(s);const a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return new TextDecoder("utf-8").decode(a);}\n'
+              'export default{async fetch(r,e){return new Response(b64decode(B64),{headers:{"Content-Type":"text/html;charset=UTF-8","Cache-Control":"no-cache, no-store, must-revalidate"}});}}; \n'
+          )
           with open('worker.js', 'w', encoding='utf-8') as f:
               f.write(worker)
-          print(f'worker.js: {len(worker)} chars')
+          print(f'worker.js: {len(worker)} chars, HTML: {len(html)} chars')
           EOF
 
       - name: Commit worker.js
