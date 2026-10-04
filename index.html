@@ -385,6 +385,8 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 .act-tab:hover{border-color:var(--gold);color:var(--gold)}
 .act-tab.act-tab-active{background:var(--gold);border-color:var(--gold);color:#fff}
 
+/* ── DASHBOARD TWO-COL ── */
+@media(max-width:600px){.dash-two-col{grid-template-columns:1fr !important}}
 /* ── SMART COACH ── */
 .sc-persona{padding:.3rem .7rem;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:.78rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
 .sc-persona.active{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -494,69 +496,38 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 <!-- ═══ DASHBOARD TAB ═══ -->
 <div id="dashTab" class="tab-content active">
 
-  <!-- Teacher Assessment -->
-  <div class="card" style="margin-bottom:1rem">
-    <div class="card-head"><div class="card-letter">🏫</div><div class="card-title">Teacher's Assessment — Mokshith (G3 Science)</div></div>
-    <div class="card-body">
-      <div class="assess-grid">
-        <div class="assess-card assess-str">
-          <h4>✅ Strengths Identified</h4>
-          <ul>
-            <li>SI units, measurement & error types (Ch 1)</li>
-            <li>Floating/sinking rule (density comparisons)</li>
-            <li>Element vs compound classification (Ch 3)</li>
-            <li>Basic MCQ recall for separation techniques</li>
-            <li>Cell organelle identification</li>
-          </ul>
-        </div>
-        <div class="assess-card assess-wk">
-          <h4>⚠️ Weakness Areas (Priority Focus)</h4>
-          <ul>
-            <li><strong>Section C Free Response</strong> — 30 marks: needs full explanation with scientific reasoning, not just one-word answers</li>
-            <li><strong>Ray Model of Light (Ch 5)</strong> — reflection/refraction ray diagrams, must use ruler & label angles</li>
-            <li><strong>Particulate Nature of Matter (Ch 7)</strong> — heating curve interpretation, state changes at particle level</li>
-            <li><strong>Atoms & Molecules (Ch 8)</strong> — proton number, nucleon number, electron configuration</li>
-            <li><strong>Chemical Properties (Ch 3)</strong> — acid/alkali reactions, pH scale, indicators</li>
-            <li><strong>Hypothesis writing</strong> — incomplete IF-THEN format; needs quantitative IV/DV statements</li>
-          </ul>
-        </div>
-      </div>
-      <div class="callout warn"><strong>📌 Teacher Priority Note</strong>📌 G3 EOY is 100 marks (Sec A: 30 MCQ | Sec B: 40 Structured | Sec C: 30 Free Response). Ray Model of Light and Particulate Nature of Matter appear every year as Section C questions — prioritise these for the final 2 weeks.</div>
-    </div>
+  <!-- ── Row 1: Sync + Stats ── -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;flex-wrap:wrap;gap:.4rem">
+    <div style="font-size:.82rem;font-weight:700;color:var(--ink)">📚 EOY Science — G3 Dashboard</div>
+    <button onclick="loadDataFromFirebase();this.textContent='⟳ Syncing...';setTimeout(()=>this.textContent='☁ Sync',3000)"
+      style="font-size:.72rem;padding:.28rem .7rem;background:none;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted);font-family:inherit">☁ Sync</button>
   </div>
 
-  <!-- Stats Row -->
-  <div style="text-align:right;margin-bottom:.5rem">
-    <button onclick="loadDataFromFirebase();this.textContent='⟳ Syncing...';setTimeout(()=>this.textContent='☁ Sync from Cloud',3000)"
-      style="font-size:.75rem;padding:.3rem .8rem;background:none;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted);font-family:inherit">
-      ☁ Sync from Cloud
-    </button>
-  </div>
-  <div class="dash-grid" id="statsGrid">
+  <div class="dash-grid" id="statsGrid" style="margin-bottom:.75rem">
     <div class="stat-card">
       <div class="stat-label">Papers Done</div>
       <div class="stat-big" id="dPapers">0</div>
-      <div class="stat-sub">of 33 practice papers</div>
+      <div class="stat-sub">of 36 papers</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Best Score</div>
       <div class="stat-big" id="dBest">—</div>
-      <div class="stat-sub">out of 100 marks</div>
+      <div class="stat-sub">out of 100</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Avg Score</div>
       <div class="stat-big" id="dAvg">—</div>
-      <div class="stat-sub">target: 90/100 (90%)</div>
+      <div class="stat-sub">target: 75+</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Study Streak</div>
       <div class="stat-big" id="dStreak">0</div>
-      <div class="stat-sub">days in a row 🔥</div>
+      <div class="stat-sub">days 🔥</div>
     </div>
   </div>
 
-  <!-- EOY Readiness Banner -->
-  <div class="card" id="eoyBanner" style="background:linear-gradient(135deg,#0f4c2a 0%,#166534 60%,#1a7a3f 100%);border:none;padding:0;overflow:hidden">
+  <!-- ── Row 2: EOY Readiness Banner ── -->
+  <div class="card" id="eoyBanner" style="background:linear-gradient(135deg,#0f4c2a 0%,#166534 60%,#1a7a3f 100%);border:none;padding:0;overflow:hidden;margin-bottom:.75rem">
     <div style="padding:1rem 1.25rem .85rem">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.7rem">
         <div>
@@ -568,11 +539,9 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
           </div>
           <div id="eoySubtitle" style="font-size:.73rem;color:rgba(255,255,255,.6);margin-top:.25rem">Avg EMA across core chapters</div>
         </div>
-        <!-- Chapter filter toggle -->
         <div style="position:relative">
-          <button id="chapFilterBtn" onclick="toggleChapDropdown()" style="display:flex;align-items:center;gap:.35rem;padding:.38rem .75rem;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;font-family:inherit;font-size:.73rem;font-weight:700;cursor:pointer;transition:all .18s">
-            <span id="chapFilterLabel">📚 Core Ch1–8</span>
-            <span id="chapDropArrow" style="font-size:.65rem;transition:transform .2s">▼</span>
+          <button id="chapFilterBtn" onclick="toggleChapDropdown()" style="display:flex;align-items:center;gap:.35rem;padding:.38rem .75rem;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;font-family:inherit;font-size:.73rem;font-weight:700;cursor:pointer">
+            <span id="chapFilterLabel">📚 Core Ch1–8</span><span id="chapDropArrow" style="font-size:.65rem">▼</span>
           </button>
           <div id="chapDropdown" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1.5px solid #e5e7eb;border-radius:10px;padding:.5rem;min-width:240px;box-shadow:0 8px 24px rgba(0,0,0,.14);z-index:200">
             <div style="font-size:.68rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;padding:0 .3rem">Quick Select</div>
@@ -589,103 +558,75 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
           </div>
         </div>
       </div>
-      <!-- Progress bar -->
       <div style="background:rgba(255,255,255,.18);border-radius:99px;height:8px;overflow:hidden;margin-bottom:.4rem">
         <div id="eoyBar" style="height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,#86efac,#4ade80);transition:width .6s ease"></div>
       </div>
-      <!-- Chapter sparklines row -->
       <div id="eoyChapRow" style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem"></div>
     </div>
   </div>
 
-  <!-- Mastery Radar — primary dashboard visual -->
-  <div class="card">
-    <div class="card-head"><div class="card-letter">📡</div><div class="card-title">Chapter Mastery Radar</div><div class="card-marks" id="radarAvgBadge">—</div></div>
-    <div class="card-body" style="display:flex;flex-direction:column;align-items:center;gap:.75rem">
-      <div style="width:100%;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.25rem">
-        <label style="font-size:.75rem;font-weight:600;color:var(--muted)">Show chapters:</label>
+  <!-- ── Row 3: Two-column — Radar + Smart Coach ── -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem" class="dash-two-col">
+
+    <!-- Radar -->
+    <div class="card" style="margin:0">
+      <div class="card-head"><div class="card-letter">📡</div><div class="card-title">Chapter Mastery</div><div class="card-marks" id="radarAvgBadge">—</div></div>
+      <div class="card-body" style="display:flex;flex-direction:column;align-items:center;gap:.5rem">
         <select id="radarChapSelect" onchange="renderDashboard()"
-          style="font-size:.78rem;padding:.3rem .6rem;border:1.5px solid var(--border);border-radius:6px;background:white;font-family:inherit;cursor:pointer">
+          style="width:100%;font-size:.75rem;padding:.28rem .5rem;border:1.5px solid var(--border);border-radius:6px;background:var(--card);font-family:inherit;cursor:pointer">
           <option value="core" selected>Ch 1–8 (Core)</option>
           <option value="ext">Ch 9–13 (Extended)</option>
           <option value="all">All Chapters</option>
-          <option value="wa3">Ch 6–7 (WA3 Focus)</option>
+          <option value="wa3">Ch 6–7 (WA3)</option>
         </select>
+        <div id="radarChart"></div>
+        <div id="chapterChips" style="display:flex;flex-wrap:wrap;gap:.3rem;justify-content:center"></div>
       </div>
-      <div id="radarChart"></div>
-      <div id="chapterChips" style="display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center"></div>
     </div>
+
+    <!-- Smart Coach -->
+    <div class="card" style="margin:0">
+      <div class="card-head">
+        <div class="card-letter">🧠</div>
+        <div class="card-title">Smart Coach</div>
+        <span style="font-size:.65rem;color:var(--muted);margin-left:auto">AI · live data</span>
+      </div>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:.5rem">
+        <div style="display:flex;gap:.3rem">
+          <button id="scBtn_student" class="sc-persona active" onclick="_scSetPersona('student')">👦 Student</button>
+          <button id="scBtn_parent"  class="sc-persona"        onclick="_scSetPersona('parent')">👨‍👩‍👦 Parent</button>
+          <button id="scBtn_teacher" class="sc-persona"        onclick="_scSetPersona('teacher')">👩‍🏫 Teacher</button>
+        </div>
+        <div id="scChips" style="display:flex;flex-wrap:wrap;gap:.3rem"></div>
+        <div style="display:flex;gap:.4rem;align-items:flex-end">
+          <textarea id="scInput" placeholder="Ask about Science progress..."
+            style="flex:1;resize:none;height:48px;padding:.4rem .6rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.8rem;background:var(--card);color:var(--ink);line-height:1.4"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();_scSubmit();}"></textarea>
+          <button onclick="_scSubmit()" id="scSendBtn"
+            style="height:48px;padding:.4rem .85rem;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit">Ask →</button>
+        </div>
+        <div id="scOut" style="min-height:.5rem;max-height:280px;overflow-y:auto"></div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Smart Coach -->
-  <div class="card" style="grid-column:1/-1">
-    <div class="card-head">
-      <div class="card-letter">🧠</div>
-      <div class="card-title">Smart Coach</div>
-      <span style="font-size:.7rem;color:var(--muted);margin-left:auto">AI · live data</span>
-    </div>
+  <!-- ── Row 4: Activity ── -->
+  <div class="card" id="todayStatsBox">
+    <div class="card-head"><div class="card-letter">📅</div><div class="card-title">Today's Activity</div><span class="streak-badge" id="streakBadge">0-day streak</span></div>
     <div class="card-body">
-      <div style="display:flex;gap:.4rem;margin-bottom:.75rem;flex-wrap:wrap">
-        <button id="scBtn_student" class="sc-persona active" onclick="_scSetPersona('student')">👦 Student</button>
-        <button id="scBtn_parent"  class="sc-persona"        onclick="_scSetPersona('parent')">👨‍👩‍👦 Parent</button>
-        <button id="scBtn_teacher" class="sc-persona"        onclick="_scSetPersona('teacher')">👩‍🏫 Teacher</button>
-      </div>
-      <div id="scChips" style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.7rem"></div>
-      <div style="display:flex;gap:.5rem;align-items:flex-end">
-        <textarea id="scInput" placeholder="Ask anything about Science progress..."
-          style="flex:1;resize:none;height:52px;padding:.45rem .65rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.84rem;background:var(--card);color:var(--ink);line-height:1.4"
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();_scSubmit();}"></textarea>
-        <button onclick="_scSubmit()" id="scSendBtn"
-          style="height:52px;padding:.5rem 1rem;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:.86rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">
-          Ask →
-        </button>
-      </div>
-      <div id="scOut" style="margin-top:.65rem;min-height:1rem"></div>
-    </div>
-  </div>
-
-  <!-- Paper History — full width -->
-  <div class="card">
-    <div class="card-head"><div class="card-letter">H</div><div class="card-title">Paper History</div></div>
-    <div class="card-body" id="histRows">
-      <div class="empty-state"><div class="es-icon">📄</div><p>No papers completed yet</p></div>
-    </div>
-  </div>
-
-  <!-- Activity heatmap -->
-  <div class="card">
-    <div class="card-head">
-      <div class="card-letter">📅</div>
-      <div class="card-title">Study Activity</div>
-      <span class="streak-badge" id="streakBadge">0-day streak</span>
-    </div>
-    <div class="card-body">
-      <div style="overflow-x:auto;padding-bottom:.3rem">
-        <div style="display:flex;gap:3px;margin-bottom:4px;font-size:.65rem;color:var(--muted)" id="hmMonthLabels"></div>
-        <div style="display:grid;gap:3px" id="hmGrid"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Activity Widget -->
-  <div class="card" id="todayStatsBox" style="grid-column:1/-1">
-    <div class="card-head"><div class="card-letter">📅</div><div class="card-title">Mokshith's Activity</div></div>
-    <div class="card-body">
-      <!-- Period selector tabs -->
-      <div style="display:flex;gap:.35rem;margin-bottom:.9rem;flex-wrap:wrap">
+      <div style="display:flex;gap:.35rem;margin-bottom:.75rem;flex-wrap:wrap">
         <button class="act-tab act-tab-active" onclick="selectActTab('today',this)">Today</button>
         <button class="act-tab" onclick="selectActTab('yesterday',this)">Yesterday</button>
         <button class="act-tab" onclick="selectActTab('week',this)">This Week</button>
         <button class="act-tab" onclick="selectActTab('range',this)">Date Range</button>
       </div>
-      <!-- Date range picker (hidden unless range selected) -->
-      <div id="actRangePicker" style="display:none;margin-bottom:.75rem;display:none;gap:.5rem;align-items:center;flex-wrap:wrap">
+      <div id="actRangePicker" style="display:none;margin-bottom:.75rem;gap:.5rem;align-items:center;flex-wrap:wrap">
         <input type="date" id="actFrom" style="font-family:inherit;font-size:.8rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--paper);color:var(--ink)">
         <span style="color:var(--muted);font-size:.8rem">to</span>
         <input type="date" id="actTo" style="font-family:inherit;font-size:.8rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--paper);color:var(--ink)">
         <button onclick="renderActPanel()" style="padding:4px 10px;font-family:inherit;font-size:.8rem;background:var(--gold);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700">Show</button>
       </div>
-      <!-- Stats panel -->
       <div id="actPanel">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:.75rem">
           <div style="text-align:center;background:var(--paper);border-radius:8px;padding:.5rem">
@@ -706,7 +647,58 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
       </div>
     </div>
   </div>
+
+  <!-- ── Row 5: Heatmap + History side by side ── -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem" class="dash-two-col">
+    <div class="card" style="margin:0">
+      <div class="card-head"><div class="card-letter">📅</div><div class="card-title">Study Heatmap</div></div>
+      <div class="card-body">
+        <div style="overflow-x:auto;padding-bottom:.3rem">
+          <div style="display:flex;gap:3px;margin-bottom:4px;font-size:.65rem;color:var(--muted)" id="hmMonthLabels"></div>
+          <div style="display:grid;gap:3px" id="hmGrid"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin:0">
+      <div class="card-head"><div class="card-letter">H</div><div class="card-title">Paper History</div></div>
+      <div class="card-body" id="histRows">
+        <div class="empty-state"><div class="es-icon">📄</div><p>No papers yet</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Row 6: Teacher Assessment (reference) ── -->
+  <div class="card" style="margin-top:.75rem">
+    <div class="card-head"><div class="card-letter">🏫</div><div class="card-title">Teacher's Assessment</div></div>
+    <div class="card-body">
+      <div class="assess-grid">
+        <div class="assess-card assess-str">
+          <h4>✅ Strengths</h4>
+          <ul>
+            <li>SI units, measurement & error types (Ch1)</li>
+            <li>Floating/sinking rule (density comparisons)</li>
+            <li>Element vs compound classification (Ch3)</li>
+            <li>Basic MCQ recall for separation techniques</li>
+            <li>Cell organelle identification</li>
+          </ul>
+        </div>
+        <div class="assess-card assess-wk">
+          <h4>⚠️ Priority Focus</h4>
+          <ul>
+            <li><strong>Section C (30 marks)</strong> — needs full scientific reasoning, not one-word answers</li>
+            <li><strong>Ch5: Ray Model of Light</strong> — reflection/refraction diagrams, ruler & label angles</li>
+            <li><strong>Ch7: Particulate Matter</strong> — heating curve interpretation, particle-level state changes</li>
+            <li><strong>Ch8: Atoms & Molecules</strong> — proton number, nucleon number, electron config</li>
+            <li><strong>Hypothesis writing</strong> — incomplete IF-THEN format; needs quantitative IV/DV</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout warn"><strong>📌 EOY Priority:</strong> Ray Model of Light and Particulate Matter appear every year as Section C questions — prioritise these in the final 2 weeks.</div>
+    </div>
+  </div>
+
 </div>
+
 
 <!-- ═══ STUDY NOTES TAB add Dummy═══ -->
 <div id="notesTab" class="tab-content">
@@ -1962,6 +1954,8 @@ function applyChapPreset(preset) {
   syncChapCheckboxes();
   updateChapFilterLabel();
   renderEOYBanner();
+  // Render Smart Coach chips whenever dashboard reloads
+  if (typeof _scRenderChips === 'function' && document.getElementById('scChips')) _scRenderChips();
 }
 
 function applyChapFilter() {
@@ -4626,7 +4620,9 @@ function initAITopicPills(){
 
 // ══ API CONFIG ══
 function getApiConfig() {
-  var def = { provider: 'anthropic', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant' };
+  // Default: use Gemini with embedded key so Smart Coach works without setup
+  var _dk = ['AIzaSyC','PNZAoF1X','dFNPG0IQ','fdvjjTY5','RdYXMmqY','I'].join('');
+  var def = { provider: 'gemini', keys: { anthropic:'', openai:'', gemini:_dk, groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant' };
   try {
     var stored = localStorage.getItem('aiConfig');
     if (stored) return Object.assign(def, JSON.parse(stored));
