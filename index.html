@@ -6324,7 +6324,7 @@ function generateOneAIQuestion(cb, topicOverride, typeOverride) {
       var raw = extract(data);
       if (!raw) { cb(null); return; }
       try {
-        var clean = raw.replace(/```json|```/g,'').trim();
+        var clean = raw.replace(/\`\`\`json|\`\`\`/g,'').trim();
         var q = JSON.parse(clean);
         q.source = 'AI Generated';
         if (q.type === 'tf') { q.ans = String(q.ans).toUpperCase() === 'TRUE' ? 'T' : q.ans === 'T' ? 'T' : 'F'; }
