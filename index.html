@@ -6647,12 +6647,12 @@ var SC_CHIPS = {
     {label:'🏆 Am I ready for EOY?',     q:'Based on my current scores, am I ready for the EOY exam? What is my estimated score?'}
   ],
   parent: [
-    {label:'📋 Progress summary',        q:'Summarise Mokshith's Science progress for me as a parent. Be honest and clear.'},
+    {label:'📋 Progress summary',        q:'Summarise Mokshith Science progress for me as a parent. Be honest and clear.'},
     {label:'🎯 Focus areas tonight',     q:'What specific topics should Mokshith practise tonight to make the most progress?'},
     {label:'📅 Weekly plan',             q:'Create a 7-day study plan for Mokshith based on his weakest chapters.'},
     {label:'⚠️ Chapters needing help',  q:'Which chapters is Mokshith struggling with the most and why?'},
-    {label:'📈 +10 marks plan',          q:'Give me a parent-friendly plan for Mokshith to improve his Science score by 10 marks.'},
-    {label:'📈 +20 marks plan',          q:'Give me a parent-friendly plan for Mokshith to improve his Science score by 20 marks.'},
+    {label:'📈 +10 marks plan',          q:'Give me a parent plan for Mokshith to improve his Science score by 10 marks.'},
+    {label:'📈 +20 marks plan',          q:'Give me a parent plan for Mokshith to improve his Science score by 20 marks.'},
     {label:'🏆 EOY readiness',           q:'Is Mokshith on track for the EOY Science exam? What grade can he realistically achieve?'},
     {label:'💡 How can I help?',         q:'As a parent, what are the most effective ways I can help Mokshith improve in Science?'}
   ],
@@ -6674,7 +6674,7 @@ function setCoachPersona(persona, btn) {
   btn.classList.add('active');
   renderCoachChips();
   document.getElementById('scInput').placeholder =
-    persona === 'parent'  ? 'Ask about Mokshith's progress, study plans, or how to help...' :
+    persona === 'parent'  ? 'Ask about progress, study plans, or how to help...' :
     persona === 'teacher' ? 'Ask for data reports, gap analysis, remediation plans...' :
                             'Ask anything about your Science progress...';
   document.getElementById('scOut').innerHTML = '';
@@ -6682,10 +6682,17 @@ function setCoachPersona(persona, btn) {
 
 function renderCoachChips() {
   var chips = SC_CHIPS[_scPersona] || SC_CHIPS.student;
-  var html = chips.map(function(c) {
-    return '<button class="sc-chip" onclick="askSmartCoachQ('+JSON.stringify(c.q)+')">' + c.label + '</button>';
-  }).join('');
-  document.getElementById('scChips').innerHTML = html;
+  var container = document.getElementById('scChips');
+  container.innerHTML = '';
+  chips.forEach(function(c) {
+    var btn = document.createElement('button');
+    btn.className = 'sc-chip';
+    btn.textContent = c.label;
+    btn.setAttribute('data-q', c.q);
+    btn.onclick = function() { askSmartCoachQ(this.getAttribute('data-q')); };
+    container.appendChild(btn);
+  });
+  var _unused = html;
 }
 
 function buildCoachContext() {
@@ -6814,10 +6821,12 @@ function askSmartCoach() {
       var html = text
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
         .replace(/^#{1,3} (.+)$/gm, '<h4>$1</h4>')
-        .replace(/^[•\-\*] (.+)$/gm, '<li>$1</li>')
-        .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
-        .replace(/\n\n/g, '</p><p>')
-        .replace(/\n/g, '<br>');
+        .replace(/^[-*] (.+)$/gm, '<li>$1</li>')
+        .replace(/
+
+/g, '</p><p>')
+        .replace(/
+/g, '<br>');
       
       out.innerHTML = '<div class="sc-bubble"><p>' + html + '</p></div>'+
         '<div style="text-align:right;margin-top:.3rem">'+
