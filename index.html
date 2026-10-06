@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>S1 Science Mastery · G3 EOY</title>
+<title>S1 Science Mastery · G3 EOY · 20261004-2352</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
 :root{
@@ -385,6 +385,8 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 .act-tab:hover{border-color:var(--gold);color:var(--gold)}
 .act-tab.act-tab-active{background:var(--gold);border-color:var(--gold);color:#fff}
 
+/* ── DASHBOARD TWO-COL ── */
+@media(max-width:600px){.dash-two-col{grid-template-columns:1fr !important}}
 /* ── SMART COACH ── */
 .sc-persona{padding:.3rem .7rem;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:.78rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
 .sc-persona.active{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -494,69 +496,38 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
 <!-- ═══ DASHBOARD TAB ═══ -->
 <div id="dashTab" class="tab-content active">
 
-  <!-- Teacher Assessment -->
-  <div class="card" style="margin-bottom:1rem">
-    <div class="card-head"><div class="card-letter">🏫</div><div class="card-title">Teacher's Assessment — Mokshith (G3 Science)</div></div>
-    <div class="card-body">
-      <div class="assess-grid">
-        <div class="assess-card assess-str">
-          <h4>✅ Strengths Identified</h4>
-          <ul>
-            <li>SI units, measurement & error types (Ch 1)</li>
-            <li>Floating/sinking rule (density comparisons)</li>
-            <li>Element vs compound classification (Ch 3)</li>
-            <li>Basic MCQ recall for separation techniques</li>
-            <li>Cell organelle identification</li>
-          </ul>
-        </div>
-        <div class="assess-card assess-wk">
-          <h4>⚠️ Weakness Areas (Priority Focus)</h4>
-          <ul>
-            <li><strong>Section C Free Response</strong> — 30 marks: needs full explanation with scientific reasoning, not just one-word answers</li>
-            <li><strong>Ray Model of Light (Ch 5)</strong> — reflection/refraction ray diagrams, must use ruler & label angles</li>
-            <li><strong>Particulate Nature of Matter (Ch 7)</strong> — heating curve interpretation, state changes at particle level</li>
-            <li><strong>Atoms & Molecules (Ch 8)</strong> — proton number, nucleon number, electron configuration</li>
-            <li><strong>Chemical Properties (Ch 3)</strong> — acid/alkali reactions, pH scale, indicators</li>
-            <li><strong>Hypothesis writing</strong> — incomplete IF-THEN format; needs quantitative IV/DV statements</li>
-          </ul>
-        </div>
-      </div>
-      <div class="callout warn"><strong>📌 Teacher Priority Note</strong>📌 G3 EOY is 100 marks (Sec A: 30 MCQ | Sec B: 40 Structured | Sec C: 30 Free Response). Ray Model of Light and Particulate Nature of Matter appear every year as Section C questions — prioritise these for the final 2 weeks.</div>
-    </div>
+  <!-- ── Row 1: Sync + Stats ── -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;flex-wrap:wrap;gap:.4rem">
+    <div style="font-size:.82rem;font-weight:700;color:var(--ink)">📚 EOY Science — G3 Dashboard</div>
+    <button onclick="loadDataFromFirebase();this.textContent='⟳ Syncing...';setTimeout(()=>this.textContent='☁ Sync',3000)"
+      style="font-size:.72rem;padding:.28rem .7rem;background:none;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted);font-family:inherit">☁ Sync</button>
   </div>
 
-  <!-- Stats Row -->
-  <div style="text-align:right;margin-bottom:.5rem">
-    <button onclick="loadDataFromFirebase();this.textContent='⟳ Syncing...';setTimeout(()=>this.textContent='☁ Sync from Cloud',3000)"
-      style="font-size:.75rem;padding:.3rem .8rem;background:none;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted);font-family:inherit">
-      ☁ Sync from Cloud
-    </button>
-  </div>
-  <div class="dash-grid" id="statsGrid">
+  <div class="dash-grid" id="statsGrid" style="margin-bottom:.75rem">
     <div class="stat-card">
       <div class="stat-label">Papers Done</div>
       <div class="stat-big" id="dPapers">0</div>
-      <div class="stat-sub">of 33 practice papers</div>
+      <div class="stat-sub">of 36 papers</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Best Score</div>
       <div class="stat-big" id="dBest">—</div>
-      <div class="stat-sub">out of 100 marks</div>
+      <div class="stat-sub">out of 100</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Avg Score</div>
       <div class="stat-big" id="dAvg">—</div>
-      <div class="stat-sub">target: 90/100 (90%)</div>
+      <div class="stat-sub">target: 75+</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Study Streak</div>
       <div class="stat-big" id="dStreak">0</div>
-      <div class="stat-sub">days in a row 🔥</div>
+      <div class="stat-sub">days 🔥</div>
     </div>
   </div>
 
-  <!-- EOY Readiness Banner -->
-  <div class="card" id="eoyBanner" style="background:linear-gradient(135deg,#0f4c2a 0%,#166534 60%,#1a7a3f 100%);border:none;padding:0;overflow:hidden">
+  <!-- ── Row 2: EOY Readiness Banner ── -->
+  <div class="card" id="eoyBanner" style="background:linear-gradient(135deg,#0f4c2a 0%,#166534 60%,#1a7a3f 100%);border:none;padding:0;overflow:hidden;margin-bottom:.75rem">
     <div style="padding:1rem 1.25rem .85rem">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.7rem">
         <div>
@@ -568,11 +539,9 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
           </div>
           <div id="eoySubtitle" style="font-size:.73rem;color:rgba(255,255,255,.6);margin-top:.25rem">Avg EMA across core chapters</div>
         </div>
-        <!-- Chapter filter toggle -->
         <div style="position:relative">
-          <button id="chapFilterBtn" onclick="toggleChapDropdown()" style="display:flex;align-items:center;gap:.35rem;padding:.38rem .75rem;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;font-family:inherit;font-size:.73rem;font-weight:700;cursor:pointer;transition:all .18s">
-            <span id="chapFilterLabel">📚 Core Ch1–8</span>
-            <span id="chapDropArrow" style="font-size:.65rem;transition:transform .2s">▼</span>
+          <button id="chapFilterBtn" onclick="toggleChapDropdown()" style="display:flex;align-items:center;gap:.35rem;padding:.38rem .75rem;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;font-family:inherit;font-size:.73rem;font-weight:700;cursor:pointer">
+            <span id="chapFilterLabel">📚 Core Ch1–8</span><span id="chapDropArrow" style="font-size:.65rem">▼</span>
           </button>
           <div id="chapDropdown" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1.5px solid #e5e7eb;border-radius:10px;padding:.5rem;min-width:240px;box-shadow:0 8px 24px rgba(0,0,0,.14);z-index:200">
             <div style="font-size:.68rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;padding:0 .3rem">Quick Select</div>
@@ -589,107 +558,75 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
           </div>
         </div>
       </div>
-      <!-- Progress bar -->
       <div style="background:rgba(255,255,255,.18);border-radius:99px;height:8px;overflow:hidden;margin-bottom:.4rem">
         <div id="eoyBar" style="height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,#86efac,#4ade80);transition:width .6s ease"></div>
       </div>
-      <!-- Chapter sparklines row -->
       <div id="eoyChapRow" style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem"></div>
     </div>
   </div>
 
-  <!-- Mastery Radar — primary dashboard visual -->
-  <div class="card">
-    <div class="card-head"><div class="card-letter">📡</div><div class="card-title">Chapter Mastery Radar</div><div class="card-marks" id="radarAvgBadge">—</div></div>
-    <div class="card-body" style="display:flex;flex-direction:column;align-items:center;gap:.75rem">
-      <div style="width:100%;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.25rem">
-        <label style="font-size:.75rem;font-weight:600;color:var(--muted)">Show chapters:</label>
+  <!-- ── Row 3: Two-column — Radar + Smart Coach ── -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem" class="dash-two-col">
+
+    <!-- Radar -->
+    <div class="card" style="margin:0">
+      <div class="card-head"><div class="card-letter">📡</div><div class="card-title">Chapter Mastery</div><div class="card-marks" id="radarAvgBadge">—</div></div>
+      <div class="card-body" style="display:flex;flex-direction:column;align-items:center;gap:.5rem">
         <select id="radarChapSelect" onchange="renderDashboard()"
-          style="font-size:.78rem;padding:.3rem .6rem;border:1.5px solid var(--border);border-radius:6px;background:white;font-family:inherit;cursor:pointer">
+          style="width:100%;font-size:.75rem;padding:.28rem .5rem;border:1.5px solid var(--border);border-radius:6px;background:var(--card);font-family:inherit;cursor:pointer">
           <option value="core" selected>Ch 1–8 (Core)</option>
           <option value="ext">Ch 9–13 (Extended)</option>
           <option value="all">All Chapters</option>
-          <option value="wa3">Ch 6–7 (WA3 Focus)</option>
+          <option value="wa3">Ch 6–7 (WA3)</option>
         </select>
+        <div id="radarChart"></div>
+        <div id="chapterChips" style="display:flex;flex-wrap:wrap;gap:.3rem;justify-content:center"></div>
       </div>
-      <div id="radarChart"></div>
-      <div id="chapterChips" style="display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center"></div>
     </div>
+
+    <!-- Smart Coach -->
+    <div class="card" style="margin:0">
+      <div class="card-head">
+        <div class="card-letter">🧠</div>
+        <div class="card-title">Smart Coach</div>
+        <span style="font-size:.65rem;color:var(--muted);margin-left:auto">AI · live data</span>
+      </div>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:.5rem">
+        <div style="display:flex;gap:.3rem">
+          <button id="scBtn_student" class="sc-persona active" onclick="_scSetPersona('student')">👦 Student</button>
+          <button id="scBtn_parent"  class="sc-persona"        onclick="_scSetPersona('parent')">👨‍👩‍👦 Parent</button>
+          <button id="scBtn_teacher" class="sc-persona"        onclick="_scSetPersona('teacher')">👩‍🏫 Teacher</button>
+        </div>
+        <div id="scChips" style="display:flex;flex-wrap:wrap;gap:.3rem"></div>
+        <div style="display:flex;gap:.4rem;align-items:flex-end">
+          <textarea id="scInput" placeholder="Ask about Science progress..."
+            style="flex:1;resize:none;height:48px;padding:.4rem .6rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.8rem;background:var(--card);color:var(--ink);line-height:1.4"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();_scSubmit();}"></textarea>
+          <button onclick="_scSubmit()" id="scSendBtn"
+            style="height:48px;padding:.4rem .85rem;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit">Ask →</button>
+        </div>
+        <div id="scOut" style="min-height:.5rem;max-height:280px;overflow-y:auto"></div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Smart Coach Card on Dashboard -->
-  <div class="card" style="grid-column:1/-1">
-    <div class="card-head">
-      <div class="card-letter">🧠</div>
-      <div class="card-title">Smart Coach</div>
-      <span style="font-size:.72rem;color:var(--muted);margin-left:auto;padding-right:.5rem">AI-powered · uses your actual data</span>
-    </div>
+  <!-- ── Row 4: Activity ── -->
+  <div class="card" id="todayStatsBox">
+    <div class="card-head"><div class="card-letter">📅</div><div class="card-title">Today's Activity</div><span class="streak-badge" id="streakBadge">0-day streak</span></div>
     <div class="card-body">
-      <!-- Persona toggle -->
-      <div style="display:flex;gap:.4rem;margin-bottom:.9rem;flex-wrap:wrap">
-        <button class="sc-persona active" onclick="setCoachPersona('student',this)" id="scP_student">👦 Student</button>
-        <button class="sc-persona" onclick="setCoachPersona('parent',this)" id="scP_parent">👨‍👩‍👦 Parent</button>
-        <button class="sc-persona" onclick="setCoachPersona('teacher',this)" id="scP_teacher">👩‍🏫 Teacher</button>
-      </div>
-      <!-- Quick prompt chips -->
-      <div id="scChips" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem"></div>
-      <!-- Input row -->
-      <div style="display:flex;gap:.5rem;align-items:flex-end">
-        <textarea id="scInput" placeholder="Ask anything about Mokshith's Science progress…"
-          style="flex:1;resize:none;height:56px;padding:.5rem .7rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;background:var(--card);color:var(--ink);line-height:1.4"
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();askSmartCoach();}"></textarea>
-        <button onclick="askSmartCoach()" id="scSendBtn"
-          style="padding:.55rem 1.1rem;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;height:56px">
-          Ask →
-        </button>
-      </div>
-      <!-- Response area -->
-      <div id="scOut" style="margin-top:.75rem;min-height:2rem"></div>
-    </div>
-  </div>
-
-  <!-- Paper History — full width -->
-  <div class="card">
-    <div class="card-head"><div class="card-letter">H</div><div class="card-title">Paper History</div></div>
-    <div class="card-body" id="histRows">
-      <div class="empty-state"><div class="es-icon">📄</div><p>No papers completed yet</p></div>
-    </div>
-  </div>
-
-  <!-- Activity heatmap -->
-  <div class="card">
-    <div class="card-head">
-      <div class="card-letter">📅</div>
-      <div class="card-title">Study Activity</div>
-      <span class="streak-badge" id="streakBadge">0-day streak</span>
-    </div>
-    <div class="card-body">
-      <div style="overflow-x:auto;padding-bottom:.3rem">
-        <div style="display:flex;gap:3px;margin-bottom:4px;font-size:.65rem;color:var(--muted)" id="hmMonthLabels"></div>
-        <div style="display:grid;gap:3px" id="hmGrid"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Activity Widget -->
-  <div class="card" id="todayStatsBox" style="grid-column:1/-1">
-    <div class="card-head"><div class="card-letter">📅</div><div class="card-title">Mokshith's Activity</div></div>
-    <div class="card-body">
-      <!-- Period selector tabs -->
-      <div style="display:flex;gap:.35rem;margin-bottom:.9rem;flex-wrap:wrap">
+      <div style="display:flex;gap:.35rem;margin-bottom:.75rem;flex-wrap:wrap">
         <button class="act-tab act-tab-active" onclick="selectActTab('today',this)">Today</button>
         <button class="act-tab" onclick="selectActTab('yesterday',this)">Yesterday</button>
         <button class="act-tab" onclick="selectActTab('week',this)">This Week</button>
         <button class="act-tab" onclick="selectActTab('range',this)">Date Range</button>
       </div>
-      <!-- Date range picker (hidden unless range selected) -->
-      <div id="actRangePicker" style="display:none;margin-bottom:.75rem;display:none;gap:.5rem;align-items:center;flex-wrap:wrap">
+      <div id="actRangePicker" style="display:none;margin-bottom:.75rem;gap:.5rem;align-items:center;flex-wrap:wrap">
         <input type="date" id="actFrom" style="font-family:inherit;font-size:.8rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--paper);color:var(--ink)">
         <span style="color:var(--muted);font-size:.8rem">to</span>
         <input type="date" id="actTo" style="font-family:inherit;font-size:.8rem;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--paper);color:var(--ink)">
         <button onclick="renderActPanel()" style="padding:4px 10px;font-family:inherit;font-size:.8rem;background:var(--gold);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700">Show</button>
       </div>
-      <!-- Stats panel -->
       <div id="actPanel">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:.75rem">
           <div style="text-align:center;background:var(--paper);border-radius:8px;padding:.5rem">
@@ -710,7 +647,58 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
       </div>
     </div>
   </div>
+
+  <!-- ── Row 5: Heatmap + History side by side ── -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem" class="dash-two-col">
+    <div class="card" style="margin:0">
+      <div class="card-head"><div class="card-letter">📅</div><div class="card-title">Study Heatmap</div></div>
+      <div class="card-body">
+        <div style="overflow-x:auto;padding-bottom:.3rem">
+          <div style="display:flex;gap:3px;margin-bottom:4px;font-size:.65rem;color:var(--muted)" id="hmMonthLabels"></div>
+          <div style="display:grid;gap:3px" id="hmGrid"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin:0">
+      <div class="card-head"><div class="card-letter">H</div><div class="card-title">Paper History</div></div>
+      <div class="card-body" id="histRows">
+        <div class="empty-state"><div class="es-icon">📄</div><p>No papers yet</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Row 6: Teacher Assessment (reference) ── -->
+  <div class="card" style="margin-top:.75rem">
+    <div class="card-head"><div class="card-letter">🏫</div><div class="card-title">Teacher's Assessment</div></div>
+    <div class="card-body">
+      <div class="assess-grid">
+        <div class="assess-card assess-str">
+          <h4>✅ Strengths</h4>
+          <ul>
+            <li>SI units, measurement & error types (Ch1)</li>
+            <li>Floating/sinking rule (density comparisons)</li>
+            <li>Element vs compound classification (Ch3)</li>
+            <li>Basic MCQ recall for separation techniques</li>
+            <li>Cell organelle identification</li>
+          </ul>
+        </div>
+        <div class="assess-card assess-wk">
+          <h4>⚠️ Priority Focus</h4>
+          <ul>
+            <li><strong>Section C (30 marks)</strong> — needs full scientific reasoning, not one-word answers</li>
+            <li><strong>Ch5: Ray Model of Light</strong> — reflection/refraction diagrams, ruler & label angles</li>
+            <li><strong>Ch7: Particulate Matter</strong> — heating curve interpretation, particle-level state changes</li>
+            <li><strong>Ch8: Atoms & Molecules</strong> — proton number, nucleon number, electron config</li>
+            <li><strong>Hypothesis writing</strong> — incomplete IF-THEN format; needs quantitative IV/DV</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout warn"><strong>📌 EOY Priority:</strong> Ray Model of Light and Particulate Matter appear every year as Section C questions — prioritise these in the final 2 weeks.</div>
+    </div>
+  </div>
+
 </div>
+
 
 <!-- ═══ STUDY NOTES TAB add Dummy═══ -->
 <div id="notesTab" class="tab-content">
@@ -1556,8 +1544,10 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
       <div class="cfg-item">
         <label>Difficulty</label>
         <select id="cfgDiff">
-          <option value="standard">Standard (G2 level)</option>
-          <option value="challenging">Challenging (stretch)</option>
+          <option value="G3 Standard">G3 Standard (EOY level)</option>
+          <option value="G3 Challenging">G3 Challenging (stretch)</option>
+          <option value="standard">G2 Standard</option>
+          <option value="challenging">G2 Challenging</option>
           <option value="foundation">Foundation (build confidence)</option>
         </select>
       </div>
@@ -1817,7 +1807,7 @@ function onAuthSuccess() {
   badge.style.display = 'inline-flex';
   document.getElementById('userDisplayName').textContent = 'Hi, ' + name;
   document.getElementById('syncIndicator').style.display = 'inline';
-  if (document.getElementById('scChips')) renderCoachChips();
+  if (document.getElementById('scChips')) { _scRenderChips(); }
   document.getElementById('userDisplayName').style.display = 'inline';
   // Show teacher brief only for parent/teacher
   if (role === 'parent' || role === 'teacher') {
@@ -1966,6 +1956,8 @@ function applyChapPreset(preset) {
   syncChapCheckboxes();
   updateChapFilterLabel();
   renderEOYBanner();
+  // Render Smart Coach chips whenever dashboard reloads
+  if (typeof _scRenderChips === 'function' && document.getElementById('scChips')) _scRenderChips();
 }
 
 function applyChapFilter() {
@@ -4283,6 +4275,108 @@ function renderAIPaper(text, topic) {
   out.innerHTML=html;
 }
 
+function fetchGeminiModels() {
+  var keyEl = document.getElementById('apiKeyInp');
+  var key = keyEl ? keyEl.value.trim() : '';
+  if (!key) { document.getElementById('geminiModelStatus').innerHTML = '<span style="color:#dc2626">Enter your API key first.</span>'; return; }
+  var btn = document.getElementById('geminiRefreshBtn');
+  var sel = document.getElementById('geminiModelSel');
+  var status = document.getElementById('geminiModelStatus');
+  btn.textContent = '⏳'; btn.disabled = true;
+  status.innerHTML = 'Fetching...';
+  fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + key)
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      if (data.error) { status.innerHTML = '<span style="color:#dc2626">' + data.error.message + '</span>'; return; }
+      var models = (data.models||[]).filter(function(m){ return (m.supportedGenerationMethods||[]).indexOf('generateContent') !== -1; });
+      var cur = sel.value;
+      sel.innerHTML = '';
+      models.sort(function(a,b){ return b.name.localeCompare(a.name); });
+      models.forEach(function(m) {
+        var id = m.name.replace('models/','');
+        var opt = document.createElement('option');
+        opt.value = id; opt.textContent = id;
+        if (id === cur) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      status.innerHTML = '<span style="color:#166534">✅ ' + models.length + ' models loaded.</span>';
+    })
+    .catch(function(e){ status.innerHTML = '<span style="color:#dc2626">Error: ' + e.message + '</span>'; })
+    .finally(function(){ btn.textContent = '🔄 Load models'; btn.disabled = false; });
+}
+
+function aiSelectTF(btn) {
+  var idx = btn.getAttribute('data-idx');
+  var siblings = btn.parentElement.querySelectorAll('.ai-tf-btn');
+  siblings.forEach(function(b){ b.style.background='white'; b.style.borderColor='var(--border)'; b.style.color='var(--ink)'; b.removeAttribute('data-selected'); });
+  btn.style.background='#1e3a5f'; btn.style.borderColor='#1e3a5f'; btn.style.color='white';
+  btn.setAttribute('data-selected','true');
+  if (!window._aiTFAnswers) window._aiTFAnswers = {};
+  window._aiTFAnswers[idx] = btn.getAttribute('data-val');
+}
+
+function aiMarkOpenEnded(btn, qIdx) {
+  var ta = document.getElementById('aisc_'+qIdx);
+  var ans = ta ? ta.value.trim() : '';
+  if (!ans) { alert('Please write your answer first.'); return; }
+  var model = ta.getAttribute('data-model')||'';
+  var scheme = ta.getAttribute('data-scheme')||'';
+  var fb = document.getElementById('aiscfb_'+qIdx);
+  btn.disabled=true; btn.textContent='Marking...';
+  fb.style.display='block'; fb.innerHTML='<div style="font-size:.83rem;color:var(--muted)">AI is reading your answer...</div>';
+  var prompt = 'You are a Singapore Sec 1 Science teacher. Mark this answer. STUDENT: '+ans+' MODEL: '+model+' SCHEME: '+scheme+' Format: MARKS: X/Y\nCORRECT: ...\nMISSING: ...\nTIP: ...';
+  var conf=getApiConfig(); var p=conf.provider; var key=conf.keys[p];
+  var url,headers,body,extract;
+  if(p==='gemini'){
+    url='https://generativelanguage.googleapis.com/v1beta/models/'+(conf.geminiModel||'gemini-2.5-flash-preview-05-20')+':generateContent?key='+key;
+    headers={'Content-Type':'application/json'};
+    body=JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:300}});
+    extract=function(d){return d.candidates&&d.candidates[0]?d.candidates[0].content.parts[0].text:null;};
+  } else if(p==='anthropic'){
+    url='https://api.anthropic.com/v1/messages';
+    headers={'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+    body=JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,messages:[{role:'user',content:prompt}]});
+    extract=function(d){return d.content&&d.content[0]?d.content[0].text:null;};
+  } else {
+    fb.innerHTML='<div style="color:#dc2626">Set AI provider in Settings first.</div>'; btn.disabled=false; btn.textContent='Mark my answer'; return;
+  }
+  fetch(url,{method:'POST',headers:headers,body:body})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var text=extract(data); if(!text) throw new Error('No response');
+      var mM=text.match(/MARKS:\s*(\d+)\/(\d+)/); var cM=text.match(/CORRECT:\s*([^
+]+)/); var xM=text.match(/MISSING:\s*([^
+]+)/); var tM=text.match(/TIP:\s*([^
+]+)/);
+      var earned=mM?parseInt(mM[1]):0; var total=mM?parseInt(mM[2]):5; var pct=Math.round(earned/total*100);
+      var col=pct>=70?'#166534':pct>=40?'#92400e':'#991b1b'; var bg=pct>=70?'#f0fdf4':pct>=40?'#fffbeb':'#fff1f2';
+      fb.innerHTML='<div style="background:'+bg+';border:1.5px solid '+col+';border-radius:8px;padding:.7rem">'+
+        '<div style="font-weight:800;font-size:1rem;color:'+col+'">'+earned+'/'+total+' marks</div>'+
+        (cM?'<div style="font-size:.82rem"><b style="color:#166534">Correct:</b> '+cM[1]+'</div>':'')+
+        (xM?'<div style="font-size:.82rem"><b style="color:#dc2626">Missing:</b> '+xM[1]+'</div>':'')+
+        (tM?'<div style="font-size:.82rem;margin-top:.3rem"><b>Tip:</b> '+tM[1]+'</div>':'')+
+        '</div>';
+      btn.textContent='Marked ✅';
+    })
+    .catch(function(e){fb.innerHTML='<div style="color:#dc2626">Error: '+e.message+'</div>'; btn.disabled=false; btn.textContent='Mark my answer';});
+}
+
+function aiCheckTFOnSubmit() {
+  document.querySelectorAll('.ai-tf-btn[data-selected="true"]').forEach(function(btn){
+    var idx=btn.getAttribute('data-idx'); var val=btn.getAttribute('data-val'); var correct=btn.getAttribute('data-correct');
+    var fb=document.getElementById('aitfr_'+idx); var ok=(val===correct);
+    var tBtn=document.getElementById('aitf_'+idx+'_true'); var fBtn=document.getElementById('aitf_'+idx+'_false');
+    if(tBtn&&fBtn){
+      var cBtn=correct==='true'?tBtn:fBtn; var sBtn=val==='true'?tBtn:fBtn;
+      cBtn.style.background='#dcfce7'; cBtn.style.borderColor='#16a34a'; cBtn.style.color='#166534';
+      if(!ok){sBtn.style.background='#fee2e2'; sBtn.style.borderColor='#dc2626'; sBtn.style.color='#991b1b';}
+    }
+    var reasonTA=document.getElementById('aitftext_'+idx);
+    var reason=reasonTA?reasonTA.getAttribute('data-correct-reason'):'';
+    if(fb){fb.style.display='block'; fb.innerHTML='<div style="font-size:.82rem;background:'+(ok?'#f0fdf4':'#fff1f2')+';border:1px solid '+(ok?'#86efac':'#fca5a5')+';border-radius:6px;padding:.5rem"><b style="color:'+(ok?'#166534':'#991b1b')+'">'+(ok?'Correct!':'Incorrect — '+correct.charAt(0).toUpperCase()+correct.slice(1))+'</b> '+reason+'</div>';}
+  });
+}
+
 function aiPickMC(btn){
   if(document.getElementById('aiSubmitBtn') && document.getElementById('aiSubmitBtn').disabled) return;
   var fbid = btn.getAttribute('data-fbid');
@@ -4630,7 +4724,7 @@ function initAITopicPills(){
 
 // ══ API CONFIG ══
 function getApiConfig() {
-  var def = { provider: 'anthropic', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant' };
+  var def = { provider: 'gemini', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant', geminiModel: 'gemini-2.5-flash-preview-05-20' };
   try {
     var stored = localStorage.getItem('aiConfig');
     if (stored) return Object.assign(def, JSON.parse(stored));
@@ -4656,6 +4750,8 @@ function handleProviderChange() {
   document.getElementById('apiKeyInp').value = conf.keys[p] || '';
   document.getElementById('localUrlContainer').style.display = p === 'local' ? 'block' : 'none';
   document.getElementById('localModelContainer').style.display = p === 'local' ? 'block' : 'none';
+  var gmc=document.getElementById('geminiModelContainer'); if(gmc) gmc.style.display = p==='gemini'?'block':'none';
+  if(p==='gemini'){ var k=document.getElementById('apiKeyInp'); if(k&&k.value.trim()) setTimeout(fetchGeminiModels,100); }
 }
 
 function saveApiConfig() {
@@ -4667,6 +4763,7 @@ function saveApiConfig() {
     conf.localUrl = document.getElementById('localUrlInp').value.trim();
     conf.localModel = document.getElementById('localModelInp').value.trim();
   }
+  if (p === 'gemini') { var gms=document.getElementById('geminiModelSel'); if(gms) conf.geminiModel=gms.value; }
   localStorage.setItem('aiConfig', JSON.stringify(conf));
   document.getElementById('apiConfigModal').style.display='none';
 }
@@ -4714,6 +4811,15 @@ function saveApiConfig() {
     <div style="margin-bottom:1rem;display:none" id="localModelContainer">
       <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">Model Name</label>
       <input type="text" id="localModelInp" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem" placeholder="llama-3.1-8b-instant">
+    </div>
+    <div style="margin-bottom:1rem;display:none" id="geminiModelContainer">
+      <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">Gemini Model <button onclick="fetchGeminiModels()" id="geminiRefreshBtn" style="margin-left:.5rem;font-size:.72rem;padding:.15rem .5rem;border:1px solid #d1d5db;border-radius:4px;background:white;cursor:pointer;font-family:inherit">🔄 Load models</button></label>
+      <select id="geminiModelSel" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem">
+        <option value="gemini-2.5-flash-preview-05-20">gemini-2.5-flash-preview ⭐ latest</option>
+        <option value="gemini-1.5-flash">gemini-1.5-flash (stable)</option>
+        <option value="gemini-1.5-pro">gemini-1.5-pro (paid)</option>
+      </select>
+      <div id="geminiModelStatus" style="font-size:.75rem;color:#6b7280;margin-top:.3rem">Enter API key then click Load models.</div>
     </div>
     <button onclick="saveApiConfig()" style="width:100%;padding:12px;background:var(--ink);color:white;border:none;border-radius:8px;font-family:inherit;font-weight:700;cursor:pointer">Save Settings</button>
   </div>
@@ -6324,7 +6430,7 @@ function generateOneAIQuestion(cb, topicOverride, typeOverride) {
       var raw = extract(data);
       if (!raw) { cb(null); return; }
       try {
-        var clean = raw.replace(/```json|```/g,'').trim();
+        var clean = raw.replace(/\`\`\`json|\`\`\`/g,'').trim();
         var q = JSON.parse(clean);
         q.source = 'AI Generated';
         if (q.type === 'tf') { q.ans = String(q.ans).toUpperCase() === 'TRUE' ? 'T' : q.ans === 'T' ? 'T' : 'F'; }
@@ -6630,218 +6736,229 @@ function refreshStudyNotes() {
       + '<div style="font-size:.83rem;font-weight:700;color:var(--ink);margin-bottom:.3rem">Key concept:</div>'
       + '<div style="font-size:.82rem;line-height:1.6;background:#f9fafb;border-radius:6p
 // ═══════════════════════════════════════════════════════════════════
-// SMART COACH
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// SMART COACH — Clean rewrite
+// ═══════════════════════════════════════════════════════════════
 var _scPersona = 'student';
+var _scBusy = false;
 
-var SC_CHIPS = {
+var _SC_CHIPS = {
   student: [
-    {label:'📊 How am I doing?',        q:'Give me a quick summary of how I am doing in Science based on my actual scores.'},
-    {label:'😰 What should I study now?',q:'Which chapter should I study right now to improve the most before the EOY exam?'},
-    {label:'📈 +10 marks plan',          q:'Give me a specific plan to improve my Science score by 10 marks.'},
-    {label:'📈 +15 marks plan',          q:'Give me a specific plan to improve my Science score by 15 marks.'},
-    {label:'📈 +20 marks plan',          q:'Give me a specific plan to improve my Science score by 20 marks.'},
-    {label:'📈 +30 marks plan',          q:'Give me a specific plan to improve my Science score by 30 marks.'},
-    {label:'🔴 My weakest chapter',      q:'What is my weakest chapter and can you explain the key concepts I need to know?'},
-    {label:'⚡ Quick quiz me',           q:'Give me 3 quick questions on my weakest chapter right now.'},
-    {label:'🏆 Am I ready for EOY?',     q:'Based on my current scores, am I ready for the EOY exam? What is my estimated score?'}
+    ['📊 How am I doing?',        'Summarise my current Science progress. Which chapters am I strong in and which need work?'],
+    ['🎯 What to study now?',     'Which chapter should I focus on right now to improve the most before the EOY exam? Give me 3 specific things to do.'],
+    ['📈 Get 10 more marks',      'Give me a specific actionable plan to improve my Science EOY score by 10 marks.'],
+    ['📈 Get 20 more marks',      'Give me a specific actionable plan to improve my Science EOY score by 20 marks.'],
+    ['📈 Get 30 more marks',      'Give me a specific actionable plan to improve my Science EOY score by 30 marks.'],
+    ['🔴 My weakest chapter',     'What is my weakest chapter? Explain the key concepts I need to know and give me 2 practice questions.'],
+    ['⚡ Quiz me now',            'Give me 3 quick MCQ questions on my weakest chapter right now.'],
+    ['🏆 Am I ready for EOY?',    'Based on my current EMA scores and practice history, what is my estimated EOY percentage and grade? Be honest.']
   ],
   parent: [
-    {label:'📋 Progress summary',        q:'Summarise Mokshith's Science progress for me as a parent. Be honest and clear.'},
-    {label:'🎯 Focus areas tonight',     q:'What specific topics should Mokshith practise tonight to make the most progress?'},
-    {label:'📅 Weekly plan',             q:'Create a 7-day study plan for Mokshith based on his weakest chapters.'},
-    {label:'⚠️ Chapters needing help',  q:'Which chapters is Mokshith struggling with the most and why?'},
-    {label:'📈 +10 marks plan',          q:'Give me a parent-friendly plan for Mokshith to improve his Science score by 10 marks.'},
-    {label:'📈 +20 marks plan',          q:'Give me a parent-friendly plan for Mokshith to improve his Science score by 20 marks.'},
-    {label:'🏆 EOY readiness',           q:'Is Mokshith on track for the EOY Science exam? What grade can he realistically achieve?'},
-    {label:'💡 How can I help?',         q:'As a parent, what are the most effective ways I can help Mokshith improve in Science?'}
+    ['📋 Progress report',        'Give me an honest parent-friendly summary of Mokshith Science progress. Include what is going well and what needs attention.'],
+    ['🎯 Focus for tonight',      'What specific topics should Mokshith practise tonight to make the most improvement?'],
+    ['📅 7-day study plan',       'Create a practical 7-day study plan for Mokshith based on his weakest Science chapters.'],
+    ['⚠️  Chapters needing help', 'Which Science chapters is Mokshith struggling with and what are the specific gaps?'],
+    ['📈 Improve by 10 marks',    'What is a realistic plan for Mokshith to improve his Science score by 10 marks before EOY?'],
+    ['📈 Improve by 20 marks',    'What is a realistic plan for Mokshith to improve his Science score by 20 marks before EOY?'],
+    ['🏆 EOY readiness',          'Is Mokshith on track for EOY Science exam? What grade is realistic and what is the main risk?'],
+    ['💡 How can I help?',        'As a parent, what are the most effective ways I can help Mokshith improve in Science at home?']
   ],
   teacher: [
-    {label:'📊 Full data report',        q:'Give me a detailed data-driven report on Mokshith's Science performance across all chapters.'},
-    {label:'📉 Chapter gap analysis',    q:'Identify the specific chapter gaps and skill deficits in Mokshith's Science performance.'},
-    {label:'🎯 Intervention priorities', q:'Which chapters need immediate intervention? Rank by priority with recommended actions.'},
-    {label:'📅 Remediation plan',        q:'Create a structured 4-week remediation plan targeting Mokshith's weakest chapters.'},
-    {label:'📈 +10 marks',               q:'From a teaching perspective, what is the most effective strategy to improve Mokshith's score by 10 marks?'},
-    {label:'📈 +20 marks',               q:'From a teaching perspective, what is the most effective strategy to improve Mokshith's score by 20 marks?'},
-    {label:'🏆 EOY prognosis',           q:'What is your prognosis for Mokshith's EOY Science exam based on current performance data?'},
-    {label:'📝 Section C weakness',      q:'Analyse Mokshith's Section C performance. What specific writing skills need development?'}
+    ['📊 Full data report',       'Give me a data-driven report on Mokshith Science performance across all 13 chapters with EMA scores.'],
+    ['📉 Chapter gap analysis',   'Identify specific chapter gaps and skill deficits in Mokshith Science performance ranked by priority.'],
+    ['🎯 Intervention needed',    'Which chapters need immediate teaching intervention? Rank by priority with recommended classroom strategies.'],
+    ['📅 Remediation plan',       'Create a structured 4-week remediation plan targeting the weakest chapters in Mokshith Science performance.'],
+    ['📈 Strategy for +10 marks', 'From a teaching perspective, what is the most effective strategy to improve Mokshith score by 10 marks?'],
+    ['📈 Strategy for +20 marks', 'From a teaching perspective, what is the most effective strategy to improve Mokshith score by 20 marks?'],
+    ['🏆 EOY prognosis',          'What is your prognosis for Mokshith EOY Science exam based on current EMA performance data?'],
+    ['📝 Section C weakness',     'Analyse Mokshith Section C readiness. What specific free-response writing skills need development?']
   ]
 };
 
-function setCoachPersona(persona, btn) {
+function _scSetPersona(persona) {
   _scPersona = persona;
-  document.querySelectorAll('.sc-persona').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-  renderCoachChips();
-  document.getElementById('scInput').placeholder =
-    persona === 'parent'  ? 'Ask about Mokshith's progress, study plans, or how to help...' :
-    persona === 'teacher' ? 'Ask for data reports, gap analysis, remediation plans...' :
-                            'Ask anything about your Science progress...';
-  document.getElementById('scOut').innerHTML = '';
+  ['student','parent','teacher'].forEach(function(p) {
+    var btn = document.getElementById('scBtn_' + p);
+    if (btn) btn.className = 'sc-persona' + (p === persona ? ' active' : '');
+  });
+  var inp = document.getElementById('scInput');
+  if (inp) {
+    inp.placeholder = persona === 'parent' ? 'Ask about progress, study plans, how to help at home...'
+      : persona === 'teacher' ? 'Ask for gap analysis, remediation plans, data reports...'
+      : 'Ask anything about your Science progress...';
+  }
+  _scRenderChips();
+  var out = document.getElementById('scOut');
+  if (out) out.innerHTML = '';
 }
 
-function renderCoachChips() {
-  var chips = SC_CHIPS[_scPersona] || SC_CHIPS.student;
-  var html = chips.map(function(c) {
-    return '<button class="sc-chip" onclick="askSmartCoachQ('+JSON.stringify(c.q)+')">' + c.label + '</button>';
-  }).join('');
-  document.getElementById('scChips').innerHTML = html;
+function _scRenderChips() {
+  var container = document.getElementById('scChips');
+  if (!container) return;
+  container.innerHTML = '';
+  var chips = _SC_CHIPS[_scPersona] || _SC_CHIPS.student;
+  chips.forEach(function(pair) {
+    var label = pair[0], question = pair[1];
+    var btn = document.createElement('button');
+    btn.className = 'sc-chip';
+    btn.textContent = label;
+    btn.onclick = (function(q) { return function() { _scAsk(q); }; })(question);
+    container.appendChild(btn);
+  });
 }
 
-function buildCoachContext() {
+function _scBuildContext() {
   var d = loadData();
-  var h = d.history || [];
   var ema = d.ema || {};
   var skills = d.skills || {};
   var qfMins = d.qfMins || {};
-  
-  // Build chapter summary
-  var chapterLines = CH_META.map(function(c) {
-    var emaScore = ema[c.skill] !== undefined ? Math.round(ema[c.skill]) : null;
+  var history = d.history || [];
+
+  var lines = CH_META.map(function(c) {
+    var e = ema[c.skill];
     var s = skills[c.skill] || [0,0];
-    var attempts = parseInt(s[0])||0;
-    var correct  = parseInt(s[1])||0;
-    var rawPct   = attempts > 0 ? Math.round(correct/attempts*100) : null;
-    var qfCount  = qfMins[c.skill] || 0;
-    var status   = emaScore !== null ? (emaScore>=80?'Strong':emaScore>=60?'Good':emaScore>=40?'Developing':'Needs Work') : 'Not started';
-    return 'Ch'+c.num+' '+c.title+': EMA='+( emaScore!==null ? emaScore+'%' : '--')+
-           (rawPct!==null?' RawAcc='+rawPct+'%':'')+(qfCount?' QF='+qfCount+'q':'')+' ['+status+']';
+    var att = parseInt(s[0])||0;
+    var cor = parseInt(s[1])||0;
+    var raw = att > 0 ? Math.round(cor/att*100) : null;
+    var qf  = qfMins[c.skill] || 0;
+    var status = e != null ? (e>=80?'Strong':e>=60?'Good':e>=40?'Developing':'Needs Work') : 'Not started';
+    return 'Ch'+c.num+' '+c.title+
+      ': EMA='+(e!=null?Math.round(e)+'%':'--')+
+      (raw!=null?' Raw='+raw+'%':'')+
+      (qf?' QF='+qf+'q':'')+' ['+status+']';
   }).join('\n');
-  
-  // Recent papers
-  var recentPapers = h.slice(-5).reverse().map(function(p){
-    return 'Paper '+p.paper+': '+p.score+'/40 on '+(p.date||'').slice(0,10);
+
+  var recent = history.slice(-5).reverse().map(function(h) {
+    return 'Paper '+h.paper+': '+(h.score||0)+' pts ('+((h.date||'').slice(0,10))+')';
   }).join(', ') || 'None yet';
-  
-  // Today QF
-  var today = new Date().toISOString().slice(0,10);
-  var todayQF = (d.qfHistory||[]).filter(function(q){ return (q.date||'').slice(0,10) === today; });
-  var todayQs = todayQF.reduce(function(s,q){return s+(q.total||0);},0);
-  var todayCorrect = todayQF.reduce(function(s,q){return s+(q.correct||0);},0);
-  
-  return 'STUDENT: Mokshith (Sec 1, G3 stream, Singapore, age 13)\n'+
-         'EXAM: G3 Science EOY — 100 marks (Sec A: 30 MCQ, Sec B: 40 Structured, Sec C: 30 Free Response)\n'+
-         'PAPERS COMPLETED: '+h.length+'\nRECENT PAPERS: '+recentPapers+'\n'+
-         'TODAY QF: '+todayQs+' questions ('+todayCorrect+' correct)\n\n'+
-         'CHAPTER MASTERY (EMA scores):\n'+chapterLines;
+
+  var todayStr = new Date().toISOString().slice(0,10);
+  var todayQF = (d.qfHistory||[]).filter(function(q){ return (q.date||'').slice(0,10)===todayStr; });
+  var todayQ = todayQF.reduce(function(s,q){return s+(q.total||0);},0);
+  var todayC = todayQF.reduce(function(s,q){return s+(q.correct||0);},0);
+
+  return 'STUDENT: Mokshith (Sec 1, G3, Singapore)\n'+
+    'EOY EXAM: 100 marks (Sec A: 30 MCQ, Sec B: 40 Structured, Sec C: 30 Free Response)\n'+
+    'PAPERS DONE: '+history.length+'\nRECENT: '+recent+'\n'+
+    'TODAY QF: '+todayQ+' questions ('+todayC+' correct)\n\n'+
+    'CHAPTER MASTERY (EMA scores):\n'+lines;
 }
 
-function getPersonaInstruction() {
-  if (_scPersona === 'parent') return 'You are speaking to Mokshith's parent. Be clear, supportive, and practical. Use simple language. Focus on actionable steps and honest assessment.';
-  if (_scPersona === 'teacher') return 'You are speaking to Mokshith's Science teacher. Be data-driven, professional, and specific. Reference chapter numbers, mark allocations, and teaching strategies.';
-  return 'You are speaking directly to Mokshith (13 years old). Be encouraging, friendly, and motivating. Use simple language. Celebrate his progress and make studying feel achievable.';
+function _scAsk(question) {
+  if (_scBusy) return;
+  var inp = document.getElementById('scInput');
+  if (inp) inp.value = question || '';
+  _scSubmit();
 }
 
-function askSmartCoachQ(question) {
-  document.getElementById('scInput').value = question;
-  askSmartCoach();
-}
-
-function askSmartCoach() {
-  var input = document.getElementById('scInput');
-  var q = input.value.trim();
-  if (!q) return;
-  
+function _scSubmit() {
+  if (_scBusy) return;
+  var inp = document.getElementById('scInput');
   var out = document.getElementById('scOut');
   var sendBtn = document.getElementById('scSendBtn');
-  
-  // Show thinking state
+  if (!inp || !out) return;
+
+  var q = (inp.value || '').trim();
+  if (!q) return;
+
+  _scBusy = true;
+  if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = '...'; }
   out.innerHTML = '<div class="sc-bubble thinking">🧠 Smart Coach is thinking...</div>';
-  sendBtn.disabled = true;
-  sendBtn.textContent = '...';
-  input.value = '';
-  
-  // Build full prompt
-  var context = buildCoachContext();
-  var personaInstr = getPersonaInstruction();
-  
+  inp.value = '';
+
+  var personaInstr = _scPersona === 'parent'
+    ? 'You are speaking to Mokshith parent. Be clear, honest and practical. Simple language.'
+    : _scPersona === 'teacher'
+    ? 'You are speaking to Mokshith Science teacher. Be data-driven and professional.'
+    : 'You are speaking directly to Mokshith (age 13). Be friendly, encouraging and motivating.';
+
   var prompt = personaInstr + '\n\n' +
-    'Here is the student's current Science performance data:\n' + context + '\n\n' +
-    'USER QUESTION: ' + q + '\n\n' +
-    'Instructions: Answer helpfully and specifically based on the actual data provided. ' +
-    'Be concise but thorough. Use bullet points for plans. ' +
-    'Reference specific chapters by name (e.g. "Ch7: Particulate Matter"). ' +
-    'If recommending study order, justify it with the data. ' +
-    'Format with bold headings where helpful. Max 300 words.';
-  
-  // Use existing AI infrastructure
+    'Student Science performance data:\n' + _scBuildContext() + '\n\n' +
+    'Question: ' + q + '\n\n' +
+    'Answer based on the actual data. Be specific and concise. Use bullet points for plans. ' +
+    'Reference chapter names (e.g. Ch7: Particulate Matter). Max 250 words.';
+
   var conf = getApiConfig();
   var p = conf.provider;
   var apiKey = conf.keys[p];
-  
+
   if (!apiKey && p !== 'local') {
-    out.innerHTML = '<div class="sc-bubble" style="border-color:#fca5a5;background:#fef2f2">⚠️ No AI key configured. Please set your API key in the <strong>AI Practice</strong> tab first, then come back.</div>';
-    sendBtn.disabled = false;
-    sendBtn.textContent = 'Ask →';
-    return;
+    out.innerHTML = '<div class="sc-bubble" style="border-left:3px solid #f59e0b;padding-left:.75rem;background:#fffbeb">'+
+      '<strong>⚙️ AI key needed</strong><br>'+
+      'To use Smart Coach, add your Gemini or Groq API key in the <strong>AI Practice</strong> tab.'+
+      '<br><button onclick="showTab(\'aiTab\')" '+
+      'style="margin-top:.5rem;padding:.3rem .8rem;background:#166534;color:#fff;border:none;'+
+      'border-radius:6px;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer">'+
+      '→ Go to AI Practice tab</button>'+
+      '<br><span style="font-size:.72rem;color:#92400e;margin-top:.3rem;display:block">'+
+      'Tip: Groq is free — get a key at console.groq.com</span></div>';
+    _scDone(sendBtn); return;
   }
-  
-  var url, headers, body, extractContent;
-  
+
+  var url, headers, body, extract;
   if (p === 'anthropic') {
     url = 'https://api.anthropic.com/v1/messages';
-    headers = {'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
-    body = JSON.stringify({model:'claude-3-5-sonnet-20241022',max_tokens:1000,messages:[{role:'user',content:prompt}]});
-    extractContent = function(d){ return d.content&&d.content[0]?d.content[0].text:null; };
+    headers = {'Content-Type':'application/json','x-api-key':apiKey,
+      'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+    body = JSON.stringify({model:'claude-sonnet-4-6',max_tokens:800,
+      messages:[{role:'user',content:prompt}]});
+    extract = function(d){ return d.content&&d.content[0]?d.content[0].text:null; };
   } else if (p === 'gemini') {
     url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key='+apiKey;
     headers = {'Content-Type':'application/json'};
-    body = JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:1000}});
-    extractContent = function(d){ return d.candidates&&d.candidates[0]?d.candidates[0].content.parts[0].text:null; };
+    body = JSON.stringify({contents:[{parts:[{text:prompt}]}],
+      generationConfig:{maxOutputTokens:800}});
+    extract = function(d){ return d.candidates&&d.candidates[0]?
+      d.candidates[0].content.parts[0].text:null; };
   } else if (p === 'groq') {
     url = 'https://api.groq.com/openai/v1/chat/completions';
     headers = {'Content-Type':'application/json','Authorization':'Bearer '+apiKey};
-    body = JSON.stringify({model:'llama-3.1-8b-instant',max_tokens:1000,messages:[{role:'user',content:prompt}]});
-    extractContent = function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
+    body = JSON.stringify({model:'llama-3.1-8b-instant',max_tokens:800,
+      messages:[{role:'user',content:prompt}]});
+    extract = function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
   } else if (p === 'openai') {
     url = 'https://api.openai.com/v1/chat/completions';
     headers = {'Content-Type':'application/json','Authorization':'Bearer '+apiKey};
-    body = JSON.stringify({model:'gpt-4o-mini',max_tokens:1000,messages:[{role:'user',content:prompt}]});
-    extractContent = function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
+    body = JSON.stringify({model:'gpt-4o-mini',max_tokens:800,
+      messages:[{role:'user',content:prompt}]});
+    extract = function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
   } else {
-    out.innerHTML = '<div class="sc-bubble" style="border-color:#fca5a5;background:#fef2f2">⚠️ AI provider "'+p+'" not supported. Please select Anthropic, Gemini, Groq, or OpenAI in the AI Practice tab.</div>';
-    sendBtn.disabled = false; sendBtn.textContent = 'Ask →';
-    return;
+    out.innerHTML = '<div class="sc-bubble" style="border-left:3px solid #f87171;padding-left:.75rem">'+
+      'Provider "'+p+'" not supported. Set Anthropic, Gemini, Groq or OpenAI in AI Practice tab.</div>';
+    _scDone(sendBtn); return;
   }
-  
+
   fetch(url, {method:'POST', headers:headers, body:body})
-    .then(function(r){ return r.json(); })
+    .then(function(r) { return r.json(); })
     .then(function(data) {
-      var text = extractContent(data);
-      if (!text) throw new Error('Empty response from AI');
-      
-      // Convert markdown to HTML
+      var text = extract(data);
+      if (!text) {
+        var errMsg = data.error ? data.error.message : 'Empty response';
+        throw new Error(errMsg);
+      }
       var html = text
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/^#{1,3} (.+)$/gm, '<h4>$1</h4>')
-        .replace(/^[•\-\*] (.+)$/gm, '<li>$1</li>')
-        .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
-        .replace(/\n\n/g, '</p><p>')
-        .replace(/\n/g, '<br>');
-      
-      out.innerHTML = '<div class="sc-bubble"><p>' + html + '</p></div>'+
-        '<div style="text-align:right;margin-top:.3rem">'+
-        '<span style="font-size:.68rem;color:var(--muted)">Smart Coach · powered by '+p+' · based on your actual data</span></div>';
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+        .replace(/^#{1,3} (.+)$/gm,'<h4 style="margin:.5rem 0 .2rem;font-size:.85rem">$1</h4>')
+        .replace(/^[•\-] (.+)$/gm,'<li>$1</li>')
+        .replace(/(<li>[^<]*<\/li>\n?)+/g,'<ul style="margin:.3rem 0 .3rem 1rem;padding:0">$&</ul>')
+        .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+      out.innerHTML = '<div class="sc-bubble">'+html+'</div>'+
+        '<div style="text-align:right;margin-top:.25rem;font-size:.68rem;color:var(--muted)">'+
+        'Smart Coach · '+p+' · live data</div>';
     })
     .catch(function(e) {
-      out.innerHTML = '<div class="sc-bubble" style="border-color:#fca5a5;background:#fef2f2">❌ Error: ' + e.message + '. Check your API key in the AI Practice tab.</div>';
+      out.innerHTML = '<div class="sc-bubble" style="border-left:3px solid #f87171;padding-left:.75rem">'+
+        'Error: '+e.message+'</div>';
     })
-    .finally(function() {
-      sendBtn.disabled = false;
-      sendBtn.textContent = 'Ask →';
-    });
+    .finally(function() { _scDone(sendBtn); });
 }
 
-// Initialise chips when dashboard loads
-(function() {
-  var orig = window.renderDashboard;
-  if (orig) {
-    window.renderDashboard = function() {
-      orig.apply(this, arguments);
-      if (document.getElementById('scChips')) renderCoachChips();
-    };
-  }
-})();
+function _scDone(btn) {
+  _scBusy = false;
+  if (btn) { btn.disabled = false; btn.textContent = 'Ask \u2192'; }
+}
+// ═══════════════════════════════════════════════════════════════
 
 x;padding:.5rem .7rem;margin-bottom:.4rem">'+info.key+'</div>'
       + '<div style="font-size:.78rem;color:#dc2626;margin-bottom:.3rem"><b>Watch out:</b> '+info.mistakes+'</div>'
@@ -6866,4 +6983,5 @@ x;padding:.5rem .7rem;margin-bottom:.4rem">'+info.key+'</div>'
 
 <div id="hmTooltip" style="display:none"></div>
 </body>
+<!-- Smart Coach build -->
 </html>
