@@ -1649,10 +1649,31 @@ var FIREBASE_CONFIG = {
 var USE_FIREBASE = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
 var db = null, auth = null, currentUser = null, currentRole = null;
 
+// Check Firebase SDK loaded
+if (USE_FIREBASE && typeof firebase === 'undefined') {
+  USE_FIREBASE = false;
+  console.error('Firebase SDK not loaded — check CDN connectivity');
+  window.addEventListener('DOMContentLoaded', function() {
+    var el = document.getElementById('fbStatus');
+    if (el) { el.textContent = '⚠️ Firebase SDK failed to load. Check internet connection.'; el.style.color='#dc2626'; }
+  });
+}
+
 if (USE_FIREBASE) {
-  firebase.initializeApp(FIREBASE_CONFIG);
-  db = firebase.firestore();
-  auth = firebase.auth();
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    db   = firebase.firestore();
+    auth = firebase.auth();
+    console.log('✅ Firebase initialised OK');
+  } catch(e) {
+    console.error('❌ Firebase init failed:', e.message);
+    USE_FIREBASE = false;
+    var _fbErr = document.getElementById('fbStatus');
+    if (_fbErr) {
+      _fbErr.textContent = '⚠️ Firebase failed to load (' + e.message + '). Using local mode.';
+      _fbErr.style.color = '#dc2626';
+    }
+  }
 }
 
 // ─── DEMO ACCOUNTS (pre-created if using local mode) ───
@@ -1716,12 +1737,22 @@ function doAuth() {
 
   if (USE_FIREBASE) {
     if (!auth) {
-      // Retry once after 1.5s in case Firebase is still loading
+      // Poll for Firebase auth up to 5 seconds
       submitBtn.textContent = 'Connecting...';
-      setTimeout(function() {
-        if (!auth) { showErr('Firebase not ready. Check your internet connection and refresh.', 'no-auth'); resetBtn(); return; }
-        doAuth();
-      }, 1500);
+      var _attempts = 0;
+      var _poll = setInterval(function() {
+        _attempts++;
+        if (auth) {
+          clearInterval(_poll);
+          doAuth();
+        } else if (_attempts >= 10) {
+          clearInterval(_poll);
+          showErr('Cannot connect to Firebase. Check your internet and refresh the page.', 'no-auth');
+          resetBtn();
+        } else {
+          submitBtn.textContent = 'Connecting (' + _attempts + ')...';
+        }
+      }, 500);
       return;
     }
     if (authMode === 'login') {
