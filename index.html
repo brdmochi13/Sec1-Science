@@ -1544,8 +1544,10 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
       <div class="cfg-item">
         <label>Difficulty</label>
         <select id="cfgDiff">
-          <option value="standard">Standard (G2 level)</option>
-          <option value="challenging">Challenging (stretch)</option>
+          <option value="G3 Standard">G3 Standard (EOY level)</option>
+          <option value="G3 Challenging">G3 Challenging (stretch)</option>
+          <option value="standard">G2 Standard</option>
+          <option value="challenging">G2 Challenging</option>
           <option value="foundation">Foundation (build confidence)</option>
         </select>
       </div>
@@ -4133,7 +4135,7 @@ function generateAIPaper() {
     extractContent = function(d) { return d.choices && d.choices[0] ? d.choices[0].message.content : null; };
   }
   else if (p === 'gemini') {
-    url = 'https://generativelanguage.googleapis.com/v1beta/models/' + (conf.geminiModel || 'gemini-2.0-flash') + ':generateContent?key=' + apiKey;
+    url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=' + apiKey;
     headers = {
       'Content-Type':'application/json'
     };
@@ -4271,6 +4273,108 @@ function renderAIPaper(text, topic) {
   }
 
   out.innerHTML=html;
+}
+
+function fetchGeminiModels() {
+  var keyEl = document.getElementById('apiKeyInp');
+  var key = keyEl ? keyEl.value.trim() : '';
+  if (!key) { document.getElementById('geminiModelStatus').innerHTML = '<span style="color:#dc2626">Enter your API key first.</span>'; return; }
+  var btn = document.getElementById('geminiRefreshBtn');
+  var sel = document.getElementById('geminiModelSel');
+  var status = document.getElementById('geminiModelStatus');
+  btn.textContent = '⏳'; btn.disabled = true;
+  status.innerHTML = 'Fetching...';
+  fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + key)
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      if (data.error) { status.innerHTML = '<span style="color:#dc2626">' + data.error.message + '</span>'; return; }
+      var models = (data.models||[]).filter(function(m){ return (m.supportedGenerationMethods||[]).indexOf('generateContent') !== -1; });
+      var cur = sel.value;
+      sel.innerHTML = '';
+      models.sort(function(a,b){ return b.name.localeCompare(a.name); });
+      models.forEach(function(m) {
+        var id = m.name.replace('models/','');
+        var opt = document.createElement('option');
+        opt.value = id; opt.textContent = id;
+        if (id === cur) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      status.innerHTML = '<span style="color:#166534">✅ ' + models.length + ' models loaded.</span>';
+    })
+    .catch(function(e){ status.innerHTML = '<span style="color:#dc2626">Error: ' + e.message + '</span>'; })
+    .finally(function(){ btn.textContent = '🔄 Load models'; btn.disabled = false; });
+}
+
+function aiSelectTF(btn) {
+  var idx = btn.getAttribute('data-idx');
+  var siblings = btn.parentElement.querySelectorAll('.ai-tf-btn');
+  siblings.forEach(function(b){ b.style.background='white'; b.style.borderColor='var(--border)'; b.style.color='var(--ink)'; b.removeAttribute('data-selected'); });
+  btn.style.background='#1e3a5f'; btn.style.borderColor='#1e3a5f'; btn.style.color='white';
+  btn.setAttribute('data-selected','true');
+  if (!window._aiTFAnswers) window._aiTFAnswers = {};
+  window._aiTFAnswers[idx] = btn.getAttribute('data-val');
+}
+
+function aiMarkOpenEnded(btn, qIdx) {
+  var ta = document.getElementById('aisc_'+qIdx);
+  var ans = ta ? ta.value.trim() : '';
+  if (!ans) { alert('Please write your answer first.'); return; }
+  var model = ta.getAttribute('data-model')||'';
+  var scheme = ta.getAttribute('data-scheme')||'';
+  var fb = document.getElementById('aiscfb_'+qIdx);
+  btn.disabled=true; btn.textContent='Marking...';
+  fb.style.display='block'; fb.innerHTML='<div style="font-size:.83rem;color:var(--muted)">AI is reading your answer...</div>';
+  var prompt = 'You are a Singapore Sec 1 Science teacher. Mark this answer. STUDENT: '+ans+' MODEL: '+model+' SCHEME: '+scheme+' Format: MARKS: X/Y\nCORRECT: ...\nMISSING: ...\nTIP: ...';
+  var conf=getApiConfig(); var p=conf.provider; var key=conf.keys[p];
+  var url,headers,body,extract;
+  if(p==='gemini'){
+    url='https://generativelanguage.googleapis.com/v1beta/models/'+(conf.geminiModel||'gemini-2.5-flash-preview-05-20')+':generateContent?key='+key;
+    headers={'Content-Type':'application/json'};
+    body=JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:300}});
+    extract=function(d){return d.candidates&&d.candidates[0]?d.candidates[0].content.parts[0].text:null;};
+  } else if(p==='anthropic'){
+    url='https://api.anthropic.com/v1/messages';
+    headers={'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+    body=JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,messages:[{role:'user',content:prompt}]});
+    extract=function(d){return d.content&&d.content[0]?d.content[0].text:null;};
+  } else {
+    fb.innerHTML='<div style="color:#dc2626">Set AI provider in Settings first.</div>'; btn.disabled=false; btn.textContent='Mark my answer'; return;
+  }
+  fetch(url,{method:'POST',headers:headers,body:body})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var text=extract(data); if(!text) throw new Error('No response');
+      var mM=text.match(/MARKS:\s*(\d+)\/(\d+)/); var cM=text.match(/CORRECT:\s*([^
+]+)/); var xM=text.match(/MISSING:\s*([^
+]+)/); var tM=text.match(/TIP:\s*([^
+]+)/);
+      var earned=mM?parseInt(mM[1]):0; var total=mM?parseInt(mM[2]):5; var pct=Math.round(earned/total*100);
+      var col=pct>=70?'#166534':pct>=40?'#92400e':'#991b1b'; var bg=pct>=70?'#f0fdf4':pct>=40?'#fffbeb':'#fff1f2';
+      fb.innerHTML='<div style="background:'+bg+';border:1.5px solid '+col+';border-radius:8px;padding:.7rem">'+
+        '<div style="font-weight:800;font-size:1rem;color:'+col+'">'+earned+'/'+total+' marks</div>'+
+        (cM?'<div style="font-size:.82rem"><b style="color:#166534">Correct:</b> '+cM[1]+'</div>':'')+
+        (xM?'<div style="font-size:.82rem"><b style="color:#dc2626">Missing:</b> '+xM[1]+'</div>':'')+
+        (tM?'<div style="font-size:.82rem;margin-top:.3rem"><b>Tip:</b> '+tM[1]+'</div>':'')+
+        '</div>';
+      btn.textContent='Marked ✅';
+    })
+    .catch(function(e){fb.innerHTML='<div style="color:#dc2626">Error: '+e.message+'</div>'; btn.disabled=false; btn.textContent='Mark my answer';});
+}
+
+function aiCheckTFOnSubmit() {
+  document.querySelectorAll('.ai-tf-btn[data-selected="true"]').forEach(function(btn){
+    var idx=btn.getAttribute('data-idx'); var val=btn.getAttribute('data-val'); var correct=btn.getAttribute('data-correct');
+    var fb=document.getElementById('aitfr_'+idx); var ok=(val===correct);
+    var tBtn=document.getElementById('aitf_'+idx+'_true'); var fBtn=document.getElementById('aitf_'+idx+'_false');
+    if(tBtn&&fBtn){
+      var cBtn=correct==='true'?tBtn:fBtn; var sBtn=val==='true'?tBtn:fBtn;
+      cBtn.style.background='#dcfce7'; cBtn.style.borderColor='#16a34a'; cBtn.style.color='#166534';
+      if(!ok){sBtn.style.background='#fee2e2'; sBtn.style.borderColor='#dc2626'; sBtn.style.color='#991b1b';}
+    }
+    var reasonTA=document.getElementById('aitftext_'+idx);
+    var reason=reasonTA?reasonTA.getAttribute('data-correct-reason'):'';
+    if(fb){fb.style.display='block'; fb.innerHTML='<div style="font-size:.82rem;background:'+(ok?'#f0fdf4':'#fff1f2')+';border:1px solid '+(ok?'#86efac':'#fca5a5')+';border-radius:6px;padding:.5rem"><b style="color:'+(ok?'#166534':'#991b1b')+'">'+(ok?'Correct!':'Incorrect — '+correct.charAt(0).toUpperCase()+correct.slice(1))+'</b> '+reason+'</div>';}
+  });
 }
 
 function aiPickMC(btn){
@@ -4620,7 +4724,7 @@ function initAITopicPills(){
 
 // ══ API CONFIG ══
 function getApiConfig() {
-  var def = { provider: 'gemini', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant' };
+  var def = { provider: 'gemini', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant', geminiModel: 'gemini-2.5-flash-preview-05-20' };
   try {
     var stored = localStorage.getItem('aiConfig');
     if (stored) return Object.assign(def, JSON.parse(stored));
@@ -4646,6 +4750,8 @@ function handleProviderChange() {
   document.getElementById('apiKeyInp').value = conf.keys[p] || '';
   document.getElementById('localUrlContainer').style.display = p === 'local' ? 'block' : 'none';
   document.getElementById('localModelContainer').style.display = p === 'local' ? 'block' : 'none';
+  var gmc=document.getElementById('geminiModelContainer'); if(gmc) gmc.style.display = p==='gemini'?'block':'none';
+  if(p==='gemini'){ var k=document.getElementById('apiKeyInp'); if(k&&k.value.trim()) setTimeout(fetchGeminiModels,100); }
 }
 
 function saveApiConfig() {
@@ -4657,9 +4763,7 @@ function saveApiConfig() {
     conf.localUrl = document.getElementById('localUrlInp').value.trim();
     conf.localModel = document.getElementById('localModelInp').value.trim();
   }
-  if (p === 'gemini') {
-    conf.geminiModel = document.getElementById('geminiModelSel').value;
-  }
+  if (p === 'gemini') { var gms=document.getElementById('geminiModelSel'); if(gms) conf.geminiModel=gms.value; }
   localStorage.setItem('aiConfig', JSON.stringify(conf));
   document.getElementById('apiConfigModal').style.display='none';
 }
@@ -4709,15 +4813,13 @@ function saveApiConfig() {
       <input type="text" id="localModelInp" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem" placeholder="llama-3.1-8b-instant">
     </div>
     <div style="margin-bottom:1rem;display:none" id="geminiModelContainer">
-      <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">Gemini Model <span style="font-weight:400;color:#6b7280">(select the one that works for your key)</span></label>
+      <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">Gemini Model <button onclick="fetchGeminiModels()" id="geminiRefreshBtn" style="margin-left:.5rem;font-size:.72rem;padding:.15rem .5rem;border:1px solid #d1d5db;border-radius:4px;background:white;cursor:pointer;font-family:inherit">🔄 Load models</button></label>
       <select id="geminiModelSel" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem">
-        <option value="gemini-2.0-flash">gemini-2.0-flash (recommended — fast &amp; free)</option>
-        <option value="gemini-1.5-flash">gemini-1.5-flash (free tier)</option>
-        <option value="gemini-1.5-pro">gemini-1.5-pro (paid tier)</option>
-        <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp (experimental)</option>
-        <option value="gemini-1.0-pro">gemini-1.0-pro (legacy)</option>
+        <option value="gemini-2.5-flash-preview-05-20">gemini-2.5-flash-preview ⭐ latest</option>
+        <option value="gemini-1.5-flash">gemini-1.5-flash (stable)</option>
+        <option value="gemini-1.5-pro">gemini-1.5-pro (paid)</option>
       </select>
-      <div style="font-size:.75rem;color:#6b7280;margin-top:.4rem">If you get a 404 or model error, try gemini-2.0-flash or gemini-1.5-flash.</div>
+      <div id="geminiModelStatus" style="font-size:.75rem;color:#6b7280;margin-top:.3rem">Enter API key then click Load models.</div>
     </div>
     <button onclick="saveApiConfig()" style="width:100%;padding:12px;background:var(--ink);color:white;border:none;border-radius:8px;font-family:inherit;font-weight:700;cursor:pointer">Save Settings</button>
   </div>
@@ -6802,7 +6904,7 @@ function _scSubmit() {
       messages:[{role:'user',content:prompt}]});
     extract = function(d){ return d.content&&d.content[0]?d.content[0].text:null; };
   } else if (p === 'gemini') {
-    url = 'https://generativelanguage.googleapis.com/v1beta/models/'+(conf.geminiModel||'gemini-2.0-flash')+':generateContent?key='+apiKey;
+    url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key='+apiKey;
     headers = {'Content-Type':'application/json'};
     body = JSON.stringify({contents:[{parts:[{text:prompt}]}],
       generationConfig:{maxOutputTokens:800}});
