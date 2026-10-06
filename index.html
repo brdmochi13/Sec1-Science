@@ -432,7 +432,6 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
       <div id="signupNameRow" class="auth-field" style="display:none"><label>Display Name</label><input class="auth-inp" id="authName" type="text" placeholder="e.g. Mokshith"></div>
       <button class="auth-btn" id="authSubmitBtn" onclick="doAuth()">Sign In</button>
       <div class="auth-err" id="authErr"></div>
-      <div id="fbStatus" style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:.3rem"></div>
       <div class="auth-switch" id="authSwitch">Don't have an account? <a onclick="authSwitchTab('signup',null)">Register</a></div>
       <div style="text-align:center;margin-top:.8rem;font-size:.74rem;color:var(--muted)">
         Accounts: mokshith@sci.sg / parent@sci.sg / teacher@sci.sg · Password: <strong>Abcd1234</strong>
@@ -1649,31 +1648,10 @@ var FIREBASE_CONFIG = {
 var USE_FIREBASE = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
 var db = null, auth = null, currentUser = null, currentRole = null;
 
-// Check Firebase SDK loaded
-if (USE_FIREBASE && typeof firebase === 'undefined') {
-  USE_FIREBASE = false;
-  console.error('Firebase SDK not loaded — check CDN connectivity');
-  window.addEventListener('DOMContentLoaded', function() {
-    var el = document.getElementById('fbStatus');
-    if (el) { el.textContent = '⚠️ Firebase SDK failed to load. Check internet connection.'; el.style.color='#dc2626'; }
-  });
-}
-
 if (USE_FIREBASE) {
-  try {
-    firebase.initializeApp(FIREBASE_CONFIG);
-    db   = firebase.firestore();
-    auth = firebase.auth();
-    console.log('✅ Firebase initialised OK');
-  } catch(e) {
-    console.error('❌ Firebase init failed:', e.message);
-    USE_FIREBASE = false;
-    var _fbErr = document.getElementById('fbStatus');
-    if (_fbErr) {
-      _fbErr.textContent = '⚠️ Firebase failed to load (' + e.message + '). Using local mode.';
-      _fbErr.style.color = '#dc2626';
-    }
-  }
+  firebase.initializeApp(FIREBASE_CONFIG);
+  db = firebase.firestore();
+  auth = firebase.auth();
 }
 
 // ─── DEMO ACCOUNTS (pre-created if using local mode) ───
@@ -1709,112 +1687,83 @@ function selectRole(role, btn) {
 }
 
 function doAuth() {
-  var email = (document.getElementById('authEmail').value || '').trim().toLowerCase();
-  var pwd   = (document.getElementById('authPwd').value || '');
+  var email = document.getElementById('authEmail').value.trim().toLowerCase();
+  var pwd   = document.getElementById('authPwd').value;
   var errEl = document.getElementById('authErr');
-  var submitBtn = document.getElementById('authSubmitBtn');
+  errEl.textContent = '';
+  errEl.style.display = 'block';
+  if (!email || !pwd) { errEl.textContent = 'Please enter email and password.'; return; }
 
-  function showErr(msg) {
-    errEl.textContent = msg;
-    errEl.style.color = '#dc2626';
-    errEl.style.fontWeight = '600';
-    errEl.style.display = 'block';
+  var submitBtn = document.getElementById('authSubmitBtn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Please wait...';
+
+  function resetBtn() {
     submitBtn.disabled = false;
     submitBtn.textContent = authMode === 'login' ? 'Sign In' : 'Create Account';
   }
 
-  errEl.textContent = '';
-  if (!email || !pwd) { showErr('Please enter email and password.'); return; }
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Signing in...';
-
-  // ── Demo/local account fast path (always available) ──────────────────
-  function tryDemoLogin() {
-    var acct = DEMO_ACCOUNTS[email];
-    if (acct && acct.password === pwd) {
-      currentUser = { uid: email, email: email, displayName: acct.name };
-      currentRole = acct.role;
-      onAuthSuccess();
-      return true;
-    }
-    return false;
+  function showErr(msg, code) {
+    console.error('Auth error:', code, msg);
+    errEl.textContent = msg;
+    errEl.style.color = '#dc2626';
+    errEl.style.fontWeight = '600';
+    resetBtn();
   }
 
-  // ── If Firebase not available — use demo accounts ────────────────────
-  if (!USE_FIREBASE || !auth) {
-    if (!tryDemoLogin()) {
-      showErr('Sign in failed. If you are Mokshith, use the quick-login buttons below.');
-    }
-    return;
-  }
+  console.log('doAuth() called — mode:', authMode, 'email:', email, 'USE_FIREBASE:', USE_FIREBASE);
 
-  // ── Firebase path with 8-second timeout fallback ────────────────────
-  var done = false;
-  var timeout = setTimeout(function() {
-    if (done) return;
-    done = true;
-    console.warn('Firebase timeout — trying demo accounts');
-    if (!tryDemoLogin()) {
-      showErr('Connection timed out. Check your internet and try again.');
+  if (USE_FIREBASE) {
+    if (!auth) { showErr('Firebase Auth not initialised. Refresh the page.', 'no-auth'); return; }
+    if (authMode === 'login') {
+      auth.signInWithEmailAndPassword(email, pwd)
+        .then(function(uc) {
+          console.log('✅ signIn OK, UID:', uc.user.uid);
+          currentUser = uc.user;
+          db.collection('users').doc(uc.user.uid).get()
+            .then(function(doc) {
+              currentRole = doc.exists ? (doc.data().role || 'student') : 'student';
+              console.log('Role loaded:', currentRole);
+            })
+            .catch(function(e) {
+              console.warn('Firestore role fetch failed:', e.message, '— defaulting to student');
+              currentRole = 'student';
+            })
+            .finally(function() { onAuthSuccess(); });
+        })
+        .catch(function(e) {
+          var msg;
+          if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential')
+            msg = 'Email or password incorrect. Check and try again.';
+          else if (e.code === 'auth/wrong-password')
+            msg = 'Incorrect password.';
+          else if (e.code === 'auth/too-many-requests')
+            msg = 'Account temporarily locked — too many failed attempts. Wait 5 minutes or reset your password.';
+          else if (e.code === 'auth/network-request-failed')
+            msg = 'Network error — check your internet connection.';
+          else
+            msg = e.code + ': ' + e.message;
+          showErr(msg, e.code);
+        });
+    } else {
+      var name = document.getElementById('authName').value.trim() || 'User';
+      auth.createUserWithEmailAndPassword(email, pwd)
+        .then(function(uc) {
+          return Promise.all([
+            uc.user.updateProfile({displayName: name}),
+            db.collection('users').doc(uc.user.uid).set({role: selectedRole, name: name, email: email, createdAt: firebase.firestore.FieldValue.serverTimestamp()})
+          ]);
+        })
+        .catch(function(e) { errEl.textContent = e.message; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent='Create Account'; });
     }
-  }, 8000);
-
-  if (authMode === 'login') {
-    auth.signInWithEmailAndPassword(email, pwd)
-      .then(function(uc) {
-        if (done) return;
-        done = true;
-        clearTimeout(timeout);
-        currentUser = uc.user;
-        // Get role — but always proceed even if this fails
-        db.collection('users').doc(uc.user.uid).get()
-          .then(function(doc) {
-            currentRole = doc.exists ? (doc.data().role || 'student') : 'student';
-          })
-          .catch(function() { currentRole = 'student'; })
-          .finally(function() { onAuthSuccess(); });
-      })
-      .catch(function(e) {
-        if (done) return;
-        done = true;
-        clearTimeout(timeout);
-        var msg;
-        if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password')
-          msg = 'Email or password incorrect.';
-        else if (e.code === 'auth/too-many-requests')
-          msg = 'Too many attempts — wait 5 minutes or use quick-login below.';
-        else if (e.code === 'auth/network-request-failed')
-          msg = 'No internet connection.';
-        else {
-          // Unknown error — try demo accounts as last resort
-          if (tryDemoLogin()) return;
-          msg = 'Sign in error: ' + e.message;
-        }
-        showErr(msg);
-      });
   } else {
-    // Sign up
-    var name = (document.getElementById('authName') ? document.getElementById('authName').value.trim() : '') || 'User';
-    auth.createUserWithEmailAndPassword(email, pwd)
-      .then(function(uc) {
-        if (done) return;
-        done = true;
-        clearTimeout(timeout);
-        return Promise.all([
-          uc.user.updateProfile({ displayName: name }),
-          db.collection('users').doc(uc.user.uid).set({
-            role: selectedRole || 'student', name: name,
-            email: email, createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          })
-        ]);
-      })
-      .then(function() { if (!done) { done=true; clearTimeout(timeout); onAuthSuccess(); } })
-      .catch(function(e) {
-        if (done) return;
-        done = true;
-        clearTimeout(timeout);
-        showErr(e.message);
-      });
+    // Local mode — demo accounts
+    var acct = DEMO_ACCOUNTS[email];
+    if (!acct) { errEl.textContent = 'Email not found. Use demo accounts shown below.'; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent=authMode==='login'?'Sign In':'Create Account'; return; }
+    if (acct.password !== pwd) { errEl.textContent = 'Incorrect password.'; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent='Sign In'; return; }
+    currentUser = {uid: email, email: email, displayName: acct.name};
+    currentRole = acct.role;
+    onAuthSuccess();
   }
 }
 
@@ -1884,12 +1833,7 @@ function onAuthSuccess() {
 }
 
 if (USE_FIREBASE) {
-  // Show connection status on login page
-  var _fbSt = document.getElementById('fbStatus');
-  if (_fbSt) { _fbSt.textContent = '🔗 Connecting...'; _fbSt.style.color = '#92400e'; }
   auth.onAuthStateChanged(function(user) {
-    var _fbSt2 = document.getElementById('fbStatus');
-    if (_fbSt2) { _fbSt2.textContent = ''; }
     if (user) {
       currentUser = user;
       // Try to get role from Firestore, but always fall through even if it fails
@@ -4149,9 +4093,8 @@ function generateAIPaper() {
   status.textContent='Generating your practice paper...';
   document.getElementById('aiPaperOut').innerHTML='';
 
-  var var isG3 = diff.includes('G3');
-  prompt=(isG3 ? 'You are a Singapore Secondary 1 G3 Science teacher creating a practice paper.\n\n' : 'You are a Singapore Secondary 1 G2 Science teacher creating a practice paper.\n\n');
-  prompt+='STUDENT: Mokshith ('+(isG3?'G3/Express':'G2/Normal Academic')+', 13 years old, Meridian Secondary School)\n';
+  var prompt='You are a Singapore Secondary 1 G2 Science teacher creating a practice paper.\n\n';
+  prompt+='STUDENT: Mokshith (G2/Normal Academic, 13 years old)\n';
   prompt+='TOPIC FOCUS: '+focusTopic+'\nDIFFICULTY: '+diff+'\nSECTION: '+section+'\n\n';
   prompt+='Create a full 40-mark practice paper. Format EXACTLY:\n\n';
   if(section==='all'||section==='mcq') prompt+='SECTION_A_START\nQ1. [question]\nA. [opt] B. [opt] C. [opt] D. [opt]\nANS: [A/B/C/D]\nEXP: [one sentence explanation]\nQ2. ...(10 MCQ total)\nSECTION_A_END\n\n';
@@ -4192,7 +4135,7 @@ function generateAIPaper() {
     extractContent = function(d) { return d.choices && d.choices[0] ? d.choices[0].message.content : null; };
   }
   else if (p === 'gemini') {
-    url = 'https://generativelanguage.googleapis.com/v1beta/models/' + (conf.geminiModel || 'gemini-2.5-flash-preview-05-20') + ':generateContent?key=' + apiKey;
+    url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=' + apiKey;
     headers = {
       'Content-Type':'application/json'
     };
@@ -4242,7 +4185,7 @@ function generateAIPaper() {
 
 function renderAIPaper(text, topic) {
   var out=document.getElementById('aiPaperOut');
-  var html='<div class="ai-paper-header"><div class="ai-paper-title">AI Practice — '+topic+'</div><div class="ai-paper-meta"><span>Generated by AI</span><span>'+diff+' Level</span><span>'+new Date().toLocaleDateString('en-SG')+'</span></div></div>';
+  var html='<div class="ai-paper-header"><div class="ai-paper-title">AI Practice — '+topic+'</div><div class="ai-paper-meta"><span>Generated by Claude</span><span>G2 Level</span><span>'+new Date().toLocaleDateString('en-SG')+'</span></div></div>';
   var saMatch=text.match(/SECTION_A_START([\s\S]*?)SECTION_A_END/);
   if(saMatch){
     html+='<div class="sec-label">Section A — Multiple Choice</div>';
@@ -4267,38 +4210,19 @@ function renderAIPaper(text, topic) {
   }
   var sbMatch=text.match(/SECTION_B_START([\s\S]*?)SECTION_B_END/);
   if(sbMatch){
-    html+='<div class="sec-label">Section B — True or False with Reasoning <span style="font-size:.75rem;font-weight:400;color:var(--muted)">(select True or False, then explain your reasoning)</span></div>';
+    html+='<div class="sec-label">Section B — True or False</div>';
     var stmts=sbMatch[1].match(/STMT\d+:([^\n]+)/g)||[];
     var anss=sbMatch[1].match(/ANS\d+:([^\n]+)/g)||[];
     var reasons=sbMatch[1].match(/REASON\d+:([^\n]+)/g)||[];
     stmts.forEach(function(s,i){
       var stmt=s.replace(/STMT\d+:/,'').trim();
-      var ans=(anss[i]||'').replace(/ANS\d+:/,'').trim().toLowerCase();
+      var ans=(anss[i]||'').replace(/ANS\d+:/,'').trim();
       var reason=(reasons[i]||'').replace(/REASON\d+:/,'').trim();
-      html+='<div class="ai-q" id="aiq_b_'+i+'">';
-      html+='<div style="display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.4rem">';
-      html+='<div class="ai-qn">S'+(i+1)+'.</div>';
-      html+='<div class="ai-pass" style="flex:1">'+stmt+'</div>';
-      html+='<span style="font-size:.7rem;color:var(--muted);white-space:nowrap">[2 marks]</span>';
-      html+='</div>';
-      // T/F toggle buttons - clearly styled
-      html+='<div style="display:flex;gap:.5rem;margin:.5rem 0 .5rem 2rem">';
-      html+='<button class="ai-tf-btn" id="aitf_'+i+'_true" data-correct="'+ans+'" data-val="true" data-idx="'+i+'"';
-      html+=' onclick="aiSelectTF(this)"';
-      html+=' style="padding:.4rem 1.2rem;border-radius:6px;border:2px solid var(--border);background:white;font-weight:700;font-size:.85rem;cursor:pointer;font-family:inherit;transition:all .15s">✓ True</button>';
-      html+='<button class="ai-tf-btn" id="aitf_'+i+'_false" data-correct="'+ans+'" data-val="false" data-idx="'+i+'"';
-      html+=' onclick="aiSelectTF(this)"';
-      html+=' style="padding:.4rem 1.2rem;border-radius:6px;border:2px solid var(--border);background:white;font-weight:700;font-size:.85rem;cursor:pointer;font-family:inherit;transition:all .15s">✗ False</button>';
-      html+='</div>';
-      // Reason textarea
-      html+='<div style="margin-left:2rem">';
-      html+='<div style="font-size:.78rem;color:var(--muted);margin-bottom:.25rem">Your reasoning: <span style="color:#dc2626">*</span></div>';
-      html+='<textarea class="ai-tf-reason" id="aitftext_'+i+'" data-idx="'+i+'" data-correct-reason="'+reason.replace(/"/g,'&quot;')+'"';
-      html+=' placeholder="Explain why the statement is True or False..."';
-      html+=' style="width:100%;height:52px;padding:.4rem .6rem;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:.83rem;resize:none"></textarea>';
-      html+='</div>';
-      html+='<div class="ai-fb" id="aitfr_'+i+'" style="display:none;margin-left:2rem;margin-top:.4rem"></div>';
-      html+='</div>';
+      html+='<div class="ai-q"><div class="ai-q-head"><div class="ai-qn">Statement '+(i+1)+'.</div>';
+      html+='<div class="ai-pass">'+stmt+'</div>';
+      html+='<div class="mc-opts"><button class="mcopt" data-correct="'+ans.toLowerCase()+'" data-val="true" data-fbid="aitfr_'+i+'" onclick="aiPickTF(this)">True</button><button class="mcopt" data-correct="'+ans.toLowerCase()+'" data-val="false" data-fbid="aitfr_'+i+'" onclick="aiPickTF(this)">False</button></div>';
+      html+='<div class="ai-fb" id="aitfr_'+i+'" style="display:none"><strong>'+ans+'</strong> — '+reason+'</div>';
+      html+='</div></div>';
     });
   }
   var scMatch=text.match(/SECTION_C_START([\s\S]*?)SECTION_C_END/);
@@ -4325,13 +4249,14 @@ function renderAIPaper(text, topic) {
       if(qText) {
         html+='<div class="ai-q"><div class="ai-q-head"><div class="ai-qn">Structured Q'+(i+1)+'.</div>';
         html+='<div class="ai-pass">'+qText+'</div>';
-        html+='<textarea class="ai-sc-answer" id="aisc_'+i+'" data-model="'+ansText.replace(/"/g,\'&quot;\').replace(/\n/g,\' \')+'" data-scheme="'+(schemeText||'').replace(/"/g,\'&quot;\').replace(/\n/g,\' \')+'" placeholder="Write your full answer here. Be specific and use scientific terms..." style="width:100%;height:90px;padding:.5rem .7rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;resize:vertical;margin:.5rem 0"></textarea>';
-        html+='<div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">';
-        html+='<button onclick="aiMarkOpenEnded(this,'+i+')" data-qidx="'+i+'"';
-        html+=' style="padding:.4rem 1rem;background:var(--green);color:white;border:none;border-radius:6px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit">🤖 Mark my answer</button>';
-        html+='<span style="font-size:.72rem;color:var(--muted)">AI will read your answer and give you marks + feedback</span>';
-        html+='</div>';
-        html+='<div class="ai-sc-feedback" id="aiscfb_'+i+'" style="display:none;margin-top:.5rem"></div>';
+        html+='<textarea class="txtarea" placeholder="Write your answer here..."></textarea>';
+        if(ansText || schemeText) {
+          html+='<button class="tbtn tbtn-outline ai-reveal-btn" style="margin-top:10px;padding:6px 12px;font-size:0.8rem;cursor:pointer;border-radius:6px" onclick="this.nextElementSibling.style.display=\'block\';this.style.display=\'none\'">👁️ Reveal Answer & Mark Scheme</button>';
+          html+='<div class="reveal info ai-scheme-fb" style="display:none;margin-top:.5rem">';
+          if(ansText) html+='<div class="rlabel" style="color:var(--blue)">Model Answer</div><div class="rans" style="white-space:pre-line;margin-bottom:12px">'+ansText+'</div>';
+          if(schemeText) html+='<div class="rlabel" style="border-top:1px solid #bfdbfe;padding-top:12px;margin-top:4px">Mark Scheme</div><div class="rans" style="white-space:pre-line;color:var(--muted)">'+schemeText+'</div>';
+          html+='</div>';
+        }
         html+='</div></div>';
       }
     });
@@ -4350,10 +4275,40 @@ function renderAIPaper(text, topic) {
   out.innerHTML=html;
 }
 
+function fetchGeminiModels() {
+  var keyEl = document.getElementById('apiKeyInp');
+  var key = keyEl ? keyEl.value.trim() : '';
+  if (!key) { document.getElementById('geminiModelStatus').innerHTML = '<span style="color:#dc2626">Enter your API key first.</span>'; return; }
+  var btn = document.getElementById('geminiRefreshBtn');
+  var sel = document.getElementById('geminiModelSel');
+  var status = document.getElementById('geminiModelStatus');
+  btn.textContent = '⏳'; btn.disabled = true;
+  status.innerHTML = 'Fetching...';
+  fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + key)
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      if (data.error) { status.innerHTML = '<span style="color:#dc2626">' + data.error.message + '</span>'; return; }
+      var models = (data.models||[]).filter(function(m){ return (m.supportedGenerationMethods||[]).indexOf('generateContent') !== -1; });
+      var cur = sel.value;
+      sel.innerHTML = '';
+      models.sort(function(a,b){ return b.name.localeCompare(a.name); });
+      models.forEach(function(m) {
+        var id = m.name.replace('models/','');
+        var opt = document.createElement('option');
+        opt.value = id; opt.textContent = id;
+        if (id === cur) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      status.innerHTML = '<span style="color:#166534">✅ ' + models.length + ' models loaded.</span>';
+    })
+    .catch(function(e){ status.innerHTML = '<span style="color:#dc2626">Error: ' + e.message + '</span>'; })
+    .finally(function(){ btn.textContent = '🔄 Load models'; btn.disabled = false; });
+}
+
 function aiSelectTF(btn) {
   var idx = btn.getAttribute('data-idx');
   var siblings = btn.parentElement.querySelectorAll('.ai-tf-btn');
-  siblings.forEach(function(b) { b.style.background='white'; b.style.borderColor='var(--border)'; b.style.color='var(--ink)'; b.removeAttribute('data-selected'); });
+  siblings.forEach(function(b){ b.style.background='white'; b.style.borderColor='var(--border)'; b.style.color='var(--ink)'; b.removeAttribute('data-selected'); });
   btn.style.background='#1e3a5f'; btn.style.borderColor='#1e3a5f'; btn.style.color='white';
   btn.setAttribute('data-selected','true');
   if (!window._aiTFAnswers) window._aiTFAnswers = {};
@@ -4361,85 +4316,67 @@ function aiSelectTF(btn) {
 }
 
 function aiMarkOpenEnded(btn, qIdx) {
-  var textarea = document.getElementById('aisc_'+qIdx);
-  var studentAns = textarea ? textarea.value.trim() : '';
-  if (!studentAns) { alert('Please write your answer first.'); return; }
-  var modelAns = textarea.getAttribute('data-model') || '';
-  var markScheme = textarea.getAttribute('data-scheme') || '';
-  var fbDiv = document.getElementById('aiscfb_'+qIdx);
-  btn.disabled = true; btn.textContent = 'Marking...';
-  fbDiv.style.display = 'block';
-  fbDiv.innerHTML = '<div style="color:var(--muted);font-size:.83rem">AI is reading your answer...</div>';
-  var markPrompt = 'You are a Singapore Secondary 1 Science teacher marking a student answer. STUDENT ANSWER: '+studentAns+' MODEL ANSWER: '+modelAns+' MARK SCHEME: '+markScheme+' Format: MARKS: X/Y CORRECT: [what was right] MISSING: [what was missing] TIP: [one sentence tip]';
-  var conf = getApiConfig(); var p = conf.provider; var apiKey = conf.keys[p];
-  var url, headers, body, extract;
-  if (p==='gemini') {
-    url='https://generativelanguage.googleapis.com/v1beta/models/'+(conf.geminiModel||'gemini-2.5-flash-preview-05-20')+':generateContent?key='+apiKey;
+  var ta = document.getElementById('aisc_'+qIdx);
+  var ans = ta ? ta.value.trim() : '';
+  if (!ans) { alert('Please write your answer first.'); return; }
+  var model = ta.getAttribute('data-model')||'';
+  var scheme = ta.getAttribute('data-scheme')||'';
+  var fb = document.getElementById('aiscfb_'+qIdx);
+  btn.disabled=true; btn.textContent='Marking...';
+  fb.style.display='block'; fb.innerHTML='<div style="font-size:.83rem;color:var(--muted)">AI is reading your answer...</div>';
+  var prompt = 'You are a Singapore Sec 1 Science teacher. Mark this answer. STUDENT: '+ans+' MODEL: '+model+' SCHEME: '+scheme+' Format: MARKS: X/Y\nCORRECT: ...\nMISSING: ...\nTIP: ...';
+  var conf=getApiConfig(); var p=conf.provider; var key=conf.keys[p];
+  var url,headers,body,extract;
+  if(p==='gemini'){
+    url='https://generativelanguage.googleapis.com/v1beta/models/'+(conf.geminiModel||'gemini-2.5-flash-preview-05-20')+':generateContent?key='+key;
     headers={'Content-Type':'application/json'};
-    body=JSON.stringify({contents:[{parts:[{text:markPrompt}]}],generationConfig:{maxOutputTokens:300}});
-    extract=function(d){ return d.candidates&&d.candidates[0]?d.candidates[0].content.parts[0].text:null; };
-  } else if (p==='anthropic') {
+    body=JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:300}});
+    extract=function(d){return d.candidates&&d.candidates[0]?d.candidates[0].content.parts[0].text:null;};
+  } else if(p==='anthropic'){
     url='https://api.anthropic.com/v1/messages';
-    headers={'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
-    body=JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,messages:[{role:'user',content:markPrompt}]});
-    extract=function(d){ return d.content&&d.content[0]?d.content[0].text:null; };
-  } else if (p==='groq') {
-    url='https://api.groq.com/openai/v1/chat/completions';
-    headers={'Content-Type':'application/json','Authorization':'Bearer '+apiKey};
-    body=JSON.stringify({model:'llama-3.1-8b-instant',max_tokens:300,messages:[{role:'user',content:markPrompt}]});
-    extract=function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
+    headers={'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+    body=JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,messages:[{role:'user',content:prompt}]});
+    extract=function(d){return d.content&&d.content[0]?d.content[0].text:null;};
   } else {
-    fbDiv.innerHTML='<div style="color:#dc2626">Set AI provider in Settings.</div>';
-    btn.disabled=false; btn.textContent='Mark my answer'; return;
+    fb.innerHTML='<div style="color:#dc2626">Set AI provider in Settings first.</div>'; btn.disabled=false; btn.textContent='Mark my answer'; return;
   }
   fetch(url,{method:'POST',headers:headers,body:body})
     .then(function(r){return r.json();})
     .then(function(data){
       var text=extract(data); if(!text) throw new Error('No response');
-      var mM=text.match(/MARKS:\s*(\d+)\/(\d+)/);
-      var cM=text.match(/CORRECT:\s*([^\n]+)/);
-      var xM=text.match(/MISSING:\s*([^\n]+)/);
-      var tM=text.match(/TIP:\s*([^\n]+)/);
-      var earned=mM?parseInt(mM[1]):0; var total=mM?parseInt(mM[2]):5;
-      var pct=Math.round(earned/total*100);
-      var col=pct>=70?'#166534':pct>=40?'#92400e':'#991b1b';
-      var bg=pct>=70?'#f0fdf4':pct>=40?'#fffbeb':'#fff1f2';
-      fbDiv.innerHTML='<div style="background:'+bg+';border:1.5px solid '+col+';border-radius:8px;padding:.75rem">'+
-        '<div style="font-size:1rem;font-weight:800;color:'+col+'">'+earned+' / '+total+' marks</div>'+
-        (cM?'<div style="font-size:.82rem;margin-top:.3rem"><b style="color:#166534">Correct:</b> '+cM[1]+'</div>':'')+
+      var mM=text.match(/MARKS:\s*(\d+)\/(\d+)/); var cM=text.match(/CORRECT:\s*([^
+]+)/); var xM=text.match(/MISSING:\s*([^
+]+)/); var tM=text.match(/TIP:\s*([^
+]+)/);
+      var earned=mM?parseInt(mM[1]):0; var total=mM?parseInt(mM[2]):5; var pct=Math.round(earned/total*100);
+      var col=pct>=70?'#166534':pct>=40?'#92400e':'#991b1b'; var bg=pct>=70?'#f0fdf4':pct>=40?'#fffbeb':'#fff1f2';
+      fb.innerHTML='<div style="background:'+bg+';border:1.5px solid '+col+';border-radius:8px;padding:.7rem">'+
+        '<div style="font-weight:800;font-size:1rem;color:'+col+'">'+earned+'/'+total+' marks</div>'+
+        (cM?'<div style="font-size:.82rem"><b style="color:#166534">Correct:</b> '+cM[1]+'</div>':'')+
         (xM?'<div style="font-size:.82rem"><b style="color:#dc2626">Missing:</b> '+xM[1]+'</div>':'')+
         (tM?'<div style="font-size:.82rem;margin-top:.3rem"><b>Tip:</b> '+tM[1]+'</div>':'')+
         '</div>';
-      if(!window._aiSCMarks) window._aiSCMarks={};
-      window._aiSCMarks[qIdx]={earned:earned,total:total,answer:studentAns};
-      btn.textContent='Marked';
+      btn.textContent='Marked ✅';
     })
-    .catch(function(e){ fbDiv.innerHTML='<div style="color:#dc2626">Error: '+e.message+'</div>'; btn.disabled=false; btn.textContent='Mark my answer'; });
+    .catch(function(e){fb.innerHTML='<div style="color:#dc2626">Error: '+e.message+'</div>'; btn.disabled=false; btn.textContent='Mark my answer';});
 }
 
 function aiCheckTFOnSubmit() {
-  document.querySelectorAll('.ai-tf-btn[data-selected="true"]').forEach(function(btn) {
+  document.querySelectorAll('.ai-tf-btn[data-selected="true"]').forEach(function(btn){
     var idx=btn.getAttribute('data-idx'); var val=btn.getAttribute('data-val'); var correct=btn.getAttribute('data-correct');
-    var fbDiv=document.getElementById('aitfr_'+idx); var isCorrect=(val===correct);
-    var trueBtn=document.getElementById('aitf_'+idx+'_true'); var falseBtn=document.getElementById('aitf_'+idx+'_false');
-    if(trueBtn&&falseBtn){
-      var correctBtn=correct==='true'?trueBtn:falseBtn; var selectedBtn=val==='true'?trueBtn:falseBtn;
-      correctBtn.style.background='#dcfce7'; correctBtn.style.borderColor='#16a34a'; correctBtn.style.color='#166534';
-      if(!isCorrect){selectedBtn.style.background='#fee2e2'; selectedBtn.style.borderColor='#dc2626'; selectedBtn.style.color='#991b1b';}
+    var fb=document.getElementById('aitfr_'+idx); var ok=(val===correct);
+    var tBtn=document.getElementById('aitf_'+idx+'_true'); var fBtn=document.getElementById('aitf_'+idx+'_false');
+    if(tBtn&&fBtn){
+      var cBtn=correct==='true'?tBtn:fBtn; var sBtn=val==='true'?tBtn:fBtn;
+      cBtn.style.background='#dcfce7'; cBtn.style.borderColor='#16a34a'; cBtn.style.color='#166534';
+      if(!ok){sBtn.style.background='#fee2e2'; sBtn.style.borderColor='#dc2626'; sBtn.style.color='#991b1b';}
     }
     var reasonTA=document.getElementById('aitftext_'+idx);
-    var studentReason=reasonTA?reasonTA.value.trim():'';
-    var correctReason=reasonTA?reasonTA.getAttribute('data-correct-reason'):'';
-    if(fbDiv){
-      fbDiv.style.display='block';
-      fbDiv.innerHTML='<div style="font-size:.82rem;background:'+(isCorrect?'#f0fdf4':'#fff1f2')+';border:1px solid '+(isCorrect?'#86efac':'#fca5a5')+';border-radius:6px;padding:.5rem .7rem">'+
-        '<b style="color:'+(isCorrect?'#166534':'#991b1b')+'">'+(isCorrect?'Correct!':'Incorrect — Answer: '+correct.charAt(0).toUpperCase()+correct.slice(1))+'</b>'+
-        '<div style="margin-top:.2rem">'+correctReason+'</div>'+
-        (studentReason?'<div style="margin-top:.2rem;color:var(--muted);font-size:.78rem">Your reasoning: '+studentReason+'</div>':'')+
-        '</div>';
-    }
+    var reason=reasonTA?reasonTA.getAttribute('data-correct-reason'):'';
+    if(fb){fb.style.display='block'; fb.innerHTML='<div style="font-size:.82rem;background:'+(ok?'#f0fdf4':'#fff1f2')+';border:1px solid '+(ok?'#86efac':'#fca5a5')+';border-radius:6px;padding:.5rem"><b style="color:'+(ok?'#166534':'#991b1b')+'">'+(ok?'Correct!':'Incorrect — '+correct.charAt(0).toUpperCase()+correct.slice(1))+'</b> '+reason+'</div>';}
   });
 }
+
 function aiPickMC(btn){
   if(document.getElementById('aiSubmitBtn') && document.getElementById('aiSubmitBtn').disabled) return;
   var fbid = btn.getAttribute('data-fbid');
@@ -4455,7 +4392,6 @@ function aiPickTF(btn){
 function submitAIPaper(isParentBypass){
   var btn = document.getElementById('aiSubmitBtn');
   if(btn) { btn.disabled = true; btn.innerHTML = '✅ Paper Submitted & Marked'; btn.style.background = 'var(--green)'; }
-  if (typeof aiCheckTFOnSubmit === 'function') aiCheckTFOnSubmit();
   var out = document.getElementById('aiPaperOut');
   
   var aiScore = 0;
@@ -4814,81 +4750,8 @@ function handleProviderChange() {
   document.getElementById('apiKeyInp').value = conf.keys[p] || '';
   document.getElementById('localUrlContainer').style.display = p === 'local' ? 'block' : 'none';
   document.getElementById('localModelContainer').style.display = p === 'local' ? 'block' : 'none';
-  var gmc = document.getElementById('geminiModelContainer');
-  if (gmc) gmc.style.display = p === 'gemini' ? 'block' : 'none';
-  // Auto-fetch models if gemini selected and key already entered
-  if (p === 'gemini') {
-    var k = document.getElementById('apiKeyInp');
-    if (k && k.value.trim()) setTimeout(fetchGeminiModels, 100);
-  }
-}
-
-function fetchGeminiModels() {
-  var keyEl = document.getElementById('apiKeyInp');
-  var key = keyEl ? keyEl.value.trim() : '';
-  if (!key) {
-    document.getElementById('geminiModelStatus').innerHTML =
-      '<span style="color:#dc2626">Enter your Gemini API key first, then click Load.</span>';
-    return;
-  }
-  var btn = document.getElementById('geminiRefreshBtn');
-  var sel = document.getElementById('geminiModelSel');
-  var status = document.getElementById('geminiModelStatus');
-  btn.textContent = '⏳ Loading...';
-  btn.disabled = true;
-  status.innerHTML = 'Fetching models from Google...';
-
-  fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + key)
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (data.error) {
-        status.innerHTML = '<span style="color:#dc2626">Error: ' + data.error.message + '</span>';
-        return;
-      }
-      var models = (data.models || []).filter(function(m) {
-        return (m.supportedGenerationMethods || []).indexOf('generateContent') !== -1;
-      });
-      if (models.length === 0) {
-        status.innerHTML = '<span style="color:#dc2626">No generateContent models found for this key.</span>';
-        return;
-      }
-      // Sort: flash first, then pro
-      models.sort(function(a,b) {
-        var an = a.name, bn = b.name;
-        if (an.includes('flash') && !bn.includes('flash')) return -1;
-        if (!an.includes('flash') && bn.includes('flash')) return 1;
-        return bn.localeCompare(an); // newer first
-      });
-      var currentVal = sel.value;
-      sel.innerHTML = '';
-      models.forEach(function(m) {
-        var id = m.name.replace('models/', '');
-        var label = id;
-        if (id.includes('2.0') && id.includes('flash')) label += ' ⭐ recommended';
-        else if (id.includes('1.5') && id.includes('flash')) label += ' (free tier)';
-        else if (id.includes('pro')) label += ' (paid tier)';
-        var opt = document.createElement('option');
-        opt.value = id;
-        opt.textContent = label;
-        if (id === currentVal || (id.includes('2.0-flash') && !models.find(function(x){ return x.name.replace('models/','') === currentVal; }))) {
-          opt.selected = true;
-        }
-        sel.appendChild(opt);
-      });
-      // Auto-select best available
-      var flashOpts = Array.from(sel.options).filter(function(o){ return (o.value.includes('3.8-flash') || o.value.includes('2.5-flash')) && !o.value.includes('exp'); });
-      if (flashOpts.length > 0 && !Array.from(sel.options).find(function(o){ return o.value === currentVal; })) {
-        sel.value = flashOpts[0].value;
-      }
-      status.innerHTML = '<span style="color:#166534">✅ Found ' + models.length + ' compatible models. Select one below.</span>';
-    })
-    .catch(function(e) {
-      status.innerHTML = '<span style="color:#dc2626">Network error: ' + e.message + '</span>';
-    })
-    .finally(function() {
-      btn.textContent = '🔄 Load available models';
-      btn.disabled = false;
-    });
+  var gmc=document.getElementById('geminiModelContainer'); if(gmc) gmc.style.display = p==='gemini'?'block':'none';
+  if(p==='gemini'){ var k=document.getElementById('apiKeyInp'); if(k&&k.value.trim()) setTimeout(fetchGeminiModels,100); }
 }
 
 function saveApiConfig() {
@@ -4900,9 +4763,7 @@ function saveApiConfig() {
     conf.localUrl = document.getElementById('localUrlInp').value.trim();
     conf.localModel = document.getElementById('localModelInp').value.trim();
   }
-  if (p === 'gemini') {
-    conf.geminiModel = document.getElementById('geminiModelSel').value;
-  }
+  if (p === 'gemini') { var gms=document.getElementById('geminiModelSel'); if(gms) conf.geminiModel=gms.value; }
   localStorage.setItem('aiConfig', JSON.stringify(conf));
   document.getElementById('apiConfigModal').style.display='none';
 }
@@ -4952,23 +4813,13 @@ function saveApiConfig() {
       <input type="text" id="localModelInp" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem" placeholder="llama-3.1-8b-instant">
     </div>
     <div style="margin-bottom:1rem;display:none" id="geminiModelContainer">
-      <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">
-        Gemini Model
-        <button onclick="fetchGeminiModels()" id="geminiRefreshBtn"
-          style="margin-left:.5rem;font-size:.72rem;padding:.15rem .5rem;border:1px solid #d1d5db;border-radius:4px;background:white;cursor:pointer;font-family:inherit;color:#374151">
-          🔄 Load available models
-        </button>
-      </label>
+      <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">Gemini Model <button onclick="fetchGeminiModels()" id="geminiRefreshBtn" style="margin-left:.5rem;font-size:.72rem;padding:.15rem .5rem;border:1px solid #d1d5db;border-radius:4px;background:white;cursor:pointer;font-family:inherit">🔄 Load models</button></label>
       <select id="geminiModelSel" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem">
-        <option value="gemini-2.5-flash-preview-05-20">gemini-2.5-flash-preview ⭐ latest free</option>
-        <option value="gemini-3.8-flash">gemini-3.8-flash (Google recommended)</option>
-        <option value="gemini-2.5-pro-preview-06-05">gemini-2.5-pro-preview (paid)</option>
-        <option value="gemini-1.5-flash">gemini-1.5-flash (stable fallback)</option>
+        <option value="gemini-2.5-flash-preview-05-20">gemini-2.5-flash-preview ⭐ latest</option>
+        <option value="gemini-1.5-flash">gemini-1.5-flash (stable)</option>
         <option value="gemini-1.5-pro">gemini-1.5-pro (paid)</option>
       </select>
-      <div id="geminiModelStatus" style="font-size:.75rem;color:#6b7280;margin-top:.4rem">
-        Enter your API key above then click "Load available models" to see what your key supports.
-      </div>
+      <div id="geminiModelStatus" style="font-size:.75rem;color:#6b7280;margin-top:.3rem">Enter API key then click Load models.</div>
     </div>
     <button onclick="saveApiConfig()" style="width:100%;padding:12px;background:var(--ink);color:white;border:none;border-radius:8px;font-family:inherit;font-weight:700;cursor:pointer">Save Settings</button>
   </div>
@@ -7053,7 +6904,7 @@ function _scSubmit() {
       messages:[{role:'user',content:prompt}]});
     extract = function(d){ return d.content&&d.content[0]?d.content[0].text:null; };
   } else if (p === 'gemini') {
-    url = 'https://generativelanguage.googleapis.com/v1beta/models/'+(conf.geminiModel||'gemini-2.5-flash-preview-05-20')+':generateContent?key='+apiKey;
+    url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key='+apiKey;
     headers = {'Content-Type':'application/json'};
     body = JSON.stringify({contents:[{parts:[{text:prompt}]}],
       generationConfig:{maxOutputTokens:800}});
