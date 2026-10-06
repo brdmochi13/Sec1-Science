@@ -432,6 +432,7 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
       <div id="signupNameRow" class="auth-field" style="display:none"><label>Display Name</label><input class="auth-inp" id="authName" type="text" placeholder="e.g. Mokshith"></div>
       <button class="auth-btn" id="authSubmitBtn" onclick="doAuth()">Sign In</button>
       <div class="auth-err" id="authErr"></div>
+      <div id="fbStatus" style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:.3rem"></div>
       <div class="auth-switch" id="authSwitch">Don't have an account? <a onclick="authSwitchTab('signup',null)">Register</a></div>
       <div style="text-align:center;margin-top:.8rem;font-size:.74rem;color:var(--muted)">
         Accounts: mokshith@sci.sg / parent@sci.sg / teacher@sci.sg · Password: <strong>Abcd1234</strong>
@@ -1714,7 +1715,15 @@ function doAuth() {
   console.log('doAuth() called — mode:', authMode, 'email:', email, 'USE_FIREBASE:', USE_FIREBASE);
 
   if (USE_FIREBASE) {
-    if (!auth) { showErr('Firebase Auth not initialised. Refresh the page.', 'no-auth'); return; }
+    if (!auth) {
+      // Retry once after 1.5s in case Firebase is still loading
+      submitBtn.textContent = 'Connecting...';
+      setTimeout(function() {
+        if (!auth) { showErr('Firebase not ready. Check your internet connection and refresh.', 'no-auth'); resetBtn(); return; }
+        doAuth();
+      }, 1500);
+      return;
+    }
     if (authMode === 'login') {
       auth.signInWithEmailAndPassword(email, pwd)
         .then(function(uc) {
