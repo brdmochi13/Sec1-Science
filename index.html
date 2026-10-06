@@ -4133,7 +4133,7 @@ function generateAIPaper() {
     extractContent = function(d) { return d.choices && d.choices[0] ? d.choices[0].message.content : null; };
   }
   else if (p === 'gemini') {
-    url = 'https://generativelanguage.googleapis.com/v1beta/models/' + (conf.geminiModel || 'gemini-2.0-flash') + ':generateContent?key=' + apiKey;
+    url = 'https://generativelanguage.googleapis.com/v1beta/models/' + (conf.geminiModel || 'gemini-2.5-flash-preview-05-20') + ':generateContent?key=' + apiKey;
     headers = {
       'Content-Type':'application/json'
     };
@@ -4620,7 +4620,7 @@ function initAITopicPills(){
 
 // ══ API CONFIG ══
 function getApiConfig() {
-  var def = { provider: 'gemini', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant', geminiModel: 'gemini-2.0-flash' };
+  var def = { provider: 'gemini', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant', geminiModel: 'gemini-2.5-flash-preview-05-20' };
   try {
     var stored = localStorage.getItem('aiConfig');
     if (stored) return Object.assign(def, JSON.parse(stored));
@@ -4708,7 +4708,7 @@ function fetchGeminiModels() {
         sel.appendChild(opt);
       });
       // Auto-select best available
-      var flashOpts = Array.from(sel.options).filter(function(o){ return o.value.includes('2.0-flash') && !o.value.includes('exp'); });
+      var flashOpts = Array.from(sel.options).filter(function(o){ return (o.value.includes('3.8-flash') || o.value.includes('2.5-flash')) && !o.value.includes('exp'); });
       if (flashOpts.length > 0 && !Array.from(sel.options).find(function(o){ return o.value === currentVal; })) {
         sel.value = flashOpts[0].value;
       }
@@ -4792,11 +4792,11 @@ function saveApiConfig() {
         </button>
       </label>
       <select id="geminiModelSel" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem">
-        <option value="gemini-2.0-flash">gemini-2.0-flash (recommended)</option>
-        <option value="gemini-1.5-flash">gemini-1.5-flash</option>
-        <option value="gemini-1.5-pro">gemini-1.5-pro</option>
-        <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp</option>
-        <option value="gemini-1.0-pro">gemini-1.0-pro (legacy)</option>
+        <option value="gemini-2.5-flash-preview-05-20">gemini-2.5-flash-preview ⭐ latest free</option>
+        <option value="gemini-3.8-flash">gemini-3.8-flash (Google recommended)</option>
+        <option value="gemini-2.5-pro-preview-06-05">gemini-2.5-pro-preview (paid)</option>
+        <option value="gemini-1.5-flash">gemini-1.5-flash (stable fallback)</option>
+        <option value="gemini-1.5-pro">gemini-1.5-pro (paid)</option>
       </select>
       <div id="geminiModelStatus" style="font-size:.75rem;color:#6b7280;margin-top:.4rem">
         Enter your API key above then click "Load available models" to see what your key supports.
@@ -6885,7 +6885,7 @@ function _scSubmit() {
       messages:[{role:'user',content:prompt}]});
     extract = function(d){ return d.content&&d.content[0]?d.content[0].text:null; };
   } else if (p === 'gemini') {
-    url = 'https://generativelanguage.googleapis.com/v1beta/models/'+(conf.geminiModel||'gemini-2.0-flash')+':generateContent?key='+apiKey;
+    url = 'https://generativelanguage.googleapis.com/v1beta/models/'+(conf.geminiModel||'gemini-2.5-flash-preview-05-20')+':generateContent?key='+apiKey;
     headers = {'Content-Type':'application/json'};
     body = JSON.stringify({contents:[{parts:[{text:prompt}]}],
       generationConfig:{maxOutputTokens:800}});
