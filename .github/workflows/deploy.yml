@@ -40,6 +40,40 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Validate index.html before building
+        run: |
+          python3 << 'PYEOF'
+          import re, sys
+          with open('index.html', 'r', encoding='utf-8') as f:
+              html = f.read()
+          errors = []
+          # 1. Check doAuth exists
+          if 'function doAuth()' not in html:
+              errors.append('MISSING: function doAuth()')
+          # 2. Check Firebase config
+          if 'sec-science.firebaseapp.com' not in html:
+              errors.append('MISSING: Firebase config')
+          # 3. Check sign in button
+          if 'onclick="doAuth()"' not in html:
+              errors.append('MISSING: Sign in button onclick doAuth')
+          # 4. Count script braces
+          for i, m in enumerate(re.finditer(r'<script[^>]*>([\s\S]*?)</script>', html)):
+              s = m.group(1)
+              balance = s.count('{') - s.count('}')
+              if balance != 0:
+                  errors.append(f'Script block {i+1}: unbalanced braces by {balance}')
+          # 5. Check for unescaped backticks outside the known escaped ones
+          raw_ticks = len(re.findall(r'(?<!\\)`', html))
+          if raw_ticks > 6:
+              errors.append(f'TOO MANY BACKTICKS: {raw_ticks} (max 6 allowed)')
+          if errors:
+              print('VALIDATION FAILED:')
+              for e in errors: print(' -', e)
+              sys.exit(1)
+          else:
+              print(f'Validation passed: {len(html):,} chars, all checks OK')
+          PYEOF
+
       - name: Build worker.js with embedded HTML (base64 — safe against backticks)
         run: |
           python3 << 'EOF'
