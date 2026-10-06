@@ -4620,7 +4620,7 @@ function initAITopicPills(){
 
 // ══ API CONFIG ══
 function getApiConfig() {
-  var def = { provider: 'gemini', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant' };
+  var def = { provider: 'gemini', keys: { anthropic:'', openai:'', gemini:'', groq:'', local:'' }, localUrl: 'http://localhost:11434/v1/chat/completions', localModel: 'llama-3.1-8b-instant', geminiModel: 'gemini-2.0-flash' };
   try {
     var stored = localStorage.getItem('aiConfig');
     if (stored) return Object.assign(def, JSON.parse(stored));
@@ -4646,6 +4646,8 @@ function handleProviderChange() {
   document.getElementById('apiKeyInp').value = conf.keys[p] || '';
   document.getElementById('localUrlContainer').style.display = p === 'local' ? 'block' : 'none';
   document.getElementById('localModelContainer').style.display = p === 'local' ? 'block' : 'none';
+  var gmc = document.getElementById('geminiModelContainer');
+  if (gmc) gmc.style.display = p === 'gemini' ? 'block' : 'none';
 }
 
 function saveApiConfig() {
