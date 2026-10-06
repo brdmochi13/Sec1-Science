@@ -1544,8 +1544,10 @@ button,input,select,textarea,.mtab,.ptab,.mcopt,.tbtn,.csb,.sab,.gen-btn,.ai-chk
       <div class="cfg-item">
         <label>Difficulty</label>
         <select id="cfgDiff">
-          <option value="standard">Standard (G2 level)</option>
-          <option value="challenging">Challenging (stretch)</option>
+          <option value="G3 Standard">G3 Standard (EOY level)</option>
+          <option value="G3 Challenging">G3 Challenging (stretch)</option>
+          <option value="standard">G2 Standard</option>
+          <option value="challenging">G2 Challenging</option>
           <option value="foundation">Foundation (build confidence)</option>
         </select>
       </div>
@@ -4284,7 +4286,102 @@ function renderAIPaper(text, topic) {
     html+='<div style="margin-top:1.5rem;display:flex;gap:10px;align-items:center">';
     html+='<button class="submit-paper-btn" id="aiSubmitBtn" onclick="submitAIPaper()" style="flex:1;background:var(--ink);color:white;border:none;padding:12px;border-radius:8px;font-weight:700;cursor:pointer">📤 Submit AI Paper</button>';
     if(currentRole==='parent'||currentRole==='teacher') {
-      html+='<button class="tbtn tbtn-outline" onclick="submitAIPaper(true)" style="padding:0 15px; height:43px; border-radius:8px; border:2px solid var(--border); background:white; cursor:pointer; font-weight:600; font-size:.85rem; color:var(--muted)">👁️ Reveal Answers (Parent)</button>';
+      html+='<button class="tbtn tbtn-outline" onclick="submitAIPaper(true)" style="padding:0 15px; height:43px; border-radius:8px; border:2px solid var(--border); background:white; cursor:pointer; font-weight:600; ffunction aiSelectTF(btn) {
+  var idx = btn.getAttribute('data-idx');
+  var siblings = btn.parentElement.querySelectorAll('.ai-tf-btn');
+  siblings.forEach(function(b) { b.style.background='white'; b.style.borderColor='var(--border)'; b.style.color='var(--ink)'; b.removeAttribute('data-selected'); });
+  btn.style.background='#1e3a5f'; btn.style.borderColor='#1e3a5f'; btn.style.color='white';
+  btn.setAttribute('data-selected','true');
+  if (!window._aiTFAnswers) window._aiTFAnswers = {};
+  window._aiTFAnswers[idx] = btn.getAttribute('data-val');
+}
+
+function aiMarkOpenEnded(btn, qIdx) {
+  var textarea = document.getElementById('aisc_'+qIdx);
+  var studentAns = textarea ? textarea.value.trim() : '';
+  if (!studentAns) { alert('Please write your answer first.'); return; }
+  var modelAns = textarea.getAttribute('data-model') || '';
+  var markScheme = textarea.getAttribute('data-scheme') || '';
+  var fbDiv = document.getElementById('aiscfb_'+qIdx);
+  btn.disabled = true; btn.textContent = 'Marking...';
+  fbDiv.style.display = 'block';
+  fbDiv.innerHTML = '<div style="color:var(--muted);font-style:italic;font-size:.83rem">AI is reading your answer...</div>';
+  var markPrompt = 'You are a Singapore Secondary 1 Science teacher marking a student answer.'+
+    'STUDENT ANSWER: '+studentAns+
+    ' MODEL ANSWER: '+modelAns+
+    ' MARK SCHEME: '+markScheme+
+    ' Award marks based on key science words. Format EXACTLY: MARKS: X/Y CORRECT: [what was right] MISSING: [what was wrong or missing] TIP: [one sentence improvement]';
+  var conf = getApiConfig(); var p = conf.provider; var apiKey = conf.keys[p];
+  var url, headers, body, extract;
+  if (p==='gemini') {
+    url='https://generativelanguage.googleapis.com/v1beta/models/'+(conf.geminiModel||'gemini-2.5-flash-preview-05-20')+':generateContent?key='+apiKey;
+    headers={'Content-Type':'application/json'};
+    body=JSON.stringify({contents:[{parts:[{text:markPrompt}]}],generationConfig:{maxOutputTokens:300}});
+    extract=function(d){ return d.candidates&&d.candidates[0]?d.candidates[0].content.parts[0].text:null; };
+  } else if (p==='anthropic') {
+    url='https://api.anthropic.com/v1/messages';
+    headers={'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+    body=JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,messages:[{role:'user',content:markPrompt}]});
+    extract=function(d){ return d.content&&d.content[0]?d.content[0].text:null; };
+  } else if (p==='groq') {
+    url='https://api.groq.com/openai/v1/chat/completions';
+    headers={'Content-Type':'application/json','Authorization':'Bearer '+apiKey};
+    body=JSON.stringify({model:'llama-3.1-8b-instant',max_tokens:300,messages:[{role:'user',content:markPrompt}]});
+    extract=function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
+  } else { fbDiv.innerHTML='<div style="color:#dc2626">Set AI provider in Settings.</div>'; btn.disabled=false; btn.textContent='Mark my answer'; return; }
+  fetch(url,{method:'POST',headers:headers,body:body})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var text=extract(data); if(!text) throw new Error('No response');
+      var mMatch=text.match(/MARKS:\s*(\d+)\/(\d+)/);
+      var cMatch=text.match(/CORRECT:\s*([^
+]+)/);
+      var xMatch=text.match(/MISSING:\s*([^
+]+)/);
+      var tMatch=text.match(/TIP:\s*([^
+]+)/);
+      var earned=mMatch?parseInt(mMatch[1]):0; var total=mMatch?parseInt(mMatch[2]):5;
+      var pct=Math.round(earned/total*100);
+      var col=pct>=70?'#166534':pct>=40?'#92400e':'#991b1b';
+      var bg=pct>=70?'#f0fdf4':pct>=40?'#fffbeb':'#fff1f2';
+      fbDiv.innerHTML='<div style="background:'+bg+';border:1.5px solid '+col+';border-radius:8px;padding:.75rem .9rem">'+
+        '<div style="font-size:1rem;font-weight:800;color:'+col+';margin-bottom:.4rem">'+earned+' / '+total+' marks</div>'+
+        (cMatch?'<div style="font-size:.82rem;margin-bottom:.3rem"><span style="color:#166534;font-weight:700">Correct: </span>'+cMatch[1]+'</div>':'')+
+        (xMatch?'<div style="font-size:.82rem;margin-bottom:.3rem"><span style="color:#dc2626;font-weight:700">Missing: </span>'+xMatch[1]+'</div>':'')+
+        (tMatch?'<div style="font-size:.82rem;margin-top:.3rem;padding-top:.4rem;border-top:1px solid #e5e7eb"><span style="font-weight:700">Tip: </span>'+tMatch[1]+'</div>':'')+
+        '</div>';
+      if(!window._aiSCMarks) window._aiSCMarks={};
+      window._aiSCMarks[qIdx]={earned:earned,total:total,answer:studentAns};
+      btn.textContent='Marked';
+    })
+    .catch(function(e){ fbDiv.innerHTML='<div style="color:#dc2626">Error: '+e.message+'</div>'; btn.disabled=false; btn.textContent='Mark my answer'; });
+}
+
+function aiCheckTFOnSubmit() {
+  document.querySelectorAll('.ai-tf-btn[data-selected="true"]').forEach(function(btn) {
+    var idx=btn.getAttribute('data-idx'); var val=btn.getAttribute('data-val'); var correct=btn.getAttribute('data-correct');
+    var fbDiv=document.getElementById('aitfr_'+idx); var isCorrect=(val===correct);
+    var trueBtn=document.getElementById('aitf_'+idx+'_true'); var falseBtn=document.getElementById('aitf_'+idx+'_false');
+    if(trueBtn&&falseBtn){
+      var correctBtn=correct==='true'?trueBtn:falseBtn; var selectedBtn=val==='true'?trueBtn:falseBtn;
+      correctBtn.style.background='#dcfce7'; correctBtn.style.borderColor='#16a34a'; correctBtn.style.color='#166534';
+      if(!isCorrect){selectedBtn.style.background='#fee2e2'; selectedBtn.style.borderColor='#dc2626'; selectedBtn.style.color='#991b1b';}
+    }
+    var reasonTA=document.getElementById('aitftext_'+idx);
+    var studentReason=reasonTA?reasonTA.value.trim():'';
+    var correctReason=reasonTA?reasonTA.getAttribute('data-correct-reason'):'';
+    if(fbDiv){
+      fbDiv.style.display='block';
+      fbDiv.innerHTML='<div style="font-size:.82rem;background:'+(isCorrect?'#f0fdf4':'#fff1f2')+';border:1px solid '+(isCorrect?'#86efac':'#fca5a5')+';border-radius:6px;padding:.5rem .7rem">'+
+        '<div style="font-weight:700;color:'+(isCorrect?'#166534':'#991b1b')+'">'+(isCorrect?'Correct!':'Incorrect — Answer is '+correct.charAt(0).toUpperCase()+correct.slice(1))+'</div>'+
+        '<div style="margin-top:.25rem;color:#374151"><b>Explanation:</b> '+correctReason+'</div>'+
+        (studentReason?'<div style="margin-top:.25rem;color:var(--muted);font-size:.78rem"><b>Your reasoning:</b> '+studentReason+'</div>':'')+
+        '</div>';
+    }
+  });
+}
+
+ont-size:.85rem; color:var(--muted)">👁️ Reveal Answers (Parent)</button>';
     }
     html+='</div>';
   }
@@ -4307,6 +4404,7 @@ function aiPickTF(btn){
 function submitAIPaper(isParentBypass){
   var btn = document.getElementById('aiSubmitBtn');
   if(btn) { btn.disabled = true; btn.innerHTML = '✅ Paper Submitted & Marked'; btn.style.background = 'var(--green)'; }
+  if (typeof aiCheckTFOnSubmit === 'function') aiCheckTFOnSubmit();
   var out = document.getElementById('aiPaperOut');
   
   var aiScore = 0;
