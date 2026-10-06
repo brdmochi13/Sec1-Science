@@ -4342,7 +4342,15 @@ function renderAIPaper(text, topic) {
     html+='<div style="margin-top:1.5rem;display:flex;gap:10px;align-items:center">';
     html+='<button class="submit-paper-btn" id="aiSubmitBtn" onclick="submitAIPaper()" style="flex:1;background:var(--ink);color:white;border:none;padding:12px;border-radius:8px;font-weight:700;cursor:pointer">📤 Submit AI Paper</button>';
     if(currentRole==='parent'||currentRole==='teacher') {
-      html+='<button class="tbtn tbtn-outline" onclick="submitAIPaper(true)" style="padding:0 15px; height:43px; border-radius:8px; border:2px solid var(--border); background:white; cursor:pointer; font-weight:600; ffunction aiSelectTF(btn) {
+      html+='<button class="tbtn tbtn-outline" onclick="submitAIPaper(true)" style="padding:0 15px; height:43px; border-radius:8px; border:2px solid var(--border); background:white; cursor:pointer; font-weight:600; font-size:.85rem; color:var(--muted)">👁️ Reveal Answers (Parent)</button>';
+    }
+    html+='</div>';
+  }
+
+  out.innerHTML=html;
+}
+
+function aiSelectTF(btn) {
   var idx = btn.getAttribute('data-idx');
   var siblings = btn.parentElement.querySelectorAll('.ai-tf-btn');
   siblings.forEach(function(b) { b.style.background='white'; b.style.borderColor='var(--border)'; b.style.color='var(--ink)'; b.removeAttribute('data-selected'); });
@@ -4361,12 +4369,8 @@ function aiMarkOpenEnded(btn, qIdx) {
   var fbDiv = document.getElementById('aiscfb_'+qIdx);
   btn.disabled = true; btn.textContent = 'Marking...';
   fbDiv.style.display = 'block';
-  fbDiv.innerHTML = '<div style="color:var(--muted);font-style:italic;font-size:.83rem">AI is reading your answer...</div>';
-  var markPrompt = 'You are a Singapore Secondary 1 Science teacher marking a student answer.'+
-    'STUDENT ANSWER: '+studentAns+
-    ' MODEL ANSWER: '+modelAns+
-    ' MARK SCHEME: '+markScheme+
-    ' Award marks based on key science words. Format EXACTLY: MARKS: X/Y CORRECT: [what was right] MISSING: [what was wrong or missing] TIP: [one sentence improvement]';
+  fbDiv.innerHTML = '<div style="color:var(--muted);font-size:.83rem">AI is reading your answer...</div>';
+  var markPrompt = 'You are a Singapore Secondary 1 Science teacher marking a student answer. STUDENT ANSWER: '+studentAns+' MODEL ANSWER: '+modelAns+' MARK SCHEME: '+markScheme+' Format: MARKS: X/Y CORRECT: [what was right] MISSING: [what was missing] TIP: [one sentence tip]';
   var conf = getApiConfig(); var p = conf.provider; var apiKey = conf.keys[p];
   var url, headers, body, extract;
   if (p==='gemini') {
@@ -4384,27 +4388,27 @@ function aiMarkOpenEnded(btn, qIdx) {
     headers={'Content-Type':'application/json','Authorization':'Bearer '+apiKey};
     body=JSON.stringify({model:'llama-3.1-8b-instant',max_tokens:300,messages:[{role:'user',content:markPrompt}]});
     extract=function(d){ return d.choices&&d.choices[0]?d.choices[0].message.content:null; };
-  } else { fbDiv.innerHTML='<div style="color:#dc2626">Set AI provider in Settings.</div>'; btn.disabled=false; btn.textContent='Mark my answer'; return; }
+  } else {
+    fbDiv.innerHTML='<div style="color:#dc2626">Set AI provider in Settings.</div>';
+    btn.disabled=false; btn.textContent='Mark my answer'; return;
+  }
   fetch(url,{method:'POST',headers:headers,body:body})
     .then(function(r){return r.json();})
     .then(function(data){
       var text=extract(data); if(!text) throw new Error('No response');
-      var mMatch=text.match(/MARKS:\s*(\d+)\/(\d+)/);
-      var cMatch=text.match(/CORRECT:\s*([^
-]+)/);
-      var xMatch=text.match(/MISSING:\s*([^
-]+)/);
-      var tMatch=text.match(/TIP:\s*([^
-]+)/);
-      var earned=mMatch?parseInt(mMatch[1]):0; var total=mMatch?parseInt(mMatch[2]):5;
+      var mM=text.match(/MARKS:\s*(\d+)\/(\d+)/);
+      var cM=text.match(/CORRECT:\s*([^\n]+)/);
+      var xM=text.match(/MISSING:\s*([^\n]+)/);
+      var tM=text.match(/TIP:\s*([^\n]+)/);
+      var earned=mM?parseInt(mM[1]):0; var total=mM?parseInt(mM[2]):5;
       var pct=Math.round(earned/total*100);
       var col=pct>=70?'#166534':pct>=40?'#92400e':'#991b1b';
       var bg=pct>=70?'#f0fdf4':pct>=40?'#fffbeb':'#fff1f2';
-      fbDiv.innerHTML='<div style="background:'+bg+';border:1.5px solid '+col+';border-radius:8px;padding:.75rem .9rem">'+
-        '<div style="font-size:1rem;font-weight:800;color:'+col+';margin-bottom:.4rem">'+earned+' / '+total+' marks</div>'+
-        (cMatch?'<div style="font-size:.82rem;margin-bottom:.3rem"><span style="color:#166534;font-weight:700">Correct: </span>'+cMatch[1]+'</div>':'')+
-        (xMatch?'<div style="font-size:.82rem;margin-bottom:.3rem"><span style="color:#dc2626;font-weight:700">Missing: </span>'+xMatch[1]+'</div>':'')+
-        (tMatch?'<div style="font-size:.82rem;margin-top:.3rem;padding-top:.4rem;border-top:1px solid #e5e7eb"><span style="font-weight:700">Tip: </span>'+tMatch[1]+'</div>':'')+
+      fbDiv.innerHTML='<div style="background:'+bg+';border:1.5px solid '+col+';border-radius:8px;padding:.75rem">'+
+        '<div style="font-size:1rem;font-weight:800;color:'+col+'">'+earned+' / '+total+' marks</div>'+
+        (cM?'<div style="font-size:.82rem;margin-top:.3rem"><b style="color:#166534">Correct:</b> '+cM[1]+'</div>':'')+
+        (xM?'<div style="font-size:.82rem"><b style="color:#dc2626">Missing:</b> '+xM[1]+'</div>':'')+
+        (tM?'<div style="font-size:.82rem;margin-top:.3rem"><b>Tip:</b> '+tM[1]+'</div>':'')+
         '</div>';
       if(!window._aiSCMarks) window._aiSCMarks={};
       window._aiSCMarks[qIdx]={earned:earned,total:total,answer:studentAns};
@@ -4429,22 +4433,13 @@ function aiCheckTFOnSubmit() {
     if(fbDiv){
       fbDiv.style.display='block';
       fbDiv.innerHTML='<div style="font-size:.82rem;background:'+(isCorrect?'#f0fdf4':'#fff1f2')+';border:1px solid '+(isCorrect?'#86efac':'#fca5a5')+';border-radius:6px;padding:.5rem .7rem">'+
-        '<div style="font-weight:700;color:'+(isCorrect?'#166534':'#991b1b')+'">'+(isCorrect?'Correct!':'Incorrect — Answer is '+correct.charAt(0).toUpperCase()+correct.slice(1))+'</div>'+
-        '<div style="margin-top:.25rem;color:#374151"><b>Explanation:</b> '+correctReason+'</div>'+
-        (studentReason?'<div style="margin-top:.25rem;color:var(--muted);font-size:.78rem"><b>Your reasoning:</b> '+studentReason+'</div>':'')+
+        '<b style="color:'+(isCorrect?'#166534':'#991b1b')+'">'+(isCorrect?'Correct!':'Incorrect — Answer: '+correct.charAt(0).toUpperCase()+correct.slice(1))+'</b>'+
+        '<div style="margin-top:.2rem">'+correctReason+'</div>'+
+        (studentReason?'<div style="margin-top:.2rem;color:var(--muted);font-size:.78rem">Your reasoning: '+studentReason+'</div>':'')+
         '</div>';
     }
   });
 }
-
-ont-size:.85rem; color:var(--muted)">👁️ Reveal Answers (Parent)</button>';
-    }
-    html+='</div>';
-  }
-
-  out.innerHTML=html;
-}
-
 function aiPickMC(btn){
   if(document.getElementById('aiSubmitBtn') && document.getElementById('aiSubmitBtn').disabled) return;
   var fbid = btn.getAttribute('data-fbid');
