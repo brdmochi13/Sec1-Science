@@ -1842,7 +1842,12 @@ function onAuthSuccess() {
 }
 
 if (USE_FIREBASE) {
+  // Show connection status on login page
+  var _fbSt = document.getElementById('fbStatus');
+  if (_fbSt) { _fbSt.textContent = '🔗 Connecting...'; _fbSt.style.color = '#92400e'; }
   auth.onAuthStateChanged(function(user) {
+    var _fbSt2 = document.getElementById('fbStatus');
+    if (_fbSt2) { _fbSt2.textContent = ''; }
     if (user) {
       currentUser = user;
       // Try to get role from Firestore, but always fall through even if it fails
