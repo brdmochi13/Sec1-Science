@@ -1709,101 +1709,112 @@ function selectRole(role, btn) {
 }
 
 function doAuth() {
-  var email = document.getElementById('authEmail').value.trim().toLowerCase();
-  var pwd   = document.getElementById('authPwd').value;
+  var email = (document.getElementById('authEmail').value || '').trim().toLowerCase();
+  var pwd   = (document.getElementById('authPwd').value || '');
   var errEl = document.getElementById('authErr');
-  errEl.textContent = '';
-  errEl.style.display = 'block';
-  if (!email || !pwd) { errEl.textContent = 'Please enter email and password.'; return; }
-
   var submitBtn = document.getElementById('authSubmitBtn');
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Please wait...';
 
-  function resetBtn() {
+  function showErr(msg) {
+    errEl.textContent = msg;
+    errEl.style.color = '#dc2626';
+    errEl.style.fontWeight = '600';
+    errEl.style.display = 'block';
     submitBtn.disabled = false;
     submitBtn.textContent = authMode === 'login' ? 'Sign In' : 'Create Account';
   }
 
-  function showErr(msg, code) {
-    console.error('Auth error:', code, msg);
-    errEl.textContent = msg;
-    errEl.style.color = '#dc2626';
-    errEl.style.fontWeight = '600';
-    resetBtn();
+  errEl.textContent = '';
+  if (!email || !pwd) { showErr('Please enter email and password.'); return; }
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Signing in...';
+
+  // ── Demo/local account fast path (always available) ──────────────────
+  function tryDemoLogin() {
+    var acct = DEMO_ACCOUNTS[email];
+    if (acct && acct.password === pwd) {
+      currentUser = { uid: email, email: email, displayName: acct.name };
+      currentRole = acct.role;
+      onAuthSuccess();
+      return true;
+    }
+    return false;
   }
 
-  console.log('doAuth() called — mode:', authMode, 'email:', email, 'USE_FIREBASE:', USE_FIREBASE);
+  // ── If Firebase not available — use demo accounts ────────────────────
+  if (!USE_FIREBASE || !auth) {
+    if (!tryDemoLogin()) {
+      showErr('Sign in failed. If you are Mokshith, use the quick-login buttons below.');
+    }
+    return;
+  }
 
-  if (USE_FIREBASE) {
-    if (!auth) {
-      // Poll for Firebase auth up to 5 seconds
-      submitBtn.textContent = 'Connecting...';
-      var _attempts = 0;
-      var _poll = setInterval(function() {
-        _attempts++;
-        if (auth) {
-          clearInterval(_poll);
-          doAuth();
-        } else if (_attempts >= 10) {
-          clearInterval(_poll);
-          showErr('Cannot connect to Firebase. Check your internet and refresh the page.', 'no-auth');
-          resetBtn();
-        } else {
-          submitBtn.textContent = 'Connecting (' + _attempts + ')...';
+  // ── Firebase path with 8-second timeout fallback ────────────────────
+  var done = false;
+  var timeout = setTimeout(function() {
+    if (done) return;
+    done = true;
+    console.warn('Firebase timeout — trying demo accounts');
+    if (!tryDemoLogin()) {
+      showErr('Connection timed out. Check your internet and try again.');
+    }
+  }, 8000);
+
+  if (authMode === 'login') {
+    auth.signInWithEmailAndPassword(email, pwd)
+      .then(function(uc) {
+        if (done) return;
+        done = true;
+        clearTimeout(timeout);
+        currentUser = uc.user;
+        // Get role — but always proceed even if this fails
+        db.collection('users').doc(uc.user.uid).get()
+          .then(function(doc) {
+            currentRole = doc.exists ? (doc.data().role || 'student') : 'student';
+          })
+          .catch(function() { currentRole = 'student'; })
+          .finally(function() { onAuthSuccess(); });
+      })
+      .catch(function(e) {
+        if (done) return;
+        done = true;
+        clearTimeout(timeout);
+        var msg;
+        if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password')
+          msg = 'Email or password incorrect.';
+        else if (e.code === 'auth/too-many-requests')
+          msg = 'Too many attempts — wait 5 minutes or use quick-login below.';
+        else if (e.code === 'auth/network-request-failed')
+          msg = 'No internet connection.';
+        else {
+          // Unknown error — try demo accounts as last resort
+          if (tryDemoLogin()) return;
+          msg = 'Sign in error: ' + e.message;
         }
-      }, 500);
-      return;
-    }
-    if (authMode === 'login') {
-      auth.signInWithEmailAndPassword(email, pwd)
-        .then(function(uc) {
-          console.log('✅ signIn OK, UID:', uc.user.uid);
-          currentUser = uc.user;
-          db.collection('users').doc(uc.user.uid).get()
-            .then(function(doc) {
-              currentRole = doc.exists ? (doc.data().role || 'student') : 'student';
-              console.log('Role loaded:', currentRole);
-            })
-            .catch(function(e) {
-              console.warn('Firestore role fetch failed:', e.message, '— defaulting to student');
-              currentRole = 'student';
-            })
-            .finally(function() { onAuthSuccess(); });
-        })
-        .catch(function(e) {
-          var msg;
-          if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential')
-            msg = 'Email or password incorrect. Check and try again.';
-          else if (e.code === 'auth/wrong-password')
-            msg = 'Incorrect password.';
-          else if (e.code === 'auth/too-many-requests')
-            msg = 'Account temporarily locked — too many failed attempts. Wait 5 minutes or reset your password.';
-          else if (e.code === 'auth/network-request-failed')
-            msg = 'Network error — check your internet connection.';
-          else
-            msg = e.code + ': ' + e.message;
-          showErr(msg, e.code);
-        });
-    } else {
-      var name = document.getElementById('authName').value.trim() || 'User';
-      auth.createUserWithEmailAndPassword(email, pwd)
-        .then(function(uc) {
-          return Promise.all([
-            uc.user.updateProfile({displayName: name}),
-            db.collection('users').doc(uc.user.uid).set({role: selectedRole, name: name, email: email, createdAt: firebase.firestore.FieldValue.serverTimestamp()})
-          ]);
-        })
-        .catch(function(e) { errEl.textContent = e.message; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent='Create Account'; });
-    }
+        showErr(msg);
+      });
   } else {
-    // Local mode — demo accounts
-    var acct = DEMO_ACCOUNTS[email];
-    if (!acct) { errEl.textContent = 'Email not found. Use demo accounts shown below.'; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent=authMode==='login'?'Sign In':'Create Account'; return; }
-    if (acct.password !== pwd) { errEl.textContent = 'Incorrect password.'; document.getElementById('authSubmitBtn').disabled=false; document.getElementById('authSubmitBtn').textContent='Sign In'; return; }
-    currentUser = {uid: email, email: email, displayName: acct.name};
-    currentRole = acct.role;
-    onAuthSuccess();
+    // Sign up
+    var name = (document.getElementById('authName') ? document.getElementById('authName').value.trim() : '') || 'User';
+    auth.createUserWithEmailAndPassword(email, pwd)
+      .then(function(uc) {
+        if (done) return;
+        done = true;
+        clearTimeout(timeout);
+        return Promise.all([
+          uc.user.updateProfile({ displayName: name }),
+          db.collection('users').doc(uc.user.uid).set({
+            role: selectedRole || 'student', name: name,
+            email: email, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          })
+        ]);
+      })
+      .then(function() { if (!done) { done=true; clearTimeout(timeout); onAuthSuccess(); } })
+      .catch(function(e) {
+        if (done) return;
+        done = true;
+        clearTimeout(timeout);
+        showErr(e.message);
+      });
   }
 }
 
