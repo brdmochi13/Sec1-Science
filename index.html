@@ -4643,8 +4643,6 @@ function openApiConfigModal() {
   if (_gms0) { _gms0.innerHTML = '<option value="'+_savedModel+'">'+_savedModel+' (click Refresh to load all)</option>'; _gms0.value = _savedModel; }
   handleProviderChange();
   document.getElementById('apiConfigModal').style.display='block';
-  // Auto-fetch if Gemini is selected and key is present
-  if (conf.provider === 'gemini' && conf.keys && conf.keys.gemini) { setTimeout(fetchGeminiModelList, 100); }
 }
 
 function handleProviderChange() {
@@ -5960,7 +5958,7 @@ function fetchGeminiModelList() {
 }
 
 function setupTFButtons() {
-  var area = document.getElementById('aiPaperArea');
+  var area = document.getElementById('aiPaperOut');
   if (!area || area._tfBound) return;
   area._tfBound = true;
   area.addEventListener('click', function(e) {
