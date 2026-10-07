@@ -4655,11 +4655,6 @@ function handleProviderChange() {
   document.getElementById('localModelContainer').style.display = p === 'local' ? 'block' : 'none';
   var _gmc = document.getElementById('geminiModelContainer');
   if (_gmc) _gmc.style.display = p === 'gemini' ? 'block' : 'none';
-  // Auto-fetch models when user switches to Gemini and has a key
-  if (p === 'gemini') {
-    var _autoKey = document.getElementById('apiKeyInp');
-    if (_autoKey && _autoKey.value.trim()) { setTimeout(fetchGeminiModelList, 150); }
-  }
 }
 
 function saveApiConfig() {
@@ -4729,8 +4724,8 @@ function saveApiConfig() {
         <option value="">Loading models…</option>
       </select>
       <div style="display:flex;align-items:center;gap:.5rem;margin-top:.4rem">
-        <button id="geminiLoadBtn" style="font-size:.75rem;padding:.25rem .7rem;border:1px solid #d1d5db;border-radius:5px;background:#f9fafb;cursor:pointer;font-family:inherit">&#x1F504; Refresh models</button>
-        <span id="geminiModelStatus" style="font-size:.72rem;color:#6b7280">Enter API key above, then load.</span>
+        <button id="geminiLoadBtn" onclick="fetchGeminiModelList()" style="font-size:.75rem;padding:.25rem .7rem;border:1px solid #d1d5db;border-radius:5px;background:#f9fafb;cursor:pointer;font-family:inherit">&#x1F504; Refresh models</button>
+        <span id="geminiModelStatus" style="font-size:.72rem;color:#6b7280">Click Refresh to load models.</span>
       </div>
     </div>
     <button onclick="saveApiConfig()" style="width:100%;padding:12px;background:var(--ink);color:white;border:none;border-radius:8px;font-family:inherit;font-weight:700;cursor:pointer">Save Settings</button>
@@ -5924,6 +5919,8 @@ function endDrill() {
 function fetchGeminiModelList() {
   var keyEl = document.getElementById('apiKeyInp');
   var key = keyEl ? keyEl.value.trim() : '';
+  // Fallback to saved config key if field is empty
+  if (!key) { try { var _cfg = JSON.parse(localStorage.getItem('aiConfig')||'{}'); key = (_cfg.keys && _cfg.keys.gemini) || ''; } catch(e){} }
   var statusEl = document.getElementById('geminiModelStatus');
   var sel = document.getElementById('geminiModelSel');
   if (!key) { if (statusEl) statusEl.textContent = 'Enter your API key first.'; return; }
