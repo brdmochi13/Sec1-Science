@@ -4639,9 +4639,11 @@ function openApiConfigModal() {
   document.getElementById('localUrlInp').value = conf.localUrl || '';
   document.getElementById('localModelInp').value = conf.localModel || '';
   var _gms0 = document.getElementById('geminiModelSel');
-  if (_gms0 && conf.geminiModel) _gms0.value = conf.geminiModel;
+  if (_gms0 && conf.geminiModel) { _gms0.innerHTML = '<option value="'+conf.geminiModel+'">'+conf.geminiModel+' (saved)</option>'; _gms0.value = conf.geminiModel; }
   handleProviderChange();
   document.getElementById('apiConfigModal').style.display='block';
+  // Auto-fetch if Gemini is selected and key is present
+  if (conf.provider === 'gemini' && conf.keys && conf.keys.gemini) { setTimeout(fetchGeminiModelList, 100); }
 }
 
 function handleProviderChange() {
@@ -4652,6 +4654,11 @@ function handleProviderChange() {
   document.getElementById('localModelContainer').style.display = p === 'local' ? 'block' : 'none';
   var _gmc = document.getElementById('geminiModelContainer');
   if (_gmc) _gmc.style.display = p === 'gemini' ? 'block' : 'none';
+  // Auto-fetch models when user switches to Gemini and has a key
+  if (p === 'gemini') {
+    var _autoKey = document.getElementById('apiKeyInp');
+    if (_autoKey && _autoKey.value.trim()) { setTimeout(fetchGeminiModelList, 150); }
+  }
 }
 
 function saveApiConfig() {
@@ -4718,13 +4725,10 @@ function saveApiConfig() {
     <div style="margin-bottom:1rem;display:none" id="geminiModelContainer">
       <label style="display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--ink)">Gemini Model</label>
       <select id="geminiModelSel" style="width:100%;padding:10px;border-radius:8px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:.9rem">
-        <option value="gemini-2.5-flash-preview-05-20">gemini-2.5-flash-preview (recommended)</option>
-        <option value="gemini-1.5-flash">gemini-1.5-flash (stable)</option>
-        <option value="gemini-1.5-pro">gemini-1.5-pro (paid)</option>
-        <option value="gemini-2.5-pro-preview-06-05">gemini-2.5-pro-preview (paid)</option>
+        <option value="">Loading models…</option>
       </select>
       <div style="display:flex;align-items:center;gap:.5rem;margin-top:.4rem">
-        <button id="geminiLoadBtn" style="font-size:.75rem;padding:.25rem .7rem;border:1px solid #d1d5db;border-radius:5px;background:#f9fafb;cursor:pointer;font-family:inherit">&#x1F504; Load available models</button>
+        <button id="geminiLoadBtn" style="font-size:.75rem;padding:.25rem .7rem;border:1px solid #d1d5db;border-radius:5px;background:#f9fafb;cursor:pointer;font-family:inherit">&#x1F504; Refresh models</button>
         <span id="geminiModelStatus" style="font-size:.72rem;color:#6b7280">Enter API key above, then load.</span>
       </div>
     </div>
@@ -5935,17 +5939,22 @@ function fetchGeminiModelList() {
       });
       if (!models.length) { if (statusEl) statusEl.textContent = 'No compatible models found.'; return; }
       var cur = sel ? sel.value : '';
+      // Also get saved config model as fallback
+      try { var _cfg = JSON.parse(localStorage.getItem('aiConfig')||'{}'); if (!cur && _cfg.geminiModel) cur = _cfg.geminiModel; } catch(e){}
       if (sel) {
         sel.innerHTML = '';
         models.sort(function(a,b){ return b.name.localeCompare(a.name); });
+        var matched = false;
         models.forEach(function(m){
           var id = m.name.replace('models/','');
           var opt = document.createElement('option');
           opt.value = id;
           opt.textContent = id;
-          if (id === cur) opt.selected = true;
+          if (id === cur) { opt.selected = true; matched = true; }
           sel.appendChild(opt);
         });
+        // If saved model not in list, select first (newest)
+        if (!matched && sel.options.length) sel.options[0].selected = true;
       }
       if (statusEl) { statusEl.textContent = models.length + ' models loaded.'; statusEl.style.color = '#166534'; }
     })
